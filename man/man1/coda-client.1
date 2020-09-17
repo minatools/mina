@@ -11,7 +11,7 @@
 .Fl help
 .Sh DESCRIPTION
 .Nm
-subcommands support issuance of a new custom currency; creation of accounts for the currency; minting of new tokens of the currency; ...
+subcommands support ...
 .Pp
 .Sh SUBCOMMANDS
 .Bl -tag -width -indent
@@ -35,68 +35,311 @@ http://localhost:3085/graphql
 .It Op Fl help
 Print this help text and exit. Alias: -?
 .El
+.\" end of get-balance
 .It Xo Ar get-tokens Fl public-key Cm PUBKEY
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
-Get all token IDs that a public key has accounts for
-.It Xo Ar send-payment Fl public-key Cm PUBKEY
+Get all token IDs that a public key has accounts for.
+.Bl -tag -width -indent
+.It Fl public-key Cm PUBKEY
+Public key for which you want to find accounts.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of get-tokens
+.It Xo Ar send-payment
+.Fl amount Cm AMT
+.Fl receiver Cm PUBKEY
+.Fl sender Cm PUBKEY
+.Op Fl fee Cm FEE
+.Op Fl memo Cm STRING
+.Op Fl nonce Cm NONCE
+.Op Fl token Cm TOKENID
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
-Send payment to an address
-.It Xo Ar delegate-stake Fl public-key Cm PUBKEY
+Send payment to an address.
+.Bl -tag -width -indent
+.It Fl amount Cm AMT
+Payment amount you want to send.
+.It Fl receiver Cm PUBKEY
+Public key to which you want to send money.
+.It Fl sender Cm PUBKEY
+Public key from which you want to send the transaction.
+.It Op Fl fee Cm FEE
+ Amount you are willing to pay to process the transaction.  Minimum: 0.001. Default: 0.1.
+.It Op Fl memo Cm STRING
+Memo accompanying transaction.
+.It Op Fl nonce Cm NONCE
+Nonce that you would like to set for your transaction. Default: nonce
+of your account on the best ledger or the successor of highest value
+nonce of your sent transactions from the transaction pool.
+.It Op Fl token Cm TOKENID
+The token ID for the account.  (ID of the currency?)
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of send-payment
+.It Xo Ar delegate-stake
+.Fl receiver Cm PUBKEY
+.Fl sender Cm PUBKEY
+.Op Fl fee Cm FEE
+.Op Fl memo Cm STRING
+.Op Fl nonce Cm NONCE
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
 Delegate your stake to another public key
-
-.It Xo Ar create-token Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Fl receiver Cm PUBKEY
+Public key to which you want to send money.
+.It Fl sender Cm PUBKEY
+Public key from which you want to send the transaction.
+.It Op Fl fee Cm FEE
+ Amount you are willing to pay to process the transaction.  Minimum: 0.001. Default: 0.1.
+.It Op Fl memo Cm STRING
+Memo accompanying transaction.
+.It Op Fl nonce Cm NONCE
+Nonce that you would like to set for your transaction. Default: nonce
+of your account on the best ledger or the successor of highest value
+nonce of your sent transactions from the transaction pool.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of delegate-stake
+.It Xo Ar create-token
+.Fl sender Cm PUBKEY
+.Op Fl fee Cm FEE
+.Op Fl memo Cm STRING
+.Op Fl nonce Cm NONCE
+.Op Fl receiver Cm PUBKEY
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
 Create a new token
-
-.It Xo Ar create-token-account Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Fl sender Cm PUBKEY
+Public key from which you want to send the transaction.
+.It Op Fl fee Cm FEE
+ Amount you are willing to pay to process the transaction.  Minimum: 0.001. Default: 0.1.
+.It Op Fl memo Cm STRING
+Memo accompanying transaction.
+.It Op Fl nonce Cm NONCE
+Nonce that you would like to set for your transaction. Default: nonce
+of your account on the best ledger or the successor of highest value
+nonce of your sent transactions from the transaction pool.
+.It Op Fl receiver Cm PUBKEY
+Public keyto create the new token for.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of create-token
+.It Xo Ar create-token-account
+.Fl receiver Cm PUBKEY
+.Fl sender Cm PUBKEY
+.Fl token Cm TOKENID
+.Op Fl fee Cm FEE
+.Op Fl memo Cm STRING
+.Op Fl nonce Cm NONCE
+.Op Fl rest-server Cm ADDR
+.Op Fl token-owner Cm PUBKEY
 .Op Fl help
 .Xc
-Create a new account for a token
-
-.It Xo Ar mint-tokens Fl public-key Cm PUBKEY
+Create a new account for a token.
+.Bl -tag -width -indent
+.It Fl receiver Cm PUBKEY
+Public key to create new account for.
+.It Fl sender Cm PUBKEY
+Public key from which you want to send the transaction.
+.It Fl token Cm TOKENID
+The ID of the token to create the account for.
+.It Op Fl fee Cm FEE
+ Amount you are willing to pay to process the transaction.  Minimum: 0.001. Default: 0.1.
+.It Op Fl memo Cm STRING
+Memo accompanying transaction.
+.It Op Fl nonce Cm NONCE
+Nonce that you would like to set for your transaction. Default: nonce
+of your account on the best ledger or the successor of highest value
+nonce of your sent transactions from the transaction pool.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl token-owner Cm PUBKEY
+Public key for the owner of the token.
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of create-token-account
+.It Xo Ar mint-tokens
+.Fl amount Cm AMT
+.Fl sender Cm PUBKEY
+.Fl token Cm TOKENID
+.Op Fl fee Cm FEE
+.Op Fl memo Cm STRING
+.Op Fl nonce Cm NONCE
+.Op Fl receiver Cm PUBKEY
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
-Mint more of a token owned by the command's sender
-
-.It Xo Ar cancel-transaction Fl public-key Cm PUBKEY
+Mint more of a token owned by the command's sender.
+.Bl -tag -width -indent
+.It Fl amount Cm AMT
+Number of new tokens to create.
+.It Fl sender Cm PUBKEY
+Public key from which you want to send the transaction.
+.It Fl token Cm TOKENID
+The ID of the token to mint.
+.It Op Fl fee Cm FEE
+ Amount you are willing to pay to process the transaction.  Minimum: 0.001. Default: 0.1.
+.It Op Fl memo Cm STRING
+Memo accompanying transaction.
+.It Op Fl nonce Cm NONCE
+Nonce that you would like to set for your transaction. Default: nonce
+of your account on the best ledger or the successor of highest value
+nonce of your sent transactions from the transaction pool.
+.It Op Fl receiver Cm PUBKEY
+Public key of the account to create new tokens in (defaults to the sender).
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of mint-tokens
+.It Xo Ar cancel-transaction
+.Fl id Cm ID
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
 Cancel a transaction -- this submits a replacement transaction with a fee larger than the cancelled transaction.
-
-.It Xo Ar set-staking Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Fl id Cm ID
+Transaction ID to be cancelled.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of cancel-transation
+.It Xo Ar set-staking
+.Fl public-key Cm PUBKEY
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
 Start producing blocks
-
-.It Xo Ar set-snark-worker Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Fl public-key Cm PUBKEY
+Public key of account with which to produce blocks.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of set-staking
+.It Xo Ar set-snark-worker
+.Op Fl address Cm PUBKEY
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
 Set key you wish to snark work with or disable snark working
-
-.It Xo Ar set-snark-work-fee Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Op Fl address Cm PUBKEY
+Public-key address you wish to start snark-working on; null to stop
+doing any snark work.
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of set-snark-worker
+.It Xo Ar set-snark-work-fee
+.Ar FEE
+.Op Fl rest-server Cm ADDR
 .Op Fl help
 .Xc
 Set fee reward for doing transaction snark work
-
-.It Xo Ar stop-daemon Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Ar FEE
+Reward amount in units of ???
+.It Op Fl rest-server Cm ADDR
+Address (port or URI) of Graphql rest server for daemon interaction.
+Examples: 3085, http://localhost:3085/graphql,
+/dns4/peer1-rising-phoenix.o1test.net:3085/graphql. Default:
+http://localhost:3085/graphql
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of set-snark-work-fee
+.It Xo Ar stop-daemon
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
 .Op Fl help
 .Xc
 Stop the daemon
-
-.It Xo Ar status Fl public-key Cm PUBKEY
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print this help text and exit. Alias: -?
+.El
+.\" end of stop-daemon
+.It Xo Ar status
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl performance
 .Op Fl help
 .Xc
 Get running daemon status
-
-.It Xo Ar Fl help
-.Op Fl help
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl performance
+Include performance histograms in status output. Default: don't include.
+.El
+.\" end of status
+.It Xo Ar help
 .Xc
-Explain a given subcommand (perhaps recursively). Alias: ->
+Print this helpscreen and exit.
+.\" end of help
 .El
 
 .Sh IMPLEMENTATION NOTES
@@ -130,11 +373,10 @@ userland programs to the standard error output.
 .Sh EXAMPLES
 .Sh DIAGNOSTICS
 .Sh SEE ALSO
-.Xr codactl 1 ,
+.Xr coda 1 ,
 .Xr coda-accounts 1 ,
-.Xr coda-client 1 ,
-.Xr coda-config 5 ,
-.Xr codad 8 ,
+.Xr coda-advanced 1 ,
+.Xr coda-daemon 8 ,
 .Sh STANDARDS
 References any standards implemented or used. If not adhering to any
 standards, the HISTORY section should be used instead.
