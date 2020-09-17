@@ -1,0 +1,298 @@
+.\" ====================================================================
+.\" Copyright (c) 2020 Coda Project, Gregg Reynolds.  All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\"
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\"
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in
+.\"    the documentation and/or other materials provided with the
+.\"    distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY
+.\" EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+.\" PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
+.\" ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+.\" SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+.\" NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+.\" LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+.\" STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+.\" OF THE POSSIBILITY OF SUCH DAMAGE.
+.\" ====================================================================
+.\"
+.Dd $Mdocdate: May 2 2020 $
+.Dt CODA-DAEMON 8
+.Os
+.Sh NAME
+.Nm coda-daemon
+.Nd Coda daemon manager
+.Sh SYNOPSIS
+.Nm coda daemon
+.Ar subcommand
+.Op <args>
+.Sh DESCRIPTION
+The
+.Nm
+program is a command line tool for controlling various
+aspects of ...
+.Pp
+.Pp
+.Sh OPTIONS
+.Pp
+.Bl -tag -width -indent
+.It Xo Op Fl archive-address Cm <HOST:PORT|LOCALHOST-PORT>
+.Xc
+Daemon to archive process communication. If HOST is omitted, then
+localhost is assumed to be HOST. Examples: 3086, 154.97.53.97:3086.
+
+.It Xo Op Fl archive-rocksdb
+.Xc
+Stores all the blocks heard in RocksDB
+
+.It Xo Op Fl background
+Run process on the background
+.Xc
+
+.It Xo Op Fl bind-ip Cm IP
+.Xc
+IP of network interface to use for peer connections
+
+.It Xo Op Fl block-producer-key Cm Pa /path/to/keyfile
+.Xc
+Private key file for the block producer. You cannot provide both `block-producer-key` and `block-producer-pubkey`.  Default: don't produce blocks.
+
+.It Xo Op Fl block-producer-password Cm PASSWORD
+.Xc
+Password associated with the block-producer key. Setting this is
+equivalent to setting the CODA_PRIVKEY_PASS environment variable. Be
+careful when setting it in the commandline as it will likely get
+tracked in your history. Mainly to be used from the daemon.json config
+file
+
+.It Xo Op Fl block-producer-pubkey Cm PUBLICKEY
+.Xc
+Public key for the associated private key that is being tracked by this daemon. You cannot provide both `block-producer-key` and `block-producer-pubkey`.  Default: don't produce blocks.
+
+.It Xo Op Fl client-port Cm PORT
+.Xc
+Local RPC-server for clients to interact with the daemon.  Default: 8301.
+
+.It Xo Op Fl -coinbase-receiver Cm PUBLICKEY
+.Xc
+Address to send coinbase rewards to (if this node is producing
+blocks). If not provided, coinbase rewards will be sent to the
+producer of a block.
+
+.It Xo Op Fl config-directory Cm Pa /path/to/config/dir
+.Xc
+Configuration directory.
+
+.It Xo Op Fl config-file Cm Pa /path/to/config.json
+.Xc
+Path to the configuration file. Overrides CODA_CONFIG_FILE. Default:
+<config_dir>/daemon.json.
+
+.It Xo Op Fl current-protocol-version Cm NN.NN.NN
+.Xc
+Current protocol version, only blocks with the same version accepted.
+
+.It Xo Op Fl demo-mode
+.Xc
+Run the daemon in demo-mode -- assume we're "synced" to the network instantly.
+
+.It Xo Op Fl disable-telemetry
+.Xc
+Disable reporting telemetry to other nodes.
+
+.It Xo Op Fl discovery-keypair Cm Pa /path/to/keyfile
+.Xc
+Keypair (generated from `coda advanced generate-libp2p-keypair`) to
+use with libp2p discovery. Default: generate per-run temporary
+keypair.
+
+.It Xo Op Fl enable-flooding Cm <true|false>
+.Xc
+DEPRECATED and unused.
+
+.It Xo Op Fl external-ip Cm IP
+.Xc
+External IP address for other nodes to connect to. You only need to
+set this if auto-discovery fails for some reason.
+
+.It Xo Op Fl external-port Cm PORT
+.Xc
+Port to use for all libp2p communications (gossip and RPC). Default: 8302.
+
+.It Xo Op Fl generate-genesis-proof Cm BOOL
+.Xc
+Generate a new genesis proof for the current configuration if none is found.  Default: false.
+
+.It Xo Op Fl genesis-ledger-dir Cm Pa /path/to/dir
+.Xc
+Directory that contains the genesis ledger and the genesis blockchain proof. Default: <config-dir>
+
+.It Xo Op Fl insecure-rest-server
+.Xc
+Have REST server listen on all addresses, not just localhost (this is
+INSECURE, make sure your firewall is configured correctly!
+
+.It Xo Op Fl log-block-creation BOOL
+.Xc
+Log the steps involved in including transactions and snark work in a block. Default: true.
+
+.It Xo Op Fl log-json
+.Xc
+Print log output as JSON. Default: plain text.
+
+.It Xo Op Fl log-level Cm <Debug|Info|Warn|...etc...>
+.Xc
+Log level. Default: Info.
+.Pp
+TODO: list available log levels
+
+.It Xo Op Fl log-received-blocks Cm BOOL
+.Xc
+Log blocks received from peers. Default: false.
+
+.It Xo Op Fl log-snark-work-gossip BOOL
+.Xc
+Log snark-pool diff received from peers. Default: false.
+
+.It Xo Op Fl log-txn-pool-gossip BOOL
+.Xc
+Log transaction-pool diff received from peers. Default: false.
+
+.It Xo Op Fl metrics-port Cm PORT
+.Xc
+Metrics server for scraping via Prometheus. Default: no metrics-server.
+
+.It Xo Op Fl peer Cm ADDR
+.Xc
+Initial "bootstrap" peers for discovery.  ADDR:
+.Pa /ip4/IPADDR/tcp/PORT/p2p/PEERID
+
+.It Xo Op Fl proof-level <full|check|none>
+.Xc
+Proof level.
+
+.It Xo Op Fl proposed-protocol-version Cm NN.NN.NN
+.Xc
+Proposed protocol version to signal other nodes.
+
+.It Xo Op Fl rest-port Cm PORT
+.Xc
+Port on local REST-server for daemon interaction. Default: 3085.
+
+.It Xo Op Fl run-snark-coordinator Cm PUBLICKEY
+.Xc
+Run a SNARK coordinator with this public key. Ignored if
+.Op run-snark-worker
+is set.
+
+.It Xo Op Fl run-snark-worker Cm PUBLICKEY
+.Xc
+Run the SNARK worker with this public key.
+
+.It Xo Op Fl seed
+.Xc
+Start the node as a seed node.
+
+.It Xo Op Fl snark-worker-fee Cm FEE
+.Xc
+Amount a worker wants to get compensated for generating a snark proof. Default: 25000000.
+.Pp
+.Po TODO: FEE arg should be NBR or similar. Pc
+
+.It Xo Op Fl snark-worker-parallelism Cm NUM
+.Xc
+Run the SNARK worker using this many threads. Equivalent to setting
+OMP_NUM_THREADS, but doesn't affect block production.
+
+.It Xo Op Fl tracing
+.Xc
+Trace into
+.Pa <config-directory>/$pid.trace
+
+.It Xo Op Fl work-reassignment-wait Cm MS
+.Xc
+Wait time in milliseconds before a snark-work is reassigned. Default: 420000ms
+
+.It Xo Op Fl work-selection Cm <seq|rand>
+.Xc
+Choose work sequentially (seq) or randomly (rand). Default: rand.
+
+.It Xo Op Fl working-dir Cm Pa /path/to/wd
+.Xc
+Path to chdir into before starting (useful for background mode. Default: to cwd, or to
+.Pa /
+if
+.Op background
+is set.
+
+.It Op Fl help
+Explain a given subcommand (perhaps recursively)
+.El
+
+.Sh IMPLEMENTATION NOTES
+Implementation-specific notes should be kept here. This is useful when
+implementing standard functions that may have side effects or notable
+algorithmic implications.
+.Sh ENVIRONMENT
+The following environment variables affect the execution of the
+.Nm
+command:
+.Bl -tag -width "/etc/ssl/openssl.cnf"
+.It Ev CODA_PRIVKEY_PASS
+Private key password.  See also
+.Fl block-producer-password
+.It CODA_CONFIG_FILE
+Coda configuration file path. See also
+.Fl config-file
+.It OMP_NUM_THREADS
+Number of threads to use for snark workers (Open MP).  See also
+.Fl snark-worker-parallelism
+.El
+.Sh FILES
+.Bl -tag -width "/foo/bar/width.cnf" -compact
+.It Pa <config_dir>/daemon.json
+.Pp
+Configuration file.
+.El
+.Sh EXIT STATUS
+Documents error messages. These are usually messages printed by
+userland programs to the standard error output.
+.Sh EXAMPLES
+.Sh DIAGNOSTICS
+.Sh SEE ALSO
+.Xr codactl 1 ,
+.Xr coda-accounts 1 ,
+.Xr coda-client 1 ,
+.Xr coda-config 5 ,
+.Xr codad 8 ,
+.Sh STANDARDS
+References any standards implemented or used. If not adhering to any
+standards, the HISTORY section should be used instead.
+.Sh HISTORY
+A brief history of the subject, including where it was first
+implemented, and when it was ported to or reimplemented for the
+operating system at hand.
+.Sh AUTHORS
+.Sh CAVEATS
+Common misuses and misunderstandings should be explained in this section.
+.Sh BUGS
+.Sh SECURITY CONSIDERATIONS
+Avoid passing private keys on the command line, as they may be tracked
+by command line history. Use the
+.Ev CODA_PRIVKEY_PASS
+environment variable instead.
+.Pp
+Running with
+.Fl insecure-rest-server
+is INSECURE! Only do this if your firewall is correctly configured.

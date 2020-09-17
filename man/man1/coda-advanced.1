@@ -1,0 +1,570 @@
+.Dd 15 September, 2020
+.Dt coda-advanced 1
+.Os
+.Sh NAME
+.Nm coda-advanced
+.Nd advanced client commands
+.Sh SYNOPSIS
+.Ar coda Ar advanced
+.Ar subcommand Op Fl arguments
+.Sh DESCRIPTION
+.Nm
+subcommands support ...
+.Pp
+.Sh SUBCOMMANDS
+.Bl -tag -width -indent
+.It Xo Ar batch-send-payments
+.Fl privkey-path Ar path
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Send multiple payments from a file.
+.Bl -tag -width -indent
+.It Fl privkey-path Ar path
+File from which to read private key.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\"
+.It Xo Ar client-trustlist Ar subcommand Ar args
+.Xc
+Client trustlist management.
+.Pp
+SUBCOMMANDS:
+.Bl -tag -width -indent
+.It Xo Ar add
+.Fl ip-address Cm CIDR
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Add an IP to the trustlist.
+.Bl -tag -width -indent
+.It Fl ip-address Cm CIDR
+An IPv4 CIDR mask for the client trustlist (eg, 10.0.0.0/8).
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\"
+.It Xo Ar list
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+List the CIDR masks in the trustlist.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\"
+.It Xo Ar remove
+.Fl ip-address Cm CIDR
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Remove a CIDR mask from the trustlist.
+.Bl -tag -width -indent
+.It Fl ip-address Cm CIDR
+An IPv4 CIDR mask for the client trustlist (eg, 10.0.0.0/8).
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\"
+.It Xo Ar help
+.Xc
+Print helpscreen and exit.
+.El
+.\" end of client-trustlist subcommands
+.It Xo Ar compile-time-constants
+.Op Fl help
+.Xc
+Print a JSON map of the compile-time consensus parameters.
+.Bl -tag -width -indent
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of compile-time-constants
+.\"
+.It Xo Ar constraint-system-digests
+.Op Fl help
+.Xc
+Print MD5 digest of each SNARK constraint.
+.Bl -tag -width -indent
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of constraint-system-digests
+.It Xo Ar dump-keypair
+.Fl privkey-path Ar path
+.Op Fl help
+.Xc
+Print out a keypair from a private key file
+.Bl -tag -width -indent
+.It Fl privkey-path Ar path
+File from which to read private key.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of dump-keypair
+.It Xo Ar dump-ledger
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl staged-ledger-hash Cm HASH
+.Op Fl help
+.Xc
+Print the ledger with given Merkle root.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl staged-ledger-hash Cm HASH
+Staged ledger hash.
+Default: hash of best staged ledger.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of dump-keypair
+.It Xo Ar generate-keypair
+.Op Fl help
+.Xc
+Generate a new public-key/private-key pair.
+.Bl -tag -width -indent
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of generate-keypair
+.It Xo Ar generate-libp2p-keypair
+.Fl privkey-path Ar path
+.Op Fl help
+.Xc
+Generate a new libp2p keypair and print out the peer ID.
+.Bl -tag -width -indent
+.It Fl privkey-path Ar path
+Path of file to write private key into (public key will be FILE.pub).
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of generate-libp2p-keypair
+.It Xo Ar generate-receipt
+.Fl address Cm PUBLICKEY
+.Fl receipt-chain-hash Cm HASH
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl token Cm TOKENID
+.Op Fl help
+.Xc
+Generate a receipt for a sent payment.
+.Bl -tag -width -indent
+.It Fl address Cm PUBLICKEY
+Public-key address of sender.
+.It Fl receipt-chain-hash Cm HASH
+Receipt-chain-hash of the payment that you want to generate a receipt for.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl token Cm TOKENID
+The token ID for the account.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of generate-receipt
+.It Xo Ar get-nonce
+.Fl address Cm PUBKEY
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl token Cm TOKENID
+.Op Fl help
+.Xc
+Get the current nonce for an account.
+.Bl -tag -width -indent
+.It Fl address Cm PUBKEY
+Public-key address you want the nonce for.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl token Cm TOKENID
+The token ID for the account.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of get-nonce
+.It Xo Ar get-public-keys
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl with-details
+.Op Fl help
+.Xc
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl with-details
+Show extra details (eg. balance, nonce) in addition to public keys.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of get-public-keys
+.It Xo Ar get-trust-status
+.Fl ip-address Cm IP
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl help
+.Xc
+Get the trust status associated with an IP address.
+.Bl -tag -width -indent
+.It Fl ip-address Cm IP
+An IPv4 or IPv6 address for which you want to query the trust status.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of get-trust-status
+.It Xo Ar get-trust-status-all
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl nonzero-only
+.Op Fl help
+.Xc
+Get trust statuses for all peers known to the trust system.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl nonzero-only
+Only show trust statuses whose trust score is nonzero.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of get-trust-status-all
+.It Xo Ar next-available-token
+.Op Fl rest-server Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+The next token ID that has not been allocated. Token IDs are allocated
+sequentially, so all lower token IDs have been allocated.
+.Bl -tag -width -indent
+.It Op Fl rest-server Cm <HOST:PORT|PORT>
+Graphql rest server for daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 3085, http://localhost:3085/graphql, /dns4/peer1-rising-phoenix.o1test.net:3085/graphql
+.Pp
+Default: http://localhost:3085/graphql
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of next-available-token
+.It Xo Ar pending-snark-work
+.Op Fl rest-server Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+List of snark works in JSON format that are not available in the pool yet.
+.Bl -tag -width -indent
+.It Op Fl rest-server Cm <HOST:PORT|PORT>
+Graphql rest server for daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 3085, http://localhost:3085/graphql, /dns4/peer1-rising-phoenix.o1test.net:3085/graphql
+.Pp
+Default: http://localhost:3085/graphql
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of pending-snark-work
+.It Xo Ar pooled-user-commands
+.Op Fl rest-server Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Retrieve all the user commands that are pending inclusion.
+.Bl -tag -width -indent
+.It Op Fl rest-server Cm <HOST:PORT|PORT>
+Graphql rest server for daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 3085, http://localhost:3085/graphql, /dns4/peer1-rising-phoenix.o1test.net:3085/graphql
+.Pp
+Default: http://localhost:3085/graphql
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of pooled-user-commands
+.It Xo Ar reset-trust-status
+.Fl ip-address Cm IP
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl help
+.Xc
+Reset the trust status associated with an IP address.
+.Bl -tag -width -indent
+.It Fl ip-address Cm IP
+An IPv4 or IPv6 address for which you want to reset the trust status.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of reset-trust-status
+.It Xo Ar snark-job-list
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+List of snark jobs in JSON format that are yet to be included in the blocks.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of snark-job-list
+.It Xo Ar snark-pool-list
+.Op Fl rest-server Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+List of snark works in the snark pool in JSON format.
+.Bl -tag -width -indent
+.It Op Fl rest-server Cm <HOST:PORT|PORT>
+Graphql rest server for daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 3085, http://localhost:3085/graphql, /dns4/peer1-rising-phoenix.o1test.net:3085/graphql
+.Pp
+Default: http://localhost:3085/graphql
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of snark-pool-list
+.It Xo Ar start-tracing
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Start async tracing to $config-directory/$pid.trace.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of start-tracing
+.It Xo Ar status-clear-hist
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl json
+.Op Fl performance
+.Op Fl help
+.Xc
+Clear histograms reported in status.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl json
+Use json output. Default: plaintext.
+.It Op Fl performance
+ Include performance histograms in status output.  Default: don't include.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end status-clear-hist
+.It Xo Ar stop-tracing
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Stop async tracing.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of stop-tracing
+.It Xo Ar telemetry
+.Op Fl daemon-peers
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl peer-ids Cm CSVLIST
+.Op Fl show-errors
+.Op Fl help
+.Xc
+Get telemetry data for a set of peers.
+.Bl -tag -width -indent
+.It Op Fl daemon-peers
+Get telemetry data for peers known to the daemon.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl peer-ids Cm CSVLIST
+Peer IDs for obtaining telemetry data.
+.It Op Fl show-errors
+Include error messages in output.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of telemetry
+.It Xo Ar verify-receipt
+.Fl address Cm PUBKEY
+.Fl payment-path Ar path
+.Fl proof-path Ar path
+.Op Fl daemon-port Ar <HOST:PORT|PORT>
+.Op Fl token Cm TOKENID
+.Op Fl help
+.Xc
+Verify a receipt of a sent payment.
+.Bl -tag -width -indent
+.It Fl address Cm PUBKEY
+Public-key address of sender
+.It Fl payment-path Ar path
+File to read json version of verifying payment.
+.It Fl proof-path Pa path
+File to read json of mayment receipt.
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl token Cm TOKENID
+The token ID for the account.
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of verify-receipt
+.It Xo Ar visualization
+.Ar subcommand
+.Xc
+Visualize data structures special to Coda.
+.Pp
+SUBCOMMANDS:
+.Bl -tag -width -indent
+.It Xo Ar registered-masks
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Produce a visualization of the registered-masks.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of registered-masks subcommand
+.It Xo Ar transition-frontier
+.Op Fl daemon-port Cm <HOST:PORT|PORT>
+.Op Fl help
+.Xc
+Produce a visualization of the transition-frontier.
+.Bl -tag -width -indent
+.It Op Fl daemon-port Cm <HOST:PORT|PORT>
+Client to local daemon communication. If HOST is omitted, then localhost is assumed to be HOST.
+Examples: 8301, 154.97.53.97:8301
+Default: 8301
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.It Xo Ar help
+.Xc
+Print helpscreen and exit.  Alias -?
+.\" end of subcommands
+.El
+.\" end of visualization
+.It Xo Ar wrap-key
+.Fl privkey-path Ar path
+.Op Fl help
+.Xc
+Wrap a private key into a private key file.
+.Bl -tag -width -indent
+.It Fl privkey-path Ar FILE
+File to write private key into (public key will be FILE.pub)
+.It Op Fl help
+Print helpscreen and exit.  Alias: -?
+.El
+.\" end of wrap-key
+.\"
+.El
+.\" end of command list
+.\"
+.Sh IMPLEMENTATION NOTES
+Implementation-specific notes should be kept here. This is useful when
+implementing standard functions that may have side effects or notable
+algorithmic implications.
+.Sh ENVIRONMENT
+The following environment variables affect the execution of the
+.Nm
+command:
+.Bl -tag -width "/etc/path/for/width"
+.It Ev CODA_PRIVKEY_PASS
+Private key password.  See also
+.Fl block-producer-password
+.It CODA_CONFIG_FILE
+Coda configuration file path. See also
+.Fl config-file
+.It OMP_NUM_THREADS
+Number of threads to use for snark workers (Open MP).  See also
+.Fl snark-worker-parallelism
+.El
+.Sh FILES
+.Bl -tag -width "/foo/bar/width.cnf" -compact
+.It Pa <config_dir>/daemon.json
+.Pp
+Configuration file.
+.El
+.Sh EXIT STATUS
+Documents error messages. These are usually messages printed by
+userland programs to the standard error output.
+.Sh EXAMPLES
+.Sh DIAGNOSTICS
+.Sh SEE ALSO
+.Xr codactl 1 ,
+.Xr coda-accounts 1 ,
+.Xr coda-client 1 ,
+.Xr coda-config 5 ,
+.Xr codad 8 ,
+.Sh STANDARDS
+References any standards implemented or used. If not adhering to any
+standards, the HISTORY section should be used instead.
+.Sh HISTORY
+A brief history of the subject, including where it was first
+implemented, and when it was ported to or reimplemented for the
+operating system at hand.
+.Sh AUTHORS
+.Sh CAVEATS
+Common misuses and misunderstandings should be explained in this section.
+.Sh BUGS
+.Sh SECURITY CONSIDERATIONS
+Avoid passing private keys on the command line, as they may be tracked
+by command line history. Use the
+.Ev CODA_PRIVKEY_PASS
+environment variable instead.
+.Pp
+Running with
+.Fl insecure-rest-server
+is INSECURE! Only do this if your firewall is correctly configured.

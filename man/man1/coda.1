@@ -1,0 +1,142 @@
+.\" ====================================================================
+.\" Copyright (c) 2020 Coda team, Gregg Reynolds.  All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\"
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\"
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in
+.\"    the documentation and/or other materials provided with the
+.\"    distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY
+.\" EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+.\" PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
+.\" ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+.\" SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+.\" NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+.\" LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+.\" STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+.\" OF THE POSSIBILITY OF SUCH DAMAGE.
+.\" ====================================================================
+.\"
+.Dd $Mdocdate: May 2 2020 $
+.Dt CODA 1
+.Os 
+.Sh NAME
+.Nm coda
+.Nd Coda command line tool
+.Sh SYNOPSIS
+.Nm
+.Ar command
+.Op <args>
+.Sh DESCRIPTION
+.Nm Coda
+is ...
+.Pp
+The
+.Nm
+program is a command line tool for controlling various
+aspects of ...
+.Pp
+.Pp
+.Sh COMMANDS
+Each command
+.Po excepting
+.Ar version
+and
+.Ar help
+.Pc
+is described in a separate manpage.
+.Pp
+.Bl -tag -width Ds
+.It Cm coda-accounts(1)
+Client commands concerning account management
+.It Cm coda-client(1)
+Lightweight client commands
+
+.It Cm coda-advanced(1)
+Advanced client commands
+
+.It coda-daemon(8)
+Coda daemon
+
+.It coda-internal(1)
+Internal commands
+
+.It coda-parallel-worker(8)
+Internal use only
+
+.It coda-transaction-snark-profiler(1)
+Transaction snark profiler
+
+.It version
+Print version information
+
+.It help
+Explain a given subcommand (perhaps recursively)
+.El
+
+.Sh IMPLEMENTATION NOTES
+Implementation-specific notes should be kept here. This is useful when
+implementing standard functions that may have side effects or notable
+algorithmic implications.
+.Sh ENVIRONMENT
+The following environment variables affect the execution of the
+.Nm
+command:
+.Bl -tag -width "/etc/ssl/openssl.cnf"
+.It Ev CODA_PRIVKEY_PASS
+Private key password.  See also
+.Fl block-producer-password
+.It CODA_CONFIG_FILE
+Coda configuration file path. See also
+.Fl config-file
+.It OMP_NUM_THREADS
+Number of threads to use for snark workers (Open MP).  See also
+.Fl snark-worker-parallelism
+.El
+.Sh FILES
+.Bl -tag -width "/foo/bar/width.cnf" -compact
+.It Pa <config_dir>/daemon.json
+.Pp
+Configuration file.
+.El
+.Sh EXIT STATUS
+Documents error messages. These are usually messages printed by
+userland programs to the standard error output.
+.Sh EXAMPLES
+.Sh DIAGNOSTICS
+.Sh SEE ALSO
+.Xr codactl 1 ,
+.Xr coda-accounts 1 ,
+.Xr coda-client 1 ,
+.Xr coda-config 5 ,
+.Xr codad 8 ,
+.Sh STANDARDS
+References any standards implemented or used. If not adhering to any
+standards, the HISTORY section should be used instead.
+.Sh HISTORY
+A brief history of the subject, including where it was first
+implemented, and when it was ported to or reimplemented for the
+operating system at hand.
+.Sh AUTHORS
+.Sh CAVEATS
+Common misuses and misunderstandings should be explained in this section.
+.Sh BUGS
+.Sh SECURITY CONSIDERATIONS
+Avoid passing private keys on the command line, as they may be tracked
+by command line history. Use the
+.Ev CODA_PRIVKEY_PASS
+environment variable instead.
+.Pp
+Running with
+.Fl insecure-rest-server
+is INSECURE! Only do this if your firewall is correctly configured.
