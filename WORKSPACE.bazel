@@ -11,17 +11,42 @@ git_repository(
     # commit = "feef897197b36b14b65ffdf00b9badcbdb8f42f4",
     # shallow_since = "1593623637 -0500"
 )
+## Repository Bootstrapping: Fetch, Load, and Run
 
 load("@obazl_rules_ocaml//ocaml:bootstrap.bzl",
      "ocaml_configure",
      "opam_configure",
      "ocaml_register_toolchains")
+## For each language, we need to fetch the rules repos,
+## load function symbols, and then execute the functions.
+## Then we need to do the same for our repo deps,
+## and where our direct repo deps have their own repo deps,
+## we need load and run the functions that bootstrap them.
 
 opam_configure()
+## We encapsulate the rule fetches (repository rules) in extension
+## functions called "<lang>_fetch_rules"; these are found in
+## "bzl/repos/<lang>_repos.bzl".
 
 ocaml_configure()
+## For library repos we encapsulate fetches in functions called
+## "*_fetch_repo" (or "_repos"). For direct depdendents these are
+## located in the same file as the "*_fetch_rules" functions; for an
+## example see "bzl/repos/ocaml_repos.bzl". For indirect dependents -
+## repositories that the direct dependents import - they are located
+## in extension files within the repo, usually "//:BUILD.bzl". See
+## libp2p below for an example.
+
+## However we cannot encapsulate "load(...)" statements, like this,
+## since they must be at the top level. So our procedure is to call
+## the functions that fetch all the rules/repos at one go, and then
+## issue "load" statements to get access to the functions, and then
+## run the loaded functions.
 
 ocaml_register_toolchains(installation="host")
+## IMPORTANT: order matters.
+
+################ C/C++ Rules ################
 
 ################################################################
 local_repository( name = "async_kernel" , path = "src/external/async_kernel")
@@ -32,8 +57,13 @@ local_repository( name = "ppx_version"  , path = "src/external/ppx_version")
 local_repository( name = "rpc_parallel" , path = "src/external/rpc_parallel")
 ################################################
 ################ Golang Support ################
+## libp2p_helper is a repository, but is embedded, not remote, so we
+## use "local_repository", which must be executed as a top-level
+## instruction in the workspace file.
 local_repository(name = "libp2p_helper", path = "src/app/libp2p_helper")
 
+## since libp2p_helper is our only golang repo, it includes the
+## language fetch rules as well as its indirect lib fetch rules.
 # gazelle:proto disable_global
 load("@libp2p_helper//:BUILD.bzl", "libp2p_fetch_go_rules", "libp2p_fetch_go_libs")
 libp2p_fetch_go_rules()
