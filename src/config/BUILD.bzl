@@ -19,7 +19,6 @@ def _mina_config_impl(ctx):
     ##FIXME: validate: timestamp, duration
     # proof_level: check, full, none
     runfiles = ctx.runfiles(files = [outfile])
-    print("_mina_config_impl")
     ctx.actions.expand_template(
         output = outfile,
         template = ctx.file._template,
