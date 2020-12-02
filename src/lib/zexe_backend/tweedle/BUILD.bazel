@@ -45,9 +45,6 @@ ocaml_archive(
         ":_Precomputed",
         ":_Tweedle",
     ],
-    cc_deps    = {
-        "@mina//src/lib/marlin_plonk_bindings/stubs:marlin_plonk_stubs": "default",
-    }
 )
 
 #########

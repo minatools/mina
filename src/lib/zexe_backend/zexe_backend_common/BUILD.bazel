@@ -30,7 +30,6 @@ ZEXE_BACKEND_COMMON_DEPS = [
     "@snarky//src/base:snarky_backendless",
     "@snarky//sponge",
     "@snarky//snarkette",
-    # "@mina//src/lib/allocation_functor",
 ]
 
 ##############
@@ -398,12 +397,12 @@ ppx_executable(
         "//src/lib/zexe_backend/zexe_backend_common:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@snarky//h_list/ppx:ppx_h_list",
         "@opam//pkg:ppx_deriving.std",
         "@opam//pkg:ppx_deriving_yojson",
         "@opam//pkg:ppx_jane",
         "@opam//pkg:ppxlib",
+        "@mina//src/lib/ppx_coda",
         "@ppx_version//src:ppx_version",
+        "@snarky//h_list/ppx:ppx_h_list",
     ],
 )
