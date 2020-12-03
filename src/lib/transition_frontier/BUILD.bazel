@@ -1,0 +1,51 @@
+## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_interface",
+    "ocaml_module",
+)
+
+#############
+ocaml_module(
+    name = "transition_frontier",
+    src = "transition_frontier.ml",
+    intf = ":_Transition_frontier.cmi",
+    opts = [],
+    ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.eq__ppx_deriving_yojson",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "transition_frontier",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@mina//src/lib/transition_frontier/extensions",
+        "@mina//src/lib/transition_frontier/frontier_base",
+        "@mina//src/lib/transition_frontier/full_frontier",
+        "@mina//src/lib/transition_frontier/persistent_frontier",
+        "@mina//src/lib/transition_frontier/persistent_root",
+        "@opam//pkg:ppx_deriving_yojson.runtime",
+    ],
+)
+
+################
+ocaml_interface(
+    name = "_Transition_frontier.cmi",
+    src = "transition_frontier.mli",
+    opts = [],
+    ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.eq__ppx_deriving_yojson",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "transition_frontier",
+    ],
+    deps = [
+        "@mina//src/lib/transition_frontier/extensions",
+        "@mina//src/lib/transition_frontier/frontier_base",
+        "@mina//src/lib/transition_frontier/full_frontier",
+        "@mina//src/lib/transition_frontier/persistent_frontier",
+        "@mina//src/lib/transition_frontier/persistent_root",
+        "@opam//pkg:ppx_deriving_yojson.runtime",
+    ],
+)
