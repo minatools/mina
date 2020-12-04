@@ -1,0 +1,47 @@
+## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+################################################################
+## STANZA 1: EXECUTABLE TEST
+################################################################
+TEST_EXECUTABLE_OPTS = []
+
+TEST_MODULE_OPTS = []
+
+TEST_DEPS = [
+    # do not sort (buildifier)
+    "@opam//pkg:integers",
+    "@mina//src/lib/integers_stubs_js",
+]
+
+TEST_PPX = "@//bzl/ppx/exe:ppx_version"
+
+TEST_PPX_ARGS = [
+    # do not sort (buildifier)
+]
+
+#################
+ocaml_executable(
+    name = "test.exe",
+    opts = TEST_EXECUTABLE_OPTS,
+    visibility = ["//visibility:public"],
+    deps = TEST_DEPS + [
+        # do not sort (buildifier)
+        ":_Test",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Test",
+    src = "test.ml",
+    opts = TEST_MODULE_OPTS,
+    ppx = TEST_PPX,
+    ppx_args = TEST_PPX_ARGS,
+    deps = TEST_DEPS,
+)

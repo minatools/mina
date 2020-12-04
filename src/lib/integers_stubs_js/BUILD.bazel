@@ -1,0 +1,38 @@
+## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_ns",
+)
+
+################################################################
+## STANZA 1: LIBRARY INTEGERS_STUBS_JS
+################################################################
+
+INTEGERS_STUBS_JS_DEPS = [
+    # do not sort (buildifier)
+    "@opam//pkg:zarith_stubs_js",
+]
+
+INTEGERS_STUBS_JS_PPX = "@//bzl/ppx/exe:ppx_version"
+
+INTEGERS_STUBS_JS_PPX_ARGS = [
+    # do not sort (buildifier)
+]
+
+##############
+ocaml_archive(
+    name = "integers_stubs_js",
+    opts = [],
+    visibility = ["//visibility:public"],
+    deps = INTEGERS_STUBS_JS_DEPS + [
+        # do not sort (buildifier)
+    ],
+)
+
+#########
+ocaml_ns(
+    name = "Integers_stubs_js_ns",
+    ns = "integers_stubs_js",
+)
