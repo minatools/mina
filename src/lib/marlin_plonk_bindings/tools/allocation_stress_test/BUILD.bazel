@@ -1,0 +1,10 @@
+load( "@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module")
+
+#############
+ocaml_module(
+    name = "allocation_stress_test",
+    src = "allocation_stress_test.ml",
+    ppx = "//bzl/ppx/exe:ppx_version",
+    visibility = ["//visibility:public"],
+    deps = ["@opam//pkg:core_kernel"]
+)
