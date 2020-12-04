@@ -76,6 +76,7 @@ ocaml_archive(
         ":_Graphql_queries",
         ":_Transaction_snark_profiler",
         ":_Visualization_message",
+        ":_Assets"              # obazl:retain
     ],
 )
 
@@ -95,7 +96,27 @@ ocaml_ns(
         "graphql_queries.ml",
         "transaction_snark_profiler.ml",
         "visualization_message.ml",
+        ":assets.ml"            # obazl:retain
     ],
+)
+
+#############
+ocaml_module(
+    name = "_Assets",
+    ns   = ":Init_ns",
+    src  = ":assets.ml",
+)
+
+TOOL = "@ocaml//tools:ocaml-crunch"
+genrule(
+    name = "gensrc",
+    srcs = glob(["**"]),
+    tools = [TOOL],
+    outs = ["assets.ml"],
+    cmd = "\n".join([
+        "set -x",
+        "./$(location {tool}) -m plain src/app/cli/src/init/assets -o \"$@\"".format(tool = TOOL),
+    ])
 )
 
 #############
@@ -217,7 +238,9 @@ ocaml_module(
         "init",
     ],
     # ppx_data = CONFIG_MLH,
-    deps = INIT_DEPS,
+    deps = INIT_DEPS + [
+        ":_Assets"              # obazl:retain
+    ]
 )
 
 #############
