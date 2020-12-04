@@ -88,8 +88,12 @@ rust_repositories(version = "1.47.0", edition="2018")
 load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
 bazel_version(name = "bazel_version")
 
-## Golang application repos
-## first zexe, then marlin
+#### Rust application repos ####
+## currently we use embedded submodules with local_repository rules.
+## to switch to external repos use this:
+# load("//bzl/external:rust_repos.bzl", "rust_fetch_libs")
+# rust_fetch_libs()
+
 local_repository( name = "zexe" , path = "src/lib/zexe")
 load("@zexe//bzl/cargo:crates.bzl", "zexe_fetch_remote_crates")
 zexe_fetch_remote_crates()
@@ -119,8 +123,8 @@ load("//bzl:opam.bzl", "opam")  # sanity check - required opam pkgs
 opam_configure(opam = opam)
 
 #### fetch all direct repo deps
-load("//bzl/external:ocaml_repos.bzl", "ocaml_fetch_repos")
-ocaml_fetch_repos()
+load("//bzl/external:ocaml_repos.bzl", "ocaml_fetch_libs")
+ocaml_fetch_libs()
 
 #### fetch indirect repo deps
 local_repository( name = "ocaml_rocksdb", path = "src/external/ocaml-rocksdb" )

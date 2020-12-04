@@ -3,3 +3,5 @@ CONFIG_MLH = select({
     "//:profile_dev": ["//src:dev"],
     "//:profile_release": ["//src:release"],
 }, no_match_error = "Unknown profile")
+
+GRAPHQL_SCHEMA_JSON = "graphql_schema.json"

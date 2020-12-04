@@ -38,6 +38,13 @@ def ocaml_fetch_rules():
 
     maybe(
         git_repository,
+        name = "obazl_tools_bazel",
+        remote = "https://github.com/obazl/tools_bazel",
+        branch = "main",
+    )
+
+    maybe(
+        git_repository,
         name = "obazl_rules_opam",
         remote = "https://github.com/obazl/rules_opam",
         branch = "main",
@@ -63,20 +70,3 @@ def rust_fetch_rules():
             "https://github.com/bazelbuild/rules_rust/archive/5998baf9016eca24fafbad60e15f4125dd1c5f46.tar.gz",
         ],
     )
-
-    ## once embedded git submodules are eliminated, use these instead of local_repository
-    # maybe(
-    #     git_repository,
-    #     name = "zexe",
-    #     remote = "https://github.com/o1-labs/zexe",
-    #     branch = "master",
-    #     # tag    = use tag instead of branch once a release tag has been published
-    # )
-
-    # maybe(
-    #     git_repository,
-    #     name = "marlin",
-    #     remote = "https://github.com/obazl/marlin",
-    #     branch = "master",
-    #     # tag    = use tag instead of branch once a release tag has been published
-    # )
