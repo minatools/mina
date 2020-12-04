@@ -14,6 +14,7 @@ opam = struct(
         }
     ),
     packages = {
+        "alcotest": "1.1.0", # graphql_ppx
         "angstrom": "0.11.2",
         "asetmap": "0.8.1",
         "astring": "0.8.3",

@@ -1,0 +1,11 @@
+################################################################
+TOOL = "//src/lib/snark_keys/gen_keys:gen_keys.exe"
+genrule(
+    name = "gensrcs",
+    outs = ["snark_keys.ml"],
+    tools = [TOOL],
+    cmd = "\n".join([
+        "$(location {tool})".format(tool = TOOL),
+        "cp snark_keys.ml \"$(RULEDIR)/\"",
+    ]),
+)
