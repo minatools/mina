@@ -18,9 +18,10 @@ GRAPHQL_LIB_MODULE_OPTS = []
 GRAPHQL_LIB_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:async",
+    "@opam//pkg:async_ssl",
     "@opam//pkg:cohttp",
-    "@opam//pkg:core",
     "@opam//pkg:cohttp-async",
+    "@opam//pkg:core",
     "@opam//pkg:graphql-async",
     "@opam//pkg:graphql-cohttp",
     "@mina//src/lib/coda_base",

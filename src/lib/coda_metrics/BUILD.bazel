@@ -20,6 +20,7 @@ CODA_METRICS_MODULE_OPTS = []
 CODA_METRICS_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:async",
+    "@opam//pkg:async_ssl",     # obazl:retain
     "@opam//pkg:cohttp",
     "@opam//pkg:cohttp-async",
     "@opam//pkg:jemalloc",
