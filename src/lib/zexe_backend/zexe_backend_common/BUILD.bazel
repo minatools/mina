@@ -76,7 +76,7 @@ ocaml_ns(
         "poly_comm.ml",
         "scale_round.ml",
         "var.ml",
-        "@marlin//:version.ml",  # obazl:retain
+        ":version.ml",  # obazl:retain
     ],
 )
 
