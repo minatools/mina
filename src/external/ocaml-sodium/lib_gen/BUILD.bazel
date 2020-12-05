@@ -1,0 +1,159 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_executable",
+     "ocaml_module")
+
+#############
+ocaml_module(
+    name = "Sodium_generated",
+    src  = "sodium_generated.ml",
+    deps = [
+        "@opam//pkg:ctypes.stubs",
+    ],
+    visibility = ["//lib:__pkg__"]
+)
+
+cc_library(
+    name  = "sodium_stubs",
+    copts = ["-I."],
+    srcs  = ["sodium_stubs.c"],
+    hdrs  = [
+    ],
+    deps  = [
+        "@ocaml//csdk/ctypes",
+        "//lib:libsodium"
+    ],
+    visibility = ["//visibility:public"]
+)
+
+
+########
+genrule(
+    name = "genstubs",
+    tools = [":sodium_bindgen"],
+    outs = [
+        "sodium_stubs.c",
+        "sodium_generated.ml",
+    ],
+    cmd = "\n".join([
+        "mkdir lib",
+        "$(location :sodium_bindgen)",
+        "cp lib/sodium* $(RULEDIR)/",
+    ]),
+    # visibility = ["//visibility:public"]
+)
+
+#################
+ocaml_executable(
+    name = "sodium_bindgen",
+    main = ":Sodium_bindgen",
+    visibility = ["//visibility:public"],
+)
+
+
+#############
+ocaml_module(
+    name = "Sodium_bindgen",
+    src = "sodium_bindgen.ml",
+    opts = [
+        "-w",
+        "-33"                # Error (warning 33): unused open Ctypes.
+    ],
+    deps = [
+        "@opam//pkg:ctypes.stubs",
+        "//lib:Sodium_storage",
+        ":Sodium_bindings"
+    ]
+)
+
+#############
+ocaml_module(
+    name = "Sodium_bindings",
+    src = "sodium_bindings.ml",
+    opts = [],
+    deps = [
+        "@opam//pkg:ctypes.stubs",
+        "//lib:Sodium_storage",
+        ":Sodium_types_detected",
+        ":Sodium_types",
+    ],
+    visibility = ["//lib:__pkg__"]
+)
+
+#############
+ocaml_module(
+    name = "Sodium_types_detected",
+    src = ":sodium_types_detected.ml",
+    opts = [
+        "-w",
+        "-9", # Error (warning 9): the following labels are not bound in this record pattern:
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = ["@opam//pkg:ctypes.stubs"],
+    visibility = ["//lib:__pkg__"]
+)
+
+########
+genrule(
+    name = "genml",
+    tools = [":sodium_types_detect"],
+    outs = ["sodium_types_detected.ml"],
+    cmd = "\n".join([
+        "$(location :sodium_types_detect) > $@",
+    ]),
+    message = "",
+)
+
+##########
+cc_binary(
+    name  = "sodium_types_detect",
+    srcs  = [":sodium_types_detect.c"],
+    copts = ["-I."],
+    deps = [
+        "@ocaml//csdk/ctypes",
+        "//lib:libsodium"
+    ],
+)
+
+########
+genrule(
+    name = "genc",
+    tools = [":sodium_typegen"],
+    outs = ["sodium_types_detect.c"],
+    cmd = "\n".join([
+        "mkdir lib_gen",
+        "$(location :sodium_typegen)",
+        "cp lib_gen/sodium_types_detect.c $@"
+    ]),
+    message = "",
+)
+
+#################
+ocaml_executable(
+    name = "sodium_typegen",
+    deps = [":Sodium_typegen"]
+)
+
+#############
+ocaml_module(
+    name = "Sodium_typegen",
+    src = "sodium_typegen.ml",
+    opts = [
+        "-w",                # obazl:retain
+        "-33"                # Error (warning 33): unused open Ctypes.
+    ],
+    deps = [
+        "@opam//pkg:ctypes.stubs",
+        ":Sodium_types",
+    ]
+)
+
+#############
+ocaml_module(
+    name = "Sodium_types",
+    src = "sodium_types.ml",
+    deps = ["@opam//pkg:ctypes.stubs"],
+    visibility = ["//lib:__pkg__"]
+)

@@ -1,0 +1,176 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_executable",
+     "ocaml_module")
+
+##########
+cc_binary(
+    name  = "nacl_runner",
+    srcs  = ["nacl_runner.c"],
+    copts = ["-I.", "-Wall", "-g"],
+    deps = [
+        # "@ocaml//csdk/ctypes",
+        "//lib:libsodium",
+    ],
+    visibility = ["//visibility:public"]
+)
+
+#############
+ocaml_executable(
+    name = "test_sodium",
+    main = ":_Test_sodium",
+    deps = [
+    ],
+    cc_deps = {
+        "@ocaml//csdk/ctypes": "default",
+        "//lib_gen:sodium_stubs": "default",
+        "//lib:libsodium": "default"
+    }
+)
+
+MODULE_OPTS = []
+
+DEPS        = [
+    "@opam//pkg:bigarray",
+    "@opam//pkg:bytes",
+    "@opam//pkg:ctypes.stubs",
+    "@opam//pkg:ounit2",
+    "//lib:sodium"
+]
+
+CC_DEPS     = {
+    "//lib:libsodium": "default",
+    "//lib_gen:sodium_stubs": "default",
+}
+
+#############
+ocaml_module(
+    name = "_Test_auth",
+    src = "test_auth.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+    cc_deps = CC_DEPS
+)
+
+#############
+ocaml_module(
+    name = "_Test_box",
+    src = "test_box.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+    cc_deps = CC_DEPS
+)
+
+#############
+ocaml_module(
+    name = "_Test_generichash",
+    src = "test_generichash.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Test_hash",
+    src = "test_hash.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS
+)
+
+#############
+ocaml_module(
+    name = "_Test_password_hash",
+    src = "test_password_hash.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Test_random",
+    src = "test_random.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Test_scalar_mult",
+    src = "test_scalar_mult.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Test_secret_box",
+    src = "test_secret_box.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Test_sign",
+    src = "test_sign.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Test_sodium",
+    src = "test_sodium.ml",
+    opts = MODULE_OPTS,
+    deps = DEPS + [
+        ":_Test_auth",
+        ":_Test_box",
+        ":_Test_generichash",
+        ":_Test_hash",
+        ":_Test_password_hash",
+        ":_Test_random",
+        ":_Test_scalar_mult",
+        ":_Test_secret_box",
+        ":_Test_sign",
+        ":_Test_stream",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Test_stream",
+    src = "test_stream.ml",
+    opts = MODULE_OPTS + [
+        "-w",
+        "-27" # Error (warning 27): unused variable
+    ],
+    deps = DEPS,
+    cc_deps = CC_DEPS
+)
