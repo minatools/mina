@@ -191,11 +191,14 @@ ppx_executable(
     main = ":Driver",
     opts = [],
     visibility = [
+        "@snarky//bitstring_lib:__pkg__",
+        "@snarky//fold_lib:__pkg__",
         "@snarky//group_map:__pkg__",
         "@snarky//snarky_curve:__pkg__",
         "@snarky//snarky_integer:__pkg__",
         "@snarky//snarky_signature:__pkg__",
         "@snarky//sponge:__pkg__",
+        "@snarky//tuple_lib:__pkg__",
     ],
     deps = [
         "@opam//pkg:ppx_deriving.eq",
