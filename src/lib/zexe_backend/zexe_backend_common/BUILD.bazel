@@ -362,7 +362,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Version", # obazl:retain
-    src = "@marlin//:version.ml", # obazl:retain
+    src = ":version.ml", # obazl:retain
     intf = ":_Version.cmi",
     ns = ":Zexe_backend_common_ns",
     opts = ZEXE_BACKEND_COMMON_MODULE_OPTS,
@@ -372,6 +372,17 @@ ocaml_module(
         "-inline-test-lib",
         "zexe_backend_common",
     ],
+)
+
+######## WARNING ########
+## This is temporary, until stamping is implemented.
+genrule(
+    name       = "gensrc",
+    outs       = ["version.ml"],
+    cmd        = "\n".join([
+        "echo 'let marlin_repo_sha = \"00000000\"' > $@"
+    ]),
+    visibility = ["//visibility:public"],
 )
 
 ###############
