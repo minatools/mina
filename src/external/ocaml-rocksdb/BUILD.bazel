@@ -141,7 +141,6 @@ ocaml_module(
 )
 
 #############
-## This is needed for more recent versions of orocksdb
 # ocaml_module(
 #     name = "_Rocks_version",
 #     src = "rocks_version.ml",
@@ -244,7 +243,7 @@ configure_make(
     static_libraries = ["libz.a"],
     shared_libraries = select({
         "//bzl/host:macos": ["libz.dylib"],
-        "//bzl/host:linux": ["libz.os"]
+        "//bzl/host:linux": ["libz.so"]
     }, no_match_error = "Unknown host. Only MacOS and Linux."),
     out_lib_dir = "lib",
     configure_env_vars = select({
