@@ -4,7 +4,7 @@ opam = struct(
         paths = {
             "async_kernel" : "src/external/async_kernel",
             "base58"       : "src/external/coda_base58",
-            "graphql_ppx"  : "src/external/graphql_ppx",
+            # "graphql_ppx"  : "src/external/graphql_ppx",
             "extlib"       : "src/external/ocaml-extlib",
             "rpc_parallel" : "src/external/rpc_parallel",
             # "sodium"       : "src/external/ocaml-sodium"
