@@ -1,0 +1,255 @@
+load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
+load("@rules_foreign_cc//tools/build_defs:make.bzl", "make")
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_interface",
+    "ocaml_module",
+    "ocaml_ns",
+)
+
+################################################################
+## STANZA 1: LIBRARY ROCKS
+################################################################
+ROCKS_INTERFACE_OPTS = []
+
+ROCKS_MODULE_OPTS = []
+
+ROCKS_NS_MODULE_OPTS = []
+
+ROCKS_DEPS = [
+    # do not sort (buildifier)
+    "@opam//pkg:ctypes",
+    "@opam//pkg:ctypes.foreign",
+]
+
+ocaml_archive(
+    name = "rocks",
+    opts = ["-linkall"],
+    visibility = ["//visibility:public"],
+    deps = ROCKS_DEPS + [
+        ":_Rocks",
+        ":_Rocks_common",
+        ":_Rocks_intf",
+        ":_Rocks_options",
+        # ":_Rocks_version",
+    ],
+    cc_deps = {
+        # "@//bzl/external/bzip2": "static",    # -lbz2
+        ":bzip2": "static-linkall",
+        # "@//bzl/external/zlib": "default",     # -lz
+        ":zlib": "static-linkall", # "default",
+        ":librocksdb": "static-linkall"
+    },
+    # cc_linkall  = ["//bzl/external/rocksdb"], # -Wl,-force_load (MacOS) or -whole-archive (Linux)
+    # cc_linkall  = [":librocksdb"], # -Wl,-force_load (MacOS) or -whole-archive (Linux)
+    cc_linkopts = select({
+        "//bzl/host:macos": ["-lc++abi", "-lc++"],
+        "//bzl/host:linux": ["-lstdc++"],
+    }, no_match_error = "Unsupported platform. Only Linux and MacOS supported.")
+)
+
+ocaml_ns(
+    name = "Rocks_ns",
+    ns = "rocks",
+    opts = ["-linkall"],
+    submodules = [
+        # do not sort (buildifier)
+        "rocks.ml",
+        "rocks_common.ml",
+        "rocks_intf.ml",
+        "rocks_options.ml",
+        # "rocks_version.ml",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Rocks",
+    src = "rocks.ml",
+    intf = ":_Rocks.cmi",
+    ns = ":Rocks_ns",
+    opts = ROCKS_MODULE_OPTS + [
+        "-w",
+        "-6", # Error (warning 6): label length was omitted in the application of this function.
+        "-w",
+        "-27", # Error (warning 27): unused variable opts.
+        "-w",
+        "-32", # Error (warning 32): unused value
+        "-w",
+        "-34" # Error (warning 34): unused type
+    ],
+    deps = ROCKS_DEPS + [
+        # do not sort (buildifier)
+        ":_Rocks_common",
+        ":_Rocks_intf",
+        ":_Rocks_options",
+        # ":_Rocks_version",
+    ],
+)
+
+#####
+ocaml_interface(
+    name = "_Rocks.cmi",
+    src = "rocks.mli",
+    ns = ":Rocks_ns",
+    opts = ROCKS_INTERFACE_OPTS,
+    deps = ROCKS_DEPS + [
+        # do not sort (buildifier)
+        ":_Rocks_common",
+        ":_Rocks_intf",
+        ":_Rocks_options",
+        # ":_Rocks_version",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Rocks_common",
+    src = "rocks_common.ml",
+    ns = ":Rocks_ns",
+    opts = ROCKS_MODULE_OPTS,
+    deps = ROCKS_DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Rocks_intf",
+    src = "rocks_intf.ml",
+    ns = ":Rocks_ns",
+    opts = ROCKS_MODULE_OPTS + [
+        "-w",
+        "-50" # Error (warning 50): ambiguous documentation comment
+    ],
+    deps = ROCKS_DEPS + [
+        # do not sort (buildifier)
+        ":_Rocks_options",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Rocks_options",
+    src = "rocks_options.ml",
+    ns = ":Rocks_ns",
+    opts = ROCKS_MODULE_OPTS,
+    deps = ROCKS_DEPS + [
+        # do not sort (buildifier)
+        ":_Rocks_common",
+    ],
+)
+
+#############
+## This is needed for more recent versions of orocksdb
+# ocaml_module(
+#     name = "_Rocks_version",
+#     src = "rocks_version.ml",
+#     ns = ":Rocks_ns",
+#     opts = ROCKS_MODULE_OPTS,
+#     deps = ROCKS_DEPS + [
+#         # do not sort (buildifier)
+#         # ":_Rocks_common",
+#     ],
+# )
+
+################################################################
+# TODO: number of jobs for Linux, Darwin
+# NOTICE: shared libs work for v6.0.1
+
+ENV_VARS = " ".join([
+    # "env",
+    "ROCKSDB_DISABLE_SNAPPY=1",
+    "ROCKSDB_DISABLE_GFLAGS=1",
+    "ROCKSDB_DISABLE_LZ4=1",
+    "ROCKSDB_DISABLE_ZSTD=1",
+    "ROCKSDB_DISABLE_NUMA=1",
+    "ROCKSDB_DISABLE_TBB=1",
+    "ROCKSDB_DISABLE_JEMALLOC=1",
+    "ROCKSDB_DISABLE_TCMALLOC=1",
+    "ROCKSDB_DISABLE_BACKTRACE=1",
+    "PORTABLE=1",
+    "FORCE_SSE42=1",
+    "DISABLE_WARNING_AS_ERROR=1",
+    "VERBOSE=1",
+    "INSTALL_PATH=${INSTALLDIR}", # v5.17.2, v6.0.1
+    "PREFIX=${INSTALLDIR}", # v6.14.5
+])
+
+make(
+    name = "librocksdb",
+    lib_source = "@rocksdb//:all", # mandatory
+    out_lib_dir = "lib",
+    prefix = "${INSTALLDIR}",
+    visibility = ["//visibility:public"],
+    static_libraries = ["librocksdb.a"],
+    shared_libraries = select({
+        "//bzl/host:macos": [
+            "librocksdb.dylib",
+
+            "librocksdb.5.dylib",
+            "librocksdb.5.17.dylib",
+             "librocksdb.5.17.2.dylib",
+
+            # "librocksdb.6.0.dylib",
+            # "librocksdb.6.0.1.dylib"
+
+            # "librocksdb.6.dylib",
+            # "librocksdb.6.14.dylib",
+            # "librocksdb.6.14.5.dylib"
+        ],
+        "//bzl/host:linux": ["librocksdb.so"],
+        # "//conditions:default": [],
+    }),
+    make_env_vars = {
+        "PREFIX": "${INSTALLDIR}",
+        "VERBOSE": "1"
+    },
+    make_commands = [
+        " ".join([
+            # "INSTALL_PATH=${INSTALLDIR}", # v6.0.1
+            "make",
+            # "install", ## both static and shared
+            "install-shared",
+            # "install-static",
+            "-j2",
+        ]) + " " + ENV_VARS,
+        " ".join([
+            # "INSTALL_PATH=${INSTALLDIR}", # v6.0.1
+            "make",
+            # "install", ## both static and shared
+            # "install-shared",
+            "install-static",
+            "-j2",
+        ]) + " " + ENV_VARS,
+    ],
+)
+
+#####
+make(
+    name = "bzip2",
+    lib_source = "@rocksdb-bzip2//:all",
+    static_libraries = ["libbz2.a"],
+    # shared_libraries = select({
+    #     "//bzl/host:macos": ["libbz2.dylib"],
+    #     "//bzl/host:linux": ["libbz2.so"],
+    # }, no_match_error = "Uknown host. Only MacOS and Linux."),
+    visibility = ["//visibility:public"], # temporarily, until cc_dep transitivity
+)
+
+###############
+configure_make(
+    name = "zlib",
+    lib_source = "@rocksdb-zlib//:all",
+    static_libraries = ["libz.a"],
+    shared_libraries = select({
+        "//bzl/host:macos": ["libz.dylib"],
+        "//bzl/host:linux": ["libz.os"]
+    }, no_match_error = "Unknown host. Only MacOS and Linux."),
+    out_lib_dir = "lib",
+    configure_env_vars = select({
+        "//bzl/host:macos": {"AR": ""},
+        "//conditions:default": {},
+    }),
+    visibility = ["//visibility:public"], # temporarily, until cc_dep transitivity
+)

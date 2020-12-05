@@ -1,0 +1,4 @@
+{
+ :workspace "ocaml-jemalloc"
+ :ppx {:shared-pkg "//bzl/ppx/exe"}
+ }
