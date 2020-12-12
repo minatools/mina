@@ -20,7 +20,7 @@ CODA_MODULE_OPTS = []
 
 CODA_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:jemalloc",
+    "@ocaml_jemalloc//src:jemalloc",
     "@mina//src/app/cli/src/init",
     "@mina//src/app/cli/src/tests",
     "@mina//src/lib/child_processes",

@@ -23,7 +23,7 @@ CODA_METRICS_DEPS = [
     "@opam//pkg:async_ssl",     # obazl:retain
     "@opam//pkg:cohttp",
     "@opam//pkg:cohttp-async",
-    "@opam//pkg:jemalloc",
+    "@ocaml_jemalloc//src:jemalloc",
     "@opam//pkg:prometheus",
     "@mina//src/lib/logger",
 ]

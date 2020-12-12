@@ -10,6 +10,8 @@ load(
     "CONFIG_MLH",
 )
 
+PPX_PRINT = "@ppx//print:text"
+
 #############
 ocaml_module(
     name = "o1trace",
@@ -21,6 +23,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
+    ppx_print = PPX_PRINT,      # obazl:retain
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/webkit_trace_event",
@@ -39,6 +42,7 @@ ocaml_interface(
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
+    ppx_print = PPX_PRINT,      # obazl:retain
     deps = [
         "@mina//src/lib/webkit_trace_event",
         "@opam//pkg:async",

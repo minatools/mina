@@ -38,6 +38,7 @@ def ocaml_fetch_libs():
     #     branch = "master"
     # )
 
+    # native.local_repository( name = "snarky" , path = "src/lib/snarky")
     # maybe(
     #     git_repository,
     #     name = "snarky",
@@ -46,14 +47,14 @@ def ocaml_fetch_libs():
     # )
 
     ################################################################
-    ## these are embedded and pinned, not remote
-    ## todo: migrate to use these:
+    native.local_repository( name = "ocaml_rocksdb", path = "src/external/ocaml-rocksdb" )
     # maybe(
     #     git_repository,
     #     name = "ocaml_rocksdb",
     #     remote = "https://github.com/o1-labs/orocksdb",
     #     branch = "master"
     # )
+    native.local_repository( name = "ocaml_sodium", path = "src/external/ocaml-sodium" )
     # maybe(
     #     git_repository,
     #     name = "ocaml_sodium",

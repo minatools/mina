@@ -17,10 +17,10 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/logger",
+        "@ocaml_jemalloc//src:jemalloc",
         "@opam//pkg:async_kernel",
         "@opam//pkg:core",
-        "@opam//pkg:jemalloc",
+        "@mina//src/lib/logger",
     ],
 )
 

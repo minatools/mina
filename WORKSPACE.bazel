@@ -74,38 +74,6 @@ libp2p_fetch_go_libs(go_repository)
 
 gazelle_dependencies(go_repository_default_config = "@libp2p_helper//:WORKSPACE.bazel")
 
-################################################
-################  RUST SUPPORT  ################
-## we have more than one repo using Rust, so we put the fetch rules in
-## this repo for both to use.
-load("//:WORKSPACE.bzl", "rust_fetch_rules")
-# load("//bzl/external:rust_repos.bzl", "rust_fetch_rules")
-rust_fetch_rules()
-
-load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
-rust_repositories(version = "1.47.0", edition="2018")
-
-load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
-bazel_version(name = "bazel_version")
-
-#### Rust application repos ####
-## currently we use embedded submodules with local_repository rules.
-## to switch to external repos use this:
-# load("//bzl/external:rust_repos.bzl", "rust_fetch_libs")
-# rust_fetch_libs()
-
-local_repository( name = "zexe" , path = "src/lib/zexe")
-load("@zexe//bzl/cargo:crates.bzl", "zexe_fetch_remote_crates")
-zexe_fetch_remote_crates()
-
-local_repository( name = "marlin" , path = "src/lib/marlin")
-load("@marlin//bzl/cargo:crates.bzl", "marlin_fetch_remote_crates")
-marlin_fetch_remote_crates()
-
-## local rust code, configured by "cargo raze"
-load("//bzl/external/rust:crates.bzl", "marlin_plonk_bindings_fetch_remote_crates")
-marlin_plonk_bindings_fetch_remote_crates()
-
 ######################################
 ###############  OCaml ###############
 load("//:WORKSPACE.bzl", "ocaml_fetch_rules")
@@ -115,27 +83,25 @@ ocaml_fetch_rules()
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 bazel_skylib_workspace()
 
-load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
-ocaml_configure()
-
-load("@obazl_rules_opam//opam:bootstrap.bzl", "opam_configure")
-load("//bzl:opam.bzl", "opam")  # sanity check - required opam pkgs
+load("@obazl_rules_opam//opam:bootstrap.bzl", opam_configure = "configure")
+load("//bzl:opam.bzl", "opam")
 opam_configure(opam = opam)
 
-#### fetch all direct repo deps
+load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", ocaml_configure = "configure")
+ocaml_configure()
+
+################################
+# direct deps
 load("//bzl/external:ocaml_repos.bzl", "ocaml_fetch_libs")
 ocaml_fetch_libs()
 
-#### fetch indirect repo deps
-local_repository( name = "ocaml_rocksdb", path = "src/external/ocaml-rocksdb" )
+# indirect deps
 load("@ocaml_rocksdb//:WORKSPACE.bzl", "librocksdb_fetch_repos")
 librocksdb_fetch_repos()
 
-local_repository( name = "ocaml_sodium", path = "src/external/ocaml-sodium" )
 load("@ocaml_sodium//:WORKSPACE.bzl", "libsodium_fetch_repo")
 libsodium_fetch_repo("1.0.18-RELEASE")
 
-## no local repo for jemalloc
 load("@ocaml_jemalloc//:WORKSPACE.bzl", "libjemalloc_fetch_repo")
 libjemalloc_fetch_repo()
 
@@ -263,3 +229,32 @@ libjemalloc_fetch_repo()
 # libp2p_bootstrap()
 
 # gazelle_dependencies(go_repository_default_config = "@libp2p_helper//:WORKSPACE.bazel")
+
+################################################
+################  RUST SUPPORT  ################
+## we have more than one repo using Rust, so we put the fetch rules in
+## this repo for both to use.
+load("//:WORKSPACE.bzl", "rust_fetch_rules")
+# load("//bzl/external:rust_repos.bzl", "rust_fetch_rules")
+rust_fetch_rules()
+
+load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+rust_repositories(version = "1.47.0", edition="2018")
+
+load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
+bazel_version(name = "bazel_version")
+
+#### direct Rust dependencies ####
+load("//bzl/external:rust_repos.bzl", "rust_fetch_libs")
+rust_fetch_libs()
+
+#### indirect Rust dependencies ####
+load("@zexe//bzl/cargo:crates.bzl", "zexe_fetch_remote_crates")
+zexe_fetch_remote_crates()
+
+load("@marlin//bzl/cargo:crates.bzl", "marlin_fetch_remote_crates")
+marlin_fetch_remote_crates()
+
+## local rust code, configured by "cargo raze"
+load("//bzl/external/rust:crates.bzl", "marlin_plonk_bindings_fetch_remote_crates")
+marlin_plonk_bindings_fetch_remote_crates()
