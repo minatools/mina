@@ -23,7 +23,7 @@ PACKAGES = {
     "async": ["v0.12.0"],
     "async_extra": ["v0.12.0"],
     "async_rpc_kernel": ["v0.12.0"],
-    "async_ssl": ["v0.12.0"],
+    "async_ssl": ["v0.12.0"],  # WARNING: depends on libssl-dev, conf-ssl
     "async_unix": ["v0.12.0"],
     "base": ["v0.12.0"],
     # "base58": ["0.1.0"],
@@ -42,7 +42,7 @@ PACKAGES = {
     # "camomile": ["1.0.1"],
     "caqti": ["1.2.0"],
     "caqti-async": ["1.2.0"],
-    "caqti-driver-postgresql": ["1.2.0"],
+    "caqti-driver-postgresql": ["1.2.0"],  # WARNING: depends on libpq-dev, conf-postgresql
     "cmdliner": ["1.0.3"],
     "cohttp": ["2.1.2"],
     "cohttp-async": ["2.1.1"],
@@ -197,7 +197,7 @@ PACKAGES = {
     "uutf": ["1.0.2"],
     "variantslib": ["v0.12.0"],
     "yojson": ["1.7.0"],
-    "zarith": ["1.7"],  # WARNING: depends on libgmp-dev intallation in local system
+    "zarith": ["1.7"],  # WARNING: depends on libgmp-dev
     "zarith_stubs_js": ["v0.13.0"],
     "zed": ["1.6"],
 }
