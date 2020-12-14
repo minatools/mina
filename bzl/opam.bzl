@@ -1,18 +1,22 @@
 PACKAGES = {
     # pin paths:
-    "async_kernel": [
-        "v0.12.0",
-        "https://github.com/MinaProtocol/async_kernel.git#cb27218d3c"
-        # "src/external/async_kernel"
-    ],
+    "async_kernel": ["v0.12.0",
+                     "src/external/async_kernel"
+                     # "https://github.com/MinaProtocol/async_kernel.git#cb27218d3c"
+                     ],
     "base58"      : ["0.1.2", "src/external/coda_base58"],
-    "graphql_ppx" : ["0.0.4", "src/external/graphql_ppx"], # version 1.0.1???
-    "extlib"      : [
-        "1.7.7",
-        "https://github.com/MinaProtocol/ocaml-extlib.git#9bf669cd70"
-        # "src/external/ocaml-extlib"
-    ], # merkle_ledger
-    "rpc_parallel": ["v0.12.0", "src/external/rpc_parallel"],
+    "extlib"      : ["1.7.7",
+                     "src/external/ocaml-extlib"
+                     # "https://github.com/MinaProtocol/ocaml-extlib.git#9bf669cd70"
+                     ], # needed by merkle_ledger
+    "rpc_parallel": ["v0.12.0",
+                     "src/external/rpc_parallel"
+                     # "https://github.com/MinaProtocol/rpc_parallel.git#115fde2"
+                     ],
+    # "graphql_ppx" : ["0.0.4",
+    #                  "src/external/graphql_ppx"
+    #                  # "https://github.com/o1-labs/graphql_ppx.git#d8c47bd"
+    #                  ],
     # "sodium"       : "src/external/ocaml-sodium"
 
     # pin versions:
@@ -23,10 +27,9 @@ PACKAGES = {
     "async": ["v0.12.0"],
     "async_extra": ["v0.12.0"],
     "async_rpc_kernel": ["v0.12.0"],
-    "async_ssl": ["v0.12.0"],  # WARNING: depends on libssl-dev, conf-ssl
+    "async_ssl": ["v0.12.0"],  # WARNING: depends on libssl-dev
     "async_unix": ["v0.12.0"],
     "base": ["v0.12.0"],
-    # "base58": ["0.1.0"],
     "base64": ["3.4.0"],
     "base_bigstring": ["v0.12.0"],
     "base_quickcheck": ["v0.12.1"],
@@ -37,48 +40,30 @@ PACKAGES = {
     "biniou": ["1.2.0"],
     "bisect_ppx": ["2.4.1", ["bisect_ppx.runtime"]],
     "bitstring": ["3.1.1", ["bitstring.ppx"]],
-    "bytes": [], # "[distributed with OCaml 4.02 or above]"],
-    # "camlp4": ["4.07+1"],
-    # "camomile": ["1.0.1"],
+    "bytes": [],
     "caqti": ["1.2.0"],
     "caqti-async": ["1.2.0"],
-    "caqti-driver-postgresql": ["1.2.0"],  # WARNING: depends on libpq-dev, conf-postgresql
+    "caqti-driver-postgresql": ["1.2.0"],  # WARNING: depends on libpq-dev
     "cmdliner": ["1.0.3"],
     "cohttp": ["2.1.2"],
     "cohttp-async": ["2.1.1"],
     "conduit": ["1.4.0"],
     "conduit-async": ["1.4.0"],
-    # "conf-g++": ["1.0"],
-    # "conf-gmp": ["1"],
-    # "conf-libssl": ["2"],
-    # "conf-m4": ["1"],
-    # "conf-openssl": ["1"],
-    # "conf-perl": ["1"],
-    # "conf-pkg-config": ["1.1"],
-    # "conf-postgresql": ["1"],
-    # "conf-which": ["1"],
     "configurator": ["v0.11.0"],
     "core": ["v0.12.1"],
     "core_bench": ["v0.12.0", ["core_bench.inline_benchmarks"]],
     "core_extended": ["v0.12.0"],
     "core_kernel": ["v0.12.3", ["core_kernel.hash_heap"]],
     "cppo": ["1.6.5"],
-    # "cppo_ocamlbuild": ["1.6.0"],
     "crunch": ["3.0.0"],
     "ctypes": ["0.17.1", ["ctypes.foreign", "ctypes.stubs"]],
-    # "depext.transition"],
-    "digestif": ["0.9.0", ["digestif.c"]], # : ["0.9.0"],
-    # "digestif.opam": ["0.9.0"],
+    "digestif": ["0.9.0", ["digestif.c"]],
     "dune": ["2.7.1"],
     "dune-configurator": ["2.5.1"],
-    # "dune-private-libs": ["2.5.1"],
-    "dynlink": [], # "[distributed with Ocaml]"],
-    # "easy-format": ["1.3.1"],
+    "dynlink": [],
     "eqaf": ["0.2"],
-    # "extlib": ["1.7.7"], # ["1.7.6-3-g9bf669c"], # opam: 1.7.7
     "fieldslib": ["v0.12.0"],
     "fmt": ["0.8.6"],
-    # "fpath": ["0.7.2"],
     "graphql": ["0.9.0"],
     "graphql-async": ["0.9.0"],
     "graphql-cohttp": ["0.12.1"],
@@ -87,8 +72,7 @@ PACKAGES = {
     "integers": ["0.4.0"],
     "ipaddr": ["3.1.0"],
     "jane-street-headers": ["v0.12.0"],
-    # "jbuilder": ["1.0+beta20.2"],
-    # "jemalloc": ["0.2"],
+    # "jemalloc": ["0.2"], # we use our own version @ocaml_jemalloc
     "js_of_ocaml": ["3.6.0"],
     "js_of_ocaml-compiler": ["3.6.0"],
     "js_of_ocaml-ppx": ["3.6.0"],
@@ -98,9 +82,6 @@ PACKAGES = {
     "lambda-term": ["1.13"],
     "lens": ["1.2.3", ["lens.ppx_deriving"]],
     "logs": ["0.7.0"],
-    # "lwt": ["4.2.1"],
-    # "lwt_log": ["1.1.0"],
-    # "lwt_react": ["1.1.2"],
     "macaddr": ["3.1.0"],
     "magic-mime": ["1.1.2"],
     "menhir": ["20181113"],
@@ -110,17 +91,13 @@ PACKAGES = {
     "ocaml": ["4.07.1"],
     "ocaml-base-compiler": ["4.07.1"],
     "ocaml-compiler-libs": ["v0.11.0"],
-    "compiler-libs.common": [], # "[distributed with Ocaml]"], # "v0.11.0"],
+    "compiler-libs.common": [],
     "ocaml-config": ["1"],
     "ocaml-migrate-parsetree": ["1.7.3"],
-    # "ocamlbuild": ["0.14.0"],
     "ocamlfind": ["1.8.1"],
-    # "ocamlformat": ["0.9"],
     "ocamlgraph": ["1.8.8"],
     "ocp-indent": ["1.7.0"],
     "ocplib-endian": ["1.0"],
-    # "octavius": ["1.2.0"],
-    # "opam-depext": ["1.1.2"],
     "ounit2": ["2.2.3"],
     "parsexp": ["v0.12.0"],
     "postgresql": ["4.5.0"],
@@ -141,7 +118,7 @@ PACKAGES = {
         "ppx_deriving.runtime",
         "ppx_deriving.show"
     ]],
-    "ppx_deriving_yojson": ["3.5.2", ["ppx_deriving_yojson.runtime"]], # "n/a", # opam: "3.5.2",
+    "ppx_deriving_yojson": ["3.5.2", ["ppx_deriving_yojson.runtime"]],
     "ppx_enumerate": ["v0.12.0", ["ppx_enumerate.runtime-lib"]],
     "ppx_expect": ["v0.12.0", ["ppx_expect.collector"]],
     "ppx_fail": ["v0.12.0"],
@@ -173,13 +150,10 @@ PACKAGES = {
     "re2": ["v0.12.1"],
     "react": ["1.2.1"],
     "result": ["1.3"],
-    # "rpc_parallel": ["v0.12.0"],
     "rresult": ["0.6.0"],
-    # "seq.base"],
     "sexp_diff_kernel": ["v0.12.0"],
     "sexplib": ["v0.12.0"],
     "sexplib0": ["v0.12.0"],
-    # "sodium": ["0.6.0"],
     "spawn": ["v0.13.0"],
     "splittable_random": ["v0.12.0"],
     "stdio": ["v0.12.0"],
@@ -188,12 +162,10 @@ PACKAGES = {
     "textutils": ["v0.12.0"],
     "textutils_kernel": ["v0.12.0"],
     "time_now": ["v0.12.0"],
-    # "topkg": ["1.0.0"],
     "typerep": ["v0.12.0"],
     "uchar": ["0.0.2"],
-    "unix": [], # "[distributed with Ocaml]"],   # ocamlfind
+    "unix": [],
     "uri": ["2.2.1"],
-    # "utop": ["2.3.0"],
     "uutf": ["1.0.2"],
     "variantslib": ["v0.12.0"],
     "yojson": ["1.7.0"],

@@ -41,13 +41,13 @@ case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
 esac
 
 ## FIXME: also support homebrew for MacOS
-# sudo apt-get update
-# sudo apt-get install --yes \
-#      pkg-config  \
-#      ZARITH \
-#      CTYPES \
-#      ASYNC_SSL \
-#      POSTGRESQL
+sudo apt-get update
+sudo apt-get install --yes \
+     pkg-config  \
+     ZARITH \
+     CTYPES \
+     ASYNC_SSL \
+     POSTGRESQL_C
 
 
 # OPAM:
