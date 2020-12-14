@@ -15,9 +15,9 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_r
 ## "//:BUILD.bzl".
 
 ## For library repos we encapsulate fetches in functions called
-## "*_fetch_repo" (or "_repos"). For direct depdendents these are
-## located in "bzl/external/<lang>_repos.bzl"; for example see
-## "bzl/external/ocaml_repos.bzl". For indirect dependents -
+## "*_fetch_repo" (or "_repos", or "_libs"). For direct depdendents
+## these are located in "bzl/external/<lang>_repos.bzl"; for example
+## see "bzl/external/ocaml_repos.bzl". For indirect dependents -
 ## repositories that the direct dependents import - they are located
 ## in extension files within the repo, usually "//:BUILD.bzl". See
 ## libp2p below for an example.
@@ -79,7 +79,6 @@ gazelle_dependencies(go_repository_default_config = "@libp2p_helper//:WORKSPACE.
 load("//:WORKSPACE.bzl", "ocaml_fetch_rules")
 ocaml_fetch_rules()
 
-#### bootstrap language support
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 bazel_skylib_workspace()
 
@@ -90,12 +89,11 @@ opam_configure(opam = opam)
 load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", ocaml_configure = "configure")
 ocaml_configure()
 
-################################
 # direct deps
 load("//bzl/external:ocaml_repos.bzl", "ocaml_fetch_libs")
 ocaml_fetch_libs()
 
-# indirect deps
+# indirect deps - these all depend on CC libs, which must be fetched
 load("@ocaml_rocksdb//:WORKSPACE.bzl", "librocksdb_fetch_repos")
 librocksdb_fetch_repos()
 
@@ -104,131 +102,6 @@ libsodium_fetch_repo("1.0.18-RELEASE")
 
 load("@ocaml_jemalloc//:WORKSPACE.bzl", "libjemalloc_fetch_repo")
 libjemalloc_fetch_repo()
-
-# the remaining ocaml repo deps do not import any repos (no indirect deps)
-
-################################################################
-## bazel remote repos embedded as git submodules
-# local_repository( name = "graphql_ppx"  , path = "src/external/graphql_ppx")
-# local_repository( name = "ppx_optcomp"  , path = "src/external/ppx_optcomp")
-# local_repository( name = "ppx_version"  , path = "src/external/ppx_version")
-# local_repository( name = "snarky" , path = "src/lib/snarky")
-
-# https://github.com/bkase/tablecloth
-# local_repository( name = "tablecloth" , path = "frontend/wallet/tablecloth")
-
-################################################################
-## opam-pinned repos, we do not need them in as bazel repos
-## opam-pinned embedded (non-remoted) repos, we do not need them as bazel repos
-# local_repository( name = "async_kernel" , path = "src/external/async_kernel")
-# local_repository( name = "ocaml_extlib" , path = "src/external/ocaml_extlib")
-# local_repository( name = "rpc_parallel" , path = "src/external/rpc_parallel")
-
-# https://github.com/MinaProtocol/coda-automation.git
-# local_repository( name = "coda-automation" , path = "coda-automation")
-
-# https://github.com/bkase/tablecloth
-# local_repository( name = "tablecloth" , path = "frontend/wallet/tablecloth")
-
-
-# ################################################################
-# ################################################################
-
-
-# workspace( name = "coda" )
-
-# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-# load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
-
-# ################################################################
-# #### OCAML ####
-# git_repository(
-#     name = "obazl_rules_ocaml",
-#     remote = "https://github.com/obazl/rules_ocaml",
-#     branch = "dev",
-#     # commit = "feef897197b36b14b65ffdf00b9badcbdb8f42f4",
-#     # shallow_since = "1593623637 -0500"
-# )
-
-# load("@obazl_rules_ocaml//ocaml:bootstrap.bzl",
-#      "ocaml_configure",
-#      "opam_configure",
-#      "ocaml_register_toolchains")
-
-# opam_configure()
-
-# ocaml_configure()
-
-# ocaml_register_toolchains(installation="host")
-
-# ################################################################
-# local_repository( name = "async_kernel" , path = "src/external/async_kernel")
-# local_repository( name = "graphql_ppx"  , path = "src/external/graphql_ppx")
-# local_repository( name = "ocaml_extlib" , path = "src/external/ocaml_extlib")
-# local_repository( name = "ppx_optcomp"  , path = "src/external/ppx_optcomp")
-# local_repository( name = "ppx_version"  , path = "src/external/ppx_version")
-# local_repository( name = "rpc_parallel" , path = "src/external/rpc_parallel")
-
-# ######################################
-# ########    Golang Support    ########
-# http_archive(
-#     name = "io_bazel_rules_go",
-#     sha256 = "b725e6497741d7fc2d55fcc29a276627d10e43fa5d0bb692692890ae30d98d00",
-#     urls = [
-#         "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.24.3/rules_go-v0.24.3.tar.gz",
-#         "https://github.com/bazelbuild/rules_go/releases/download/v0.24.3/rules_go-v0.24.3.tar.gz",
-#     ],
-# )
-
-# load(
-#     "@io_bazel_rules_go//go:deps.bzl",
-#     "go_download_sdk",
-#     "go_register_toolchains",
-#     "go_rules_dependencies",
-# )
-
-# go_download_sdk(
-#     name = "go_sdk",
-#     version = "1.13",
-# )
-
-# go_rules_dependencies()
-
-# go_register_toolchains()
-
-# ## protobuf needed by some go deps
-# git_repository(
-#     name = "com_google_protobuf",
-#     commit = "09745575a923640154bcf307fba8aedff47f240a",
-#     remote = "https://github.com/protocolbuffers/protobuf",
-#     shallow_since = "1558721209 -0700",
-# )
-
-# load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-
-# protobuf_deps()
-
-# # gazelle:proto disable_global
-
-# http_archive(
-#     name = "bazel_gazelle",
-#     sha256 = "d4113967ab451dd4d2d767c3ca5f927fec4b30f3b2c6f8135a2033b9c05a5687",
-#     urls = [
-#         "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.22.0/bazel-gazelle-v0.22.0.tar.gz",
-#         "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.22.0/bazel-gazelle-v0.22.0.tar.gz",
-#     ],
-# )
-
-# load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
-
-# local_repository(
-#     name = "libp2p_helper",
-#     path = "src/app/libp2p_helper"
-# )
-# load("@libp2p_helper//bzl/libp2p:deps.bzl", "libp2p_bootstrap")
-# libp2p_bootstrap()
-
-# gazelle_dependencies(go_repository_default_config = "@libp2p_helper//:WORKSPACE.bazel")
 
 ################################################
 ################  RUST SUPPORT  ################
