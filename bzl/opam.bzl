@@ -57,6 +57,7 @@ PACKAGES = {
     "cppo": ["1.6.5"],
     "crunch": ["3.0.0"],
     "ctypes": ["0.17.1", ["ctypes.foreign", "ctypes.stubs"]],
+    "ctypes-foreign": ["0.4.0"], # WARNING: requires libffi-dev
     "digestif": ["0.9.0", ["digestif.c"]],
     "dune": ["2.7.1"],
     "dune-configurator": ["2.5.1"],
