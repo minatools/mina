@@ -2,9 +2,8 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")  # buildif
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")  # buildifier: disable=load
 
 ########################
-def ocaml_fetch_libs():
+def ocaml_fetch_remote_libs():
 
-    ## remote, not embedded
     maybe(
         git_repository,
         name = "ocaml_jemalloc",
@@ -12,60 +11,68 @@ def ocaml_fetch_libs():
         branch = "bazel"
         ## TODO:
         # remote = "https://github.com/o1-labs/jemalloc",
+        # branch = "mina"
+    )
+
+    maybe(
+        git_repository,
+        name = "graphql_ppx",
+        remote = "https://github.com/obazl/graphql_ppx.git",
+        branch = "bazel"
+        # remote = "https://github.com/o1-labs/graphql_ppx",
         # branch = "master"
     )
 
-    ## remotes embedded as submodules using local_repository rules in WORKSPACE.bazel
-    ## once embedded git submodules are eliminated, use these instead of local_repository
-    # maybe(
-    #     git_repository,
-    #     name = "graphql_ppx",
-    #     remote = "https://github.com/obazl/graphql_ppx",
-    #     branch = "bazel"
-    # )
+    maybe(
+        git_repository,
+        name = "ppx_optcomp",
+        remote = "https://github.com/obazl/ppx_optcomp",
+        branch = "bzl/mina-sync"
+        # remote = "	https://github.com/MinaProtocol/ppx_optcomp.git",
+        # branch = "mina"
+    )
 
-    # maybe(
-    #     git_repository,
-    #     name = "ppx_optcomp",
-    #     remote = "https://github.com/obazl/ppx_optcomp",
-    #     branch = "bzl/mina-sync"
-    # )
+    maybe(
+        git_repository,
+        name = "ppx_version",
+        remote = "https://github.com/obazl/ppx_version",
+        branch = "bazel"
+        # remote = "https://github.com/o1-labs/ppx_version",
+        # branch = "mina"
+    )
 
-    # maybe(
-    #     git_repository,
-    #     name = "ppx_version",
-    #     remote = "https://github.com/o1-labs/ppx_version",
-    #     branch = "master"
-    # )
-
-    # native.local_repository( name = "snarky" , path = "src/lib/snarky")
-    # maybe(
-    #     git_repository,
-    #     name = "snarky",
-    #     remote = "https://github.com/o1-labs/snarky",
-    #     branch = "master"
-    # )
+    maybe(
+        git_repository,
+        name = "snarky",
+        remote = "https://github.com/obazl/snarky",
+        branch = "bazel"
+        # remote = "https://github.com/o1-labs/snarky",
+        # branch = "master"
+    )
 
     ################################################################
-    native.local_repository( name = "ocaml_rocksdb", path = "src/external/ocaml-rocksdb" )
-    # maybe(
-    #     git_repository,
-    #     name = "ocaml_rocksdb",
-    #     remote = "https://github.com/o1-labs/orocksdb",
-    #     branch = "master"
-    # )
-    native.local_repository( name = "ocaml_sodium", path = "src/external/ocaml-sodium" )
-    # maybe(
-    #     git_repository,
-    #     name = "ocaml_sodium",
-    #     remote = "https://github.com/o1-labs/ocaml-sodium",
-    #     branch = "master"
-    # )
+    maybe(
+        git_repository,
+        name = "ocaml_rocksdb",
+        remote = "https://github.com/obazl/orocksdb",
+        branch = "mina"
+        ## TODO:
+        # remote = "https://github.com/o1-labs/orocksdb",
+        # branch = "mina"
+    )
 
-    # https://github.com/bkase/tablecloth
+    maybe(
+        git_repository,
+        name = "ocaml_sodium",
+        remote = "https://github.com/obazl/ocaml-sodium.git",
+        branch = "bazel"
+        ## TODO:
+        # remote = "https://github.com/o1-labs/ocaml-sodium",
+        # branch = "mina"
+    )
 
     ################################################################
-    ## opam pinned, not  bazelized
+    ## opam pinned.  these are bazelized but the bazel code is not used
     # maybe(
     #     git_repository,
     #     name = "async_kernel",
@@ -90,3 +97,33 @@ def ocaml_fetch_libs():
     #     remote = "https://github.com/o1-labs/rpc_parallel",
     #     branch = ""
     # )
+
+################################################################
+#######################
+def ocaml_fetch_local_libs():
+
+    native.local_repository( name = "graphql_ppx"  , path = "src/external/graphql_ppx")
+    native.local_repository( name = "ocaml_rocksdb", path = "src/external/ocaml-rocksdb" )
+    native.local_repository( name = "ocaml_sodium" , path = "src/external/ocaml-sodium" )
+    native.local_repository( name = "ppx_optcomp"  , path = "src/external/ppx_optcomp")
+    native.local_repository( name = "ppx_version"  , path = "src/external/ppx_version")
+    native.local_repository( name = "snarky"       , path = "src/lib/snarky")
+
+    ## opam-pinned repos, we do not need them in as bazel repos
+    ## opam-pinned embedded (non-remoted) repos, we do not need them as bazel repos
+    # local_repository( name = "async_kernel" , path = "src/external/async_kernel")
+    # local_repository( name = "ocaml_extlib" , path = "src/external/ocaml_extlib")
+    # local_repository( name = "rpc_parallel" , path = "src/external/rpc_parallel")
+
+    # https://github.com/MinaProtocol/coda-automation.git
+    # local_repository( name = "coda-automation" , path = "coda-automation")
+
+    # https://github.com/bkase/tablecloth
+    # local_repository( name = "tablecloth" , path = "frontend/wallet/tablecloth")
+
+#######################
+def ocaml_fetch_libs():
+
+    ocaml_fetch_remote_libs()
+
+    # ocaml_fetch_local_libs()
