@@ -27,7 +27,7 @@ def ocaml_fetch_remote_libs():
         git_repository,
         name = "ppx_optcomp",
         remote = "https://github.com/obazl/ppx_optcomp",
-        branch = "bzl/mina-sync"
+        branch = "bazel"
         # remote = "	https://github.com/MinaProtocol/ppx_optcomp.git",
         # branch = "mina"
     )
