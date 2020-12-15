@@ -90,7 +90,11 @@ PACKAGES = {
     "mmap": ["1.1.0"],
     "num": ["1.1"],
     "ocaml": ["4.07.1"],
-    "ocaml-base-compiler": ["4.07.1"],
+    # WARNING: pinning this seems to have the side-effect of removing
+    # tons of pkgs and reinstalling them, which takes a long time,
+    # which may cause a time out error
+    # it should be installed when the switch is created, so we do not need it here?
+    # "ocaml-base-compiler": ["4.07.1"],
     "ocaml-compiler-libs": ["v0.11.0"],
     "compiler-libs.common": [],
     "ocaml-config": ["1"],
