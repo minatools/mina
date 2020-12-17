@@ -1,0 +1,20 @@
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+#################
+ocaml_executable(
+    name = "test.exe",
+    deps = [":_Test"],
+    visibility = ["//visibility:public"]
+)
+
+#############
+ocaml_module(
+    name = "_Test",
+    src = "test.ml",
+    ppx = "@//bzl/ppx/exe:ppx_version",
+    deps = ["@mina//src/lib/marlin_plonk_bindings:tweedle_fq_urs"]
+)

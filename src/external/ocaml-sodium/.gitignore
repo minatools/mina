@@ -1,3 +1,7 @@
+bazel-*
+.bazel
+user.bazelrc
+
 _build/
 *.native
 *.byte

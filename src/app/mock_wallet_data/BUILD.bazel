@@ -1,0 +1,53 @@
+## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+################################################################
+## STANZA 1: EXECUTABLE MOCK_WALLET_DATA
+################################################################
+MOCK_WALLET_DATA_EXECUTABLE_OPTS = []
+
+MOCK_WALLET_DATA_MODULE_OPTS = []
+
+MOCK_WALLET_DATA_DEPS = [
+    # do not sort (buildifier)
+    "@opam//pkg:core",
+    "@opam//pkg:async",
+    "@mina//src/lib/auxiliary_database",
+    "@mina//src/lib/coda_base",
+    "@mina//src/lib/secrets",
+    "@mina//src/lib/base58_check",
+]
+
+MOCK_WALLET_DATA_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
+
+MOCK_WALLET_DATA_PPX_ARGS = [
+    # do not sort (buildifier)
+    "-inline-test-lib",
+    "mock_wallet_data",
+]
+
+#################
+ocaml_executable(
+    name = "mock_wallet_data.exe",
+    opts = MOCK_WALLET_DATA_EXECUTABLE_OPTS,
+    visibility = ["//visibility:public"],
+    deps = MOCK_WALLET_DATA_DEPS + [
+        # do not sort (buildifier)
+        ":_Mock_wallet_data",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Mock_wallet_data",
+    src = "mock_wallet_data.ml",
+    opts = MOCK_WALLET_DATA_MODULE_OPTS,
+    ppx = MOCK_WALLET_DATA_PPX,
+    ppx_args = MOCK_WALLET_DATA_PPX_ARGS,
+    deps = MOCK_WALLET_DATA_DEPS,
+)

@@ -36,19 +36,31 @@ local_repository(
 ```
 
 Copy the contents of WORKSPACE.bazel to your root WORKSPACE(.bazel)
-file. Change the line: `load("//bzl/libp2p:deps.bzl",
-"libp2p_bootstrap")` to use the fully-qualified label, e.g.
-`load("@libp2p_helper//bzl/libp2p:deps.bzl", "libp2p_bootstrap")`.
+file. Change the line:
+
+```
+load("//:BUILD.bzl", "libp2p_fetch_go_rules", "libp2p_fetch_go_libs")
+```
+
+to use the fully-qualified label, e.g.
+
+```
+load("@libp2p//:BUILD.bzl", "libp2p_fetch_go_rules", "libp2p_fetch_go_libs")
+```
 
 #### maintenance
 
 Install [Gazelle](https://github.com/bazelbuild/bazel-gazelle).
 
-Update the bootstrap code responsible for loading Go deps:
+To UPDATE the bootstrap code responsible for loading Go deps, `cd
+src/app/libp2p` and then:
 
-`$ bazel run //:gazelle -- update-repos -from_file=src/go.mod -to_macro bzl/libp2p/deps.bzl%libp2p_bootstrap`
+`$ bazel run //:gazelle -- update-repos -from_file=src/go.mod -to_macro BUILD.bzl%libp2p_fetch_go_libs`
 
 Update the build files: `$ bazel run //:gazelle update`
+
+You may need to add `"//src:codanet"` to the deps list of `src/libp2p_helper:libp2p_helper_lib`
+
 
 Go libs containing protobuf stuff: add `build_file_proto_mode =
 "disable_global"` to the `go_library` rule in `//bzl/deps.bzl`. Also
