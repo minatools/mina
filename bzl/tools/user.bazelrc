@@ -20,8 +20,7 @@ build --color=yes
 # build --config=macos
 
 #### Global configurable defaults ####
-## Similar flags/options apply to ppx rules, just replace @ocaml with @ppx
-# build --@ocaml//:verbose                 # enable verbose for all ocaml_* rules
+# build --@ocaml//verbose                  # enable verbose for all ocaml_* rules
 # build --@ocaml//cmt                      # enable -bin-annot
 # build --no@ocaml//debug                  # disable debug
 # build --no@ocaml//keep-logs              # disable -keep-locs
@@ -48,9 +47,16 @@ build --color=yes
 # build --@ocaml//module:deps=@foo//bar:baz # add module to deps to all ocaml_executable targets
 # build --@ocaml//executable:cc_deps=@foo//bar:baz # add cc lib dep to to all ocaml_executable targets
 # e.g.
-# build --@ocaml//cc_deps=@ocaml_jemalloc//src:libjemalloc
+# build --@ocaml//executable:cc_deps=@ocaml_jemalloc//src:libjemalloc
+## TODO:
+# build --@ocaml//module:cc_linkstatic=@ocaml_jemalloc//src:libjemalloc
 
-# build --//:ppx-print="binary"         # all ppx executables emit binary (-dump-ast) instead of text
+## Similar flags/options apply to ppx rules, just replace @ocaml with @ppx
+# build --@ppx//print="binary"         # make all ppx executables emit binary (-dump-ast) instead of text
+## not yet supported:
+# build --@ppx//deps=@opam//pkg:bisect_ppx # add bisect_ppx to all ppx
+# build --@ppx//executable:deps=@opam//pkg:bisect_ppx # add bisect_ppx to all ppx
+
 
 ################################################################
 ## override external repos:
