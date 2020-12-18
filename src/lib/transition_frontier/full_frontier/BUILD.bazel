@@ -20,10 +20,10 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
         "@mina//src/lib/coda_transition",
         "@mina//src/lib/consensus",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/staged_ledger",
         "@mina//src/lib/transition_frontier/frontier_base",
         "@opam//pkg:core_kernel",
@@ -42,10 +42,10 @@ ocaml_interface(
         "full_frontier",
     ],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
         "@mina//src/lib/coda_transition",
         "@mina//src/lib/consensus",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/staged_ledger",
         "@mina//src/lib/transition_frontier/frontier_base",
         "@opam//pkg:core_kernel",

@@ -28,7 +28,7 @@ NETWORK_POOL_DEPS = [
     "@mina//src/lib/pipe_lib",
     "@mina//src/lib/quickcheck_lib",
     "@mina//src/lib/verifier",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/ledger_proof",
     "@mina//src/lib/transaction_snark",
     "@mina//src/lib/transition_frontier",
@@ -52,6 +52,7 @@ ocaml_archive(
         ":_Mocks",
         ":_Network_pool_base",
         ":_Priced_proof",
+        ":_Rate_limiter",
         ":_Snark_pool",
         ":_Snark_pool_diff",
         ":_Test",
@@ -74,6 +75,7 @@ ocaml_ns(
         "mocks.ml",
         "network_pool_base.ml",
         "priced_proof.ml",
+        "rate_limiter.ml",
         "snark_pool.ml",
         "snark_pool_diff.ml",
         "test.ml",
@@ -251,6 +253,7 @@ ocaml_module(
     deps = NETWORK_POOL_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
+        ":_Rate_limiter",
     ],
 )
 
@@ -260,6 +263,39 @@ ocaml_module(
     src = "priced_proof.ml",
     ns = ":Network_pool_ns",
     opts = NETWORK_POOL_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "network_pool",
+    ],
+    ppx_data = CONFIG_MLH,
+    deps = NETWORK_POOL_DEPS,
+)
+
+#############
+ocaml_module(
+    name = "_Rate_limiter",
+    src = "rate_limiter.ml",
+    intf = ":_Rate_limiter.cmi",
+    ns = ":Network_pool_ns",
+    opts = NETWORK_POOL_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "network_pool",
+    ],
+    ppx_data = CONFIG_MLH,
+    deps = NETWORK_POOL_DEPS,
+)
+
+################
+ocaml_interface(
+    name = "_Rate_limiter.cmi",
+    src = "rate_limiter.mli",
+    ns = ":Network_pool_ns",
+    opts = NETWORK_POOL_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)

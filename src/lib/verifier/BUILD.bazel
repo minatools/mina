@@ -26,7 +26,7 @@ VERIFIER_DEPS = [
     "@opam//pkg:async_kernel",
     "@opam//pkg:rpc_parallel",
     "@mina//src/lib/precomputed_values",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/blockchain_snark",
     "@mina//src/lib/memory_stats",

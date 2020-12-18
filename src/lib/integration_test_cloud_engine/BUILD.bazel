@@ -21,10 +21,11 @@ INTEGRATION_TEST_CLOUD_ENGINE_DEPS = [
     "@opam//pkg:core",
     "@opam//pkg:async",
     "@opam//pkg:lens",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/pipe_lib",
     "@mina//src/lib/runtime_config",
     "@mina//src/lib/genesis_constants",
+    "@mina//src/lib/graphql_lib",
     "@mina//src/lib/transition_frontier",
     "@mina//src/lib/user_command_input",
     "@mina//src/lib/genesis_ledger_helper",
@@ -156,6 +157,10 @@ ocaml_interface(
 )
 
 #############
+GRAPHQL_SCHEMA_FILE = "graphql_schema.json"
+GRAPHQL_SCHEMA_PATH = GRAPHQL_SCHEMA_FILE
+GRAPHQL_SCHEMA_JSON = "//:" + GRAPHQL_SCHEMA_FILE
+
 ocaml_module(
     name = "_Kubernetes_network",
     src = "kubernetes_network.ml",
@@ -166,12 +171,11 @@ ocaml_module(
         # do not sort (buildifier)
         "-inline-test-lib",
         "integration_test_cloud_engine",
-        "-schema={}".format("graphql_schema.json")
+        "-schema", GRAPHQL_SCHEMA_PATH         # obazl:retain
     ],
-    ppx_data = ["//:graphql_schema.json"],
+    ppx_data = [GRAPHQL_SCHEMA_JSON],          # obazl:retain
     deps = INTEGRATION_TEST_CLOUD_ENGINE_DEPS + [
-        "@mina//src/lib/graphql_lib",
-        ":_Cmd_util"            # obazl:retain
+        ":_Cmd_util"                           # obazl:retain
     ],
 )
 

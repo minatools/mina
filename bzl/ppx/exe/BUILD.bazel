@@ -78,35 +78,15 @@ ppx_executable(
         "//src/lib/integers_stubs_js:__pkg__",
         "//src/lib/integers_stubs_js/test:__pkg__",
         "//src/lib/marlin_plonk_bindings:__pkg__",
-        "//src/lib/marlin_plonk_bindings/bigint_256:__pkg__",
         "//src/lib/marlin_plonk_bindings/bigint_256/test:__pkg__",
-        "//src/lib/marlin_plonk_bindings/bigint_384:__pkg__",
         "//src/lib/marlin_plonk_bindings/bigint_384/test:__pkg__",
-        "//src/lib/marlin_plonk_bindings/bn_382_fp:__pkg__",
         "//src/lib/marlin_plonk_bindings/bn_382_fp/vector:__pkg__",
-        "//src/lib/marlin_plonk_bindings/bn_382_fq:__pkg__",
         "//src/lib/marlin_plonk_bindings/bn_382_fq/vector:__pkg__",
-        "//src/lib/marlin_plonk_bindings/stubs:__pkg__",
         "//src/lib/marlin_plonk_bindings/tools/allocation_stress_test:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_dee:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_dum:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fp:__pkg__",
         "//src/lib/marlin_plonk_bindings/tweedle_fp/vector:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fp_index:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fp_plonk_oracles:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fp_plonk_verifier_index:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fp_proof:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fp_urs:__pkg__",
         "//src/lib/marlin_plonk_bindings/tweedle_fp_urs/test:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fq:__pkg__",
         "//src/lib/marlin_plonk_bindings/tweedle_fq/vector:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fq_index:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fq_plonk_oracles:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fq_plonk_verifier_index:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fq_proof:__pkg__",
-        "//src/lib/marlin_plonk_bindings/tweedle_fq_urs:__pkg__",
         "//src/lib/marlin_plonk_bindings/tweedle_fq_urs/test:__pkg__",
-        "//src/lib/marlin_plonk_bindings/types:__pkg__",
         "//src/lib/mina_user_error:__pkg__",
         "//src/lib/participating_state:__pkg__",
         "//src/lib/snark_keys/remove_snark_keys_trigger:__pkg__",
@@ -191,14 +171,14 @@ ppx_executable(
     main = ":Driver",
     opts = [],
     visibility = [
-        "@snarky//bitstring_lib:__pkg__",
-        "@snarky//fold_lib:__pkg__",
+        "@snarky//bitstring_lib:__pkg__", # obazl:retain
+        "@snarky//fold_lib:__pkg__",      # obazl:retain
         "@snarky//group_map:__pkg__",
         "@snarky//snarky_curve:__pkg__",
         "@snarky//snarky_integer:__pkg__",
         "@snarky//snarky_signature:__pkg__",
         "@snarky//sponge:__pkg__",
-        "@snarky//tuple_lib:__pkg__",
+        "@snarky//tuple_lib:__pkg__",     # obazl:retain
     ],
     deps = [
         "@opam//pkg:ppx_deriving.eq",
@@ -236,6 +216,43 @@ ppx_executable(
 
 ###############
 ppx_executable(
+    name = "ppx_version__ppx_inline_test",
+    lazy_deps = [
+        "@opam//pkg:ppx_inline_test.runtime-lib",
+    ],
+    main = ":Driver",
+    opts = [],
+    visibility = [
+        "//src/lib/marlin_plonk_bindings:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/bigint_384:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/bn_382_fp:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/bn_382_fq:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/stubs:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_dee:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_dum:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fp:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fp_index:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fp_plonk_oracles:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fp_plonk_verifier_index:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fp_proof:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fp_urs:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fq:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fq_index:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fq_plonk_oracles:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fq_plonk_verifier_index:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fq_proof:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/tweedle_fq_urs:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/types:__pkg__",
+    ],
+    deps = [
+        "@opam//pkg:ppx_inline_test",
+        "@opam//pkg:ppxlib",
+        "@ppx_version//src:ppx_version",
+    ],
+)
+
+###############
+ppx_executable(
     name = "ppx_version__ppx_jane",
     lazy_deps = [
         "@opam//pkg:ppx_expect.collector",
@@ -251,7 +268,6 @@ ppx_executable(
     main = ":Driver",
     opts = [],
     visibility = [
-        "//src/app/mock_wallet_data:__pkg__",
         "//src/lib/bignum_bigint:__pkg__",
         "//src/lib/coda_debug:__pkg__",
         "//src/lib/consensus:__pkg__",
@@ -351,6 +367,23 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@opam//pkg:ppx_jane",
+        "@opam//pkg:ppxlib",
+        "@ppx_version//src:ppx_version",
+    ],
+)
+
+###############
+ppx_executable(
+    name = "ppx_coda__ppx_version__ppx_let",
+    main = ":Driver",
+    opts = [],
+    visibility = [
+        "//src/app/missing_blocks_auditor:__pkg__",
+        "//src/lib/exit_handlers:__pkg__",
+    ],
+    deps = [
+        "@mina//src/lib/ppx_coda",
+        "@opam//pkg:ppx_let",
         "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
@@ -654,9 +687,9 @@ ppx_executable(
     main = ":Driver",
     opts = [],
     visibility = [
-        "//src/lib/coda_base/gen:__pkg__",
         "//src/lib/dummy_values:__pkg__",
         "//src/lib/dummy_values/gen_values:__pkg__",
+        "//src/lib/mina_base/gen:__pkg__",
         "//src/lib/pickles/precomputed:__pkg__",
         "//src/lib/ppx_util:__pkg__",
         "//src/lib/precomputed_values:__pkg__",
@@ -1218,6 +1251,7 @@ ppx_executable(
         "@opam//pkg:ppx_assert.runtime-lib",
         "@opam//pkg:ppx_compare.runtime-lib",
         "@opam//pkg:ppx_inline_test.runtime-lib",
+        "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime"
     ],
     main = ":Driver",
     opts = [],
@@ -1238,6 +1272,7 @@ ppx_executable(
         "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
+        "//src/lib/ppx_coda/ppx_representatives"
     ],
 )
 

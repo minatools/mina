@@ -23,7 +23,7 @@ GOSSIP_NET_DEPS = [
     "@opam//pkg:async",
     "@opam//pkg:async_extra",
     "@mina//src/lib/perf_histograms",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/coda_net2",
     "@mina//src/lib/network_pool",

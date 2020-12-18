@@ -22,7 +22,7 @@ CODA_INTF_DEPS = [
     "@mina//src/lib/gadt_lib",
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/cache_lib",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/snark_work_lib",
     "@mina//src/lib/proof_carrying_data",

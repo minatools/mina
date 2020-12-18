@@ -23,6 +23,7 @@ CODA_DEPS = [
     "@ocaml_jemalloc//src:jemalloc",
     "@mina//src/app/cli/src/init",
     "@mina//src/app/cli/src/tests",
+    "@mina//src/lib/consensus",
     "@mina//src/lib/child_processes",
     "@mina//src/lib/memory_stats",
     "@mina//src/lib/node_addrs_and_ports",

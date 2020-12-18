@@ -17,7 +17,7 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_networking",
+        "@mina//src/lib/mina_networking",
         "@opam//pkg:core_kernel",
     ],
 )

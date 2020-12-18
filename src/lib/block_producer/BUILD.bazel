@@ -19,11 +19,12 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_intf",
         "@mina//src/lib/coda_state",
         "@mina//src/lib/coda_transition",
+        "@mina//src/lib/consensus",
         "@mina//src/lib/interruptible",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/network_pool",
         "@mina//src/lib/o1trace",
         "@mina//src/lib/otp_lib",

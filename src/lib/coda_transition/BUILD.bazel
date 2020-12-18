@@ -21,7 +21,7 @@ CODA_TRANSITION_DEPS = [
     "@mina//src/lib/staged_ledger",
     "@mina//src/lib/transition_chain_verifier",
     "@mina//src/lib/truth",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_net2",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/precomputed_values",

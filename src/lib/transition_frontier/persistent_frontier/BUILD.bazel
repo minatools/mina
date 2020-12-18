@@ -27,7 +27,7 @@ PERSISTENT_FRONTIER_DEPS = [
     "@mina//src/lib/transition_frontier/full_frontier",
     "@mina//src/lib/transition_frontier/extensions",
     "@mina//src/lib/file_system",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/rocksdb",
     "@mina//src/lib/coda_intf",
     "@mina//src/lib/signature_lib",

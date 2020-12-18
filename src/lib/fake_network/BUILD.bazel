@@ -20,9 +20,9 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_networking",
         "@mina//src/lib/gadt_lib",
         "@mina//src/lib/gossip_net",
+        "@mina//src/lib/mina_networking",
         "@mina//src/lib/sync_handler",
         "@opam//pkg:async",
         "@opam//pkg:core",
@@ -41,9 +41,9 @@ ocaml_interface(
         "fake_network",
     ],
     deps = [
-        "@mina//src/lib/coda_networking",
         "@mina//src/lib/gadt_lib",
         "@mina//src/lib/gossip_net",
+        "@mina//src/lib/mina_networking",
         "@mina//src/lib/sync_handler",
         "@opam//pkg:async",
         "@opam//pkg:core",

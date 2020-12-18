@@ -24,10 +24,10 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
         "@mina//src/lib/ledger_proof",
         "@mina//src/lib/logger",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/parallel_scan",
         "@mina//src/lib/pipe_lib",
         "@mina//src/lib/sgn",
@@ -55,10 +55,10 @@ ocaml_interface(
     ],
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
         "@mina//src/lib/ledger_proof",
         "@mina//src/lib/logger",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/parallel_scan",
         "@mina//src/lib/pipe_lib",
         "@mina//src/lib/sgn",

@@ -23,7 +23,7 @@ GEN_VALUES_DEPS = [
     "@opam//pkg:core",
     "@opam//pkg:ppxlib",
     "@mina//src/lib/blockchain_snark",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/genesis_proof",
     "@mina//src/lib/global_signer_private_key",
     "@mina//src/lib/ppx_util",

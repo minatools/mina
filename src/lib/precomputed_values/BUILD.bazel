@@ -1,6 +1,6 @@
 load( "@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module")
 
-#############
+##############
 ocaml_module(
     name = "precomputed_values",
     src = "precomputed_values.ml",
@@ -11,21 +11,20 @@ ocaml_module(
         "-inline-test-lib",
         "precomputed_values",
     ],
-    visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
+        # do not sort (buildifier)
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/crypto_params",
         "@mina//src/lib/dummy_values",
         "@mina//src/lib/genesis_proof",
         "@mina//src/lib/snark_keys",
         "@snarky//src/base:snarky_backendless",
     ],
-)
+    visibility = ["//visibility:public"],
+ )
 
-###############################################################
 TOOL = "//src/lib/precomputed_values/gen_values:gen_values.exe"
 
-########
 genrule(
     name = "gensrcs",
     outs = ["precomputed_values.ml"],
@@ -34,4 +33,5 @@ genrule(
         "cp precomputed_values.ml \"$(RULEDIR)/\"",
     ]),
     tools = [TOOL],
+    visibility = ["//visibility:public"],
 )

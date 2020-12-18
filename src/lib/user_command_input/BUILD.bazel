@@ -21,7 +21,7 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/participating_state",
         "@mina//src/lib/secrets",
         "@mina//src/lib/signature_lib",
@@ -41,7 +41,7 @@ ocaml_interface(
         "user_command_input",
     ],
     deps = [
-        "@mina//src/lib/coda_base",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/participating_state",
         "@mina//src/lib/secrets",
         "@mina//src/lib/signature_lib",

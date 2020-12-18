@@ -24,7 +24,7 @@ TEST_EXECUTIVE_DEPS = [
     "@opam//pkg:cmdliner",
     "@mina//src/lib/file_system",
     "@mina//src/lib/currency",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/runtime_config",
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/secrets",

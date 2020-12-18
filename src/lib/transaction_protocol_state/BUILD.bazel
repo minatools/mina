@@ -21,8 +21,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/sgn",
         "@opam//pkg:core",
         "@snarky//src/base:snarky_backendless",
@@ -41,8 +41,8 @@ ocaml_interface(
         "transaction_protocol_state",
     ],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/sgn",
         "@opam//pkg:core",
         "@snarky//src/base:snarky_backendless",

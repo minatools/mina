@@ -18,13 +18,12 @@ GRAPHQL_LIB_MODULE_OPTS = []
 GRAPHQL_LIB_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:async",
-    "@opam//pkg:async_ssl",
     "@opam//pkg:cohttp",
-    "@opam//pkg:cohttp-async",
     "@opam//pkg:core",
+    "@opam//pkg:cohttp-async",
     "@opam//pkg:graphql-async",
     "@opam//pkg:graphql-cohttp",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
 ]
 
 GRAPHQL_LIB_PPX = "@//bzl/ppx/exe:ppx_jane__ppx_version__ppx_deriving.eq__ppx_deriving_yojson"

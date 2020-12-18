@@ -14,22 +14,7 @@ load(
 # )
 
 ################################################################
-## STANZA 1: RULE
-################################################################
-## targets: (assets.ml)
-## deps:    (source_tree assets)
-## action:  (run {:var {:fn bin, :arg ocaml-crunch}} {:flag "m"} plain assets {:flag "o"} assets.ml)
-# genrule(
-#     name = "",
-#     srcs = "",
-#     outs = "(assets.ml)",
-#     cmd = "\n".join([
-#     ]),
-#     visibility = ["//visibility:public"],
-# )
-
-################################################################
-## STANZA 2: LIBRARY INIT
+## STANZA: LIBRARY INIT
 ################################################################
 INIT_INTERFACE_OPTS = []
 
@@ -42,9 +27,9 @@ INIT_DEPS = [
     "@opam//pkg:core",
     "@mina//src/lib/snarky_log",
     "@mina//src/lib/cli_lib",
-    "@mina//src/lib/coda_base",
-    "@mina//src/lib/coda_graphql",
-    "@mina//src/lib/coda_lib",
+    "@mina//src/lib/mina_base",
+    "@mina//src/lib/mina_graphql",
+    "@mina//src/lib/mina_lib",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/consensus",
     "@mina//src/lib/coda_transition",

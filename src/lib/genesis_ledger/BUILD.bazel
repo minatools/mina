@@ -19,7 +19,7 @@ GENESIS_LEDGER_MODULE_OPTS = []
 GENESIS_LEDGER_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/runtime_config",
 ]

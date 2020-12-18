@@ -23,7 +23,7 @@ RUNTIME_GENESIS_LEDGER_DEPS = [
     "@opam//pkg:async",
     "@opam//pkg:core",
     "@mina//src/lib/blockchain_snark",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/genesis_proof",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/genesis_ledger_helper",
@@ -57,21 +57,6 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     deps = RUNTIME_GENESIS_LEDGER_DEPS,
 )
-
-################################################################
-## STANZA 2: RULE
-################################################################
-## targets: (genesis_filename.txt)
-## deps:    (:< gen/gen.exe)
-## action:  (run {:var "<"})
-# genrule(
-#     name = "",
-#     srcs = "",
-#     outs = "(genesis_filename.txt)",
-#     cmd = "\n".join([
-#     ]),
-#     visibility = ["//visibility:public"],
-# )
 
 ###############
 ppx_executable(

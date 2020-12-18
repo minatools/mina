@@ -20,7 +20,7 @@ ARCHIVE_LIB_DEPS = [
     "@opam//pkg:caqti-async",
     "@opam//pkg:caqti",
     "@opam//pkg:caqti-driver-postgresql",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/one_or_two",
     "@mina//src/lib/transition_frontier",

@@ -19,8 +19,6 @@ PPX_PRINT = "@ppx//print:binary"
 ################################################################
 ## STANZA 1: LIBRARY CONSENSUS
 ################################################################
-CONSENSUS_EXECUTABLE_OPTS = []
-
 CONSENSUS_INTERFACE_OPTS = []
 
 CONSENSUS_MODULE_OPTS = []
@@ -30,7 +28,7 @@ CONSENSUS_DEPS = [
     "@opam//pkg:core_kernel",
     "@opam//pkg:yojson",
     "@mina//src/lib/snarky_taylor",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/block_time",
     "@mina//src/lib/with_hash",
     "@mina//src/lib/test_genesis_ledger",
@@ -159,7 +157,7 @@ ocaml_module(
     ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS + [
         "-w", "-33" # Unused open statement.
-        ],
+    ],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -429,8 +427,6 @@ ocaml_module(
 ## STANZA 2: EXECUTABLE PROOF_OF_STAKE_FUZZER
 ################################################################
 PROOF_OF_STAKE_FUZZER_EXECUTABLE_OPTS = []
-
-PROOF_OF_STAKE_FUZZER_INTERFACE_OPTS = []
 
 PROOF_OF_STAKE_FUZZER_MODULE_OPTS = []
 

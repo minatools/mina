@@ -20,7 +20,7 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/network_pool",
         "@mina//src/lib/transition_frontier",
         "@opam//pkg:core_kernel",
@@ -39,7 +39,7 @@ ocaml_interface(
         "transaction_status",
     ],
     deps = [
-        "@mina//src/lib/coda_base",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/network_pool",
         "@mina//src/lib/transition_frontier",
         "@opam//pkg:core_kernel",

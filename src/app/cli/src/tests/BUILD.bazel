@@ -21,9 +21,9 @@ TESTS_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:async",
     "@opam//pkg:core",
-    "@mina//src/lib/coda_base",
-    "@mina//src/lib/coda_graphql",
-    "@mina//src/lib/coda_lib",
+    "@mina//src/lib/mina_base",
+    "@mina//src/lib/mina_graphql",
+    "@mina//src/lib/mina_lib",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/coda_net2",
     "@mina//src/lib/coda_transition",
@@ -42,9 +42,7 @@ ocaml_archive(
     visibility = ["//visibility:public"],
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
-        ":_Coda_archive_node_test",
         ":_Coda_archive_processor_test",
-        ":_Coda_batch_payment_test",
         ":_Coda_block_production_test",
         ":_Coda_bootstrap_test",
         ":_Coda_change_snark_worker_test",
@@ -75,9 +73,7 @@ ocaml_ns(
     opts = [],
     submodules = [
         # do not sort (buildifier)
-        "coda_archive_node_test.ml",
         "coda_archive_processor_test.ml",
-        "coda_batch_payment_test.ml",
         "coda_block_production_test.ml",
         "coda_bootstrap_test.ml",
         "coda_change_snark_worker_test.ml",
@@ -103,22 +99,6 @@ ocaml_ns(
 
 #############
 ocaml_module(
-    name = "_Coda_archive_node_test",
-    src = "coda_archive_node_test.ml",
-    ns = ":Tests_ns",
-    opts = TESTS_MODULE_OPTS,
-    ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
-    ppx_data = CONFIG_MLH,
-    deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
-    ],
-)
-
-#############
-ocaml_module(
     name = "_Coda_archive_processor_test",
     src = "coda_archive_processor_test.ml",
     ns = ":Tests_ns",
@@ -127,23 +107,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
-    deps = TESTS_DEPS + [
-        ":_Coda_bootstrap_test" # obazl:retain
-    ],
-)
-
-#############
-ocaml_module(
-    name = "_Coda_batch_payment_test",
-    src = "coda_batch_payment_test.ml",
-    ns = ":Tests_ns",
-    opts = TESTS_MODULE_OPTS,
-    ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -159,7 +122,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -175,7 +137,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -191,7 +152,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -207,7 +167,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
         ":_Coda_worker_testnet", # obazl:retain
@@ -225,7 +184,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -241,7 +199,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ]
@@ -257,7 +214,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_processes"      # obazl:retain
     ]
@@ -306,7 +262,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
         ":_Coda_worker_testnet", # obazl:retain
@@ -324,7 +279,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -340,7 +294,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -356,7 +309,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -372,7 +324,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
         ":_Coda_worker_testnet", # obazl:retain
@@ -390,7 +341,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_processes"       # obazl:retain
     ],
@@ -406,7 +356,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet" # obazl:retain
     ],
@@ -422,7 +371,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS,
 )
 
@@ -436,7 +384,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
         ":_Coda_process",
@@ -472,7 +419,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS,
 )
 

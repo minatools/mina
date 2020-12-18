@@ -23,7 +23,7 @@ TRANSITION_ROUTER_DEPS = [
     "@mina//src/lib/transition_frontier",
     "@mina//src/lib/transition_frontier_controller",
     "@mina//src/lib/bootstrap_controller",
-    "@mina//src/lib/coda_networking",
+    "@mina//src/lib/mina_networking",
 ]
 
 TRANSITION_ROUTER_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane__ppx_deriving.eq"

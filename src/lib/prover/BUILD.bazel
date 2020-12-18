@@ -24,7 +24,7 @@ PROVER_DEPS = [
     "@opam//pkg:async",
     "@opam//pkg:core",
     "@opam//pkg:rpc_parallel",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/blockchain_snark",

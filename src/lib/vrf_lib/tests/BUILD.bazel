@@ -21,7 +21,7 @@ VRF_LIB_TESTS_DEPS = [
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/snark_params",
     "@mina//src/lib/vrf_lib",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/random_oracle",
     "@snarky//fold_lib",
 ]

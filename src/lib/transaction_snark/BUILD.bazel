@@ -19,12 +19,12 @@ ocaml_module(
         "-inline-test-lib",
         "transaction_snark",
     ],
-    ppx_print = "@ppx//print:binary",      # obazl:retain
+    ppx_print = "@ppx//print:binary",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/cache_dir",
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/sgn",
         "@mina//src/lib/transaction_protocol_state",
         "@opam//pkg:bignum",
@@ -47,8 +47,8 @@ ocaml_interface(
     ],
     deps = [
         "@mina//src/lib/cache_dir",
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/sgn",
         "@mina//src/lib/transaction_protocol_state",
         "@opam//pkg:bignum",

@@ -28,7 +28,7 @@ SNARK_WORKER_DEPS = [
     "@mina//src/lib/cli_lib",
     "@mina//src/lib/currency",
     "@mina//src/lib/snark_work_lib",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/blockchain_snark",
     "@mina//src/lib/transaction_snark",
     "@mina//src/lib/perf_histograms",

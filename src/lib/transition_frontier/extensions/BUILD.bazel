@@ -21,7 +21,7 @@ EXTENSIONS_DEPS = [
     "@opam//pkg:core_kernel",
     "@mina//src/lib/transition_frontier/frontier_base",
     "@mina//src/lib/transition_frontier/full_frontier",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/pipe_lib",
 ]
 

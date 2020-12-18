@@ -21,6 +21,7 @@ PICKLES_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:digestif.c",
     "@opam//pkg:core_kernel",
+    "@mina//src/lib/coda_version",
     "@mina//src/lib/zexe_backend",
     "@mina//src/lib/random_oracle_input",
     "@mina//src/lib/pickles_base",
@@ -37,6 +38,7 @@ PICKLES_DEPS = [
     "@snarky//snarky_curve",
     "@snarky//src/base:snarky_backendless",
     "@mina//src/lib/key_cache",
+    "@mina//src/lib/snark_keys_header",
 ]
 
 PICKLES_PPX = "@//bzl/ppx/exe:ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson__h_list.ppx"
@@ -466,6 +468,7 @@ ocaml_module(
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
+    ppx_print = PPX_PRINT,      # obazl:retain
     deps = PICKLES_DEPS + [
         # do not sort (buildifier)
         ":_Cache",

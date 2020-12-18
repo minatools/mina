@@ -18,10 +18,10 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
-        "@mina//src/lib/coda_lib",
         "@mina//src/lib/coda_version",
         "@mina//src/lib/daemon_rpcs",
+        "@mina//src/lib/mina_base",
+        "@mina//src/lib/mina_lib",
         "@mina//src/lib/node_addrs_and_ports",
         "@mina//src/lib/user_command_input",
         "@opam//pkg:core",

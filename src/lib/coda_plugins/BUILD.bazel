@@ -19,7 +19,7 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_lib",
+        "@mina//src/lib/mina_lib",
         "@opam//pkg:core_kernel",
         "@opam//pkg:dynlink",
     ],
@@ -35,7 +35,7 @@ ocaml_interface(
         # do not sort (buildifier)
     ],
     deps = [
-        "@mina//src/lib/coda_lib",
+        "@mina//src/lib/mina_lib",
         "@opam//pkg:core_kernel",
         "@opam//pkg:dynlink",
     ],

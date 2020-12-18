@@ -25,7 +25,7 @@ CODA_STATE_MODULE_OPTS = []
 CODA_STATE_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/snark_params",
     "@mina//src/lib/consensus",
     "@mina//src/lib/test_genesis_ledger",

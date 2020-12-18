@@ -19,9 +19,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/runtime_config",
-        "@mina//src/lib/unsigned_extended",
         "@opam//pkg:core_kernel",
+        "@opam//pkg:integers",
     ],
 )
 
@@ -32,6 +31,7 @@ ppx_executable(
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_deriving_yojson.runtime",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
+        "@opam//pkg:ppx_deriving.runtime",
         "@opam//pkg:ppx_inline_test.runtime-lib",
     ],
     main = "//bzl/ppx/exe:Driver",
@@ -40,6 +40,8 @@ ppx_executable(
         "//src/lib/snark_keys_header:__pkg__",
     ],
     deps = [
+        "@opam//pkg:ppx_deriving.eq",
+        "@opam//pkg:ppx_deriving.ord",
         "@opam//pkg:ppx_deriving_yojson",
         "@opam//pkg:ppx_inline_test",
         "@opam//pkg:ppx_let",

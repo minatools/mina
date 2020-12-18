@@ -39,7 +39,6 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
     ],
-    ppx_print = "@ppx//print:binary",
     deps = RUN_SNARK_WORKER_DEPS,
 )
 

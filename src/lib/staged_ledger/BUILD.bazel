@@ -29,7 +29,7 @@ STAGED_LEDGER_DEPS = [
     "@mina//src/lib/transaction_snark_scan_state",
     "@mina//src/lib/sgn",
     "@mina//src/lib/transaction_snark",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/merkle_mask",
     "@mina//src/lib/pipe_lib",
     "@mina//src/lib/logger",

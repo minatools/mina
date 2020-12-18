@@ -17,9 +17,9 @@ ocaml_module(
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/blockchain_snark",
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
         "@mina//src/lib/genesis_constants",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/runtime_config",
         "@mina//src/lib/with_hash",
     ],

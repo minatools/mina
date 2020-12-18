@@ -23,7 +23,7 @@ CLI_LIB_DEPS = [
     "@opam//pkg:ppx_deriving_yojson.runtime",
     "@opam//pkg:yojson",
     "@ocaml_sodium//lib:sodium",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/secrets",
     "@mina//src/lib/work_selector",
     "@mina//src/lib/graphql_lib",

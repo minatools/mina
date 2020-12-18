@@ -21,8 +21,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
+        "@mina//src/lib/mina_base",
         "@opam//pkg:core_kernel",
     ],
 )
@@ -39,8 +39,8 @@ ocaml_interface(
         "transaction_witness",
     ],
     deps = [
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_state",
+        "@mina//src/lib/mina_base",
         "@opam//pkg:core_kernel",
     ],
 )

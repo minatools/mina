@@ -19,13 +19,13 @@ BOOTSTRAP_CONTROLLER_MODULE_OPTS = []
 BOOTSTRAP_CONTROLLER_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/syncable_ledger",
     "@mina//src/lib/pipe_lib",
     "@mina//src/lib/consensus",
     "@mina//src/lib/transition_frontier",
-    "@mina//src/lib/coda_networking",
+    "@mina//src/lib/mina_networking",
     "@mina//src/lib/sync_handler",
     "@mina//src/lib/fake_network",
 ]

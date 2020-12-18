@@ -21,6 +21,7 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
+        "@mina//src/lib/logproc_lib:interpolator_lib",
         "@opam//pkg:core_kernel",
         "@opam//pkg:yojson",
     ],
@@ -38,6 +39,7 @@ ocaml_interface(
         "structured_log_events",
     ],
     deps = [
+        "@mina//src/lib/logproc_lib:interpolator_lib",
         "@opam//pkg:core_kernel",
         "@opam//pkg:yojson",
     ],

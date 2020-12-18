@@ -17,7 +17,7 @@ MAIN_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_bench.inline_benchmarks",
     "@mina//src/lib/vrf_lib/tests:vrf_lib_tests",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
 ]
 
 MAIN_PPX = "@//bzl/ppx/exe:ppx_version"

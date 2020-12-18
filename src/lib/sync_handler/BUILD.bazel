@@ -19,10 +19,10 @@ ocaml_module(
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/best_tip_prover",
-        "@mina//src/lib/coda_base",
         "@mina//src/lib/coda_intf",
         "@mina//src/lib/consensus",
         "@mina//src/lib/merkle_address",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/syncable_ledger",
         "@mina//src/lib/transition_frontier",
         "@opam//pkg:async_kernel",

@@ -11,22 +11,19 @@ load(
     "CONFIG_MLH",
 )
 
-PPX_PRINT = "@ppx//print:binary"
-
 ################################################################
 ## STANZA 1: LIBRARY ROSETTA_LIB
 ################################################################
-ROSETTA_LIB_MODULE_OPTS = []
+ROSETTA_LIB_MODULE_OPTS = ["-linkall"]
 
 ROSETTA_LIB_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
     "@opam//pkg:caqti",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/rosetta_models",
     "@mina//src/lib/snark_params",
     "@mina//src/lib/signature_lib",
-    "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime"
 ]
 
 ROSETTA_LIB_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_optcomp__ppx_assert__ppx_let__ppx_sexp_conv__ppx_compare__ppx_deriving.std__ppx_custom_printf__ppx_deriving_yojson__ppx_inline_test"
@@ -99,7 +96,9 @@ ocaml_module(
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
-    deps = ROSETTA_LIB_DEPS,
+    deps = ROSETTA_LIB_DEPS + [
+        "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime"
+    ],
 )
 
 #############
@@ -123,7 +122,9 @@ ocaml_module(
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
-    deps = ROSETTA_LIB_DEPS
+    deps = ROSETTA_LIB_DEPS + [
+        "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime"
+    ],
 )
 
 #############
@@ -135,7 +136,9 @@ ocaml_module(
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
-    deps = ROSETTA_LIB_DEPS
+    deps = ROSETTA_LIB_DEPS + [
+        "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime"
+    ],
 )
 
 #############
@@ -163,7 +166,7 @@ ocaml_module(
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = "@ppx//print:binary",
     deps = ROSETTA_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Amount_of",

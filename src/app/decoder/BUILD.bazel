@@ -15,7 +15,7 @@ DECODER_MODULE_OPTS = []
 
 DECODER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
 ]
 
 DECODER_PPX = "@//bzl/ppx/exe:ppx_version"

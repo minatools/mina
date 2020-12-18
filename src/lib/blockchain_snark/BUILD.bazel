@@ -22,7 +22,7 @@ BLOCKCHAIN_SNARK_DEPS = [
     "@mina//src/lib/cache_dir",
     "@snarky//src/base:snarky_backendless",
     "@mina//src/lib/snark_params",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/transaction_snark",
     "@mina//src/lib/bignum_bigint",

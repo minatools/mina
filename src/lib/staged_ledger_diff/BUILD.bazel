@@ -21,7 +21,7 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_base",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/transaction_snark_work",
         "@opam//pkg:core_kernel",
     ],
@@ -39,7 +39,7 @@ ocaml_interface(
         "staged_ledger_diff",
     ],
     deps = [
-        "@mina//src/lib/coda_base",
+        "@mina//src/lib/mina_base",
         "@mina//src/lib/transaction_snark_work",
         "@opam//pkg:core_kernel",
     ],

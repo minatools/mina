@@ -18,7 +18,7 @@ INTEGRATION_TEST_LIB_DEPS = [
     "@opam//pkg:core",
     "@opam//pkg:async",
     "@opam//pkg:cmdliner",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/runtime_config",
     "@mina//src/lib/genesis_constants",
     "@mina//src/lib/transition_frontier",

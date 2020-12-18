@@ -26,7 +26,7 @@ TRANSITION_HANDLER_DEPS = [
     "@mina//src/lib/rose_tree",
     "@mina//src/lib/pipe_lib",
     "@mina//src/lib/otp_lib",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/cache_lib",
 ]
 

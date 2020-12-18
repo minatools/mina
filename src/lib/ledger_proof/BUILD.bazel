@@ -23,7 +23,7 @@ LEDGER_PROOF_MODULE_OPTS = []
 LEDGER_PROOF_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
-    "@mina//src/lib/coda_base",
+    "@mina//src/lib/mina_base",
     "@mina//src/lib/transaction_snark",
 ]
 
