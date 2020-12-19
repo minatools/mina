@@ -28,7 +28,7 @@ CLIENT_SDK_DEPS = [
     "@opam//pkg:digestif",
     "@mina//src/nonconsensus/snark_params:snark_params_nonconsensus",
     "@mina//src/nonconsensus/rosetta_lib:rosetta_lib_nonconsensus",
-    "@mina//src/nonconsensus/coda_base:coda_base_nonconsensus",
+    "@mina//src/nonconsensus/mina_base:mina_base_nonconsensus",
     "@mina//src/nonconsensus/data_hash_lib:data_hash_lib_nonconsensus",
     "@mina//src/nonconsensus/random_oracle:random_oracle_nonconsensus",
     "@mina//src/nonconsensus/signature_lib:signature_lib_nonconsensus",

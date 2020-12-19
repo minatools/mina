@@ -14,13 +14,13 @@ load(
 )
 
 ################################################################
-## STANZA 1: LIBRARY CODA_BASE_NONCONSENSUS
+## STANZA 1: LIBRARY MINA_BASE_NONCONSENSUS
 ################################################################
-CODA_BASE_NONCONSENSUS_INTERFACE_OPTS = []
+MINA_BASE_NONCONSENSUS_INTERFACE_OPTS = []
 
-CODA_BASE_NONCONSENSUS_MODULE_OPTS = []
+MINA_BASE_NONCONSENSUS_MODULE_OPTS = []
 
-CODA_BASE_NONCONSENSUS_DEPS = [
+MINA_BASE_NONCONSENSUS_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:yojson",
     "@mina//src/nonconsensus/coda_numbers:coda_numbers_nonconsensus",
@@ -42,11 +42,11 @@ CODA_BASE_NONCONSENSUS_DEPS = [
 
 ##############
 ocaml_archive(
-    name = "coda_base_nonconsensus",
+    name = "mina_base_nonconsensus",
     doc = "Snarks and friends necessary for keypair generation",
     opts = [],
     visibility = ["//visibility:public"],
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account",
         ":_Account_id",
@@ -86,8 +86,8 @@ ocaml_archive(
 
 #########
 ocaml_ns(
-    name = "Coda_base_nonconsensus_ns",
-    ns = "coda_base_nonconsensus",
+    name = "Mina_base_nonconsensus_ns",
+    ns = "mina_base_nonconsensus",
     opts = [],
     submodules = [
         # do not sort (buildifier)
@@ -131,16 +131,16 @@ ocaml_ns(
 ocaml_module(
     name = "_Account",
     src = "account.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Account_timing",
@@ -160,16 +160,16 @@ ocaml_module(
     name = "_Account_id",
     src = "account_id.ml",
     intf = ":_Account_id.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
         ":_Token_id",
@@ -180,16 +180,16 @@ ocaml_module(
 ocaml_interface(
     name = "_Account_id.cmi",
     src = "account_id.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
         ":_Token_id",
@@ -200,64 +200,64 @@ ocaml_interface(
 ocaml_module(
     name = "_Account_timing",
     src = "account_timing.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Control",
     src = "control.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Data_hash",
     src = "data_hash.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Fee_excess",
     src = "fee_excess.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
         ":_Token_id",
@@ -268,16 +268,16 @@ ocaml_module(
 ocaml_module(
     name = "_Frozen_ledger_hash0",
     src = "frozen_ledger_hash0.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash0",
     ],
@@ -287,48 +287,48 @@ ocaml_module(
 ocaml_module(
     name = "_Hash_prefix",
     src = "hash_prefix.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Import",
     src = "import.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Ledger_hash0",
     src = "ledger_hash0.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
     ],
@@ -338,16 +338,16 @@ ocaml_module(
 ocaml_module(
     name = "_Minting_payload",
     src = "minting_payload.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Import",
@@ -358,16 +358,16 @@ ocaml_module(
 ocaml_module(
     name = "_New_account_payload",
     src = "new_account_payload.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Import",
@@ -378,16 +378,16 @@ ocaml_module(
 ocaml_module(
     name = "_New_token_payload",
     src = "new_token_payload.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Import",
@@ -399,16 +399,16 @@ ocaml_module(
 ocaml_module(
     name = "_Payment_payload",
     src = "payment_payload.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Token_id",
     ],
@@ -419,16 +419,16 @@ ocaml_module(
     name = "_Permissions",
     src = "permissions.ml",
     intf = ":_Permissions.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Control",
         ":_Frozen_ledger_hash0",
@@ -440,16 +440,16 @@ ocaml_module(
 ocaml_interface(
     name = "_Permissions.cmi",
     src = "permissions.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Control",
     ],
@@ -460,16 +460,16 @@ ocaml_module(
     name = "_Receipt",
     src = "receipt.ml",
     intf = ":_Receipt.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
         ":_Hash_prefix",
@@ -482,16 +482,16 @@ ocaml_module(
 ocaml_interface(
     name = "_Receipt.cmi",
     src = "receipt.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
         ":_Signed_command",
@@ -503,16 +503,16 @@ ocaml_interface(
 ocaml_module(
     name = "_Side_loaded_verification_key",
     src = "side_loaded_verification_key.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
@@ -520,16 +520,16 @@ ocaml_module(
     name = "_Signature",
     src = "signature.ml",
     intf = ":_Signature.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Signature_poly",
     ],
@@ -539,32 +539,32 @@ ocaml_module(
 ocaml_interface(
     name = "_Signature.cmi",
     src = "signature.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Signature_poly",
     src = "signature_poly.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
@@ -572,16 +572,16 @@ ocaml_module(
     name = "_Signed_command",
     src = "signed_command.ml",
     intf = ":_Signed_command.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Account_timing",
@@ -597,16 +597,16 @@ ocaml_module(
 ocaml_interface(
     name = "_Signed_command.cmi",
     src = "signed_command.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
         ":_Signed_command_intf",
@@ -618,16 +618,16 @@ ocaml_interface(
 ocaml_module(
     name = "_Signed_command_intf",
     src = "signed_command_intf.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Account_timing",
@@ -646,32 +646,32 @@ ocaml_module(
     name = "_Signed_command_memo",
     src = "signed_command_memo.ml",
     intf = ":_Signed_command_memo.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 ################
 ocaml_interface(
     name = "_Signed_command_memo.cmi",
     src = "signed_command_memo.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
@@ -679,16 +679,16 @@ ocaml_module(
     name = "_Signed_command_payload",
     src = "signed_command_payload.ml",
     intf = ":_Signed_command_payload.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Fee_excess",
@@ -707,16 +707,16 @@ ocaml_module(
 ocaml_interface(
     name = "_Signed_command_payload.cmi",
     src = "signed_command_payload.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Fee_excess",
@@ -736,16 +736,16 @@ ocaml_interface(
 ocaml_module(
     name = "_Snapp_account",
     src = "snapp_account.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Side_loaded_verification_key",
         ":_Snapp_basic",
@@ -757,48 +757,48 @@ ocaml_module(
 ocaml_module(
     name = "_Snapp_basic",
     src = "snapp_basic.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Snapp_state",
     src = "snapp_state.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Stake_delegation",
     src = "stake_delegation.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
         ":_Token_id",
@@ -809,16 +809,16 @@ ocaml_module(
 ocaml_module(
     name = "_State_hash",
     src = "state_hash.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 #############
@@ -826,16 +826,16 @@ ocaml_module(
     name = "_Token_id",
     src = "token_id.ml",
     intf = ":_Token_id.cmi",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
     ],
@@ -845,16 +845,16 @@ ocaml_module(
 ocaml_interface(
     name = "_Token_id.cmi",
     src = "token_id.mli",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_INTERFACE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
     ],
@@ -864,16 +864,16 @@ ocaml_interface(
 ocaml_module(
     name = "_Token_permissions",
     src = "token_permissions.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
     ],
@@ -883,16 +883,16 @@ ocaml_module(
 ocaml_module(
     name = "_Transaction_union_payload",
     src = "transaction_union_payload.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Fee_excess",
         ":_Signed_command_payload",
@@ -905,16 +905,16 @@ ocaml_module(
 ocaml_module(
     name = "_Transaction_union_tag",
     src = "transaction_union_tag.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS + [
+    deps = MINA_BASE_NONCONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Import",
     ],
@@ -924,16 +924,16 @@ ocaml_module(
 ocaml_module(
     name = "_Util",
     src = "util.ml",
-    ns = ":Coda_base_nonconsensus_ns",
-    opts = CODA_BASE_NONCONSENSUS_MODULE_OPTS,
+    ns = ":Mina_base_nonconsensus_ns",
+    opts = MINA_BASE_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_base_nonconsensus",
+        "mina_base_nonconsensus",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_BASE_NONCONSENSUS_DEPS,
+    deps = MINA_BASE_NONCONSENSUS_DEPS,
 )
 
 ###############
@@ -954,7 +954,7 @@ ppx_executable(
     main = "//bzl/ppx/exe:Driver",
     opts = [],
     visibility = [
-        "//src/nonconsensus/coda_base:__pkg__",
+        "//src/nonconsensus/mina_base:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",

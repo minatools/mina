@@ -25,7 +25,7 @@ TRUST_SYSTEM_DEPS = [
     "@mina//src/lib/logger",
     "@mina//src/lib/pipe_lib",
     "@mina//src/lib/rocksdb",
-    "@mina//src/lib/coda_metrics",
+    "@mina//src/lib/mina_metrics",
     "@ppx_version//src/runtime:ppx_version_runtime",
 ]
 

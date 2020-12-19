@@ -18,7 +18,7 @@ TRANSITION_HANDLER_MODULE_OPTS = []
 TRANSITION_HANDLER_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
-    "@mina//src/lib/coda_metrics",
+    "@mina//src/lib/mina_metrics",
     "@mina//src/lib/perf_histograms",
     "@mina//src/lib/transition_frontier",
     "@mina//src/lib/consensus",
@@ -92,7 +92,7 @@ ocaml_module(
     deps = TRANSITION_HANDLER_DEPS + [
         ":_Breadcrumb_builder",            # obazl:retain
         ":_Unprocessed_transition_cache"   # obazl:retain
-    ],
+    ]
 )
 
 #############

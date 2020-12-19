@@ -19,7 +19,7 @@ ALLOCATION_FUNCTOR_MODULE_OPTS = []
 ALLOCATION_FUNCTOR_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
-    "@mina//src/lib/coda_metrics",
+    "@mina//src/lib/mina_metrics",
 ]
 
 ##############

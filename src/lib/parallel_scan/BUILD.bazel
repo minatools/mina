@@ -24,7 +24,7 @@ ocaml_module(
     ppx_print = PPX_PRINT,      # obazl:retain
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_metrics",
+        "@mina//src/lib/mina_metrics",
         "@mina//src/lib/non_empty_list",
         "@mina//src/lib/pipe_lib",
         "@mina//src/lib/sgn",
@@ -48,9 +48,8 @@ ocaml_interface(
         "-inline-test-lib",
         "parallel_scan",
     ],
-    ppx_print = PPX_PRINT,      # obazl:retain
     deps = [
-        "@mina//src/lib/coda_metrics",
+        "@mina//src/lib/mina_metrics",
         "@mina//src/lib/non_empty_list",
         "@mina//src/lib/pipe_lib",
         "@mina//src/lib/sgn",

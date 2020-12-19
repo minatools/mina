@@ -40,7 +40,7 @@ CONSENSUS_DEPS = [
     "@mina//src/lib/unix_timestamp",
     "@mina//src/lib/global_signer_private_key",
     "@mina//src/lib/non_zero_curve_point",
-    "@mina//src/lib/coda_metrics",
+    "@mina//src/lib/mina_metrics",
     "@mina//src/lib/graphql_lib",
     "@mina//src/lib/inline_test_quiet_logs",
 ]
@@ -136,17 +136,15 @@ ocaml_module(
     name = "_Constants",
     src = "constants.ml",
     ns = ":Consensus_ns",
-    opts = CONSENSUS_MODULE_OPTS + [
-        "-w", "-9" # Missing fields in a record pattern.
-    ],
+    opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "consensus",
     ],
-    ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_data = CONFIG_MLH,
     deps = CONSENSUS_DEPS,
 )
 
@@ -155,9 +153,7 @@ ocaml_module(
     name = "_Epoch",
     src = "epoch.ml",
     ns = ":Consensus_ns",
-    opts = CONSENSUS_MODULE_OPTS + [
-        "-w", "-33" # Unused open statement.
-    ],
+    opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -195,10 +191,7 @@ ocaml_module(
     src = "global_slot.ml",
     intf = ":_Global_slot.cmi",
     ns = ":Consensus_ns",
-    opts = CONSENSUS_MODULE_OPTS + [
-        "-w", "-32", # Unused value declaration.
-        "-w", "-33" # Unused open statement.
-    ],
+    opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -322,11 +315,7 @@ ocaml_module(
     src = "proof_of_stake.ml",
     intf = ":_Proof_of_stake.cmi",
     ns = ":Consensus_ns",
-    opts = CONSENSUS_MODULE_OPTS + [
-        "-w", "-27", # Innocuous unused variable
-        "-w", "-32", # Unused value declaration.
-        "-w", "-33", # Unused open statement.
-    ],
+    opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -375,9 +364,7 @@ ocaml_module(
     name = "_Slot",
     src = "slot.ml",
     ns = ":Consensus_ns",
-    opts = CONSENSUS_MODULE_OPTS + [
-        "-w", "-33" # Unused open statement.
-    ],
+    opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -427,6 +414,8 @@ ocaml_module(
 ## STANZA 2: EXECUTABLE PROOF_OF_STAKE_FUZZER
 ################################################################
 PROOF_OF_STAKE_FUZZER_EXECUTABLE_OPTS = []
+
+PROOF_OF_STAKE_FUZZER_INTERFACE_OPTS = []
 
 PROOF_OF_STAKE_FUZZER_MODULE_OPTS = []
 

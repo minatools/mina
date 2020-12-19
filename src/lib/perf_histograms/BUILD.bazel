@@ -22,7 +22,7 @@ PERF_HISTOGRAMS_DEPS = [
     "@opam//pkg:core_kernel",
     "@opam//pkg:yojson",
     "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@mina//src/lib/coda_metrics",
+    "@mina//src/lib/mina_metrics",
 ]
 
 PERF_HISTOGRAMS_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson"

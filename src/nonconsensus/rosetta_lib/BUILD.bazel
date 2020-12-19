@@ -21,7 +21,7 @@ ROSETTA_LIB_NONCONSENSUS_DEPS = [
     "@opam//pkg:core_kernel",
     "@opam//pkg:caqti",
     "@mina//src/lib/rosetta_models",
-    "@mina//src/nonconsensus/coda_base:coda_base_nonconsensus",
+    "@mina//src/nonconsensus/mina_base:mina_base_nonconsensus",
     "@mina//src/nonconsensus/currency:currency_nonconsensus",
     "@mina//src/nonconsensus/snark_params:snark_params_nonconsensus",
     "@mina//src/nonconsensus/signature_lib:signature_lib_nonconsensus",

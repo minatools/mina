@@ -32,7 +32,7 @@ GOSSIP_NET_DEPS = [
     "@mina//src/lib/logger",
     "@mina//src/lib/o1trace",
     "@mina//src/lib/node_addrs_and_ports",
-    "@mina//src/lib/coda_metrics",
+    "@mina//src/lib/mina_metrics",
 ]
 
 ##############
