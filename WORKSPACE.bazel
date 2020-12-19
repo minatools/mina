@@ -125,7 +125,7 @@ rust_fetch_libs()
 load("@zexe//bzl/cargo:crates.bzl", "zexe_fetch_remote_crates")
 zexe_fetch_remote_crates()
 
-load("@marlin//bzl/cargo:crates.bzl", "marlin_fetch_remote_crates")
+load("@marlin//bzl/cargo:crates.bzl", marlin_fetch_remote_crates = "raze_fetch_remote_crates")
 marlin_fetch_remote_crates()
 
 ## local rust code, configured by "cargo raze"

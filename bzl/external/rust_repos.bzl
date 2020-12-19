@@ -3,24 +3,25 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")  # buildifier: di
 
 def rust_fetch_libs():
 
-    # native.local_repository( name = "zexe" , path = "src/lib/zexe")
+    # native.local_repository( name = "zexe" , path = "src/lib/marlin/zexe")
     maybe(
         git_repository,
         name = "zexe",
-        remote = "https://github.com/obazl/zexe",
-        branch = "bazel"
-        # remote = "https://github.com/o1-labs/zexe",
+        remote = "https://github.com/o1-labs/zexe",
+        commit = "0ce97035781551ddf9dd0bec017d29de227d7d42"
+        # remote = "https://github.com/obazl/zexe",
+        # branch = "bazel"
         # branch = "master",
-        # tag    = use tag instead of branch once a release tag has been published
-    )
+     )
 
     # native.local_repository( name = "marlin" , path = "src/lib/marlin")
     maybe(
         git_repository,
         name = "marlin",
-        remote = "https://github.com/obazl/marlin",
-        branch = "bazel"
-        # remote = "https://github.com/obazl/marlin",
+        remote = "https://github.com/o1-labs/marlin.git",
+        commit = "282c76f278c5744bd9c27d53cc6cdb0ca768ac00"
         # branch = "master",
-        # tag    = use tag instead of branch once a release tag has been published
+
+        # remote = "https://github.com/obazl/marlin",
+        # branch = "mina"
     )

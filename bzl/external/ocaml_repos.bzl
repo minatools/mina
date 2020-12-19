@@ -6,6 +6,50 @@ def ocaml_fetch_remote_libs():
 
     maybe(
         git_repository,
+        name = "graphql_ppx",
+        # remote = "https://github.com/obazl/graphql_ppx.git",
+        # branch = "bazel"
+        remote = "https://github.com/o1-labs/graphql_ppx",
+        commit = "279b0ffd611ef635ec955d63ffe46d875a977f9f"
+        # branch = "master"
+    )
+
+    maybe(
+        git_repository,
+        name = "ppx_optcomp",
+        # remote = "https://github.com/obazl/ppx_optcomp",
+        # branch = "bazel"
+        remote = "https://github.com/MinaProtocol/ppx_optcomp.git",
+        commit = "96974015f19f1dd6e7d69a68678008f5df41b487",
+        shallow_since = "1608322974 +0000"
+        # branch = "mina"
+    )
+
+    maybe(
+        git_repository,
+        name = "ppx_version",
+        # remote = "https://github.com/obazl/ppx_version",
+        # branch = "bazel"
+        remote = "https://github.com/o1-labs/ppx_version",
+        commit = "11371c53e4ad07f8fcd499ff63b3c79942698072",
+        shallow_since = "1608322894 +0000"
+        # branch = "mina"
+    )
+
+    maybe(
+        git_repository,
+        name = "snarky",
+        # remote = "https://github.com/obazl/snarky",
+        # branch = "bazel"
+        remote = "https://github.com/o1-labs/snarky",
+        commit = "57832d6f9172fa18f03ba58f421e66f5c865f953",
+        shallow_since = "1608323031 +0000"
+        # branch = "master"
+    )
+
+    ################################################################
+    maybe(
+        git_repository,
         name = "ocaml_jemalloc",
         remote = "https://github.com/obazl/ocaml-jemalloc",
         branch = "bazel"
@@ -14,43 +58,6 @@ def ocaml_fetch_remote_libs():
         # branch = "mina"
     )
 
-    maybe(
-        git_repository,
-        name = "graphql_ppx",
-        remote = "https://github.com/obazl/graphql_ppx.git",
-        branch = "bazel"
-        # remote = "https://github.com/o1-labs/graphql_ppx",
-        # branch = "master"
-    )
-
-    maybe(
-        git_repository,
-        name = "ppx_optcomp",
-        remote = "https://github.com/obazl/ppx_optcomp",
-        branch = "bazel"
-        # remote = "	https://github.com/MinaProtocol/ppx_optcomp.git",
-        # branch = "mina"
-    )
-
-    maybe(
-        git_repository,
-        name = "ppx_version",
-        remote = "https://github.com/obazl/ppx_version",
-        branch = "bazel"
-        # remote = "https://github.com/o1-labs/ppx_version",
-        # branch = "mina"
-    )
-
-    maybe(
-        git_repository,
-        name = "snarky",
-        remote = "https://github.com/obazl/snarky",
-        branch = "bazel"
-        # remote = "https://github.com/o1-labs/snarky",
-        # branch = "master"
-    )
-
-    ################################################################
     maybe(
         git_repository,
         name = "ocaml_rocksdb",
