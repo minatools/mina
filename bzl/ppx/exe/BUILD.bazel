@@ -224,6 +224,7 @@ ppx_executable(
     opts = [],
     visibility = [
         "//src/lib/marlin_plonk_bindings:__pkg__",
+        # "//src/lib/marlin_plonk_bindings/bigint_256:__pkg__",
         # "//src/lib/marlin_plonk_bindings/bigint_384:__pkg__",
         # "//src/lib/marlin_plonk_bindings/bn_382_fp:__pkg__",
         # "//src/lib/marlin_plonk_bindings/bn_382_fq:__pkg__",
