@@ -13,11 +13,11 @@ load(
 )
 
 ################################################################
-## STANZA 1: LIBRARY CODA_METRICS
+## STANZA 1: LIBRARY MINA_METRICS
 ################################################################
-CODA_METRICS_MODULE_OPTS = []
+MINA_METRICS_MODULE_OPTS = []
 
-CODA_METRICS_DEPS = [
+MINA_METRICS_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:async",
     "@opam//pkg:async_ssl",     # obazl:retain
@@ -30,12 +30,12 @@ CODA_METRICS_DEPS = [
 
 ##############
 ocaml_archive(
-    name = "coda_metrics",
+    name = "mina_metrics",
     opts = [],
     visibility = ["//visibility:public"],
-    deps = CODA_METRICS_DEPS + [
+    deps = MINA_METRICS_DEPS + [
         # do not sort (buildifier)
-        ":_Coda_metrics",
+        ":_Mina_metrics",
         ":_Metric_generators",
         ":_Namespace",
     ],
@@ -43,12 +43,12 @@ ocaml_archive(
 
 #########
 ocaml_ns(
-    name = "Coda_metrics_ns",
-    ns = "coda_metrics",
+    name = "Mina_metrics_ns",
+    ns = "mina_metrics",
     opts = [],
     submodules = [
         # do not sort (buildifier)
-        "coda_metrics.ml",
+        "mina_metrics.ml",
         "metric_generators.ml",
         "namespace.ml",
     ],
@@ -56,16 +56,16 @@ ocaml_ns(
 
 #############
 ocaml_module(
-    name = "_Coda_metrics",
-    src = "coda_metrics.ml",
-    ns = ":Coda_metrics_ns",
-    opts = CODA_METRICS_MODULE_OPTS,
+    name = "_Mina_metrics",
+    src = "mina_metrics.ml",
+    ns = ":Mina_metrics_ns",
+    opts = MINA_METRICS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_METRICS_DEPS + [
+    deps = MINA_METRICS_DEPS + [
         # do not sort (buildifier)
         ":_Metric_generators",
         ":_Namespace",
@@ -76,14 +76,14 @@ ocaml_module(
 ocaml_module(
     name = "_Metric_generators",
     src = "metric_generators.ml",
-    ns = ":Coda_metrics_ns",
-    opts = CODA_METRICS_MODULE_OPTS,
+    ns = ":Mina_metrics_ns",
+    opts = MINA_METRICS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_METRICS_DEPS + [
+    deps = MINA_METRICS_DEPS + [
         # do not sort (buildifier)
         ":_Namespace",
     ],
@@ -93,14 +93,14 @@ ocaml_module(
 ocaml_module(
     name = "_Namespace",
     src = "namespace.ml",
-    ns = ":Coda_metrics_ns",
-    opts = CODA_METRICS_MODULE_OPTS,
+    ns = ":Mina_metrics_ns",
+    opts = MINA_METRICS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_METRICS_DEPS,
+    deps = MINA_METRICS_DEPS,
 )
 
 ###############
@@ -112,7 +112,7 @@ ppx_executable(
     main = "//bzl/ppx/exe:Driver",
     opts = [],
     visibility = [
-        "//src/lib/coda_metrics:__pkg__",
+        "//src/lib/mina_metrics:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
