@@ -51,7 +51,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Signature_lib_nonconsensus_ns",
     ns = "signature_lib_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "keypair.ml",

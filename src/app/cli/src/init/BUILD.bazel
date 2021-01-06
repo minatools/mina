@@ -61,7 +61,7 @@ ocaml_archive(
         ":_Graphql_queries",
         ":_Transaction_snark_profiler",
         ":_Visualization_message",
-        ":_Assets"              # obazl:retain
+        ":_Assets",  # obazl:retain
     ],
 )
 
@@ -69,7 +69,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Init_ns",
     ns = "init",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "client.ml",
@@ -81,27 +80,28 @@ ocaml_ns(
         "graphql_queries.ml",
         "transaction_snark_profiler.ml",
         "visualization_message.ml",
-        ":assets.ml"            # obazl:retain
+        ":assets.ml",  # obazl:retain
     ],
 )
 
 #############
 ocaml_module(
     name = "_Assets",
-    ns   = ":Init_ns",
-    src  = ":assets.ml",
+    src = ":assets.ml",
+    ns = ":Init_ns",
 )
 
 TOOL = "@ocaml//tools:ocaml-crunch"
+
 genrule(
     name = "gensrc",
     srcs = glob(["**"]),
-    tools = [TOOL],
     outs = ["assets.ml"],
     cmd = "\n".join([
         "set -x",
         "./$(location {tool}) -m plain src/app/cli/src/init/assets -o \"$@\"".format(tool = TOOL),
-    ])
+    ]),
+    tools = [TOOL],
 )
 
 #############
@@ -224,8 +224,8 @@ ocaml_module(
     ],
     # ppx_data = CONFIG_MLH,
     deps = INIT_DEPS + [
-        ":_Assets"              # obazl:retain
-    ]
+        ":_Assets",  # obazl:retain
+    ],
 )
 
 #############
@@ -239,7 +239,7 @@ ocaml_module(
         # do not sort (buildifier)
         "-inline-test-lib",
         "init",
-        "-schema={}".format("graphql_schema.json")
+        "-schema={}".format("graphql_schema.json"),
     ],
     ppx_data = ["//:graphql_schema.json"],
     deps = INIT_DEPS,

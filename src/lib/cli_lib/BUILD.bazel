@@ -18,16 +18,16 @@ CLI_LIB_MODULE_OPTS = []
 
 CLI_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async_unix",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
-    "@ocaml_sodium//lib:sodium",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/secrets",
-    "@mina//src/lib/work_selector",
-    "@mina//src/lib/graphql_lib",
-    "@mina//src/lib/rosetta_coding",
+    # "@opam//pkg:core",
+    # "@opam//pkg:async_unix",
+    # "@opam//pkg:ppx_deriving_yojson.runtime",
+    # "@opam//pkg:yojson",
+    # "@ocaml_sodium//lib:sodium",
+    # "@mina//src/lib/mina_base",
+    # "@mina//src/lib/secrets",
+    # "@mina//src/lib/work_selector",
+    # "@mina//src/lib/graphql_lib",
+    # "@mina//src/lib/rosetta_coding",
 ]
 
 ##############
@@ -54,7 +54,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Cli_lib_ns",
     ns = "cli_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "arg_type.ml",
@@ -81,7 +80,9 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS,
+    deps = CLI_LIB_DEPS + [
+        "@mina//src/lib/work_selector",
+    ]
 )
 
 #############
@@ -134,6 +135,8 @@ ocaml_module(
         "cli_lib",
     ],
     deps = CLI_LIB_DEPS + [
+        "@mina//src/lib/rosetta_coding",
+        "@mina//src/lib/secrets",
         ":_Exceptions",         # obazl:retain
         ":_Flag"                # obazl:retain
     ],
@@ -166,7 +169,9 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS,
+    deps = CLI_LIB_DEPS + [
+        "@opam//pkg:async"
+    ]
 )
 
 #############
@@ -200,7 +205,9 @@ ocaml_interface(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS,
+    deps = CLI_LIB_DEPS +[
+        "@mina//src/lib/graphql_lib",
+    ]
 )
 
 #############
@@ -215,7 +222,11 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS,
+    deps = CLI_LIB_DEPS + [
+        "//src/lib/currency",
+        "//src/lib/mina_base",
+        "//src/lib/signature_lib"
+    ]
 )
 
 #############
@@ -230,7 +241,9 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS,
+    deps = CLI_LIB_DEPS + [
+        "@mina//src/lib/mina_base",
+    ]
 )
 
 #############
@@ -245,7 +258,9 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS,
+    deps = CLI_LIB_DEPS + [
+        "//src/lib/logger"
+    ],
 )
 
 ###############

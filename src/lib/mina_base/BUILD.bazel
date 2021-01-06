@@ -158,7 +158,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Mina_base_ns",
     ns = "mina_base",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "account.ml",

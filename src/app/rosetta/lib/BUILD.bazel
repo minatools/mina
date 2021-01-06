@@ -9,7 +9,9 @@ load(
 )
 
 GRAPHQL_SCHEMA_FILE = "graphql_schema.json"
+
 GRAPHQL_SCHEMA_PATH = GRAPHQL_SCHEMA_FILE
+
 GRAPHQL_SCHEMA_JSON = "//:" + GRAPHQL_SCHEMA_FILE
 
 INLINE_TEST_LIB = "rosetta-lib"
@@ -68,7 +70,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Lib_ns",
     ns = "lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "account.ml",
@@ -95,13 +96,15 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = LIB_DEPS + [
         # do not sort (buildifier)
-        ":_Decoders",           # obazl:retain
+        ":_Decoders",  # obazl:retain
         ":_Graphql",
         ":_Network",
     ],
@@ -116,13 +119,15 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = LIB_DEPS + [
         # do not sort (buildifier)
-        ":_Decoders",           # obazl:retain
+        ":_Decoders",  # obazl:retain
         ":_Graphql",
         ":_Network",
         ":_These",
@@ -153,13 +158,14 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema={}".format("graphql_schema.json")
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema={}".format("graphql_schema.json"),
     ],
     ppx_data = ["//:graphql_schema.json"],
     deps = LIB_DEPS + [
         # do not sort (buildifier)
-        ":_Decoders",           # obazl:retain
+        ":_Decoders",  # obazl:retain
         ":_Graphql",
         ":_Network",
     ],
@@ -204,13 +210,14 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema={}".format("graphql_schema.json")
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema={}".format("graphql_schema.json"),
     ],
     ppx_data = ["//:graphql_schema.json"],
     deps = LIB_DEPS + [
         # do not sort (buildifier)
-        ":_Decoders",           # obazl:retain
+        ":_Decoders",  # obazl:retain
         ":_Graphql",
         ":_Network",
     ],
@@ -225,14 +232,15 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema={}".format("graphql_schema.json")
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema={}".format("graphql_schema.json"),
     ],
     ppx_data = ["//:graphql_schema.json"],
     deps = LIB_DEPS + [
         # do not sort (buildifier)
         ":_Graphql",
-        ":_Test"                # obazl:retain
+        ":_Test",  # obazl:retain
     ],
 )
 
@@ -252,7 +260,7 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Account",
         ":_Block",
-        ":_Cli",                # obazl:retain
+        ":_Cli",  # obazl:retain
         ":_Construction",
         ":_Mempool",
         ":_Network",

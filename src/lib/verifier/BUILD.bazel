@@ -56,7 +56,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Verifier_ns",
     ns = "verifier",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "common.ml",

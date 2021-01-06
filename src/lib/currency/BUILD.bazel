@@ -63,7 +63,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Currency_ns",
     ns = "currency",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "currency.ml",
@@ -96,7 +95,9 @@ ocaml_interface(
     name = "_Currency.cmi",
     src = "currency.mli",
     ns = ":Currency_ns",
-    opts = CURRENCY_INTERFACE_OPTS,
+    opts = CURRENCY_INTERFACE_OPTS + [
+        "-w", "-32" # unused value to_yojson, of_yojson, equal
+    ],
     ppx = CURRENCY_PPX,
     ppx_args = CURRENCY_PPX_ARGS,
     ppx_data = CONFIG_MLH,

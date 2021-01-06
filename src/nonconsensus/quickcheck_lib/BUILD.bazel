@@ -49,7 +49,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Quickcheck_lib_nonconsensus_ns",
     ns = "quickcheck_lib_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "quickcheck_lib.ml",

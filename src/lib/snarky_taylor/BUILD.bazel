@@ -46,7 +46,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snarky_taylor_ns",
     ns = "snarky_taylor",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "floating_point.ml",

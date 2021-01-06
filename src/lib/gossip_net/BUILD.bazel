@@ -56,7 +56,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Gossip_net_ns",
     ns = "gossip_net",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "any.ml",

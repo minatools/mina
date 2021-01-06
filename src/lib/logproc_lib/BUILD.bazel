@@ -48,7 +48,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Logproc_lib_ns",
     ns = "logproc_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "filter.ml",
@@ -128,7 +127,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Interpolator_lib_ns",
     ns = "interpolator_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "interpolator.ml",

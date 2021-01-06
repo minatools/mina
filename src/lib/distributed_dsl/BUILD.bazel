@@ -43,7 +43,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Distributed_dsl_ns",
     ns = "distributed_dsl",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "distributed_dsl.ml",

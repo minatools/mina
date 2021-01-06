@@ -9,7 +9,7 @@ load(
     "ppx_executable",
 )
 
-PPX_PRINT = "@ppx//print:binary" # FIXME: modules needing this break if ppx_print == text
+PPX_PRINT = "@ppx//print:binary"  # FIXME: modules needing this break if ppx_print == text
 
 ################################################################
 ## STANZA 1: LIBRARY PICKLES_TYPES
@@ -22,7 +22,7 @@ PICKLES_TYPES_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
     "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/marlin_plonk_bindings:types"
+    "@mina//src/lib/marlin_plonk_bindings:types",
     # "@mina//src/lib/marlin_plonk_bindings/types:marlin_plonk_bindings_types",
 ]
 
@@ -55,7 +55,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Pickles_types_ns",
     ns = "pickles_types",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "abc.ml",
@@ -262,7 +261,7 @@ ocaml_module(
     ],
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
-        ":_Abc",                # obazl:retain
+        ":_Abc",  # obazl:retain
         ":_Nat",
         ":_Vector",
     ],

@@ -56,7 +56,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Coda_numbers_ns",
     ns = "coda_numbers",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "account_nonce.ml",
@@ -215,7 +214,8 @@ ocaml_module(
     src = "intf.ml",
     ns = ":Coda_numbers_ns",
     opts = CODA_NUMBERS_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [

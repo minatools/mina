@@ -41,7 +41,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Pipe_lib_ns",
     ns = "pipe_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "broadcast_pipe.ml",

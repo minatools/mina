@@ -38,7 +38,6 @@ ocaml_archive(
 ocaml_ns(
     name = "One_or_two_ns",
     ns = "one_or_two",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "intfs.ml",

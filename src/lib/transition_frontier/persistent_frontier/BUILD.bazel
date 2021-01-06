@@ -39,7 +39,6 @@ PERSISTENT_FRONTIER_DEPS = [
 ##############
 ocaml_archive(
     name = "persistent_frontier",
-    opts = [],
     visibility = ["//visibility:public"],
     deps = PERSISTENT_FRONTIER_DEPS + [
         # do not sort (buildifier)
@@ -55,7 +54,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Persistent_frontier_ns",
     ns = "persistent_frontier",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "database.ml",
@@ -72,9 +70,6 @@ ocaml_module(
     src = "database.ml",
     intf = ":_Database.cmi",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_MODULE_OPTS + [
-        "-w", "-34" # Unused type declaration.
-    ],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -89,7 +84,6 @@ ocaml_interface(
     name = "_Database.cmi",
     src = "database.mli",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -104,7 +98,6 @@ ocaml_module(
     name = "_Diff_buffer",
     src = "diff_buffer.ml",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -122,7 +115,6 @@ ocaml_module(
     name = "_Persistent_frontier",
     src = "persistent_frontier.ml",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -142,7 +134,6 @@ ocaml_module(
     src = "sync.ml",
     intf = ":_Sync.cmi",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -161,7 +152,6 @@ ocaml_interface(
     name = "_Sync.cmi",
     src = "sync.mli",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -180,7 +170,6 @@ ocaml_module(
     src = "worker.ml",
     intf = ":_Worker.cmi",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -198,7 +187,6 @@ ocaml_interface(
     name = "_Worker.cmi",
     src = "worker.mli",
     ns = ":Persistent_frontier_ns",
-    opts = PERSISTENT_FRONTIER_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -230,7 +218,6 @@ ppx_executable(
         "@opam//pkg:ppx_module_timer.runtime",
     ],
     main = "//bzl/ppx/exe:Driver",
-    opts = [],
     visibility = [
         "//src/lib/transition_frontier/persistent_frontier:__pkg__",
     ],

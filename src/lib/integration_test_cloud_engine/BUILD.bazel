@@ -55,7 +55,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Integration_test_cloud_engine_ns",
     ns = "integration_test_cloud_engine",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "cli_inputs.ml",
@@ -158,7 +157,9 @@ ocaml_interface(
 
 #############
 GRAPHQL_SCHEMA_FILE = "graphql_schema.json"
+
 GRAPHQL_SCHEMA_PATH = GRAPHQL_SCHEMA_FILE
+
 GRAPHQL_SCHEMA_JSON = "//:" + GRAPHQL_SCHEMA_FILE
 
 ocaml_module(
@@ -171,11 +172,12 @@ ocaml_module(
         # do not sort (buildifier)
         "-inline-test-lib",
         "integration_test_cloud_engine",
-        "-schema", GRAPHQL_SCHEMA_PATH         # obazl:retain
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,  # obazl:retain
     ],
-    ppx_data = [GRAPHQL_SCHEMA_JSON],          # obazl:retain
+    ppx_data = [GRAPHQL_SCHEMA_JSON],  # obazl:retain
     deps = INTEGRATION_TEST_CLOUD_ENGINE_DEPS + [
-        ":_Cmd_util"                           # obazl:retain
+        ":_Cmd_util",  # obazl:retain
     ],
 )
 

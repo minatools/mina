@@ -102,7 +102,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Rosetta_models_ns",
     ns = "rosetta_models",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "account_balance_request.ml",

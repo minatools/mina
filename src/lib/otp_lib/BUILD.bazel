@@ -47,7 +47,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Otp_lib_ns",
     ns = "otp_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "agent.ml",

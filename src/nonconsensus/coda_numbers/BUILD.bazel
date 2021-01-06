@@ -55,7 +55,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Coda_numbers_nonconsensus_ns",
     ns = "coda_numbers_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "account_nonce.ml",

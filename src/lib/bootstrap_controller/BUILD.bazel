@@ -46,7 +46,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Bootstrap_controller_ns",
     ns = "bootstrap_controller",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "bootstrap_controller.ml",

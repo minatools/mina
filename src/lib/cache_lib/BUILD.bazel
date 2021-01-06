@@ -44,7 +44,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Cache_lib_ns",
     ns = "cache_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "cache_lib.ml",

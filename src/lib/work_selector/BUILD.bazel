@@ -55,7 +55,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Work_selector_ns",
     ns = "work_selector",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "inputs.ml",

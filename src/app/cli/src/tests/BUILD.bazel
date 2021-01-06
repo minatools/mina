@@ -70,7 +70,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Tests_ns",
     ns = "tests",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "coda_archive_processor_test.ml",
@@ -108,7 +107,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -123,7 +122,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -138,7 +137,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -153,7 +152,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -169,7 +168,7 @@ ocaml_module(
     ],
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
-        ":_Coda_worker_testnet", # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
         ":_Heartbeat",
     ],
 )
@@ -185,7 +184,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -200,8 +199,8 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
-    ]
+        ":_Coda_worker_testnet",  # obazl:retain
+    ],
 )
 
 #############
@@ -215,8 +214,8 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_processes"      # obazl:retain
-    ]
+        ":_Coda_processes",  # obazl:retain
+    ],
 )
 
 #############
@@ -248,7 +247,7 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = TESTS_DEPS + [
-        ":_Coda_process"        # obazl:retain
+        ":_Coda_process",  # obazl:retain
     ],
 )
 
@@ -264,7 +263,7 @@ ocaml_module(
     ],
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
-        ":_Coda_worker_testnet", # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
         ":_Heartbeat",
     ],
 )
@@ -280,7 +279,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -295,7 +294,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -310,7 +309,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -326,8 +325,8 @@ ocaml_module(
     ],
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
-        ":_Coda_worker_testnet", # obazl:retain
-        ":_Heartbeat"
+        ":_Coda_worker_testnet",  # obazl:retain
+        ":_Heartbeat",
     ],
 )
 
@@ -342,7 +341,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_processes"       # obazl:retain
+        ":_Coda_processes",  # obazl:retain
     ],
 )
 
@@ -357,7 +356,7 @@ ocaml_module(
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS + [
-        ":_Coda_worker_testnet" # obazl:retain
+        ":_Coda_worker_testnet",  # obazl:retain
     ],
 )
 
@@ -387,7 +386,7 @@ ocaml_module(
     deps = TESTS_DEPS + [
         # do not sort (buildifier)
         ":_Coda_process",
-        ":_Coda_processes",     # obazl:retain
+        ":_Coda_processes",  # obazl:retain
         ":_Coda_worker",
     ],
 )

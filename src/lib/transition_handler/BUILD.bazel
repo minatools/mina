@@ -58,7 +58,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Transition_handler_ns",
     ns = "transition_handler",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "breadcrumb_builder.ml",
@@ -90,9 +89,9 @@ ocaml_module(
     ppx = TRANSITION_HANDLER_PPX,
     ppx_args = TRANSITION_HANDLER_PPX_ARGS,
     deps = TRANSITION_HANDLER_DEPS + [
-        ":_Breadcrumb_builder",            # obazl:retain
-        ":_Unprocessed_transition_cache"   # obazl:retain
-    ]
+        ":_Breadcrumb_builder",  # obazl:retain
+        ":_Unprocessed_transition_cache",  # obazl:retain
+    ],
 )
 
 #############
@@ -154,6 +153,6 @@ ocaml_module(
     deps = TRANSITION_HANDLER_DEPS + [
         # do not sort (buildifier)
         ":_Core_extended_cache",
-        ":_Unprocessed_transition_cache"   # obazl:retain
+        ":_Unprocessed_transition_cache",  # obazl:retain
     ],
 )

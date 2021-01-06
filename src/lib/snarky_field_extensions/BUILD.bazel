@@ -43,7 +43,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snarky_field_extensions_ns",
     ns = "snarky_field_extensions",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "field_extensions.ml",

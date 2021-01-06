@@ -88,7 +88,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Mina_base_nonconsensus_ns",
     ns = "mina_base_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "account.ml",

@@ -40,7 +40,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Hex_nonconsensus_ns",
     ns = "hex_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "hex.ml",

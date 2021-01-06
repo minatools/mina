@@ -42,7 +42,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snark_bits_ns",
     ns = "snark_bits",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "bits.ml",

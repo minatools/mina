@@ -47,7 +47,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Data_hash_lib_ns",
     ns = "data_hash_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "data_hash.ml",
@@ -63,7 +62,8 @@ ocaml_module(
     intf = ":_Data_hash.cmi",
     ns = ":Data_hash_lib_ns",
     opts = DATA_HASH_LIB_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [

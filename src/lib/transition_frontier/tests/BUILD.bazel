@@ -28,7 +28,6 @@ TRANSITION_FRONTIER_TESTS_PPX_ARGS = [
 ##############
 ocaml_archive(
     name = "transition_frontier_tests",
-    opts = [],
     visibility = ["//visibility:public"],
     deps = TRANSITION_FRONTIER_TESTS_DEPS + [
         # do not sort (buildifier)
@@ -41,7 +40,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Transition_frontier_tests_ns",
     ns = "transition_frontier_tests",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "full_frontier_tests.ml",
@@ -54,7 +52,6 @@ ocaml_module(
     name = "_Full_frontier_tests",
     src = "full_frontier_tests.ml",
     ns = ":Transition_frontier_tests_ns",
-    opts = TRANSITION_FRONTIER_TESTS_MODULE_OPTS,
     ppx = TRANSITION_FRONTIER_TESTS_PPX,
     ppx_args = TRANSITION_FRONTIER_TESTS_PPX_ARGS,
     deps = TRANSITION_FRONTIER_TESTS_DEPS,
@@ -65,7 +62,6 @@ ocaml_module(
     name = "_Transition_frontier_tests",
     src = "transition_frontier_tests.ml",
     ns = ":Transition_frontier_tests_ns",
-    opts = TRANSITION_FRONTIER_TESTS_MODULE_OPTS,
     ppx = TRANSITION_FRONTIER_TESTS_PPX,
     ppx_args = TRANSITION_FRONTIER_TESTS_PPX_ARGS,
     deps = TRANSITION_FRONTIER_TESTS_DEPS,

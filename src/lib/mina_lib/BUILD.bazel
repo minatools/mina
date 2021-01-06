@@ -75,7 +75,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Mina_lib_ns",
     ns = "mina_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "archive_client.ml",
@@ -183,7 +182,7 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     deps = MINA_LIB_DEPS + [
         # do not sort (buildifier)
-        ":_Archive_client",     # obazl:retain
+        ":_Archive_client",  # obazl:retain
         ":_Coda_subscriptions",
         ":_Conf_dir",
         ":_Config",

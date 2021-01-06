@@ -43,7 +43,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Merkle_ledger_tests_ns",
     ns = "merkle_ledger_tests",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "binary_tree.ml",

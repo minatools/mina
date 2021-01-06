@@ -9,7 +9,9 @@ load(
 )
 
 GRAPHQL_SCHEMA_FILE = "archive_graphql_schema.json"
-GRAPHQL_SCHEMA_PATH = "src/app/archive/"   + GRAPHQL_SCHEMA_FILE
+
+GRAPHQL_SCHEMA_PATH = "src/app/archive/" + GRAPHQL_SCHEMA_FILE
+
 GRAPHQL_SCHEMA_JSON = "//src/app/archive:" + GRAPHQL_SCHEMA_FILE
 
 INLINE_TEST_LIB = "rosetta-lib"
@@ -50,7 +52,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Graphql_query_ns",
     ns = "graphql_query",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "base_types.ml",
@@ -69,13 +70,16 @@ ocaml_module(
     src = "base_types.ml",
     ns = ":Graphql_query_ns",
     opts = GRAPHQL_QUERY_MODULE_OPTS + [
-        "-w", "-3" # Deprecated synonym for the ’deprecated’ alert.
+        "-w",
+        "-3",  # Deprecated synonym for the ’deprecated’ alert.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS,
@@ -90,11 +94,13 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = GRAPHQL_QUERY_DEPS,
 )
 
@@ -107,8 +113,10 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS,
@@ -123,13 +131,15 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = GRAPHQL_QUERY_DEPS + [
-        ":_Base_types"          # obazl:retain
+        ":_Base_types",  # obazl:retain
     ],
 )
 
@@ -142,8 +152,10 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS + [
@@ -165,8 +177,10 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS,
@@ -181,14 +195,16 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-inline-test-lib", INLINE_TEST_LIB,
-        "-schema", GRAPHQL_SCHEMA_PATH,
+        "-inline-test-lib",
+        INLINE_TEST_LIB,
+        "-schema",
+        GRAPHQL_SCHEMA_PATH,
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = GRAPHQL_QUERY_DEPS + [
-        ":_Base_types"          # obazl:retain
-    ]
+        ":_Base_types",  # obazl:retain
+    ],
 )
 
 ###############

@@ -17,7 +17,7 @@ STRUCTURED_LOG_EVENTS_EXAMPLES_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
     "@opam//pkg:yojson",
-    "//src/lib/structured_log_events" # obazl:retain
+    "//src/lib/structured_log_events",  # obazl:retain
 ]
 
 ##############
@@ -36,7 +36,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Structured_log_events_examples_ns",
     ns = "structured_log_events_examples",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "event_declarations.ml",

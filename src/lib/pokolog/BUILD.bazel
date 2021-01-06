@@ -48,7 +48,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Pokolog_ns",
     ns = "pokolog",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "group_intf.ml",
@@ -129,7 +128,8 @@ ocaml_module(
     src = "pokolog.ml",
     ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS + [
-        "-w", "-22" # Preprocessor warning:  Must have deriving version if deriving bin_io
+        "-w",
+        "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
     ],
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
@@ -148,7 +148,8 @@ ocaml_module(
     src = "proof.ml",
     ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS + [
-        "-w", "-22" # Preprocessor warning:  Must have deriving version if deriving bin_io
+        "-w",
+        "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
     ],
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
@@ -172,7 +173,8 @@ ocaml_module(
     src = "variable_base_instance.ml",
     ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS + [
-        "-w", "-22" # Preprocessor warning:  Must have deriving version if deriving bin_io
+        "-w",
+        "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
     ],
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,

@@ -42,7 +42,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Integration_test_lib_ns",
     ns = "integration_test_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "integration_test_lib.ml",

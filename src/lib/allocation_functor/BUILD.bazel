@@ -39,7 +39,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Allocation_functor_ns",
     ns = "allocation_functor",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "intf.ml",
@@ -69,7 +68,8 @@ ocaml_module(
     src = "make.ml",
     ns = ":Allocation_functor_ns",
     opts = ALLOCATION_FUNCTOR_MODULE_OPTS + [
-        "-w", "-22" # Error (warning 22): Versioned type used outside a versioned type declaration
+        "-w",
+        "-22",  # Error (warning 22): Versioned type used outside a versioned type declaration
     ],
     ppx = ":ppx1.exe",
     ppx_args = [

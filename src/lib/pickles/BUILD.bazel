@@ -109,7 +109,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Pickles_ns",
     ns = "pickles",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "cache.ml",
@@ -167,7 +166,8 @@ ocaml_module(
     src = "cache.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27" # Error (warning 27): unused variable e.
+        "-w",
+        "-27",  # Error (warning 27): unused variable e.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -200,7 +200,8 @@ ocaml_module(
     src = "commitment_lengths.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27" # Error (warning 27): unused variable +.
+        "-w",
+        "-27",  # Error (warning 27): unused variable +.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -246,7 +247,8 @@ ocaml_module(
     src = "dlog_main.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-34", ## Unused type declaration.
+        "-w",
+        "-34",  ## Unused type declaration.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -405,11 +407,16 @@ ocaml_module(
     src = "pairing_main.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-9",  # Missing fields in a record pattern.
-        "-w", "-27", # Innocuous unused variable
-        "-w", "-33", # Unused open statement.
-        "-w", "-34", # Unused type declaration.
-        "-w", "-39", # Unused extension constructor.
+        "-w",
+        "-9",  # Missing fields in a record pattern.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-33",  # Unused open statement.
+        "-w",
+        "-34",  # Unused type declaration.
+        "-w",
+        "-39",  # Unused extension constructor.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -436,7 +443,8 @@ ocaml_module(
     src = "per_proof_witness.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-33", # Unused open statement.
+        "-w",
+        "-33",  # Unused open statement.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -460,15 +468,20 @@ ocaml_module(
     intf = ":_Pickles.cmi",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27", # Innocuous unused variable
-        "-w", "-32", # Unused value declaration.
-        "-w", "-33", # Unused open statement.
-        "-w", "-34", # Unused type declaration.
-        "-w", "-37", # Unused constructor.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-32",  # Unused value declaration.
+        "-w",
+        "-33",  # Unused open statement.
+        "-w",
+        "-34",  # Unused type declaration.
+        "-w",
+        "-37",  # Unused constructor.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = PICKLES_DEPS + [
         # do not sort (buildifier)
         ":_Cache",
@@ -529,7 +542,8 @@ ocaml_module(
     src = "plonk_curve_ops.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-33" # Error (warning 33): unused open Impl.Field.Constant.
+        "-w",
+        "-33",  # Error (warning 33): unused open Impl.Field.Constant.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -547,7 +561,7 @@ ocaml_module(
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
         "-w",
-        "-22"  # Preprocessor warnings
+        "-22",  # Preprocessor warnings
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -586,7 +600,8 @@ ocaml_module(
     src = "requests.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-33" # Unused value declaration.
+        "-w",
+        "-33",  # Unused value declaration.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -623,7 +638,8 @@ ocaml_module(
     src = "scalar_challenge.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-33" # Error (warning 33): unused open Impl.As_prover.
+        "-w",
+        "-33",  # Error (warning 33): unused open Impl.As_prover.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -641,9 +657,12 @@ ocaml_module(
     src = "side_loaded_verification_key.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-6",  # Label omitted in function application.
-        "-w", "-27", # Innocuous unused variable
-        "-w", "-33"  # Unused open statement.
+        "-w",
+        "-6",  # Label omitted in function application.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-33",  # Unused open statement.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -677,8 +696,10 @@ ocaml_module(
     src = "step.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27", # Innocuous unused variable
-        "-w", "-34", # Unused type declaration.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-34",  # Unused type declaration.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -709,8 +730,10 @@ ocaml_module(
     src = "step_branch_data.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-33",  # Unused open statement.
-        "-w", "-34",  # Unused type declaration.
+        "-w",
+        "-33",  # Unused open statement.
+        "-w",
+        "-34",  # Unused type declaration.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -736,9 +759,12 @@ ocaml_module(
     src = "step_main.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-33",  # Unused open statement.
-        "-w", "-34",  # Unused type declaration.
-        "-w", "-37",  # Unused ancestor variable.
+        "-w",
+        "-33",  # Unused open statement.
+        "-w",
+        "-34",  # Unused type declaration.
+        "-w",
+        "-37",  # Unused ancestor variable.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -768,8 +794,10 @@ ocaml_module(
     src = "step_main_inputs.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-6", # Label omitted in function application.
-        "-w", "-33", # Unused open statement.
+        "-w",
+        "-6",  # Label omitted in function application.
+        "-w",
+        "-33",  # Unused open statement.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -879,8 +907,10 @@ ocaml_module(
     src = "types_map.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-9",  ## Missing fields in a record pattern.
-        "-w", "-27"  ## Innocuous unused variable
+        "-w",
+        "-9",  ## Missing fields in a record pattern.
+        "-w",
+        "-27",  ## Innocuous unused variable
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -936,7 +966,8 @@ ocaml_module(
     src = "verification_key.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-6" # Error (warning 6): label log2_size was omitted in the application of this function
+        "-w",
+        "-6",  # Error (warning 6): label log2_size was omitted in the application of this function
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -953,9 +984,12 @@ ocaml_module(
     src = "verify.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-9",   # Missing fields in a record pattern.
-        "-w", "-27",  # Innocuous unused variable
-        "-w", "-33",  # Unused open statement.
+        "-w",
+        "-9",  # Missing fields in a record pattern.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-33",  # Unused open statement.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -982,7 +1016,8 @@ ocaml_module(
     src = "wrap.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27" # Innocuous unused variable
+        "-w",
+        "-27",  # Innocuous unused variable
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -1005,8 +1040,10 @@ ocaml_module(
     src = "wrap_domains.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27", # Innocuous unused variable
-        "-w", "-34", # Unused type declaration.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-34",  # Unused type declaration.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -1031,8 +1068,10 @@ ocaml_module(
     src = "wrap_main.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-27",  # Innocuous unused variable
-        "-w", "-34"   # Unused type declaration.
+        "-w",
+        "-27",  # Innocuous unused variable
+        "-w",
+        "-34",  # Unused type declaration.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,
@@ -1058,7 +1097,8 @@ ocaml_module(
     src = "wrap_main_inputs.ml",
     ns = ":Pickles_ns",
     opts = PICKLES_MODULE_OPTS + [
-        "-w", "-6", # Label omitted in function application.
+        "-w",
+        "-6",  # Label omitted in function application.
     ],
     ppx = PICKLES_PPX,
     ppx_args = PICKLES_PPX_ARGS,

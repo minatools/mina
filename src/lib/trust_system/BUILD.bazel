@@ -49,7 +49,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Trust_system_ns",
     ns = "trust_system",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "banned_status.ml",
@@ -88,7 +87,7 @@ ocaml_module(
         "trust_system",
     ],
     deps = TRUST_SYSTEM_DEPS + [
-        ":_Banned_status"       # obazl:retain
+        ":_Banned_status",  # obazl:retain
     ],
 )
 

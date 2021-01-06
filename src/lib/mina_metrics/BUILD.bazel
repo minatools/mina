@@ -20,7 +20,7 @@ MINA_METRICS_MODULE_OPTS = []
 MINA_METRICS_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:async",
-    "@opam//pkg:async_ssl",     # obazl:retain
+    "@opam//pkg:async_ssl",  # obazl:retain
     "@opam//pkg:cohttp",
     "@opam//pkg:cohttp-async",
     "@ocaml_jemalloc//src:jemalloc",
@@ -45,7 +45,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Mina_metrics_ns",
     ns = "mina_metrics",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "mina_metrics.ml",

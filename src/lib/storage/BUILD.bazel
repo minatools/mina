@@ -49,7 +49,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Storage_ns",
     ns = "storage",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "checked_data.ml",

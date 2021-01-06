@@ -53,7 +53,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Random_oracle_ns",
     ns = "random_oracle",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "intf.ml",

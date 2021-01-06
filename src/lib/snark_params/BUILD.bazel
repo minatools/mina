@@ -53,7 +53,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snark_params_ns",
     ns = "snark_params",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "snark_intf.ml",

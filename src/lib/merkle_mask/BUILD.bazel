@@ -47,7 +47,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Merkle_mask_ns",
     ns = "merkle_mask",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "base_merkle_tree_intf.ml",

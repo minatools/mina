@@ -46,7 +46,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Limb_vector_ns",
     ns = "limb_vector",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "challenge.ml",
@@ -77,7 +76,8 @@ ocaml_module(
     src = "constant.ml",
     ns = ":Limb_vector_ns",
     opts = LIMB_VECTOR_MODULE_OPTS + [
-        "-w", "-22" # Deriving bin_io and deriving version disallowed for types in functor body
+        "-w",
+        "-22",  # Deriving bin_io and deriving version disallowed for types in functor body
     ],
     ppx = LIMB_VECTOR_PPX,
     ppx_args = LIMB_VECTOR_PPX_ARGS,

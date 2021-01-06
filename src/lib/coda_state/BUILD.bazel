@@ -55,7 +55,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Coda_state_ns",
     ns = "coda_state",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "ancestor.ml",
@@ -100,7 +99,7 @@ ocaml_module(
         "coda_state",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = CODA_STATE_DEPS,
 )
 
@@ -217,7 +216,7 @@ ocaml_module(
         "coda_state",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = CODA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",

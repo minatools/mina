@@ -58,7 +58,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snark_worker_ns",
     ns = "snark_worker",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "debug.ml",

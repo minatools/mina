@@ -52,7 +52,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Graphql_lib_ns",
     ns = "graphql_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "base_types.ml",

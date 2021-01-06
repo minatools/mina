@@ -59,7 +59,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Rosetta_lib_nonconsensus_ns",
     ns = "rosetta_lib_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "amount_of.ml",

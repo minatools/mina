@@ -36,7 +36,6 @@ EXTENSIONS_PPX_ARGS = [
 ##############
 ocaml_archive(
     name = "extensions",
-    opts = [],
     visibility = ["//visibility:public"],
     deps = EXTENSIONS_DEPS + [
         # do not sort (buildifier)
@@ -57,7 +56,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Extensions_ns",
     ns = "extensions",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "best_tip_diff.ml",
@@ -79,7 +77,6 @@ ocaml_module(
     src = "best_tip_diff.ml",
     intf = ":_Best_tip_diff.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -93,7 +90,6 @@ ocaml_interface(
     name = "_Best_tip_diff.cmi",
     src = "best_tip_diff.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -108,7 +104,6 @@ ocaml_module(
     src = "extensions.ml",
     intf = ":_Extensions.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -129,7 +124,6 @@ ocaml_interface(
     name = "_Extensions.cmi",
     src = "extensions.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -149,7 +143,6 @@ ocaml_module(
     name = "_Functor",
     src = "functor.ml",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -164,7 +157,6 @@ ocaml_module(
     src = "identity.ml",
     intf = ":_Identity.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -178,7 +170,6 @@ ocaml_interface(
     name = "_Identity.cmi",
     src = "identity.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -192,7 +183,6 @@ ocaml_module(
     name = "_Intf",
     src = "intf.ml",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS,
@@ -204,7 +194,6 @@ ocaml_module(
     src = "ledger_table.ml",
     intf = ":_Ledger_table.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -218,7 +207,6 @@ ocaml_interface(
     name = "_Ledger_table.cmi",
     src = "ledger_table.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -233,7 +221,6 @@ ocaml_module(
     src = "new_breadcrumbs.ml",
     intf = ":_New_breadcrumbs.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -247,7 +234,6 @@ ocaml_interface(
     name = "_New_breadcrumbs.cmi",
     src = "new_breadcrumbs.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -262,7 +248,6 @@ ocaml_module(
     src = "root_history.ml",
     intf = ":_Root_history.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -276,7 +261,6 @@ ocaml_interface(
     name = "_Root_history.cmi",
     src = "root_history.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -291,7 +275,6 @@ ocaml_module(
     src = "snark_pool_refcount.ml",
     intf = ":_Snark_pool_refcount.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -305,7 +288,6 @@ ocaml_interface(
     name = "_Snark_pool_refcount.cmi",
     src = "snark_pool_refcount.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -320,7 +302,6 @@ ocaml_module(
     src = "transition_registry.ml",
     intf = ":_Transition_registry.cmi",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_MODULE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [
@@ -334,7 +315,6 @@ ocaml_interface(
     name = "_Transition_registry.cmi",
     src = "transition_registry.mli",
     ns = ":Extensions_ns",
-    opts = EXTENSIONS_INTERFACE_OPTS,
     ppx = EXTENSIONS_PPX,
     ppx_args = EXTENSIONS_PPX_ARGS,
     deps = EXTENSIONS_DEPS + [

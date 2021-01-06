@@ -45,7 +45,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Sgn_type_ns",
     ns = "sgn_type",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "sgn.ml",

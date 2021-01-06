@@ -43,7 +43,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Coda_debug_ns",
     ns = "coda_debug",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "call_logger.ml",

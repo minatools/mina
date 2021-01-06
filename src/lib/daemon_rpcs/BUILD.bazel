@@ -48,7 +48,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Daemon_rpcs_ns",
     ns = "daemon_rpcs",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "client.ml",

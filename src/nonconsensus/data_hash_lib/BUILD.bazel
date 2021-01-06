@@ -47,7 +47,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Data_hash_lib_nonconsensus_ns",
     ns = "data_hash_lib_nonconsensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "data_hash.ml",

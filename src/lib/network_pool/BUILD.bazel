@@ -64,7 +64,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Network_pool_ns",
     ns = "network_pool",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "batcher.ml",

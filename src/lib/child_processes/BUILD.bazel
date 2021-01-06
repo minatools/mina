@@ -30,6 +30,9 @@ CHILD_PROCESSES_DEPS = [
 ##############
 ocaml_archive(
     name = "child_processes",
+    cc_deps = {
+        ":caml_syslimits": "default",
+    },
     opts = [],
     visibility = ["//visibility:public"],
     deps = CHILD_PROCESSES_DEPS + [
@@ -38,16 +41,12 @@ ocaml_archive(
         ":_Syslimits",
         ":_Termination",
     ],
-    cc_deps = {
-        ":caml_syslimits": "default"
-    }
 )
 
 #########
 ocaml_ns(
     name = "Child_processes_ns",
     ns = "child_processes",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "child_processes.ml",
@@ -71,7 +70,7 @@ ocaml_module(
     ],
     deps = CHILD_PROCESSES_DEPS + [
         # do not sort (buildifier)
-        ":_Syslimits",          # obazl:retain
+        ":_Syslimits",  # obazl:retain
         ":_Termination",
     ],
 )
@@ -111,10 +110,10 @@ ocaml_module(
 
 ###########
 cc_library(
-    name = "caml_syslimits",    # obazl:retain
-    visibility = ["//visibility:public"],
+    name = "caml_syslimits",  # obazl:retain
     srcs = ["caml_syslimits.c"],
     copts = ["-I."],
+    visibility = ["//visibility:public"],
     deps = [
         "@ocaml//csdk:hdrs",
     ],

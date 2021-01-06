@@ -53,7 +53,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Perf_histograms_ns",
     ns = "perf_histograms",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "histogram.ml",
@@ -142,6 +141,6 @@ ocaml_module(
     deps = PERF_HISTOGRAMS_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
-        ":_Perf_histograms0"    # obazl:retain
+        ":_Perf_histograms0",  # obazl:retain
     ],
 )

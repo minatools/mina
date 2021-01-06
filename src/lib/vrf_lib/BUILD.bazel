@@ -15,10 +15,9 @@ VRF_LIB_MODULE_OPTS = []
 VRF_LIB_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core",
-    "@mina//src/lib/genesis_constants",
     "@snarky//src/base:snarky_backendless",
     "@mina//src/lib/snarky_curves",
-    "@mina//src/lib/test_util",
+    # "@mina//src/lib/test_util",
 ]
 
 VRF_LIB_PPX = "@//bzl/ppx/exe:h_list.ppx__ppx_bench__ppx_deriving.eq__ppx_jane__ppx_version"
@@ -46,7 +45,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Vrf_lib_ns",
     ns = "vrf_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "integrated.ml",
@@ -62,7 +60,9 @@ ocaml_module(
     opts = VRF_LIB_MODULE_OPTS,
     ppx = VRF_LIB_PPX,
     ppx_args = VRF_LIB_PPX_ARGS,
-    deps = VRF_LIB_DEPS,
+    deps = VRF_LIB_DEPS + [
+        "@mina//src/lib/genesis_constants",
+    ],
 )
 
 #############

@@ -44,7 +44,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Bowe_gabizon_hash_ns",
     ns = "bowe_gabizon_hash",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "bowe_gabizon_hash.ml",

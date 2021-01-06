@@ -51,7 +51,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Genesis_ledger_ns",
     ns = "genesis_ledger",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "fake_accounts.ml",

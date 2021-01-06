@@ -72,7 +72,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Consensus_ns",
     ns = "consensus",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "consensus.ml",
@@ -143,8 +142,8 @@ ocaml_module(
         "-inline-test-lib",
         "consensus",
     ],
-    ppx_print = PPX_PRINT,      # obazl:retain
     ppx_data = CONFIG_MLH,
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = CONSENSUS_DEPS,
 )
 
@@ -199,7 +198,7 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
@@ -323,7 +322,7 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",

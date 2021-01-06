@@ -50,7 +50,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Transition_router_ns",
     ns = "transition_router",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "initial_validator.ml",

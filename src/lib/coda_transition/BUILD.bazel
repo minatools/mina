@@ -57,7 +57,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Coda_transition_ns",
     ns = "coda_transition",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "external_transition.ml",

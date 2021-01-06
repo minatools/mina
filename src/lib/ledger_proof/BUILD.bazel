@@ -43,7 +43,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Ledger_proof_ns",
     ns = "ledger_proof",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "ledger_proof.ml",

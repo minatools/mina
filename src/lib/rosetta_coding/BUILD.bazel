@@ -40,7 +40,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Rosetta_coding_ns",
     ns = "rosetta_coding",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "coding.ml",

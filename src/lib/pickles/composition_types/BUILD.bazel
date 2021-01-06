@@ -54,7 +54,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Composition_types_ns",
     ns = "composition_types",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "bulletproof_challenge.ml",
@@ -83,9 +82,12 @@ ocaml_module(
     src = "composition_types.ml",
     ns = ":Composition_types_ns",
     opts = COMPOSITION_TYPES_MODULE_OPTS + [
-        "-w", "-22", # Error (warning 22): Must have deriving version if deriving bin_io
-        "-w", "-27", # Error (warning 27): unused variable
-        "-w", "-33", # Error (warning 33): unused open Snarky_backendless.H_list.
+        "-w",
+        "-22",  # Error (warning 22): Must have deriving version if deriving bin_io
+        "-w",
+        "-27",  # Error (warning 27): unused variable
+        "-w",
+        "-33",  # Error (warning 33): unused open Snarky_backendless.H_list.
     ],
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
@@ -106,9 +108,9 @@ ocaml_module(
     ns = ":Composition_types_ns",
     opts = COMPOSITION_TYPES_MODULE_OPTS + [
         "-w",
-        "-22", # Error (warning 22): Deriving bin_io and deriving version disallowed for types in functor body
+        "-22",  # Error (warning 22): Deriving bin_io and deriving version disallowed for types in functor body
         "-w",
-        "-32"  # Error (warning 32): unused value of_tick_field.
+        "-32",  # Error (warning 32): unused value of_tick_field.
     ],
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,

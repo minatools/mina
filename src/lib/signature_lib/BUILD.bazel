@@ -52,7 +52,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Signature_lib_ns",
     ns = "signature_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "keypair.ml",

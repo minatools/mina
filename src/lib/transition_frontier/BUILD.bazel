@@ -36,7 +36,6 @@ TRANSITION_FRONTIER_PPX_ARGS = [
 ##############
 ocaml_archive(
     name = "transition_frontier",
-    opts = [],
     visibility = ["//visibility:public"],
     deps = TRANSITION_FRONTIER_DEPS + [
         # do not sort (buildifier)
@@ -49,7 +48,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Transition_frontier_ns",
     ns = "transition_frontier",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "catchup_hash_tree.ml",
@@ -62,7 +60,6 @@ ocaml_module(
     name = "_Catchup_hash_tree",
     src = "catchup_hash_tree.ml",
     ns = ":Transition_frontier_ns",
-    opts = TRANSITION_FRONTIER_MODULE_OPTS,
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
     deps = TRANSITION_FRONTIER_DEPS,
@@ -74,7 +71,6 @@ ocaml_module(
     src = "transition_frontier.ml",
     intf = ":_Transition_frontier.cmi",
     ns = ":Transition_frontier_ns",
-    opts = TRANSITION_FRONTIER_MODULE_OPTS,
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
     deps = TRANSITION_FRONTIER_DEPS + [
@@ -88,7 +84,6 @@ ocaml_interface(
     name = "_Transition_frontier.cmi",
     src = "transition_frontier.mli",
     ns = ":Transition_frontier_ns",
-    opts = TRANSITION_FRONTIER_INTERFACE_OPTS,
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
     deps = TRANSITION_FRONTIER_DEPS + [

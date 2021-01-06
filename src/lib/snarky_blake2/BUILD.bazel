@@ -48,7 +48,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snarky_blake2_ns",
     ns = "snarky_blake2",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "snarky_blake2.ml",

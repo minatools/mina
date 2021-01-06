@@ -58,7 +58,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Staged_ledger_ns",
     ns = "staged_ledger",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "diff_creation_log.ml",

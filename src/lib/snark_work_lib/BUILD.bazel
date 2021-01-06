@@ -45,7 +45,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snark_work_lib_ns",
     ns = "snark_work_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "work.ml",

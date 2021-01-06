@@ -49,7 +49,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Coda_intf_ns",
     ns = "coda_intf",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "coda_intf.ml",

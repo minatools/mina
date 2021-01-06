@@ -44,7 +44,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Non_zero_curve_point_ns",
     ns = "non_zero_curve_point",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "compressed_poly.ml",
@@ -75,7 +74,8 @@ ocaml_module(
     src = "non_zero_curve_point.ml",
     ns = ":Non_zero_curve_point_ns",
     opts = NON_ZERO_CURVE_POINT_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [

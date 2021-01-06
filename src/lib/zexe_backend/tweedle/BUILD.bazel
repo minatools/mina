@@ -51,7 +51,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Tweedle_ns",
     ns = "tweedle",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "basic.ml",
@@ -69,7 +68,7 @@ ocaml_module(
     ns = ":Tweedle_ns",
     opts = TWEEDLE_MODULE_OPTS + [
         "-w",
-        "-33" # Error (warning 33): unused open Core_kernel.
+        "-33",  # Error (warning 33): unused open Core_kernel.
     ],
     ppx = TWEEDLE_PPX,
     ppx_args = TWEEDLE_PPX_ARGS,
@@ -83,9 +82,9 @@ ocaml_module(
     ns = ":Tweedle_ns",
     opts = TWEEDLE_MODULE_OPTS + [
         "-w",
-        "-6", # Error (warning 6): labels primary_input, auxiliary_input, prev_challenges, prev_sgs were omitted in the application of this function.
+        "-6",  # Error (warning 6): labels primary_input, auxiliary_input, prev_challenges, prev_sgs were omitted in the application of this function.
         "-w",
-        "-32" # Error (warning 32): unused value verify.
+        "-32",  # Error (warning 32): unused value verify.
     ],
     ppx = TWEEDLE_PPX,
     ppx_args = TWEEDLE_PPX_ARGS,
@@ -103,9 +102,9 @@ ocaml_module(
     ns = ":Tweedle_ns",
     opts = TWEEDLE_MODULE_OPTS + [
         "-w",
-        "-6", # Error (warning 6): labels primary_input, auxiliary_input, prev_challenges, prev_sgs were omitted in the application of this function.
+        "-6",  # Error (warning 6): labels primary_input, auxiliary_input, prev_challenges, prev_sgs were omitted in the application of this function.
         "-w",
-        "-32" # Error (warning 32): unused value verify.
+        "-32",  # Error (warning 32): unused value verify.
     ],
     ppx = TWEEDLE_PPX,
     ppx_args = TWEEDLE_PPX_ARGS,

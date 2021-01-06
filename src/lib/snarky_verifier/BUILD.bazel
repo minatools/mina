@@ -15,7 +15,7 @@ SNARKY_VERIFIER_MODULE_OPTS = []
 
 SNARKY_VERIFIER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",          # obazl:retain
+    "@opam//pkg:core",  # obazl:retain
     "@opam//pkg:core_kernel",
     "@mina//src/lib/sgn_type",
     "@mina//src/lib/snarky_curves",
@@ -42,7 +42,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Snarky_verifier_ns",
     ns = "snarky_verifier",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "bowe_gabizon.ml",

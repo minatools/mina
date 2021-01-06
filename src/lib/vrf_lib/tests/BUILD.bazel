@@ -50,7 +50,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Vrf_lib_tests_ns",
     ns = "vrf_lib_tests",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "integrated_test.ml",

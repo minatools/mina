@@ -53,7 +53,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Logger_ns",
     ns = "logger",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "impl.ml",

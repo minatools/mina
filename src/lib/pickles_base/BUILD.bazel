@@ -39,7 +39,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Pickles_base_ns",
     ns = "pickles_base",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "domain.ml",
@@ -54,7 +53,8 @@ ocaml_module(
     src = "domain.ml",
     ns = ":Pickles_base_ns",
     opts = PICKLES_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value
+        "-w",
+        "-32",  # Unused value
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -78,7 +78,7 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_base",
     ],
-    deps = PICKLES_BASE_DEPS + [":_Domain"] # obazl:retain
+    deps = PICKLES_BASE_DEPS + [":_Domain"],  # obazl:retain
 )
 
 #############
@@ -87,8 +87,10 @@ ocaml_module(
     src = "side_loaded_verification_key.ml",
     ns = ":Pickles_base_ns",
     opts = PICKLES_BASE_MODULE_OPTS + [
-        "-w", "-22",            # Error (warning 22): Cannot use versioned extension within a functor body
-        "-w", "-9"              # Error (warning 9): the following labels are not bound in this record pattern:
+        "-w",
+        "-22",  # Error (warning 22): Cannot use versioned extension within a functor body
+        "-w",
+        "-9",  # Error (warning 9): the following labels are not bound in this record pattern:
     ],
     ppx = ":ppx1.exe",
     ppx_args = [

@@ -11,7 +11,6 @@ ocaml_module(
     name = "full_frontier",
     src = "full_frontier.ml",
     intf = ":_Full_frontier.cmi",
-    opts = [],
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson",
     ppx_args = [
         # do not sort (buildifier)
@@ -34,7 +33,6 @@ ocaml_module(
 ocaml_interface(
     name = "_Full_frontier.cmi",
     src = "full_frontier.mli",
-    opts = [],
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson",
     ppx_args = [
         # do not sort (buildifier)

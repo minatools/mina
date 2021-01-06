@@ -45,7 +45,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Archive_lib_ns",
     ns = "archive_lib",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "ast.ml",
@@ -135,7 +134,7 @@ ocaml_module(
         "-inline-test-lib",
         "archive_lib",
     ],
-    deps = ARCHIVE_LIB_DEPS + ["_Processor"] # obazl:retain
+    deps = ARCHIVE_LIB_DEPS + ["_Processor"],  # obazl:retain
 )
 
 ###############

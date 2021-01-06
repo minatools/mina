@@ -63,7 +63,6 @@ ocaml_archive(
 ocaml_ns(
     name = "Merkle_ledger_ns",
     ns = "merkle_ledger",
-    opts = [],
     submodules = [
         # do not sort (buildifier)
         "any_ledger.ml",
