@@ -1,3 +1,5 @@
+load("@obazl_rules_opam//opam:providers.bzl", "OpamConfig", "OpamSwitch")
+
 PACKAGES = {
     # pin paths:
     "async_kernel": ["v0.12.0",
@@ -179,15 +181,15 @@ PACKAGES = {
     "zed": ["1.6"],
 }
 
-opam = struct(
+opam = OpamConfig(
     version = "2.0",
     switches  = {
-        "mina-0.1.0": struct(
+        "mina-0.1.0": OpamSwitch(
             default  = True,
             compiler = "4.07.1",
             packages = PACKAGES
         ),
-        "4.07.1": struct(
+        "4.07.1": OpamSwitch(
             compiler = "4.07.1",
             packages = PACKAGES
         ),
