@@ -114,7 +114,7 @@ ocaml_module(
 ###############
 ppx_executable(
     name = "ppx.exe",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",

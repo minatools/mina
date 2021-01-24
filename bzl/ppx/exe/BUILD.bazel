@@ -3,7 +3,7 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl", "ppx_executable", "ppx_module")
 ###############
 ppx_executable(
     name = "ppx_jane",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -125,7 +125,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_deriving.enum",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -156,7 +156,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_deriving.eq",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -171,14 +171,14 @@ ppx_executable(
     main = ":Driver",
     opts = [],
     visibility = [
-        "@snarky//bitstring_lib:__pkg__", # obazl:retain
-        "@snarky//fold_lib:__pkg__",      # obazl:retain
+        "@snarky//bitstring_lib:__pkg__",  # obazl:retain
+        "@snarky//fold_lib:__pkg__",  # obazl:retain
         "@snarky//group_map:__pkg__",
         "@snarky//snarky_curve:__pkg__",
         "@snarky//snarky_integer:__pkg__",
         "@snarky//snarky_signature:__pkg__",
         "@snarky//sponge:__pkg__",
-        "@snarky//tuple_lib:__pkg__",     # obazl:retain
+        "@snarky//tuple_lib:__pkg__",  # obazl:retain
     ],
     deps = [
         "@opam//pkg:ppx_deriving.eq",
@@ -190,7 +190,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_version",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -217,7 +217,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_inline_test",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_inline_test.runtime-lib",
     ],
     main = ":Driver",
@@ -255,7 +255,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -346,7 +346,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_coda__ppx_version__ppx_jane",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -393,7 +393,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_deriving_yojson__ppx_jane__ppx_deriving.std",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -429,7 +429,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_coda__ppx_version",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -458,7 +458,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_deriving.eq__bisect_ppx",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -490,7 +490,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_deriving_yojson__ppx_version",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -520,7 +520,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_version__ppx_inline_test",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -548,7 +548,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_base__ppx_optcomp",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_compare.runtime-lib",
     ],
     main = ":Driver",
@@ -568,7 +568,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane__ppx_deriving.eq",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -612,7 +612,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane__ppx_deriving.std",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -642,7 +642,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -674,7 +674,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane__ppxlib.metaquot",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -723,7 +723,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_coda__ppx_version__ppx_jane__ppx_deriving.eq",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -755,7 +755,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_coda__ppx_version__ppx_jane__ppx_deriving.std",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -785,7 +785,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_version__ppx_deriving.eq__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -818,7 +818,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -852,7 +852,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_jane__ppx_deriving_yojson__ppx_deriving.std",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -884,7 +884,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_let__ppx_sexp_conv__ppx_optcomp",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
     ],
     main = ":Driver",
@@ -924,7 +924,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "h_list.ppx__ppx_bench__ppx_deriving.eq__ppx_jane__ppx_version",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -955,7 +955,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_coda__ppx_version__ppx_jane__ppx_deriving.std__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -988,7 +988,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_coda__ppx_version__ppx_deriving.eq__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -1021,7 +1021,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -1054,7 +1054,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -1089,7 +1089,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_optcomp__ppx_let__ppx_inline_test__ppx_custom_printf",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
         "@opam//pkg:ppx_inline_test.runtime-lib",
     ],
@@ -1112,7 +1112,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson__h_list.ppx",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -1146,7 +1146,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "graphql_ppx__ppx_coda__ppx_deriving.show__ppx_deriving_yojson__ppx_jane__ppx_version__ppx_deriving.eq",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_expect.collector",
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
@@ -1181,7 +1181,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_bin_prot__ppx_sexp_conv__ppx_compare__ppx_hash__ppx_optcomp__ppx_deriving.eq__ppx_deriving_yojson",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_deriving_yojson.runtime",
@@ -1212,7 +1212,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_version__ppx_optcomp__ppx_sexp_conv__ppx_compare__ppx_inline_test__ppx_assert__ppx_deriving.eq__ppx_deriving_yojson__ppx_let",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_deriving_yojson.runtime",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -1244,7 +1244,7 @@ ppx_executable(
 ###############
 ppx_executable(
     name = "ppx_coda__ppx_version__ppx_optcomp__ppx_assert__ppx_let__ppx_sexp_conv__ppx_compare__ppx_deriving.std__ppx_custom_printf__ppx_deriving_yojson__ppx_inline_test",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_deriving_yojson.runtime",
         "@opam//pkg:ppx_sexp_conv.runtime-lib",
@@ -1252,7 +1252,7 @@ ppx_executable(
         "@opam//pkg:ppx_assert.runtime-lib",
         "@opam//pkg:ppx_compare.runtime-lib",
         "@opam//pkg:ppx_inline_test.runtime-lib",
-        "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime"
+        "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime",
     ],
     main = ":Driver",
     opts = [],
@@ -1261,6 +1261,7 @@ ppx_executable(
         "//src/nonconsensus/rosetta_lib:__pkg__",
     ],
     deps = [
+        "//src/lib/ppx_coda/ppx_representatives",
         "@mina//src/lib/ppx_coda",
         "@opam//pkg:ppx_assert",
         "@opam//pkg:ppx_compare",
@@ -1273,14 +1274,13 @@ ppx_executable(
         "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
-        "//src/lib/ppx_coda/ppx_representatives"
     ],
 )
 
 ###############
 ppx_executable(
     name = "ppx_coda__ppx_version__ppx_let__ppx_assert__ppx_bin_prot__ppx_sexp_conv__ppx_compare__ppx_hash__ppx_optcomp__ppx_custom_printf__ppx_deriving.std__ppx_deriving_yojson__h_list.ppx__ppx_inline_test",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:yojson",
         "@opam//pkg:ppx_hash.runtime-lib",
         "@opam//pkg:ppx_deriving_yojson.runtime",

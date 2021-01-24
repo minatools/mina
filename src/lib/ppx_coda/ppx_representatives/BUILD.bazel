@@ -9,7 +9,7 @@ load(
 ppx_module(
     name = "ppx_representatives",
     src = "ppx_representatives.ml",
-    lazy_deps = [
+    adjunct_deps = [
         # do not sort (buildifier)
         "@mina//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime",
     ],

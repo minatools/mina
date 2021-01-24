@@ -87,7 +87,7 @@ ocaml_module(
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    lazy_deps = [
+    adjunct_deps = [
         "@opam//pkg:ppx_deriving.runtime",
         "@opam//pkg:ppx_inline_test.runtime-lib",
     ],
