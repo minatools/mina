@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 
 ################################################################
@@ -15,9 +12,8 @@ BOWE_GABIZON_HASH_INTERFACE_OPTS = []
 
 BOWE_GABIZON_HASH_MODULE_OPTS = []
 
-BOWE_GABIZON_HASH_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
+BOWE_GABIZON_HASH_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 BOWE_GABIZON_HASH_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq"
@@ -28,65 +24,48 @@ BOWE_GABIZON_HASH_PPX_ARGS = [
     "bowe_gabizon_hash",
 ]
 
-##############
-ocaml_archive(
-    name = "bowe_gabizon_hash",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = BOWE_GABIZON_HASH_DEPS + [
-        # do not sort (buildifier)
-        ":_Bowe_gabizon_hash",
-        ":_Inputs_intf",
-    ],
-)
-
 #########
-ocaml_ns(
-    name = "Bowe_gabizon_hash_ns",
-    ns = "bowe_gabizon_hash",
+ocaml_ns_library(
+    name = "bowe_gabizon_hash",
+    main = ":_Bowe_gabizon_hash",
     submodules = [
-        # do not sort (buildifier)
-        "bowe_gabizon_hash.ml",
-        "inputs_intf.ml",
+        ":_Bowe_gabizon_hash",
+        ":_Inputs_intf"
     ],
+    visibility = [
+        "//src/lib/crypto_params:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Bowe_gabizon_hash",
-    src = "bowe_gabizon_hash.ml",
-    intf = ":_Bowe_gabizon_hash.cmi",
-    ns = ":Bowe_gabizon_hash_ns",
+    sig  = ":_Bowe_gabizon_hash.cmi",
     opts = BOWE_GABIZON_HASH_MODULE_OPTS,
     ppx = BOWE_GABIZON_HASH_PPX,
     ppx_args = BOWE_GABIZON_HASH_PPX_ARGS,
-    deps = BOWE_GABIZON_HASH_DEPS + [
-        # do not sort (buildifier)
-        ":_Inputs_intf",
-    ],
+    struct = "bowe_gabizon_hash.ml",
+    deps = [":_Inputs_intf"],
+    deps_opam = BOWE_GABIZON_HASH_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Bowe_gabizon_hash.cmi",
     src = "bowe_gabizon_hash.mli",
-    ns = ":Bowe_gabizon_hash_ns",
     opts = BOWE_GABIZON_HASH_INTERFACE_OPTS,
     ppx = BOWE_GABIZON_HASH_PPX,
     ppx_args = BOWE_GABIZON_HASH_PPX_ARGS,
-    deps = BOWE_GABIZON_HASH_DEPS + [
-        # do not sort (buildifier)
-        ":_Inputs_intf",
-    ],
+    deps = [":_Inputs_intf"],
+    deps_opam = BOWE_GABIZON_HASH_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Inputs_intf",
-    src = "inputs_intf.ml",
-    ns = ":Bowe_gabizon_hash_ns",
     opts = BOWE_GABIZON_HASH_MODULE_OPTS,
     ppx = BOWE_GABIZON_HASH_PPX,
     ppx_args = BOWE_GABIZON_HASH_PPX_ARGS,
-    deps = BOWE_GABIZON_HASH_DEPS,
+    struct = "inputs_intf.ml",
+    deps_opam = BOWE_GABIZON_HASH_DEPS_OPAM
 )

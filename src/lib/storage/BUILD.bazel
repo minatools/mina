@@ -1,10 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -14,10 +12,12 @@ STORAGE_MODULE_OPTS = []
 
 STORAGE_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:async_extra",
     "@mina//src/lib/logger",
+]
+STORAGE_DEPS_OPAM = [
+    "core",
+    "async",
+    "async_extra",
 ]
 
 STORAGE_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
@@ -28,13 +28,11 @@ STORAGE_PPX_ARGS = [
     "storage",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "storage",
-    doc = "Storage module checksums data and stores it",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = STORAGE_DEPS + [
+    main = "_Storage",
+    submodules = [
         # do not sort (buildifier)
         ":_Checked_data",
         ":_Disk",
@@ -43,42 +41,28 @@ ocaml_archive(
         ":_Storage",
         ":_Storage_intf",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Storage_ns",
-    ns = "storage",
-    submodules = [
-        # do not sort (buildifier)
-        "checked_data.ml",
-        "disk.ml",
-        "list.ml",
-        "memory.ml",
-        "storage.ml",
-        "storage_intf.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Checked_data",
-    src = "checked_data.ml",
-    ns = ":Storage_ns",
     opts = STORAGE_MODULE_OPTS,
     ppx = STORAGE_PPX,
     ppx_args = STORAGE_PPX_ARGS,
+    struct = "checked_data.ml",
     deps = STORAGE_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Disk",
-    src = "disk.ml",
-    ns = ":Storage_ns",
     opts = STORAGE_MODULE_OPTS,
     ppx = STORAGE_PPX,
     ppx_args = STORAGE_PPX_ARGS,
+    struct = "disk.ml",
     deps = STORAGE_DEPS + [
         # do not sort (buildifier)
         ":_Checked_data",
@@ -88,11 +72,10 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_List",
-    src = "list.ml",
-    ns = ":Storage_ns",
     opts = STORAGE_MODULE_OPTS,
     ppx = STORAGE_PPX,
     ppx_args = STORAGE_PPX_ARGS,
+    struct = "list.ml",
     deps = STORAGE_DEPS + [
         # do not sort (buildifier)
         ":_Storage_intf",
@@ -102,11 +85,10 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Memory",
-    src = "memory.ml",
-    ns = ":Storage_ns",
     opts = STORAGE_MODULE_OPTS,
     ppx = STORAGE_PPX,
     ppx_args = STORAGE_PPX_ARGS,
+    struct = "memory.ml",
     deps = STORAGE_DEPS + [
         # do not sort (buildifier)
         ":_Checked_data",
@@ -116,11 +98,10 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Storage",
-    src = "storage.ml",
-    ns = ":Storage_ns",
     opts = STORAGE_MODULE_OPTS,
     ppx = STORAGE_PPX,
     ppx_args = STORAGE_PPX_ARGS,
+    struct = "storage.ml",
     deps = STORAGE_DEPS + [
         # do not sort (buildifier)
         ":_Checked_data",
@@ -134,11 +115,10 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Storage_intf",
-    src = "storage_intf.ml",
-    ns = ":Storage_ns",
     opts = STORAGE_MODULE_OPTS,
     ppx = STORAGE_PPX,
     ppx_args = STORAGE_PPX_ARGS,
+    struct = "storage_intf.ml",
     deps = STORAGE_DEPS + [
         # do not sort (buildifier)
         ":_Checked_data",

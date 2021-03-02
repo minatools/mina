@@ -1,29 +1,23 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_archive",
+    "ocaml_ns_library",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY LOGGER
 ################################################################
-LOGGER_INTERFACE_OPTS = []
+OPTS = ["-linkall"]
 
-LOGGER_MODULE_OPTS = []
-
-LOGGER_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:yojson",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:re2",
-    "@mina//src/lib/logproc_lib",
-    "@mina//src/lib/structured_log_events",
+LOGGER_DEPS_OPAM = [
+    "core",
+    "async",
+    "yojson",
+    "ppx_deriving_yojson.runtime",
+    "re2"
 ]
 
 LOGGER_PPX = "@//bzl/ppx/exe:ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson"
@@ -34,97 +28,91 @@ LOGGER_PPX_ARGS = [
     "logger",
 ]
 
-##############
-ocaml_archive(
-    name = "logger",
-    doc = "Logging library",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = LOGGER_DEPS + [
-        # do not sort (buildifier)
-        ":_Impl",
-        ":_Logger",
-        ":_Tags",
-        ":_Test",
-    ],
-)
-
 #########
-ocaml_ns(
-    name = "Logger_ns",
-    ns = "logger",
+ocaml_ns_library(
+    name = "logger",
+    main = ":_Logger",
+    opts = OPTS,
     submodules = [
-        # do not sort (buildifier)
-        "impl.ml",
-        "logger.ml",
-        "tags.ml",
-        "test.ml",
-    ],
-)
-
-#############
-ocaml_module(
-    name = "_Impl",
-    src = "impl.ml",
-    intf = ":_Impl.cmi",
-    ns = ":Logger_ns",
-    opts = LOGGER_MODULE_OPTS,
-    ppx = LOGGER_PPX,
-    ppx_args = LOGGER_PPX_ARGS,
-    deps = LOGGER_DEPS + [
-        # do not sort (buildifier)
+        ":_Logger",
+        ":_Impl",
         ":_Tags",
     ],
-)
-
-################
-ocaml_interface(
-    name = "_Impl.cmi",
-    src = "impl.mli",
-    ns = ":Logger_ns",
-    opts = LOGGER_INTERFACE_OPTS,
-    ppx = LOGGER_PPX,
-    ppx_args = LOGGER_PPX_ARGS,
-    deps = LOGGER_DEPS + [
-        # do not sort (buildifier)
-        ":_Tags",
+    visibility = [
+        "//visibility:public"
     ],
 )
 
 #############
 ocaml_module(
     name = "_Logger",
-    src = "logger.ml",
-    ns = ":Logger_ns",
-    opts = LOGGER_MODULE_OPTS,
+    struct = "logger.ml",
+    opts = OPTS,
     ppx = LOGGER_PPX,
     ppx_args = LOGGER_PPX_ARGS,
-    deps = LOGGER_DEPS + [
+    deps_opam = LOGGER_DEPS_OPAM,
+    deps = [
         # do not sort (buildifier)
         ":_Impl",
+    ],
+    # visibility = ["//visibility:public"],
+    visibility = [
+        "//src/lib/cache_dir:__pkg__",
+        "//src/lib/key_cache:__pkg__",
+        "//src/lib/mina_metrics:__pkg__",
+        "//src/lib/storage:__pkg__"
+    ]
+)
+
+#############
+ocaml_module(
+    name = "_Impl",
+    struct = "impl.ml",
+    sig  = ":_Impl.cmi",
+    opts = OPTS,
+    ppx = LOGGER_PPX,
+    ppx_args = LOGGER_PPX_ARGS,
+    deps_opam = LOGGER_DEPS_OPAM,
+    deps = [
+        "@mina//src/lib/logproc_lib",
+        ":_Tags",
+    ],
+)
+
+################
+ocaml_signature(
+    name = "_Impl.cmi",
+    src = "impl.mli",
+    opts = OPTS,
+    ppx = LOGGER_PPX,
+    ppx_args = LOGGER_PPX_ARGS,
+    deps_opam = LOGGER_DEPS_OPAM,
+    deps = [
+        # do not sort (buildifier)
+        "@mina//src/lib/logproc_lib",
+        "@mina//src/lib/structured_log_events",
+        ":_Tags",
     ],
 )
 
 #############
 ocaml_module(
     name = "_Tags",
-    src = "tags.ml",
-    ns = ":Logger_ns",
-    opts = LOGGER_MODULE_OPTS,
+    struct = "tags.ml",
+    opts = OPTS,
     ppx = LOGGER_PPX,
     ppx_args = LOGGER_PPX_ARGS,
-    deps = LOGGER_DEPS,
+    deps_opam = LOGGER_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Test",
-    src = "test.ml",
-    ns = ":Logger_ns",
-    opts = LOGGER_MODULE_OPTS,
     ppx = LOGGER_PPX,
     ppx_args = LOGGER_PPX_ARGS,
-    deps = LOGGER_DEPS + [
+    struct = "test.ml",
+    deps_opam = LOGGER_DEPS_OPAM,
+    deps = [
         # do not sort (buildifier)
         ":_Impl",
     ],

@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -19,8 +17,6 @@ TESTS_MODULE_OPTS = []
 
 TESTS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/mina_graphql",
     "@mina//src/lib/mina_lib",
@@ -35,13 +31,15 @@ TESTS_DEPS = [
     "@mina//src/app/cli/src/init",
 ]
 
-##############
-ocaml_archive(
+TESTS_DEPS_OPAM = [
+    "async",
+    "core",
+]
+
+#########
+ocaml_ns_library(
     name = "tests",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = TESTS_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Coda_archive_processor_test",
         ":_Coda_block_production_test",
         ":_Coda_bootstrap_test",
@@ -64,43 +62,15 @@ ocaml_archive(
         ":_Full_test",
         ":_Heartbeat",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Tests_ns",
-    ns = "tests",
-    submodules = [
-        # do not sort (buildifier)
-        "coda_archive_processor_test.ml",
-        "coda_block_production_test.ml",
-        "coda_bootstrap_test.ml",
-        "coda_change_snark_worker_test.ml",
-        "coda_delegation_test.ml",
-        "coda_five_nodes_test.ml",
-        "coda_long_fork.ml",
-        "coda_peers_test.ml",
-        "coda_process.ml",
-        "coda_processes.ml",
-        "coda_restart_node_test.ml",
-        "coda_restarts_and_txns_holy_grail.ml",
-        "coda_shared_prefix_multiproducer_test.ml",
-        "coda_shared_prefix_test.ml",
-        "coda_shared_state_test.ml",
-        "coda_transitive_peers_test.ml",
-        "coda_txns_and_restart_non_producers.ml",
-        "coda_worker.ml",
-        "coda_worker_testnet.ml",
-        "full_test.ml",
-        "heartbeat.ml",
-    ],
+    visibility = [
+        "//src/app/cli/src:__pkg__",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Coda_archive_processor_test",
-    src = "coda_archive_processor_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_archive_processor_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -109,13 +79,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_block_production_test",
-    src = "coda_block_production_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_block_production_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -124,13 +94,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_bootstrap_test",
-    src = "coda_bootstrap_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_bootstrap_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -139,13 +109,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_change_snark_worker_test",
-    src = "coda_change_snark_worker_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_change_snark_worker_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -154,13 +124,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_delegation_test",
-    src = "coda_delegation_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_delegation_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -171,13 +141,13 @@ ocaml_module(
         ":_Coda_worker_testnet",  # obazl:retain
         ":_Heartbeat",
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_five_nodes_test",
-    src = "coda_five_nodes_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_five_nodes_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -186,13 +156,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_long_fork",
-    src = "coda_long_fork.ml",
-    ns = ":Tests_ns",
+    struct = "coda_long_fork.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -201,13 +171,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_peers_test",
-    src = "coda_peers_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_peers_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -216,13 +186,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_processes",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_process",
-    src = "coda_process.ml",
-    ns = ":Tests_ns",
+    struct = "coda_process.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -233,13 +203,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Coda_worker",
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_processes",
-    src = "coda_processes.ml",
-    ns = ":Tests_ns",
+    struct = "coda_processes.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -249,13 +219,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_process",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_restart_node_test",
-    src = "coda_restart_node_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_restart_node_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -266,13 +236,13 @@ ocaml_module(
         ":_Coda_worker_testnet",  # obazl:retain
         ":_Heartbeat",
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_restarts_and_txns_holy_grail",
-    src = "coda_restarts_and_txns_holy_grail.ml",
-    ns = ":Tests_ns",
+    struct = "coda_restarts_and_txns_holy_grail.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -281,13 +251,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_shared_prefix_multiproducer_test",
-    src = "coda_shared_prefix_multiproducer_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_shared_prefix_multiproducer_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -296,13 +266,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_shared_prefix_test",
-    src = "coda_shared_prefix_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_shared_prefix_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -311,13 +281,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_shared_state_test",
-    src = "coda_shared_state_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_shared_state_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -328,13 +298,13 @@ ocaml_module(
         ":_Coda_worker_testnet",  # obazl:retain
         ":_Heartbeat",
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_transitive_peers_test",
-    src = "coda_transitive_peers_test.ml",
-    ns = ":Tests_ns",
+    struct = "coda_transitive_peers_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -343,13 +313,13 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_processes",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_txns_and_restart_non_producers",
-    src = "coda_txns_and_restart_non_producers.ml",
-    ns = ":Tests_ns",
+    struct = "coda_txns_and_restart_non_producers.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -358,26 +328,26 @@ ocaml_module(
     deps = TESTS_DEPS + [
         ":_Coda_worker_testnet",  # obazl:retain
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_worker",
-    src = "coda_worker.ml",
-    ns = ":Tests_ns",
+    struct = "coda_worker.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS,
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_worker_testnet",
-    src = "coda_worker_testnet.ml",
-    ns = ":Tests_ns",
+    struct = "coda_worker_testnet.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -389,13 +359,13 @@ ocaml_module(
         ":_Coda_processes",  # obazl:retain
         ":_Coda_worker",
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Full_test",
-    src = "full_test.ml",
-    ns = ":Tests_ns",
+    struct = "full_test.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -406,42 +376,42 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Coda_processes",
     ],
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Heartbeat",
-    src = "heartbeat.ml",
-    ns = ":Tests_ns",
+    struct = "heartbeat.ml",
     opts = TESTS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     deps = TESTS_DEPS,
+    deps_opam = TESTS_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:bin_prot",
+    deps_adjunct_opam = [
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "bin_prot",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
-    visibility = [
-        "//src/app/cli/src/tests:__pkg__",
-    ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

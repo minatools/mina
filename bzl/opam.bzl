@@ -1,6 +1,6 @@
-load("@obazl_rules_opam//opam:providers.bzl", "OpamConfig", "OpamSwitch")
+load("@obazl_rules_opam//opam:providers.bzl", "OpamConfig", "BuildConfig")
 
-PACKAGES = {
+opam_pkgs = {
     # pin paths:
     "async_kernel": ["v0.12.0",
                      "src/external/async_kernel"
@@ -183,15 +183,15 @@ PACKAGES = {
 
 opam = OpamConfig(
     version = "2.0",
-    switches  = {
-        "mina-0.1.0": OpamSwitch(
+    builds  = {
+        "mina-0.1.0": BuildConfig(
             default  = True,
             compiler = "4.07.1",
-            packages = PACKAGES
+            packages = opam_pkgs
         ),
-        "4.07.1": OpamSwitch(
+        "4.07.1": BuildConfig(
             compiler = "4.07.1",
-            packages = PACKAGES
+            packages = opam_pkgs
         ),
     }
 )

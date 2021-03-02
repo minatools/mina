@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -8,16 +6,15 @@ load(
 #############
 ocaml_module(
     name = "time_simulator",
-    src = "time_simulator.ml",
-    opts = [],
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "time_simulator",
     ],
-    visibility = ["//visibility:public"],
+    struct = "time_simulator.ml",
     deps = [
         "@mina//src/lib/coda_intf",
     ],
+    # visibility = ["//visibility:public"],
 )

@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -14,9 +11,9 @@ POKOLOG_MODULE_OPTS = []
 
 POKOLOG_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@snarky//src/base:snarky_backendless",
 ]
+POKOLOG_DEPS_OPAM = ["core_kernel"]
 
 POKOLOG_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq"
 
@@ -26,13 +23,11 @@ POKOLOG_PPX_ARGS = [
     "pokolog",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "pokolog",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = POKOLOG_DEPS + [
-        # do not sort (buildifier)
+    main = ":_Pokolog",
+    submodules = [
         ":_Group_intf",
         ":_Hash_intf",
         ":_Inputs_intf",
@@ -44,95 +39,77 @@ ocaml_archive(
     ],
 )
 
-#########
-ocaml_ns(
-    name = "Pokolog_ns",
-    ns = "pokolog",
-    submodules = [
-        # do not sort (buildifier)
-        "group_intf.ml",
-        "hash_intf.ml",
-        "inputs_intf.ml",
-        "intf.ml",
-        "pokolog.ml",
-        "proof.ml",
-        "scalar_intf.ml",
-        "variable_base_instance.ml",
-    ],
-)
-
 #############
 ocaml_module(
     name = "_Group_intf",
-    src = "group_intf.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS,
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "group_intf.ml",
     deps = POKOLOG_DEPS + [
         # do not sort (buildifier)
         ":_Scalar_intf",
     ],
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Hash_intf",
-    src = "hash_intf.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS,
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "hash_intf.ml",
     deps = POKOLOG_DEPS + [
         # do not sort (buildifier)
         ":_Group_intf",
         ":_Scalar_intf",
     ],
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Inputs_intf",
-    src = "inputs_intf.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS,
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "inputs_intf.ml",
     deps = POKOLOG_DEPS + [
         # do not sort (buildifier)
         ":_Group_intf",
         ":_Hash_intf",
         ":_Scalar_intf",
     ],
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS,
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "intf.ml",
     deps = POKOLOG_DEPS + [
         # do not sort (buildifier)
         ":_Inputs_intf",
         ":_Proof",
         ":_Variable_base_instance",
     ],
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Pokolog",
-    src = "pokolog.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS + [
         "-w",
         "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
     ],
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "pokolog.ml",
     deps = POKOLOG_DEPS + [
         # do not sort (buildifier)
         ":_Inputs_intf",
@@ -140,43 +117,43 @@ ocaml_module(
         ":_Proof",
         ":_Variable_base_instance",
     ],
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Proof",
-    src = "proof.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS + [
         "-w",
         "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
     ],
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "proof.ml",
     deps = POKOLOG_DEPS,
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Scalar_intf",
-    src = "scalar_intf.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS,
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "scalar_intf.ml",
     deps = POKOLOG_DEPS,
+    deps_opam = POKOLOG_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Variable_base_instance",
-    src = "variable_base_instance.ml",
-    ns = ":Pokolog_ns",
     opts = POKOLOG_MODULE_OPTS + [
-        "-w",
-        "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
+        "-w", "-22",  # Preprocessor warning:  Must have deriving version if deriving bin_io
     ],
     ppx = POKOLOG_PPX,
     ppx_args = POKOLOG_PPX_ARGS,
+    struct = "variable_base_instance.ml",
     deps = POKOLOG_DEPS,
+    deps_opam = POKOLOG_DEPS_OPAM
 )

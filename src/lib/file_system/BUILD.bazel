@@ -1,15 +1,25 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library"
+)
+
+#################
+ocaml_ns_library(
+    name = "file_system",
+    main = ":_File_system",
+    submodules = [
+        ":_File_system",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "file_system",
-    src = "file_system.ml",
-    opts = [],
+    name = "_File_system",
+    struct = "file_system.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane",
     ppx_args = [
         # do not sort (buildifier)
@@ -17,8 +27,8 @@ ocaml_module(
         "file_system",
     ],
     visibility = ["//visibility:public"],
-    deps = [
-        "@opam//pkg:async",
-        "@opam//pkg:core",
+    deps_opam = [
+        "async",
+        "core",
     ],
 )

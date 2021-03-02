@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -9,7 +7,6 @@ load(
 #############
 ocaml_module(
     name = "unexpired",
-    src = "unexpired.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -17,6 +14,7 @@ ocaml_module(
         "-inline-test-lib",
         "unexpired",
     ],
+    struct = "unexpired.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -24,7 +22,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "define_locally_good",
-    src = "define_locally_good.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -32,6 +29,7 @@ ocaml_module(
         "-inline-test-lib",
         "define_locally_good",
     ],
+    struct = "define_locally_good.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -39,7 +37,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "define_from_scope_good",
-    src = "define_from_scope_good.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -47,6 +44,7 @@ ocaml_module(
         "-inline-test-lib",
         "define_from_scope_good",
     ],
+    struct = "define_from_scope_good.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -54,7 +52,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "expired",
-    src = "expired.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -62,6 +59,7 @@ ocaml_module(
         "-inline-test-lib",
         "expired",
     ],
+    struct = "expired.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -69,7 +67,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "expiry_in_module",
-    src = "expiry_in_module.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -77,6 +74,7 @@ ocaml_module(
         "-inline-test-lib",
         "expiry_in_module",
     ],
+    struct = "expiry_in_module.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -84,7 +82,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "expiry_invalid_date",
-    src = "expiry_invalid_date.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -92,6 +89,7 @@ ocaml_module(
         "-inline-test-lib",
         "expiry_invalid_date",
     ],
+    struct = "expiry_invalid_date.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -99,7 +97,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "expiry_invalid_format",
-    src = "expiry_invalid_format.ml",
     opts = [],
     ppx = ":ppx.exe",
     ppx_args = [
@@ -107,6 +104,7 @@ ocaml_module(
         "-inline-test-lib",
         "expiry_invalid_format",
     ],
+    struct = "expiry_invalid_format.ml",
     visibility = ["//visibility:public"],
     deps = [],
 )
@@ -114,26 +112,28 @@ ocaml_module(
 ###############
 ppx_executable(
     name = "ppx.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = ["//src/lib/ppx_coda/tests:__pkg__"],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
     ],
+    deps_opam = [
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

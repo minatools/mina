@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -21,9 +19,6 @@ PROVER_MODULE_OPTS = []
 
 PROVER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core",
-    "@opam//pkg:rpc_parallel",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/coda_transition",
@@ -31,6 +26,11 @@ PROVER_DEPS = [
     "@mina//src/lib/memory_stats",
     "@mina//src/lib/precomputed_values",
     "@mina//src/lib/child_processes",
+]
+PROVER_DEPS_OPAM = [
+    "async",
+    "core",
+    "rpc_parallel",
 ]
 
 PROVER_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane"
@@ -41,47 +41,36 @@ PROVER_PPX_ARGS = [
     "prover",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "prover",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = PROVER_DEPS + [
-        # do not sort (buildifier)
+    main = "_Prover",
+    submodules = [
         ":_Intf",
         ":_Prover",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Prover_ns",
-    ns = "prover",
-    submodules = [
-        # do not sort (buildifier)
-        "intf.ml",
-        "prover.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Prover_ns",
+    struct = "intf.ml",
     opts = PROVER_MODULE_OPTS,
     ppx = PROVER_PPX,
     ppx_args = PROVER_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     deps = PROVER_DEPS,
+    deps_opam = PROVER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Prover",
-    src = "prover.ml",
-    intf = ":_Prover.cmi",
-    ns = ":Prover_ns",
+    struct = "prover.ml",
+    sig  = ":_Prover.cmi",
     opts = PROVER_MODULE_OPTS,
     ppx = PROVER_PPX,
     ppx_args = PROVER_PPX_ARGS,
@@ -90,13 +79,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = PROVER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Prover.cmi",
     src = "prover.mli",
-    ns = ":Prover_ns",
     opts = PROVER_INTERFACE_OPTS,
     ppx = PROVER_PPX,
     ppx_args = PROVER_PPX_ARGS,
@@ -105,4 +94,5 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = PROVER_DEPS_OPAM
 )

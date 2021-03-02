@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -8,16 +6,18 @@ load(
 #############
 ocaml_module(
     name = "snarky_log",
-    src = "snarky_log.ml",
-    opts = [],
+    struct = "snarky_log.ml",
     ppx = "//bzl/ppx/exe:ppx_version",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
-    visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/webkit_trace_event",
-        "@opam//pkg:yojson",
         "@snarky//src/base:snarky_backendless",
+    ],
+    deps_opam = [
+        "yojson",
+    ],
+    visibility = [
+        # "//src/app/cli/src:__pkg__",
+        "//src/app/cli/src/init:__pkg__",
+        "//src/lib/pickles:__pkg__",
     ],
 )

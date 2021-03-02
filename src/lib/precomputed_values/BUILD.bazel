@@ -1,10 +1,24 @@
-load( "@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_genrule",
+     "ocaml_module",
+    "ocaml_ns_library")
+
+#################
+ocaml_ns_library(
+    name = "precomputed_values",
+    main = ":_Precomputed_values",
+    submodules = [
+        ":_Precomputed_values",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
 
 ##############
 ocaml_module(
-    name = "precomputed_values",
-    src = "precomputed_values.ml",
-    opts = [],
+    name = "_Precomputed_values",
+    struct = "precomputed_values.ml",
     ppx = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppxlib.metaquot",
     ppx_args = [
         # do not sort (buildifier)
@@ -21,17 +35,18 @@ ocaml_module(
         "@snarky//src/base:snarky_backendless",
     ],
     visibility = ["//visibility:public"],
- )
+)
 
+###############################################################
 TOOL = "//src/lib/precomputed_values/gen_values:gen_values.exe"
 
-genrule(
-    name = "gensrcs",
-    outs = ["precomputed_values.ml"],
-    cmd = "\n".join([
-        "$(location {tool})  precomputed_values.ml".format(tool = TOOL),
-        "cp precomputed_values.ml \"$(RULEDIR)/\"",
+##############
+ocaml_genrule(
+    name   = "precomputed_values_ml",
+    out    = "precomputed_values.ml",
+    tools  = [TOOL],
+    cmd    = "\n".join([
+        "$(location {tool}) precomputed_values.ml".format(tool = TOOL),
+        "cp precomputed_values.ml $(location precomputed_values.ml)",
     ]),
-    tools = [TOOL],
-    visibility = ["//visibility:public"],
 )

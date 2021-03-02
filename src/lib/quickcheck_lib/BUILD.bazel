@@ -1,21 +1,29 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
     "ocaml_module",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
+#################
+ocaml_ns_library(
+    name = "quickcheck_lib",
+    main = ":_Quickcheck_lib",
+    submodules = [
+        ":_Quickcheck_lib",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
 #############
 ocaml_module(
-    name = "quickcheck_lib",
-    src = "quickcheck_lib.ml",
-    intf = ":_Quickcheck_lib.cmi",
-    opts = [],
+    name = "_Quickcheck_lib",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_optcomp__ppx_let__ppx_inline_test__ppx_custom_printf",
     ppx_args = [
         # do not sort (buildifier)
@@ -23,16 +31,20 @@ ocaml_module(
         "quickcheck_lib",
     ],
     ppx_data = CONFIG_MLH,
+    sig = ":_Quickcheck_lib.cmi",
+    struct = "quickcheck_lib.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/currency",
         "@mina//src/lib/rose_tree",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ]
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Quickcheck_lib.cmi",
     src = "quickcheck_lib.mli",
     opts = [],
@@ -46,6 +58,8 @@ ocaml_interface(
     deps = [
         "@mina//src/lib/currency",
         "@mina//src/lib/rose_tree",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ]
 )

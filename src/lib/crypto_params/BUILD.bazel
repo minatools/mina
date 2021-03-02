@@ -1,15 +1,26 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_genrule",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "crypto_params",
+    main = ":_Crypto_params",
+    submodules = [
+        ":_Crypto_params",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "crypto_params",
-    src = "crypto_params.ml",
+    name = "_Crypto_params",
     opts = [],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -17,7 +28,7 @@ ocaml_module(
         "-inline-test-lib",
         "crypto_params",
     ],
-    visibility = ["//visibility:public"],
+    struct = "crypto_params.ml",
     deps = [
         "@mina//src/lib/bignum_bigint",
         "@mina//src/lib/bowe_gabizon_hash",
@@ -33,56 +44,61 @@ ocaml_module(
 )
 
 ocaml_module(
-    name     = "_Group_map_params",
-    src      = ":group_map_params.ml",
-    opts     = [],
-    ppx      = ":ppx1.exe",
+    name = "_Group_map_params",
+    struct = ":gensrcs", # group_map_params.ml",
+    opts = [],
+    ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "crypto_params"
+        "crypto_params",
     ],
     deps = [
-        "@snarky//group_map",
         "@mina//src/lib/pickles",
-    ]
+        "@snarky//group_map",
+    ],
 )
 
-########
-genrule(
-    name       = "gensrcs",
-    tools      = ["//src/lib/crypto_params/gen:gen.exe"],
-    outs       = ["group_map_params.ml"],
-    cmd        = "\n".join([
-        "$(location //src/lib/crypto_params/gen:gen.exe)",
-        "cp group_map_params.ml \"$@\""
+############################################
+TOOL = "//src/lib/crypto_params/gen:gen.exe"
+
+##############
+ocaml_genrule(
+    name = "gensrcs",
+    out = "group_map_params.ml",
+    cmd = "\n".join([
+        "$(location {tool});".format( tool = TOOL ),
+        "cp group_map_params.ml $(location group_map_params.ml)",
     ]),
+    tools = [TOOL],
     visibility = ["//visibility:public"],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/crypto_params:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
+    deps_opam = [
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

@@ -1,27 +1,20 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY PERSISTENT_FRONTIER
 ################################################################
-PERSISTENT_FRONTIER_INTERFACE_OPTS = []
+PERSISTENT_FRONTIER_SIGNATURE_OPTS = []
 
 PERSISTENT_FRONTIER_MODULE_OPTS = []
 
 PERSISTENT_FRONTIER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:yojson",
-    "@opam//pkg:rpc_parallel",
     "@mina//src/lib/transition_frontier/frontier_base",
     "@mina//src/lib/block_time",
     "@mina//src/lib/transition_frontier/full_frontier",
@@ -35,55 +28,48 @@ PERSISTENT_FRONTIER_DEPS = [
     "@mina//src/lib/storage",
     "@mina//src/lib/otp_lib",
 ]
+PERSISTENT_FRONTIER_DEPS_OPAM = [
+    "core",
+    "async",
+    "yojson",
+    "rpc_parallel",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "persistent_frontier",
-    visibility = ["//visibility:public"],
-    deps = PERSISTENT_FRONTIER_DEPS + [
-        # do not sort (buildifier)
+    main = ":_Persistent_frontier",
+    submodules = [
         ":_Database",
         ":_Diff_buffer",
         ":_Persistent_frontier",
         ":_Sync",
         ":_Worker",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Persistent_frontier_ns",
-    ns = "persistent_frontier",
-    submodules = [
-        # do not sort (buildifier)
-        "database.ml",
-        "diff_buffer.ml",
-        "persistent_frontier.ml",
-        "sync.ml",
-        "worker.ml",
-    ],
+    visibility = [
+        "//src/lib/transition_frontier:__subpackages__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Database",
-    src = "database.ml",
-    intf = ":_Database.cmi",
-    ns = ":Persistent_frontier_ns",
+    sig  = ":_Database.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "persistent_frontier",
     ],
+    struct = "database.ml",
     deps = PERSISTENT_FRONTIER_DEPS,
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Database.cmi",
     src = "database.mli",
-    ns = ":Persistent_frontier_ns",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -91,67 +77,67 @@ ocaml_interface(
         "persistent_frontier",
     ],
     deps = PERSISTENT_FRONTIER_DEPS,
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Diff_buffer",
-    src = "diff_buffer.ml",
-    ns = ":Persistent_frontier_ns",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "persistent_frontier",
     ],
+    struct = "diff_buffer.ml",
     deps = PERSISTENT_FRONTIER_DEPS + [
         # do not sort (buildifier)
         ":_Worker",
     ],
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Persistent_frontier",
-    src = "persistent_frontier.ml",
-    ns = ":Persistent_frontier_ns",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "persistent_frontier",
     ],
+    struct = "persistent_frontier.ml",
     deps = PERSISTENT_FRONTIER_DEPS + [
         # do not sort (buildifier)
         ":_Database",
         ":_Sync",
     ],
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Sync",
-    src = "sync.ml",
-    intf = ":_Sync.cmi",
-    ns = ":Persistent_frontier_ns",
+    sig  = ":_Sync.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "persistent_frontier",
     ],
+    struct = "sync.ml",
     deps = PERSISTENT_FRONTIER_DEPS + [
         # do not sort (buildifier)
         ":_Diff_buffer",
         ":_Worker",
     ],
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Sync.cmi",
     src = "sync.mli",
-    ns = ":Persistent_frontier_ns",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -162,31 +148,31 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Database",
     ],
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Worker",
-    src = "worker.ml",
-    intf = ":_Worker.cmi",
-    ns = ":Persistent_frontier_ns",
+    sig  = ":_Worker.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "persistent_frontier",
     ],
+    struct = "worker.ml",
     deps = PERSISTENT_FRONTIER_DEPS + [
         # do not sort (buildifier)
         ":_Database",
     ],
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Worker.cmi",
     src = "worker.mli",
-    ns = ":Persistent_frontier_ns",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -197,37 +183,40 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Database",
     ],
+    deps_opam = PERSISTENT_FRONTIER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
         "//src/lib/transition_frontier/persistent_frontier:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_deriving.eq",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

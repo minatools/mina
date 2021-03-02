@@ -1,26 +1,34 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
     "ocaml_module",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
+#################
+ocaml_ns_library(
+    name = "transaction_snark_scan_state",
+    main = ":_Transaction_snark_scan_state",
+    submodules = [
+        ":_Transaction_snark_scan_state",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
 #############
 ocaml_module(
-    name = "transaction_snark_scan_state",
-    src = "transaction_snark_scan_state.ml",
-    intf = ":_Transaction_snark_scan_state.cmi",
-    opts = [],
+    name = "_Transaction_snark_scan_state",
+    struct = "transaction_snark_scan_state.ml",
+    sig = ":_Transaction_snark_scan_state.cmi",
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     ppx_data = CONFIG_MLH,
     visibility = ["//visibility:public"],
     deps = [
@@ -36,23 +44,21 @@ ocaml_module(
         "@mina//src/lib/transaction_snark",
         "@mina//src/lib/transaction_snark_work",
         "@mina//src/lib/transaction_witness",
-        "@opam//pkg:async",
-        "@opam//pkg:async_extra",
-        "@opam//pkg:core",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:yojson",
     ],
+    deps_opam = [
+        "async",
+        "async_extra",
+        "core",
+        "ppx_deriving_yojson.runtime",
+        "yojson",
+    ]
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Transaction_snark_scan_state.cmi",
     src = "transaction_snark_scan_state.mli",
-    opts = [],
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     ppx_data = CONFIG_MLH,
     deps = [
         "@mina//src/lib/coda_state",
@@ -67,41 +73,45 @@ ocaml_interface(
         "@mina//src/lib/transaction_snark",
         "@mina//src/lib/transaction_snark_work",
         "@mina//src/lib/transaction_witness",
-        "@opam//pkg:async",
-        "@opam//pkg:async_extra",
-        "@opam//pkg:core",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:yojson",
     ],
+    deps_opam = [
+        "async",
+        "async_extra",
+        "core",
+        "ppx_deriving_yojson.runtime",
+        "yojson",
+    ]
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:bin_prot",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_compare.runtime-lib",
+        "bin_prot",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/transaction_snark_scan_state:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_base",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_base",
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_deriving.eq",
+        "ppx_deriving_yojson",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

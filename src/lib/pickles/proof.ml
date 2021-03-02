@@ -30,7 +30,8 @@ module Base = struct
     [%%versioned
     module Stable = struct
       module V1 = struct
-        type 'a t = 'a * 'a [@@deriving compare, sexp, yojson, hash, eq]
+        type 'a t = 'a * 'a [@@deriving sexp, eq, compare, hash, yojson]
+        (* [@@deriving compare, sexp, yojson, hash, eq] *)
       end
     end]
   end
@@ -60,7 +61,7 @@ module Base = struct
               Double.Stable.V1.t
           ; prev_x_hat: Tick.Field.Stable.V1.t Double.Stable.V1.t
           ; proof: Tock.Proof.Stable.V1.t }
-        [@@deriving compare, sexp, yojson, hash, eq]
+         [@@deriving compare, sexp, yojson, hash, eq]
       end
 
       module Tests = struct end
@@ -247,4 +248,5 @@ module Make (W : Nat.Intf) (MLMB : Nat.Intf) = struct
   let to_yojson x = Repr.to_yojson (to_repr x)
 
   let of_yojson x = Result.map ~f:of_repr (Repr.of_yojson x)
+
 end

@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 load(
@@ -22,7 +19,6 @@ CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS = []
 
 CODA_NUMBERS_NONCONSENSUS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@snarky//fold_lib",
     "@snarky//tuple_lib",
     "@mina//src/lib/bignum_bigint",
@@ -32,14 +28,13 @@ CODA_NUMBERS_NONCONSENSUS_DEPS = [
     "@mina//src/lib/codable",
     "@mina//src/lib/ppx_dhall_type",
 ]
+CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM = ["core_kernel"]
 
-##############
-ocaml_archive(
-    name = "coda_numbers_nonconsensus",
-    doc = "Snark-friendly numbers used in Coda consensus",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CODA_NUMBERS_NONCONSENSUS_DEPS + [
+#########
+ocaml_ns_library(
+    name = "coda_numbers",
+    main = "_Coda_numbers",
+    submodules = [
         # do not sort (buildifier)
         ":_Account_nonce",
         ":_Coda_numbers",
@@ -51,28 +46,11 @@ ocaml_archive(
     ],
 )
 
-#########
-ocaml_ns(
-    name = "Coda_numbers_nonconsensus_ns",
-    ns = "coda_numbers_nonconsensus",
-    submodules = [
-        # do not sort (buildifier)
-        "account_nonce.ml",
-        "coda_numbers.ml",
-        "global_slot.ml",
-        "hd_index.ml",
-        "intf.ml",
-        "length.ml",
-        "nat.ml",
-    ],
-)
-
 #############
 ocaml_module(
     name = "_Account_nonce",
-    src = "account_nonce.ml",
-    intf = ":_Account_nonce.cmi",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "account_nonce.ml",
+    sig  = ":_Account_nonce.cmi",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -85,13 +63,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Account_nonce.cmi",
-    src = "account_nonce.mli",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    src  = "account_nonce.mli",
     opts = CODA_NUMBERS_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -104,13 +82,13 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_numbers",
-    src = "coda_numbers.ml",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "coda_numbers.ml",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -127,14 +105,14 @@ ocaml_module(
         ":_Length",
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Global_slot",
-    src = "global_slot.ml",
-    intf = ":_Global_slot.cmi",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "global_slot.ml",
+    sig  = ":_Global_slot.cmi",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -147,13 +125,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Global_slot.cmi",
-    src = "global_slot.mli",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    src  = "global_slot.mli",
     opts = CODA_NUMBERS_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -166,14 +144,14 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Hd_index",
-    src = "hd_index.ml",
-    intf = ":_Hd_index.cmi",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "hd_index.ml",
+    sig  = ":_Hd_index.cmi",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -186,13 +164,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Hd_index.cmi",
-    src = "hd_index.mli",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    src  = "hd_index.mli",
     opts = CODA_NUMBERS_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -205,13 +183,13 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "intf.ml",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -221,14 +199,14 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = CODA_NUMBERS_NONCONSENSUS_DEPS,
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Length",
-    src = "length.ml",
-    intf = ":_Length.cmi",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "length.ml",
+    sig  = ":_Length.cmi",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -241,13 +219,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Length.cmi",
-    src = "length.mli",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    src  = "length.mli",
     opts = CODA_NUMBERS_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -260,14 +238,14 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Nat",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Nat",
-    src = "nat.ml",
-    intf = ":_Nat.cmi",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    struct = "nat.ml",
+    sig  = ":_Nat.cmi",
     opts = CODA_NUMBERS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -280,13 +258,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Nat.cmi",
-    src = "nat.mli",
-    ns = ":Coda_numbers_nonconsensus_ns",
+    src  = "nat.mli",
     opts = CODA_NUMBERS_NONCONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -299,20 +277,21 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = CODA_NUMBERS_NONCONSENSUS_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
     ],
     main = "//bzl/ppx/exe:Driver",
     opts = [],
@@ -320,15 +299,17 @@ ppx_executable(
         "//src/nonconsensus/coda_numbers:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_compare",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_hash",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_compare",
+        "ppx_deriving.eq",
+        "ppx_deriving_yojson",
+        "ppx_hash",
+        "ppx_inline_test",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

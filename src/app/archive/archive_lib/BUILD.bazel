@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -15,51 +12,40 @@ ARCHIVE_LIB_MODULE_OPTS = []
 
 ARCHIVE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:caqti-async",
-    "@opam//pkg:caqti",
-    "@opam//pkg:caqti-driver-postgresql",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/one_or_two",
     "@mina//src/lib/transition_frontier",
 ]
+ARCHIVE_LIB_DEPS_OPAM = [
+    "core",
+    "async",
+    "caqti-async",
+    "caqti",
+    "caqti-driver-postgresql",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "archive_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = ARCHIVE_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Ast",
         ":_Diff",
         ":_Processor",
         ":_Rpc",
         ":_Test",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Archive_lib_ns",
-    ns = "archive_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "ast.ml",
-        "diff.ml",
-        "processor.ml",
-        "rpc.ml",
-        "test.ml",
-    ],
+    visibility = [
+        "//src/app/archive:__pkg__",
+        "//src/app/rosetta/lib:__pkg__",
+        "//src/lib/mina_lib:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Ast",
-    src = "ast.ml",
-    ns = ":Archive_lib_ns",
+    struct = "ast.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -68,13 +54,13 @@ ocaml_module(
         "archive_lib",
     ],
     deps = ARCHIVE_LIB_DEPS,
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Diff",
-    src = "diff.ml",
-    ns = ":Archive_lib_ns",
+    struct = "diff.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -83,13 +69,13 @@ ocaml_module(
         "archive_lib",
     ],
     deps = ARCHIVE_LIB_DEPS,
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Processor",
-    src = "processor.ml",
-    ns = ":Archive_lib_ns",
+    struct = "processor.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -102,13 +88,13 @@ ocaml_module(
         ":_Diff",
         ":_Rpc",
     ],
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Rpc",
-    src = "rpc.ml",
-    ns = ":Archive_lib_ns",
+    struct = "rpc.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -120,13 +106,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Diff",
     ],
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Test",
-    src = "test.ml",
-    ns = ":Archive_lib_ns",
+    struct = "test.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -135,33 +121,36 @@ ocaml_module(
         "archive_lib",
     ],
     deps = ARCHIVE_LIB_DEPS + ["_Processor"],  # obazl:retain
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/app/archive/archive_lib:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
+    deps_opam = [
+        "ppx_custom_printf",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

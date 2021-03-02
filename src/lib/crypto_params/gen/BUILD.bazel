@@ -1,11 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
     "ocaml_module",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -20,10 +19,6 @@ GEN_MODULE_OPTS = []
 
 GEN_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core",
-    "@opam//pkg:digestif.c",
-    "@opam//pkg:ppxlib",
     "@mina//src/lib/pickles",
     "@mina//src/lib/crs",
     "@snarky//fold_lib",
@@ -32,50 +27,67 @@ GEN_DEPS = [
     "@snarky//group_map",
 ]
 
+GEN_DEPS_OPAM = [
+    "async",
+    "core",
+    "digestif.c",
+    "ppxlib",
+]
+
 #################
 ocaml_executable(
     name = "gen.exe",
-    opts = GEN_EXECUTABLE_OPTS,
+    # cc_deps = {
+    #     ## FIXME: support dylib on MacOS
+    #     "@ocaml_jemalloc//src:libjemalloc": "static",
+    #     "@ocaml_jemalloc//src:jemalloc_stubs": "static",
+    #     "@mina//src/lib/marlin_plonk_bindings/stubs:marlin_plonk_stubs": "static-linkall",
+    # },
+    opts = GEN_EXECUTABLE_OPTS + [
+        "-w", "-31"  # same module defined in two places
+    ],
     visibility = ["//visibility:public"],
     deps = GEN_DEPS + [
         # do not sort (buildifier)
         ":_Gen",
+        # "@ocaml_jemalloc//src:jemalloc",
+        # "//src/lib/coda_version"
     ],
-    cc_deps = {
-        ## FIXME: support dylib on MacOS
-        "@mina//src/lib/marlin_plonk_bindings/stubs:marlin_plonk_stubs": "static-linkall",
-    },
+    deps_opam = GEN_DEPS_OPAM + ["angstrom"]
 )
 
 #############
 ocaml_module(
     name = "_Gen",
-    src = "gen.ml",
     opts = GEN_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
+    struct = "gen.ml",
     deps = GEN_DEPS,
+    deps_opam = GEN_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:bin_prot",
+    deps_adjunct_opam = [
+        "bin_prot",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/crypto_params/gen:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppxlib",
-        "@opam//pkg:ppxlib.metaquot",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppxlib",
+        "ppxlib.metaquot",
+    ]
 )

@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -14,12 +11,12 @@ SNARKY_PAIRING_MODULE_OPTS = []
 
 SNARKY_PAIRING_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/sgn_type",
     "@mina//src/lib/snarky_field_extensions",
     "@snarky//src/base:snarky_backendless",
     "@snarky//snarkette",
 ]
+SNARKY_PAIRING_DEPS_OPAM = ["core_kernel"]
 
 SNARKY_PAIRING_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq"
 
@@ -29,13 +26,10 @@ SNARKY_PAIRING_PPX_ARGS = [
     "snarky_pairing",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "snarky_pairing",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARKY_PAIRING_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Final_exponentiation",
         ":_G1_precomputation",
         ":_G2_precomputation",
@@ -43,63 +37,50 @@ ocaml_archive(
     ],
 )
 
-#########
-ocaml_ns(
-    name = "Snarky_pairing_ns",
-    ns = "snarky_pairing",
-    submodules = [
-        # do not sort (buildifier)
-        "final_exponentiation.ml",
-        "g1_precomputation.ml",
-        "g2_precomputation.ml",
-        "miller_loop.ml",
-    ],
-)
-
 #############
 ocaml_module(
     name = "_Final_exponentiation",
-    src = "final_exponentiation.ml",
-    ns = ":Snarky_pairing_ns",
     opts = SNARKY_PAIRING_MODULE_OPTS,
     ppx = SNARKY_PAIRING_PPX,
     ppx_args = SNARKY_PAIRING_PPX_ARGS,
+    struct = "final_exponentiation.ml",
     deps = SNARKY_PAIRING_DEPS,
+    deps_opam = SNARKY_PAIRING_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_G1_precomputation",
-    src = "g1_precomputation.ml",
-    ns = ":Snarky_pairing_ns",
     opts = SNARKY_PAIRING_MODULE_OPTS,
     ppx = SNARKY_PAIRING_PPX,
     ppx_args = SNARKY_PAIRING_PPX_ARGS,
+    struct = "g1_precomputation.ml",
     deps = SNARKY_PAIRING_DEPS,
+    deps_opam = SNARKY_PAIRING_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_G2_precomputation",
-    src = "g2_precomputation.ml",
-    ns = ":Snarky_pairing_ns",
     opts = SNARKY_PAIRING_MODULE_OPTS,
     ppx = SNARKY_PAIRING_PPX,
     ppx_args = SNARKY_PAIRING_PPX_ARGS,
+    struct = "g2_precomputation.ml",
     deps = SNARKY_PAIRING_DEPS,
+    deps_opam = SNARKY_PAIRING_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Miller_loop",
-    src = "miller_loop.ml",
-    ns = ":Snarky_pairing_ns",
     opts = SNARKY_PAIRING_MODULE_OPTS,
     ppx = SNARKY_PAIRING_PPX,
     ppx_args = SNARKY_PAIRING_PPX_ARGS,
+    struct = "miller_loop.ml",
     deps = SNARKY_PAIRING_DEPS + [
         # do not sort (buildifier)
         ":_G1_precomputation",
         ":_G2_precomputation",
     ],
+    deps_opam = SNARKY_PAIRING_DEPS_OPAM
 )

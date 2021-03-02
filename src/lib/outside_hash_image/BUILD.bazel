@@ -1,24 +1,34 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library"
 )
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
+#################
+ocaml_ns_library(
+    name = "outside_hash_image",
+    main = ":_Outside_hash_image",
+    submodules = [
+        ":_Outside_hash_image"
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
 #############
 ocaml_module(
-    name = "outside_hash_image",
-    src = "outside_hash_image.ml",
-    opts = [],
+    name = "_Outside_hash_image",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_optcomp",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
+    struct = "outside_hash_image.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/snark_params",

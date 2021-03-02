@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 PPX_PRINT = "@ppx//print:binary"
@@ -13,18 +10,20 @@ PPX_PRINT = "@ppx//print:binary"
 ################################################################
 ## STANZA 1: LIBRARY COMPOSITION_TYPES
 ################################################################
-COMPOSITION_TYPES_INTERFACE_OPTS = []
+COMPOSITION_TYPES_SIGNATURE_OPTS = []
 
 COMPOSITION_TYPES_MODULE_OPTS = []
 
 COMPOSITION_TYPES_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/pickles/limb_vector",
     "@mina//src/lib/zexe_backend",
     "@mina//src/lib/pickles_types",
     "@mina//src/lib/pickles_base",
     "@snarky//src/base:snarky_backendless",
+]
+COMPOSITION_TYPES_DEPS_OPAM = [
+    "core_kernel"
 ]
 
 COMPOSITION_TYPES_PPX = "@//bzl/ppx/exe:ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson__h_list.ppx"
@@ -35,52 +34,38 @@ COMPOSITION_TYPES_PPX_ARGS = [
     "composition_types",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "composition_types",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = COMPOSITION_TYPES_DEPS + [
-        # do not sort (buildifier)
+    main = "_Composition_types",
+    submodules = [
         ":_Bulletproof_challenge",
         ":_Composition_types",
         ":_Digest",
         ":_Index",
         ":_Spec",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Composition_types_ns",
-    ns = "composition_types",
-    submodules = [
-        # do not sort (buildifier)
-        "bulletproof_challenge.ml",
-        "composition_types.ml",
-        "digest.ml",
-        "index.ml",
-        "spec.ml",
-    ],
+    visibility = [
+        "//src/lib/pickles:__pkg__",
+        "//src/lib/pickles/plonk_checks:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Bulletproof_challenge",
-    src = "bulletproof_challenge.ml",
-    ns = ":Composition_types_ns",
     opts = COMPOSITION_TYPES_MODULE_OPTS,
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
     ppx_print = PPX_PRINT,
+    struct = "bulletproof_challenge.ml",
     deps = COMPOSITION_TYPES_DEPS,
+    deps_opam = COMPOSITION_TYPES_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Composition_types",
-    src = "composition_types.ml",
-    ns = ":Composition_types_ns",
     opts = COMPOSITION_TYPES_MODULE_OPTS + [
         "-w",
         "-22",  # Error (warning 22): Must have deriving version if deriving bin_io
@@ -92,6 +77,7 @@ ocaml_module(
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
     ppx_print = PPX_PRINT,
+    struct = "composition_types.ml",
     deps = COMPOSITION_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Bulletproof_challenge",
@@ -99,13 +85,12 @@ ocaml_module(
         ":_Index",
         ":_Spec",
     ],
+    deps_opam = COMPOSITION_TYPES_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Digest",
-    src = "digest.ml",
-    ns = ":Composition_types_ns",
     opts = COMPOSITION_TYPES_MODULE_OPTS + [
         "-w",
         "-22",  # Error (warning 22): Deriving bin_io and deriving version disallowed for types in functor body
@@ -114,44 +99,46 @@ ocaml_module(
     ],
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
+    struct = "digest.ml",
     deps = COMPOSITION_TYPES_DEPS,
+    deps_opam = COMPOSITION_TYPES_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Index",
-    src = "index.ml",
-    intf = ":_Index.cmi",
-    ns = ":Composition_types_ns",
+    sig  = ":_Index.cmi",
     opts = COMPOSITION_TYPES_MODULE_OPTS,
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
+    struct = "index.ml",
     deps = COMPOSITION_TYPES_DEPS,
+    deps_opam = COMPOSITION_TYPES_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Index.cmi",
     src = "index.mli",
-    ns = ":Composition_types_ns",
-    opts = COMPOSITION_TYPES_INTERFACE_OPTS,
+    opts = COMPOSITION_TYPES_SIGNATURE_OPTS,
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
     deps = COMPOSITION_TYPES_DEPS,
+    deps_opam = COMPOSITION_TYPES_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Spec",
-    src = "spec.ml",
-    ns = ":Composition_types_ns",
     opts = COMPOSITION_TYPES_MODULE_OPTS,
     ppx = COMPOSITION_TYPES_PPX,
     ppx_args = COMPOSITION_TYPES_PPX_ARGS,
+    struct = "spec.ml",
     deps = COMPOSITION_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Bulletproof_challenge",
         ":_Digest",
         ":_Index",
     ],
+    deps_opam = COMPOSITION_TYPES_DEPS_OPAM
 )

@@ -29,7 +29,7 @@ module Width : sig
   [%%versioned:
   module Stable : sig
     module V1 : sig
-      type t = V.Width.Stable.V1.t [@@deriving sexp, eq, compare, hash, yojson]
+      type t = V.Width.Stable.V1.t [@@deriving compare, sexp, yojson, hash, eq]
     end
   end]
 

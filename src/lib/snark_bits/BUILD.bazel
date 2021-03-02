@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -19,41 +17,33 @@ SNARK_BITS_MODULE_OPTS = []
 
 SNARK_BITS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:integers",
     "@snarky//fold_lib",
     "@snarky//src/base:snarky_backendless",
 ]
+SNARK_BITS_DEPS_OPAM = [
+    "core_kernel",
+    "integers",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "snark_bits",
-    doc = "Snark parameters",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARK_BITS_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Bits",
         ":_Bits_intf",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Snark_bits_ns",
-    ns = "snark_bits",
-    submodules = [
-        # do not sort (buildifier)
-        "bits.ml",
-        "bits_intf.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/block_time:__pkg__",
+        # "//src/lib/coda_numbers:__pkg__",
+        # "//src/lib/currency:__pkg__",
+        # "//src/lib/snark_params:__pkg__",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Bits",
-    src = "bits.ml",
-    ns = ":Snark_bits_ns",
     opts = SNARK_BITS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -62,17 +52,17 @@ ocaml_module(
         "snark_bits",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "bits.ml",
     deps = SNARK_BITS_DEPS + [
         # do not sort (buildifier)
         ":_Bits_intf",
     ],
+    deps_opam = SNARK_BITS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Bits_intf",
-    src = "bits_intf.ml",
-    ns = ":Snark_bits_ns",
     opts = SNARK_BITS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -81,28 +71,32 @@ ocaml_module(
         "snark_bits",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "bits_intf.ml",
     deps = SNARK_BITS_DEPS,
+    deps_opam = SNARK_BITS_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_deriving.runtime",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
-    visibility = [
-        "//src/lib/snark_bits:__pkg__",
-    ],
+    # visibility = [
+    #     "//src/lib/snark_bits:__pkg__",
+    # ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

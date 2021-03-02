@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -25,44 +22,30 @@ TRANSITION_FRONTIER_TESTS_PPX_ARGS = [
     "transition_frontier_tests",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "transition_frontier_tests",
-    visibility = ["//visibility:public"],
-    deps = TRANSITION_FRONTIER_TESTS_DEPS + [
-        # do not sort (buildifier)
+    main = "_Transition_frontier_tests",
+    submodules = [
         ":_Full_frontier_tests",
         ":_Transition_frontier_tests",
-    ],
-)
-
-#########
-ocaml_ns(
-    name = "Transition_frontier_tests_ns",
-    ns = "transition_frontier_tests",
-    submodules = [
-        # do not sort (buildifier)
-        "full_frontier_tests.ml",
-        "transition_frontier_tests.ml",
-    ],
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Full_frontier_tests",
-    src = "full_frontier_tests.ml",
-    ns = ":Transition_frontier_tests_ns",
     ppx = TRANSITION_FRONTIER_TESTS_PPX,
     ppx_args = TRANSITION_FRONTIER_TESTS_PPX_ARGS,
+    struct = "full_frontier_tests.ml",
     deps = TRANSITION_FRONTIER_TESTS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Transition_frontier_tests",
-    src = "transition_frontier_tests.ml",
-    ns = ":Transition_frontier_tests_ns",
     ppx = TRANSITION_FRONTIER_TESTS_PPX,
     ppx_args = TRANSITION_FRONTIER_TESTS_PPX_ARGS,
+    struct = "transition_frontier_tests.ml",
     deps = TRANSITION_FRONTIER_TESTS_DEPS,
 )

@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -15,12 +13,17 @@ CLEAR_KEYS_MODULE_OPTS = []
 
 CLEAR_KEYS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
     "@mina//src/lib/file_system",
     "@mina//src/lib/cache_dir",
     "@snarky//src/base:snarky_backendless",
 ]
+CLEAR_KEYS_DEPS_OPAM = [
+    "angstrom",
+    "core",
+    "async",
+]
+ # (libraries core file_system async cache_dir snarky.backendless)
+
 
 CLEAR_KEYS_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
 
@@ -33,20 +36,19 @@ CLEAR_KEYS_PPX_ARGS = [
 #################
 ocaml_executable(
     name = "clear_keys.exe",
+    # mode = "native",
     opts = CLEAR_KEYS_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = CLEAR_KEYS_DEPS + [
-        # do not sort (buildifier)
-        ":_Clear_keys",
-    ],
+    deps = [":_Clear_keys"]
 )
 
 #############
 ocaml_module(
     name = "_Clear_keys",
-    src = "clear_keys.ml",
+    struct = "clear_keys.ml",
     opts = CLEAR_KEYS_MODULE_OPTS,
     ppx = CLEAR_KEYS_PPX,
     ppx_args = CLEAR_KEYS_PPX_ARGS,
     deps = CLEAR_KEYS_DEPS,
+    deps_opam = CLEAR_KEYS_DEPS_OPAM
 )

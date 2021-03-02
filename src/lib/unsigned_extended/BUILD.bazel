@@ -1,13 +1,11 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -16,48 +14,50 @@ load(
 ################################################################
 ## STANZA 1: LIBRARY UNSIGNED_EXTENDED
 ################################################################
-UNSIGNED_EXTENDED_INTERFACE_OPTS = []
+UNSIGNED_EXTENDED_SIGNATURE_OPTS = []
 
 UNSIGNED_EXTENDED_MODULE_OPTS = []
 
 UNSIGNED_EXTENDED_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:integers",
     "@mina//src/lib/snark_params",
-    "@mina//src/lib/ppx_dhall_type",
+    # "@mina//src/lib/ppx_dhall_type",
     "@ppx_version//src/runtime:ppx_version_runtime",
 ]
 
-##############
-ocaml_archive(
+UNSIGNED_EXTENDED_DEPS_OPAM = [
+    "core",
+    "integers",
+]
+
+#########
+ocaml_ns_library(
     name = "unsigned_extended",
-    doc = "Unsigned integer functions",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = UNSIGNED_EXTENDED_DEPS + [
-        # do not sort (buildifier)
+    main = "_Unsigned_extended",
+    submodules = [
         ":_Intf",
         ":_Unsigned_extended",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Unsigned_extended_ns",
-    ns = "unsigned_extended",
-    submodules = [
-        # do not sort (buildifier)
-        "intf.ml",
-        "unsigned_extended.ml",
-    ],
+    visibility = [
+        "//src/lib/currency:__pkg__",
+        "//src/lib/ppx_dhall_type:__pkg__",
+        "//src/lib/unsigned_extended:__pkg__",
+        "//src/lib/mina_base:__pkg__",
+        "//src/lib/snark_params:__pkg__",
+        "//src/lib/coda_numbers:__pkg__",
+        "//src/lib/block_time:__pkg__",
+        "//src/nonconsensus/currency:__pkg__",
+        "//src/nonconsensus/unsigned_extended:__pkg__",
+        "//src/nonconsensus/coda_numbers:__pkg__",
+        "//src/nonconsensus/rosetta_lib:__pkg__",
+        "//src/app/rosetta/lib:__pkg__",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Unsigned_extended_ns",
+    struct = "intf.ml",
     opts = UNSIGNED_EXTENDED_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -67,15 +67,17 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = UNSIGNED_EXTENDED_DEPS,
+    deps_opam = UNSIGNED_EXTENDED_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Unsigned_extended",
-    src = "unsigned_extended.ml",
-    intf = ":_Unsigned_extended.cmi",
-    ns = ":Unsigned_extended_ns",
+    struct = "unsigned_extended.ml",
+    sig  = ":_Unsigned_extended.cmi",
     opts = UNSIGNED_EXTENDED_MODULE_OPTS,
+    deps = UNSIGNED_EXTENDED_DEPS + [":_Intf"],
+    deps_opam = UNSIGNED_EXTENDED_DEPS_OPAM,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -83,18 +85,14 @@ ocaml_module(
         "unsigned_extended",
     ],
     ppx_data = CONFIG_MLH,
-    deps = UNSIGNED_EXTENDED_DEPS + [
-        # do not sort (buildifier)
-        ":_Intf",
-    ],
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Unsigned_extended.cmi",
     src = "unsigned_extended.mli",
-    ns = ":Unsigned_extended_ns",
-    opts = UNSIGNED_EXTENDED_INTERFACE_OPTS,
+    deps_opam = UNSIGNED_EXTENDED_DEPS_OPAM,
+    opts = UNSIGNED_EXTENDED_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -105,38 +103,41 @@ ocaml_interface(
     deps = UNSIGNED_EXTENDED_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
+        "@mina//src/lib/ppx_dhall_type",
     ],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/unsigned_extended:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_compare",
-        "@opam//pkg:ppx_deriving.std",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_hash",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_compare",
+        "ppx_deriving.std",
+        "ppx_deriving_yojson",
+        "ppx_hash",
+        "ppx_inline_test",
+        "ppx_sexp_conv",
+        "ppxlib"
+    ]
 )

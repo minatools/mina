@@ -1,16 +1,27 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "syncable_ledger",
+    main = ":_Syncable_ledger",
+    submodules = [
+        ":_Syncable_ledger",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "syncable_ledger",
-    src = "syncable_ledger.ml",
-    opts = [],
+    name = "_Syncable_ledger",
+    struct = "syncable_ledger.ml",
+    opts   = ["-linkall"],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -19,56 +30,60 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/interruptible",
-        "@mina//src/lib/logger",
-        "@mina//src/lib/merkle_ledger",
         "@mina//src/lib/pipe_lib",
+        "@mina//src/lib/merkle_ledger",
+        "@mina//src/lib/logger",
         "@mina//src/lib/trust_system",
-        "@opam//pkg:async",
-        "@opam//pkg:async_extra",
-        "@opam//pkg:core",
+        "@mina//src/lib/interruptible",
     ],
+    deps_opam = [
+        "core",
+        "async",
+        "async_extra",
+    ]
 )
 
 #############
-ocaml_module(
-    name = "test",
-    src = "test.ml",
-    opts = [],
-    ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson",
-    ppx_args = [
-        # do not sort (buildifier)
-        "-inline-test-lib",
-        "test",
-    ],
-    visibility = ["//visibility:public"],
-    deps = [
-        "@mina//src/lib/merkle_ledger",
-        "@mina//src/lib/merkle_ledger_tests",
-        "@mina//src/lib/syncable_ledger",
-        "@opam//pkg:async",
-        "@opam//pkg:core",
-    ],
-)
+# ocaml_module(
+#     name = "test",
+#     opts = [],
+#     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson",
+#     ppx_args = [
+#         # do not sort (buildifier)
+#         "-inline-test-lib",
+#         "test",
+#     ],
+#     struct = "test.ml",
+#     visibility = ["//visibility:public"],
+#     deps = [
+#         "@mina//src/lib/merkle_ledger",
+#         "@mina//src/lib/merkle_ledger_tests",
+#         "@mina//src/lib/syncable_ledger",
+#     ],
+#     deps_opam = [
+#         "async",
+#         "core",
+#     ]
+# )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/syncable_ledger:__pkg__",
@@ -76,10 +91,12 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@mina//src/lib/ppx_register_event",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_jane",
+        "ppxlib",
+        "ppx_deriving_yojson",
+        "ppx_deriving.eq",
+    ]
 )

@@ -1,16 +1,26 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "snark_keys_header",
+    main = ":_Snark_keys_header",
+    submodules = [
+        ":_Snark_keys_header",
+    ],
+    visibility = [
+        "//src/lib/pickles:__pkg__",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "snark_keys_header",
-    src = "snark_keys_header.ml",
-    opts = [],
+    name = "_Snark_keys_header",
+    struct = "snark_keys_header.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -18,35 +28,36 @@ ocaml_module(
         "snark_keys_header",
     ],
     visibility = ["//visibility:public"],
-    deps = [
-        "@opam//pkg:core_kernel",
-        "@opam//pkg:integers",
+    deps_opam = [
+        "core_kernel",
+        "integers",
     ],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/snark_keys_header:__pkg__",
     ],
-    deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.ord",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
-        "@ppx_version//src:ppx_version",
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving.ord",
+        "ppx_deriving_yojson",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
     ],
+    deps = ["@ppx_version//src:ppx_version"]
+
 )

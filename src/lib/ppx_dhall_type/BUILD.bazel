@@ -1,85 +1,77 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_test",
     "ppx_archive",
+    "ppx_executable",
     "ppx_module",
-    "ppx_ns",
+    "ppx_ns_library",
 )
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
-################################################################
-## PPX STANZA 1: PPX_DHALL_TYPE
-################################################################
-PPX_DHALL_TYPE_PPX_MODULE_OPTS = []
-
-PPX_DHALL_TYPE_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:ppxlib",
-    "@opam//pkg:core_kernel",
+############################
+PPX_DHALL_TYPE_DEPS_OPAM = [
+    "ppxlib",
+    "core_kernel",
 ]
 
 PPX_DHALL_TYPE_PPX = "//bzl/ppx/exe:ppx_version__ppxlib.metaquot"
 
-PPX_DHALL_TYPE_PPX_ARGS = [
-    # do not sort (buildifier)
-]
+###########
+ocaml_test(
+    name = "test",
+    main = "test.ml",
+    opts = [
+        "-w", "-27",  ## Error (warning 27): unused variable test_ctxt.
+        "-w", "-33"   ## unused open OUnit2
+    ],
+    ppx  = ":runner",
+    ppx_print = "@ppx//print:text",
+    deps      = [":ppx_dhall_type"],
+    deps_opam = ["core", "ounit2"]
+)
 
-############
-ppx_archive(
+###############
+ppx_executable(
+    name = "runner",
+    main = "//bzl/ppx/exe:ppxlib_driver",
+    deps = [":ppx_dhall_type"]
+)
+
+
+###############
+ppx_ns_library(
     name = "ppx_dhall_type",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = PPX_DHALL_TYPE_DEPS + [
-        # do not sort (buildifier)
-        ":Deriving",
-        ":Dhall_type",
-    ],
-)
-
-#########
-ppx_ns(
-    name = "Ppx_dhall_type_ns",
-    ns = "ppx_dhall_type",
-    opts = [],
     submodules = [
-        # do not sort (buildifier)
-        "deriving.ml",
-        "dhall_type.ml",
+        ":_Dhall_type",
+        ":_Deriving",
     ],
+    visibility = [
+        "//src/app/dhall_types:__pkg__",
+        "//src/lib/coda_numbers:__pkg__",
+        "//src/lib/currency:__pkg__",
+        "//src/lib/runtime_config:__pkg__",
+        "//src/lib/unsigned_extended:__pkg__"
+    ]
 )
 
 ###########
 ppx_module(
-    name = "Deriving",
-    src = "deriving.ml",
-    ns = ":Ppx_dhall_type_ns",
-    opts = PPX_DHALL_TYPE_PPX_MODULE_OPTS,
+    name = "_Deriving",
+    struct = "deriving.ml",
     ppx = PPX_DHALL_TYPE_PPX,
-    ppx_args = PPX_DHALL_TYPE_PPX_ARGS,
-    ppx_data = CONFIG_MLH,
-    deps = [
-        # do not sort (buildifier)
-        "@opam//pkg:ppxlib",
-        "@opam//pkg:core_kernel",
-    ],
+    ppx_data  = CONFIG_MLH,
+    deps      = [":_Dhall_type"],
+    deps_opam = PPX_DHALL_TYPE_DEPS_OPAM
 )
 
 ###########
 ppx_module(
-    name = "Dhall_type",
-    src = "dhall_type.ml",
-    ns = ":Ppx_dhall_type_ns",
-    opts = PPX_DHALL_TYPE_PPX_MODULE_OPTS,
+    name = "_Dhall_type",
+    struct = "dhall_type.ml",
     ppx = PPX_DHALL_TYPE_PPX,
-    ppx_args = PPX_DHALL_TYPE_PPX_ARGS,
     ppx_data = CONFIG_MLH,
-    deps = [
-        # do not sort (buildifier)
-        "@opam//pkg:ppxlib",
-        "@opam//pkg:core_kernel",
-    ],
+    deps_opam = PPX_DHALL_TYPE_DEPS_OPAM
 )

@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -13,19 +10,17 @@ load(
 ################################################################
 ROSETTA_MODELS_MODULE_OPTS = []
 
-ROSETTA_MODELS_DEPS = [
+ROSETTA_MODELS_DEPS = []
+ROSETTA_MODELS_DEPS_OPAM = [
     # do not sort (buildifier)
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "rosetta_models",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = ROSETTA_MODELS_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Account_balance_request",
         ":_Account_balance_response",
         ":_Account_coins_request",
@@ -96,96 +91,21 @@ ocaml_archive(
         ":_Transaction_identifier_response",
         ":_Version",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Rosetta_models_ns",
-    ns = "rosetta_models",
-    submodules = [
-        # do not sort (buildifier)
-        "account_balance_request.ml",
-        "account_balance_response.ml",
-        "account_coins_request.ml",
-        "account_coins_response.ml",
-        "account_identifier.ml",
-        "allow.ml",
-        "amount.ml",
-        "balance_exemption.ml",
-        "block.ml",
-        "block_event.ml",
-        "block_identifier.ml",
-        "block_request.ml",
-        "block_response.ml",
-        "block_transaction.ml",
-        "block_transaction_request.ml",
-        "block_transaction_response.ml",
-        "call_request.ml",
-        "call_response.ml",
-        "coin.ml",
-        "coin_change.ml",
-        "coin_identifier.ml",
-        "construction_combine_request.ml",
-        "construction_combine_response.ml",
-        "construction_derive_request.ml",
-        "construction_derive_response.ml",
-        "construction_hash_request.ml",
-        "construction_hash_response.ml",
-        "construction_metadata_request.ml",
-        "construction_metadata_response.ml",
-        "construction_parse_request.ml",
-        "construction_parse_response.ml",
-        "construction_payloads_request.ml",
-        "construction_payloads_response.ml",
-        "construction_preprocess_request.ml",
-        "construction_preprocess_response.ml",
-        "construction_submit_request.ml",
-        "construction_submit_response.ml",
-        "currency.ml",
-        "enums.ml",
-        "error.ml",
-        "events_blocks_request.ml",
-        "events_blocks_response.ml",
-        "mempool_response.ml",
-        "mempool_transaction_request.ml",
-        "mempool_transaction_response.ml",
-        "metadata_request.ml",
-        "network_identifier.ml",
-        "network_list_response.ml",
-        "network_options_response.ml",
-        "network_request.ml",
-        "network_status_response.ml",
-        "operation.ml",
-        "operation_identifier.ml",
-        "operation_status.ml",
-        "partial_block_identifier.ml",
-        "peer.ml",
-        "public_key.ml",
-        "search_transactions_request.ml",
-        "search_transactions_response.ml",
-        "signature.ml",
-        "signing_payload.ml",
-        "sub_account_identifier.ml",
-        "sub_network_identifier.ml",
-        "sync_status.ml",
-        "timestamp.ml",
-        "transaction.ml",
-        "transaction_identifier.ml",
-        "transaction_identifier_response.ml",
-        "version.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Account_balance_request",
-    src = "account_balance_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "account_balance_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -198,13 +118,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Account_balance_response",
-    src = "account_balance_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "account_balance_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Amount",
@@ -215,13 +135,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Account_coins_request",
-    src = "account_coins_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "account_coins_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -233,13 +153,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Account_coins_response",
-    src = "account_coins_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "account_coins_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_identifier",
@@ -250,13 +170,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Account_identifier",
-    src = "account_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "account_identifier.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Sub_account_identifier",
@@ -266,13 +186,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Allow",
-    src = "allow.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "allow.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Balance_exemption",
@@ -284,13 +204,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Amount",
-    src = "amount.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "amount.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Currency",
@@ -300,13 +220,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Balance_exemption",
-    src = "balance_exemption.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "balance_exemption.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Currency",
@@ -317,13 +237,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block",
-    src = "block.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_identifier",
@@ -335,13 +255,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block_event",
-    src = "block_event.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_event.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_identifier",
@@ -352,26 +272,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block_identifier",
-    src = "block_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Block_request",
-    src = "block_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -382,13 +302,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block_response",
-    src = "block_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block",
@@ -399,13 +319,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block_transaction",
-    src = "block_transaction.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_transaction.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_identifier",
@@ -416,13 +336,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block_transaction_request",
-    src = "block_transaction_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_transaction_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_identifier",
@@ -434,13 +354,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Block_transaction_response",
-    src = "block_transaction_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "block_transaction_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Transaction",
@@ -450,13 +370,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Call_request",
-    src = "call_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "call_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -466,26 +386,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Call_response",
-    src = "call_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "call_response.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coin",
-    src = "coin.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "coin.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Amount",
@@ -496,13 +416,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Coin_change",
-    src = "coin_change.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "coin_change.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Coin_identifier",
@@ -513,26 +433,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Coin_identifier",
-    src = "coin_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "coin_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Construction_combine_request",
-    src = "construction_combine_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_combine_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -543,26 +463,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_combine_response",
-    src = "construction_combine_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_combine_response.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Construction_derive_request",
-    src = "construction_derive_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_derive_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -573,13 +493,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_derive_response",
-    src = "construction_derive_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_derive_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -589,13 +509,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_hash_request",
-    src = "construction_hash_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_hash_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -605,26 +525,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_hash_response",
-    src = "construction_hash_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_hash_response.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Construction_metadata_request",
-    src = "construction_metadata_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_metadata_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -635,13 +555,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_metadata_response",
-    src = "construction_metadata_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_metadata_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Amount",
@@ -651,13 +571,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_parse_request",
-    src = "construction_parse_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_parse_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -667,13 +587,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_parse_response",
-    src = "construction_parse_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_parse_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -684,13 +604,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_payloads_request",
-    src = "construction_payloads_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_payloads_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -702,13 +622,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_payloads_response",
-    src = "construction_payloads_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_payloads_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Signing_payload",
@@ -718,13 +638,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_preprocess_request",
-    src = "construction_preprocess_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_preprocess_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Amount",
@@ -736,13 +656,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_preprocess_response",
-    src = "construction_preprocess_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_preprocess_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -752,13 +672,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_submit_request",
-    src = "construction_submit_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_submit_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -768,13 +688,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Construction_submit_response",
-    src = "construction_submit_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "construction_submit_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Transaction_identifier",
@@ -784,52 +704,52 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Currency",
-    src = "currency.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "currency.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Enums",
-    src = "enums.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "enums.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Error",
-    src = "error.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "error.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Events_blocks_request",
-    src = "events_blocks_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "events_blocks_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -839,13 +759,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Events_blocks_response",
-    src = "events_blocks_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "events_blocks_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_event",
@@ -855,13 +775,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Mempool_response",
-    src = "mempool_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "mempool_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Transaction_identifier",
@@ -871,13 +791,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Mempool_transaction_request",
-    src = "mempool_transaction_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "mempool_transaction_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -888,13 +808,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Mempool_transaction_response",
-    src = "mempool_transaction_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "mempool_transaction_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Transaction",
@@ -904,26 +824,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Metadata_request",
-    src = "metadata_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "metadata_request.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Network_identifier",
-    src = "network_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "network_identifier.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Sub_network_identifier",
@@ -933,13 +853,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Network_list_response",
-    src = "network_list_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "network_list_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -949,13 +869,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Network_options_response",
-    src = "network_options_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "network_options_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Allow",
@@ -966,13 +886,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Network_request",
-    src = "network_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "network_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Network_identifier",
@@ -982,13 +902,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Network_status_response",
-    src = "network_status_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "network_status_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_identifier",
@@ -1001,13 +921,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Operation",
-    src = "operation.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "operation.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -1020,65 +940,65 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Operation_identifier",
-    src = "operation_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "operation_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Operation_status",
-    src = "operation_status.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "operation_status.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Partial_block_identifier",
-    src = "partial_block_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "partial_block_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Peer",
-    src = "peer.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "peer.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Public_key",
-    src = "public_key.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "public_key.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Enums",
@@ -1088,13 +1008,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Search_transactions_request",
-    src = "search_transactions_request.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "search_transactions_request.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -1109,13 +1029,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Search_transactions_response",
-    src = "search_transactions_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "search_transactions_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Block_transaction",
@@ -1125,13 +1045,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Signature",
-    src = "signature.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "signature.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Enums",
@@ -1143,13 +1063,13 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Signing_payload",
-    src = "signing_payload.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "signing_payload.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Account_identifier",
@@ -1160,65 +1080,65 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Sub_account_identifier",
-    src = "sub_account_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "sub_account_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Sub_network_identifier",
-    src = "sub_network_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "sub_network_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Sync_status",
-    src = "sync_status.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "sync_status.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Timestamp",
-    src = "timestamp.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "timestamp.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transaction",
-    src = "transaction.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "transaction.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Operation",
@@ -1229,26 +1149,26 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Transaction_identifier",
-    src = "transaction_identifier.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "transaction_identifier.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transaction_identifier_response",
-    src = "transaction_identifier_response.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "transaction_identifier_response.ml",
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM,
     deps = ROSETTA_MODELS_DEPS + [
         # do not sort (buildifier)
         ":_Transaction_identifier",
@@ -1258,34 +1178,36 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Version",
-    src = "version.ml",
-    ns = ":Rosetta_models_ns",
     opts = ROSETTA_MODELS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "version.ml",
     deps = ROSETTA_MODELS_DEPS,
+    deps_opam = ROSETTA_MODELS_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_deriving.runtime",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_deriving.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/rosetta_models:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.show",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving.show",
+        "ppx_deriving_yojson",
+        "ppxlib",
+    ]
 )

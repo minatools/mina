@@ -1,12 +1,25 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library"
+)
+
+#########
+ocaml_ns_library(
+    name = "zexe_backend",
+    main = "_Zexe_backend",
+    submodules = [
+        ":_Zexe_backend",
+    ],
+    visibility = [
+        "//src/lib/pickles:__subpackages__"
+        # "//visibility:public"
+    ],
 )
 
 #############
 ocaml_module(
-    name = "zexe_backend",
-    src = "zexe_backend.ml",
+    name = "_Zexe_backend",
     opts = [],
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving_yojson__ppx_deriving.std",
     ppx_args = [
@@ -14,7 +27,7 @@ ocaml_module(
         "-inline-test-lib",
         "zexe_backend",
     ],
-    visibility = ["//visibility:public"],
+    struct = "zexe_backend.ml",
     deps = [
         "@mina//src/lib/hex",
         "@mina//src/lib/key_cache",
@@ -22,10 +35,12 @@ ocaml_module(
         "@mina//src/lib/pickles_types",
         "@mina//src/lib/sgn_type",
         "@mina//src/lib/zexe_backend/tweedle",
-        "@opam//pkg:core",
-        "@opam//pkg:integers",
         "@snarky//snarkette",
         "@snarky//sponge",
         "@snarky//src/base:snarky_backendless",
     ],
+    deps_opam = [
+        "core",
+        "integers",
+    ]
 )

@@ -1,51 +1,65 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "runtime_config",
+    main = ":_Runtime_config",
+    submodules = [
+        ":_Runtime_config",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "runtime_config",
-    src = "runtime_config.ml",
-    opts = [],
+    name = "_Runtime_config",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
-    visibility = ["//visibility:public"],
+    struct = "runtime_config.ml",
     deps = [
         "@mina//src/lib/coda_numbers",
         "@mina//src/lib/currency",
         "@mina//src/lib/ppx_dhall_type",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/runtime_config:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_dhall_type",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_custom_printf",
+        "ppx_deriving.eq",
+        "ppx_deriving_yojson",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

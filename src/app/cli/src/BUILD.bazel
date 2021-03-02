@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -20,7 +18,7 @@ CODA_MODULE_OPTS = []
 
 CODA_DEPS = [
     # do not sort (buildifier)
-    "@ocaml_jemalloc//src:jemalloc",
+    # "@ocaml_jemalloc//src:jemalloc",
     "@mina//src/app/cli/src/init",
     "@mina//src/app/cli/src/tests",
     "@mina//src/lib/consensus",
@@ -34,22 +32,23 @@ CODA_DEPS = [
 
 #################
 ocaml_executable(
-    name = "coda.exe",
+    name = "coda",
     opts = CODA_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
     deps = CODA_DEPS + [
         # do not sort (buildifier)
         ":_Coda",
     ],
-    cc_deps = {
-        ## FIXME: make this a dep on the OCaml wrapper
-        "@mina//src/lib/marlin_plonk_bindings/stubs:marlin_plonk_stubs": "static",
-        # "@ocaml_rocksdb//:librocksdb": "static-linkall",
-        "@ocaml_rocksdb//:bzip2": "static",
-        "@ocaml_rocksdb//:zlib": "static",
-        "@ocaml_sodium//lib:libsodium": "static"
-    },
-    cc_linkall  = ["@ocaml_rocksdb//:librocksdb"],
+    # cc_deps = {
+    #     ## FIXME: make this a dep on the OCaml wrapper
+    #     "@mina//src/lib/marlin_plonk_bindings/stubs:marlin_plonk_stubs": "static",
+    #     # "@ocaml_rocksdb//:librocksdb": "static-linkall",
+    #     "@ocaml_rocksdb//:bzip2": "static",
+    #     "@ocaml_rocksdb//:zlib": "static",
+    #     "@ocaml_sodium//lib:libsodium": "static"
+    # },
+    # cc_linkall  = ["@ocaml_rocksdb//:librocksdb"],
+
     # cc_linkall  = ["//bzl/external/rocksdb"], # -Wl,-force_load (MacOS) or -whole-archive (Linux)
     # cc_linkopts = select({
     #     "//bzl/host:macos": ["-lc++abi", "-lc++"], # "-lsodium"],
@@ -60,7 +59,7 @@ ocaml_executable(
 #############
 ocaml_module(
     name = "_Coda",
-    src = "coda.ml",
+    struct = "coda.ml",
     opts = CODA_MODULE_OPTS,
     ppx = ":ppx2.exe",
     ppx_args = [
@@ -73,23 +72,25 @@ ocaml_module(
 ###############
 ppx_executable(
     name = "ppx2.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/app/cli/src:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppxlib",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppx_deriving_yojson",
+    ]
 )

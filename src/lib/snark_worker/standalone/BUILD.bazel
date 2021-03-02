@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -33,30 +31,32 @@ ocaml_executable(
 #############
 ocaml_module(
     name = "_Run_snark_worker",
-    src = "run_snark_worker.ml",
     opts = RUN_SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
+    struct = "run_snark_worker.ml",
     deps = RUN_SNARK_WORKER_DEPS,
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_sexp_conv.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/snark_worker/standalone:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_custom_printf",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

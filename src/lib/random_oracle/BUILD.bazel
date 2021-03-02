@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -15,18 +13,16 @@ load(
 ################################################################
 ## STANZA 1: LIBRARY RANDOM_ORACLE
 ################################################################
-RANDOM_ORACLE_INTERFACE_OPTS = []
-
-RANDOM_ORACLE_MODULE_OPTS = []
-
 RANDOM_ORACLE_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/random_oracle_input",
     "@mina//src/lib/o1trace",
     "@mina//src/lib/pickles",
     "@snarky//src/base:snarky_backendless",
     "@snarky//sponge",
+]
+RANDOM_ORACLE_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 RANDOM_ORACLE_PPX = "@//bzl/ppx/exe:ppx_version__ppx_optcomp__ppx_sexp_conv__ppx_compare__ppx_inline_test__ppx_assert__ppx_deriving.eq__ppx_deriving_yojson__ppx_let"
@@ -37,60 +33,51 @@ RANDOM_ORACLE_PPX_ARGS = [
     "random_oracle",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "random_oracle",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = RANDOM_ORACLE_DEPS + [
-        # do not sort (buildifier)
+    main = "_Random_oracle",
+    submodules = [
         ":_Intf",
         ":_Random_oracle",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Random_oracle_ns",
-    ns = "random_oracle",
-    submodules = [
-        # do not sort (buildifier)
-        "intf.ml",
-        "random_oracle.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/crypto_params:__pkg__",
+        # "//src/lib/currency:__pkg__",
+        # "//src/lib/data_hash_lib:__pkg__",
+        # "//src/lib/hash_prefix_states:__pkg__",
+        # "//src/lib/signature_lib:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Random_oracle_ns",
-    opts = RANDOM_ORACLE_MODULE_OPTS,
+    struct = "intf.ml",
     ppx = RANDOM_ORACLE_PPX,
     ppx_args = RANDOM_ORACLE_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     deps = RANDOM_ORACLE_DEPS,
+    deps_opam = RANDOM_ORACLE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Random_oracle",
-    src = "random_oracle.ml",
-    intf = ":_Random_oracle.cmi",
-    ns = ":Random_oracle_ns",
-    opts = RANDOM_ORACLE_MODULE_OPTS,
+    struct = "random_oracle.ml",
+    sig    = ":_Random_oracle.cmi",
     ppx = RANDOM_ORACLE_PPX,
     ppx_args = RANDOM_ORACLE_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     deps = RANDOM_ORACLE_DEPS,
+    deps_opam = RANDOM_ORACLE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Random_oracle.cmi",
     src = "random_oracle.mli",
-    ns = ":Random_oracle_ns",
-    opts = RANDOM_ORACLE_INTERFACE_OPTS,
     ppx = RANDOM_ORACLE_PPX,
     ppx_args = RANDOM_ORACLE_PPX_ARGS,
     ppx_data = CONFIG_MLH,
@@ -98,4 +85,5 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = RANDOM_ORACLE_DEPS_OPAM
 )

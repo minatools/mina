@@ -1,19 +1,25 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library"
+)
+
+#################
+ocaml_ns_library(
+    name = "hash_prefixes",
+    main = ":_Hash_prefixes",
+    submodules = [
+        ":_Hash_prefixes",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "hash_prefixes",
-    src = "hash_prefixes.ml",
-    opts = [],
+    name = "_Hash_prefixes",
+    struct = "hash_prefixes.ml",
     ppx = "//bzl/ppx/exe:ppx_version",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     visibility = ["//visibility:public"],
-    deps = [],
 )

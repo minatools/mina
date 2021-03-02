@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -20,13 +18,11 @@ DECODER_DEPS = [
 
 DECODER_PPX = "@//bzl/ppx/exe:ppx_version"
 
-DECODER_PPX_ARGS = [
-    # do not sort (buildifier)
-]
+DECODER_PPX_ARGS = []
 
 #################
 ocaml_executable(
-    name = "decoder.exe",
+    name = "decoder",
     opts = DECODER_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
     deps = DECODER_DEPS + [
@@ -38,7 +34,7 @@ ocaml_executable(
 #############
 ocaml_module(
     name = "_Decoder",
-    src = "decoder.ml",
+    struct = "decoder.ml",
     opts = DECODER_MODULE_OPTS,
     ppx = DECODER_PPX,
     ppx_args = DECODER_PPX_ARGS,

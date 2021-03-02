@@ -1,42 +1,57 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "memory_stats",
+    main = ":_Memory_stats",
+    submodules = [
+        ":_Memory_stats",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "memory_stats",
-    src = "memory_stats.ml",
-    opts = [],
+    name = "_Memory_stats",
+    struct = "memory_stats.ml",
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
-    visibility = ["//visibility:public"],
     deps = [
-        "@ocaml_jemalloc//src:jemalloc",
-        "@opam//pkg:async_kernel",
-        "@opam//pkg:core",
         "@mina//src/lib/logger",
+        "@ocaml_jemalloc//src:jemalloc",
+    ],
+    deps_opam = [
+        "async_kernel",
+        "core",
+    ],
+    visibility = [
+        "//src/app/cli/src:__pkg__",
+        "//src/lib/prover:__pkg__",
+        "//src/lib/verifier:__pkg__"
     ],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/memory_stats:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
+    deps_opam = [
+        "ppx_let",
+        "ppxlib",
+    ]
 )

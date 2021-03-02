@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -20,10 +18,6 @@ CLIENT_SDK_MODULE_OPTS = []
 
 CLIENT_SDK_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:zarith_stubs_js",
-    "@opam//pkg:integers",
-    "@opam//pkg:js_of_ocaml",
-    "@opam//pkg:digestif.ocaml",
     "@mina//src/nonconsensus/snark_params:snark_params_nonconsensus",
     "@mina//src/nonconsensus/rosetta_lib:rosetta_lib_nonconsensus",
     "@mina//src/nonconsensus/mina_base:mina_base_nonconsensus",
@@ -33,9 +27,16 @@ CLIENT_SDK_DEPS = [
     "@mina//src/lib/integers_stubs_js",
 ]
 
+CLIENT_SDK_DEPS_OPAM = [
+    "zarith_stubs_js",
+    "integers",
+    "js_of_ocaml",
+    "digestif.ocaml",
+]
+
 #################
 ocaml_executable(
-    name = "client_sdk.exe",
+    name = "client_sdk",
     opts = CLIENT_SDK_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
     deps = CLIENT_SDK_DEPS + [
@@ -44,12 +45,13 @@ ocaml_executable(
         ":_Js_util",
         ":_String_sign",
     ],
+    deps_opam = CLIENT_SDK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Client_sdk",
-    src = "client_sdk.ml",
+    struct = "client_sdk.ml",
     opts = CLIENT_SDK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -57,12 +59,13 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = CLIENT_SDK_DEPS,
+    deps_opam = CLIENT_SDK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Js_util",
-    src = "js_util.ml",
+    struct = "js_util.ml",
     opts = CLIENT_SDK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -70,12 +73,13 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = CLIENT_SDK_DEPS,
+    deps_opam = CLIENT_SDK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_String_sign",
-    src = "string_sign.ml",
+    struct = "string_sign.ml",
     opts = CLIENT_SDK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -83,14 +87,15 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = CLIENT_SDK_DEPS,
+    deps_opam = CLIENT_SDK_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:js_of_ocaml",
+    deps_adjunct_opam = [
+        "ppx_sexp_conv.runtime-lib",
+        "js_of_ocaml",
     ],
     main = "//bzl/ppx/exe:Driver",
     opts = [],
@@ -98,10 +103,12 @@ ppx_executable(
         "//src/app/client_sdk:__pkg__",
     ],
     deps = [
-        "@opam//pkg:js_of_ocaml-ppx",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "js_of_ocaml-ppx",
+        "ppx_custom_printf",
+        "ppxlib",
+    ]
 )

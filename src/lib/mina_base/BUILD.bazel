@@ -1,13 +1,12 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_genrule",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -24,12 +23,6 @@ MINA_BASE_MODULE_OPTS = []
 
 MINA_BASE_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:async_extra",
-    "@opam//pkg:digestif.c",
-    "@opam//pkg:core",
-    "@opam//pkg:sexp_diff_kernel",
-    "@opam//pkg:yojson",
     "@mina//src/lib/allocation_functor",
     "@mina//src/lib/base58_check",
     "@mina//src/lib/bignum_bigint",
@@ -70,14 +63,19 @@ MINA_BASE_DEPS = [
     "@mina//src/lib/with_hash",
 ]
 
-##############
-ocaml_archive(
+MINA_BASE_DEPS_OPAM = [
+    "async",
+    "async_extra",
+    "digestif.c",
+    "core",
+    "sexp_diff_kernel",
+    "yojson",
+]
+
+#########
+ocaml_ns_library(
     name = "mina_base",
-    doc = "Snarks and friends necessary for keypair generation",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = MINA_BASE_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Account",
         ":_Account_id",
         ":_Account_timing",
@@ -150,97 +148,16 @@ ocaml_archive(
         ":_User_command_status",
         ":_Util",
         ":_With_status",
-        ":_Sample_keypairs"
+        ":_Sample_keypairs",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Mina_base_ns",
-    ns = "mina_base",
-    submodules = [
-        # do not sort (buildifier)
-        "account.ml",
-        "account_id.ml",
-        "account_timing.ml",
-        "coinbase.ml",
-        "coinbase_fee_transfer.ml",
-        "control.ml",
-        "data_hash.ml",
-        "epoch_data.ml",
-        "epoch_ledger.ml",
-        "epoch_seed.ml",
-        "fee_excess.ml",
-        "fee_transfer.ml",
-        "fee_with_prover.ml",
-        "frozen_ledger_hash.ml",
-        "frozen_ledger_hash0.ml",
-        "hack_snarky_tests.ml",
-        "hash_prefix.ml",
-        "how_to_obtain_keys.ml",
-        "import.ml",
-        "insecure.ml",
-        "ledger.ml",
-        "ledger_hash.ml",
-        "ledger_hash0.ml",
-        "ledger_hash_intf.ml",
-        "ledger_hash_intf0.ml",
-        "ledger_transfer.ml",
-        "minting_payload.ml",
-        "new_account_payload.ml",
-        "new_token_payload.ml",
-        "other_fee_payer.ml",
-        "payment_payload.ml",
-        "pending_coinbase.ml",
-        "pending_coinbase_intf.ml",
-        "pending_coinbase_witness.ml",
-        "permissions.ml",
-        "proof.ml",
-        "protocol_constants_checked.ml",
-        "receipt.ml",
-        "rpc_intf.ml",
-        "side_loaded_verification_key.ml",
-        "signature.ml",
-        "signature_poly.ml",
-        "signed_command.ml",
-        "signed_command_intf.ml",
-        "signed_command_memo.ml",
-        "signed_command_payload.ml",
-        "snapp_account.ml",
-        "snapp_basic.ml",
-        "snapp_command.ml",
-        "snapp_predicate.ml",
-        "snapp_state.ml",
-        "snapp_statement.ml",
-        "sok_message.ml",
-        "sparse_ledger.ml",
-        "staged_ledger_hash.ml",
-        "stake_delegation.ml",
-        "state_body_hash.ml",
-        "state_hash.ml",
-        "sync_ledger.ml",
-        "token_id.ml",
-        "token_permissions.ml",
-        "transaction.ml",
-        "transaction_hash.ml",
-        "transaction_logic.ml",
-        "transaction_union.ml",
-        "transaction_union_payload.ml",
-        "transaction_union_tag.ml",
-        "transaction_validator.ml",
-        "user_command.ml",
-        "user_command_status.ml",
-        "util.ml",
-        "with_status.ml",
-        "sample_keypairs.ml"
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Account",
-    src = "account.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -249,7 +166,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "account.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -268,9 +187,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Account_id",
-    src = "account_id.ml",
-    intf = ":_Account_id.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Account_id.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -279,6 +196,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "account_id.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -287,10 +206,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Account_id.cmi",
     src = "account_id.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -299,6 +217,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -309,8 +228,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Account_timing",
-    src = "account_timing.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -319,16 +236,16 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "account_timing.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coinbase",
-    src = "coinbase.ml",
-    intf = ":_Coinbase.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Coinbase.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -337,6 +254,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "coinbase.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -348,10 +267,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Coinbase.cmi",
     src = "coinbase.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -360,6 +278,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -372,11 +291,10 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Coinbase_fee_transfer",
-    src = "coinbase_fee_transfer.ml",
-    intf = ":_Coinbase_fee_transfer.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Coinbase_fee_transfer.cmi",
     opts = MINA_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -385,6 +303,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "coinbase_fee_transfer.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -395,10 +315,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Coinbase_fee_transfer.cmi",
     src = "coinbase_fee_transfer.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -407,6 +326,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -418,8 +338,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Control",
-    src = "control.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -428,14 +346,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    deps = MINA_BASE_DEPS + [":_Signature"], # obazl:retain
+    struct = "control.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
+    deps = MINA_BASE_DEPS + [":_Signature"],  # obazl:retain
 )
 
 #############
 ocaml_module(
     name = "_Data_hash",
-    src = "data_hash.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -444,14 +362,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "data_hash.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Epoch_data",
-    src = "epoch_data.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -460,7 +378,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "epoch_data.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Epoch_ledger",
@@ -472,8 +392,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Epoch_ledger",
-    src = "epoch_ledger.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -482,7 +400,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "epoch_ledger.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Frozen_ledger_hash0",
@@ -492,8 +412,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Epoch_seed",
-    src = "epoch_seed.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -502,6 +420,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "epoch_seed.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -511,8 +431,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Fee_excess",
-    src = "fee_excess.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -521,6 +439,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "fee_excess.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -531,9 +451,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Fee_transfer",
-    src = "fee_transfer.ml",
-    intf = ":_Fee_transfer.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Fee_transfer.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -542,7 +460,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "fee_transfer.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -553,10 +473,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Fee_transfer.cmi",
     src = "fee_transfer.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -565,6 +484,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -577,8 +497,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Fee_with_prover",
-    src = "fee_with_prover.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -587,15 +505,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "fee_with_prover.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Frozen_ledger_hash",
-    src = "frozen_ledger_hash.ml",
-    intf = ":_Frozen_ledger_hash.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Frozen_ledger_hash.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -604,6 +522,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "frozen_ledger_hash.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash",
@@ -611,10 +531,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Frozen_ledger_hash.cmi",
     src = "frozen_ledger_hash.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -623,6 +542,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Frozen_ledger_hash0",
@@ -634,8 +554,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Frozen_ledger_hash0",
-    src = "frozen_ledger_hash0.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -644,6 +562,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "frozen_ledger_hash0.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash0",
@@ -653,8 +573,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Hack_snarky_tests",
-    src = "hack_snarky_tests.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -663,14 +581,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "hack_snarky_tests.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Hash_prefix",
-    src = "hash_prefix.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -679,14 +597,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "hash_prefix.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_How_to_obtain_keys",
-    src = "how_to_obtain_keys.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -695,14 +613,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "how_to_obtain_keys.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Import",
-    src = "import.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -711,14 +629,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "import.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Insecure",
-    src = "insecure.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -727,17 +645,18 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "insecure.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Ledger",
-    src = "ledger.ml",
-    intf = ":_Ledger.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Ledger.cmi",
     opts = MINA_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -746,6 +665,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "ledger.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -758,10 +679,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Ledger.cmi",
     src = "ledger.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -770,6 +690,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -793,9 +714,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Ledger_hash",
-    src = "ledger_hash.ml",
-    intf = ":_Ledger_hash.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Ledger_hash.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -804,6 +723,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "ledger_hash.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -815,10 +736,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Ledger_hash.cmi",
     src = "ledger_hash.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -827,6 +747,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash0",
@@ -837,9 +758,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Ledger_hash0",
-    src = "ledger_hash0.ml",
-    intf = ":_Ledger_hash0.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Ledger_hash0.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -848,6 +767,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "ledger_hash0.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -855,10 +776,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Ledger_hash0.cmi",
     src = "ledger_hash0.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -867,6 +787,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash_intf0",
@@ -876,8 +797,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Ledger_hash_intf",
-    src = "ledger_hash_intf.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -886,6 +805,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "ledger_hash_intf.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -897,8 +818,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Ledger_hash_intf0",
-    src = "ledger_hash_intf0.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -907,6 +826,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "ledger_hash_intf0.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -916,8 +837,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Ledger_transfer",
-    src = "ledger_transfer.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -926,6 +845,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "ledger_transfer.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -939,8 +860,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Minting_payload",
-    src = "minting_payload.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -949,6 +868,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "minting_payload.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -959,8 +880,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_New_account_payload",
-    src = "new_account_payload.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -969,6 +888,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "new_account_payload.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -979,8 +900,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_New_token_payload",
-    src = "new_token_payload.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -989,6 +908,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "new_token_payload.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1000,8 +921,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Other_fee_payer",
-    src = "other_fee_payer.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1010,10 +929,12 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "other_fee_payer.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
-        ":_Signature",          # obazl:retain
+        ":_Signature",  # obazl:retain
         ":_Token_id",
     ],
 )
@@ -1021,9 +942,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Payment_payload",
-    src = "payment_payload.ml",
-    intf = ":_Payment_payload.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Payment_payload.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1032,7 +951,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "payment_payload.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Token_id",
@@ -1040,10 +961,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Payment_payload.cmi",
     src = "payment_payload.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1052,6 +972,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1062,9 +983,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Pending_coinbase",
-    src = "pending_coinbase.ml",
-    intf = ":_Pending_coinbase.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Pending_coinbase.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1073,7 +992,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "pending_coinbase.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Coinbase",
@@ -1086,10 +1007,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Pending_coinbase.cmi",
     src = "pending_coinbase.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1098,6 +1018,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Pending_coinbase_intf",
@@ -1107,8 +1028,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Pending_coinbase_intf",
-    src = "pending_coinbase_intf.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1117,6 +1036,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "pending_coinbase_intf.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Coinbase",
@@ -1127,8 +1048,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Pending_coinbase_witness",
-    src = "pending_coinbase_witness.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1137,15 +1056,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "pending_coinbase_witness.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [":_Pending_coinbase"],  ## obazl:retain
 )
 
 #############
 ocaml_module(
     name = "_Permissions",
-    src = "permissions.ml",
-    intf = ":_Permissions.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Permissions.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1154,7 +1073,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "permissions.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Control",
@@ -1164,10 +1085,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Permissions.cmi",
     src = "permissions.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1176,6 +1096,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Control",
@@ -1185,9 +1106,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Proof",
-    src = "proof.ml",
-    intf = ":_Proof.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Proof.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1196,14 +1115,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "proof.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Proof.cmi",
     src = "proof.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1213,15 +1133,15 @@ ocaml_interface(
     ],
     ppx_data = CONFIG_MLH,
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Protocol_constants_checked",
-    src = "protocol_constants_checked.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1230,15 +1150,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "protocol_constants_checked.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Receipt",
-    src = "receipt.ml",
-    intf = ":_Receipt.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Receipt.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1247,6 +1167,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "receipt.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -1257,10 +1179,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Receipt.cmi",
     src = "receipt.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1269,6 +1190,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -1280,8 +1202,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Rpc_intf",
-    src = "rpc_intf.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1290,14 +1210,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "rpc_intf.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Side_loaded_verification_key",
-    src = "side_loaded_verification_key.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1306,15 +1226,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "side_loaded_verification_key.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Signature",
-    src = "signature.ml",
-    intf = ":_Signature.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Signature.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1323,6 +1243,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "signature.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Signature_poly",
@@ -1330,10 +1252,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Signature.cmi",
     src = "signature.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1343,13 +1264,12 @@ ocaml_interface(
     ],
     ppx_data = CONFIG_MLH,
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Signature_poly",
-    src = "signature_poly.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1358,16 +1278,16 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "signature_poly.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Signed_command",
-    src = "signed_command.ml",
-    intf = ":_Signed_command.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Signed_command.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1376,7 +1296,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "signed_command.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1390,10 +1312,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Signed_command.cmi",
     src = "signed_command.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1402,6 +1323,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1413,8 +1335,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Signed_command_intf",
-    src = "signed_command_intf.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1423,6 +1343,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "signed_command_intf.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1440,9 +1362,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Signed_command_memo",
-    src = "signed_command_memo.ml",
-    intf = ":_Signed_command_memo.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Signed_command_memo.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1451,14 +1371,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "signed_command_memo.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Signed_command_memo.cmi",
     src = "signed_command_memo.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1468,14 +1389,13 @@ ocaml_interface(
     ],
     ppx_data = CONFIG_MLH,
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Signed_command_payload",
-    src = "signed_command_payload.ml",
-    intf = ":_Signed_command_payload.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Signed_command_payload.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1484,7 +1404,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "signed_command_payload.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1501,10 +1423,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Signed_command_payload.cmi",
     src = "signed_command_payload.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1513,6 +1434,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1532,8 +1454,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Snapp_account",
-    src = "snapp_account.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1542,7 +1462,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "snapp_account.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Side_loaded_verification_key",
@@ -1554,8 +1476,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Snapp_basic",
-    src = "snapp_basic.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1564,15 +1484,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "snapp_basic.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Snapp_command",
-    src = "snapp_command.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1581,7 +1501,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "snapp_command.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1600,8 +1522,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Snapp_predicate",
-    src = "snapp_predicate.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1610,7 +1530,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "snapp_predicate.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -1632,8 +1554,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Snapp_state",
-    src = "snapp_state.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1642,16 +1562,16 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "snapp_state.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
-        ":_Snapp_basic"         # obazl:retain
+        ":_Snapp_basic",  # obazl:retain
     ],
 )
 
 #############
 ocaml_module(
     name = "_Snapp_statement",
-    src = "snapp_statement.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1660,7 +1580,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "snapp_statement.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Other_fee_payer",
@@ -1674,11 +1596,10 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Sok_message",
-    src = "sok_message.ml",
-    intf = ":_Sok_message.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Sok_message.cmi",
     opts = MINA_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1687,6 +1608,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "sok_message.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1694,10 +1617,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Sok_message.cmi",
     src = "sok_message.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1706,6 +1628,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1715,9 +1638,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Sparse_ledger",
-    src = "sparse_ledger.ml",
-    intf = ":_Sparse_ledger.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Sparse_ledger.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1726,6 +1647,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "sparse_ledger.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -1747,10 +1670,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Sparse_ledger.cmi",
     src = "sparse_ledger.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1759,6 +1681,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -1776,9 +1699,7 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Staged_ledger_hash",
-    src = "staged_ledger_hash.ml",
-    intf = ":_Staged_ledger_hash.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Staged_ledger_hash.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1787,7 +1708,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "staged_ledger_hash.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash",
@@ -1796,10 +1719,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Staged_ledger_hash.cmi",
     src = "staged_ledger_hash.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1808,6 +1730,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Ledger_hash",
@@ -1818,8 +1741,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Stake_delegation",
-    src = "stake_delegation.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1828,6 +1749,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "stake_delegation.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account_id",
@@ -1838,9 +1761,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_State_body_hash",
-    src = "state_body_hash.ml",
-    intf = ":_State_body_hash.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_State_body_hash.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1849,6 +1770,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "state_body_hash.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -1856,10 +1779,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_State_body_hash.cmi",
     src = "state_body_hash.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1868,6 +1790,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Data_hash",
@@ -1877,8 +1800,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_State_hash",
-    src = "state_hash.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1887,14 +1808,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "state_hash.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Sync_ledger",
-    src = "sync_ledger.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1903,6 +1824,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "sync_ledger.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -1914,11 +1837,10 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Token_id",
-    src = "token_id.ml",
-    intf = ":_Token_id.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Token_id.cmi",
     opts = MINA_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1927,6 +1849,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "token_id.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1934,10 +1858,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Token_id.cmi",
     src = "token_id.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1946,6 +1869,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1955,8 +1879,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Token_permissions",
-    src = "token_permissions.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1965,6 +1887,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "token_permissions.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -1974,10 +1898,9 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Transaction",
-    src = "transaction.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1986,6 +1909,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "transaction.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Coinbase",
@@ -1993,16 +1918,14 @@ ocaml_module(
         ":_Fee_transfer",
         ":_Signed_command",
         ":_Snapp_command",
-        ":_User_command"        # obazl:retain
+        ":_User_command",  # obazl:retain
     ],
 )
 
 #############
 ocaml_module(
     name = "_Transaction_hash",
-    src = "transaction_hash.ml",
-    intf = ":_Transaction_hash.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Transaction_hash.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2011,6 +1934,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "transaction_hash.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Coinbase",
@@ -2020,10 +1945,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Transaction_hash.cmi",
     src = "transaction_hash.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2032,6 +1956,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Coinbase",
@@ -2043,8 +1968,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Transaction_logic",
-    src = "transaction_logic.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2053,6 +1976,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "transaction_logic.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -2078,8 +2003,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Transaction_union",
-    src = "transaction_union.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2088,7 +2011,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "transaction_union.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -2107,8 +2032,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Transaction_union_payload",
-    src = "transaction_union_payload.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2117,6 +2040,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "transaction_union_payload.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Fee_excess",
@@ -2129,9 +2054,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Transaction_union_tag",
-    src = "transaction_union_tag.ml",
-    intf = ":_Transaction_union_tag.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Transaction_union_tag.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2140,7 +2063,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "transaction_union_tag.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Import",
@@ -2148,10 +2073,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Transaction_union_tag.cmi",
     src = "transaction_union_tag.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2161,14 +2085,13 @@ ocaml_interface(
     ],
     ppx_data = CONFIG_MLH,
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transaction_validator",
-    src = "transaction_validator.ml",
-    intf = ":_Transaction_validator.cmi",
-    ns = ":Mina_base_ns",
+    sig  = ":_Transaction_validator.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2177,6 +2100,8 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "transaction_validator.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -2189,10 +2114,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Transaction_validator.cmi",
     src = "transaction_validator.mli",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2201,6 +2125,7 @@ ocaml_interface(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -2217,8 +2142,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_User_command",
-    src = "user_command.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2227,7 +2150,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "user_command.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Account",
@@ -2242,8 +2167,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_User_command_status",
-    src = "user_command_status.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2252,15 +2175,15 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,      # obazl:retain
-    deps = MINA_BASE_DEPS + [":_Token_id"] # obazl:retain
+    ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "user_command_status.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
+    deps = MINA_BASE_DEPS + [":_Token_id"],  # obazl:retain
 )
 
 #############
 ocaml_module(
     name = "_Util",
-    src = "util.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2269,14 +2192,14 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "util.ml",
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_With_status",
-    src = "with_status.ml",
-    ns = ":Mina_base_ns",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2285,16 +2208,18 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "with_status.ml",
+    deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
-        ":_User_command_status" # obazl:retain
+        ":_User_command_status",  # obazl:retain
     ],
 )
 
 #############
 ocaml_module(
     name = "_Sample_keypairs",
-    src = "sample_keypairs.ml",
-    ns = ":Mina_base_ns",
+    ## NOTE the name - must match the expected module name
+    struct = "sample_keypairs.ml",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2304,65 +2229,70 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = MINA_BASE_DEPS,
+    deps_opam = MINA_BASE_DEPS_OPAM
 )
 
 ########################################
 TOOL = "//src/lib/mina_base/gen:gen.exe"
-genrule(
-    name = "gensrcs",
-    tools = [TOOL],
+
+ocaml_genrule(
+    ## NOTE the name - must match the expected module name
+    name = "sample_keypairs",
     outs = [
         "sample_keypairs.ml",
         "sample_keypairs.json",
     ],
     cmd = "\n".join([
-        "$(location {tool})".format( tool = TOOL ),
-        "cp -v sample_keypairs.ml \"$(RULEDIR)/\"",
-        "cp -v sample_keypairs.json \"$(RULEDIR)/\"",
+        "$(execpath {tool});".format(tool = TOOL),
+        "cp sample_keypairs.ml $(location sample_keypairs.ml)",
+        "cp sample_keypairs.json $(location sample_keypairs.json)",
     ]),
+    tools = [TOOL],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
     # TODO: implement print = "@ppx//print:binary",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:fieldslib",
-        "@opam//pkg:ppx_bench.runtime-lib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "fieldslib",
+        "ppx_bench.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/mina_base:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_base",
-        "@opam//pkg:ppx_bench",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.enum",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.ord",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_fields_conv",
-        "@opam//pkg:ppx_here",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_base",
+        "ppx_bench",
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_deriving.enum",
+        "ppx_deriving.eq",
+        "ppx_deriving.ord",
+        "ppx_deriving_yojson",
+        "ppx_fields_conv",
+        "ppx_here",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

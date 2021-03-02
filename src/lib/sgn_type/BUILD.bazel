@@ -1,25 +1,17 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY SGN_TYPE
 ################################################################
-SGN_TYPE_INTERFACE_OPTS = []
-
-SGN_TYPE_MODULE_OPTS = []
-
-SGN_TYPE_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
+SGN_TYPE_DEPS_OPAM = [
+    "core_kernel",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
 ]
 
 SGN_TYPE_PPX = "@//bzl/ppx/exe:ppx_jane__ppx_version__ppx_deriving.eq__ppx_deriving_yojson"
@@ -30,46 +22,38 @@ SGN_TYPE_PPX_ARGS = [
     "sgn_type",
 ]
 
-##############
-ocaml_archive(
-    name = "sgn_type",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SGN_TYPE_DEPS + [
-        # do not sort (buildifier)
-        ":_Sgn",
-    ],
-)
-
 #########
-ocaml_ns(
-    name = "Sgn_type_ns",
-    ns = "sgn_type",
-    submodules = [
-        # do not sort (buildifier)
-        "sgn.ml",
+ocaml_ns_library(
+    name = "sgn_type",
+    opts = [
+        "-w", "-31"   ## two files both define a module
     ],
+    submodules = [
+        "_Sgn",
+    ],
+    visibility = [
+        "//src/lib/sgn:__pkg__",
+        "//src/lib/snarky_pairing:__pkg__",
+        "//src/lib/snarky_verifier:__pkg__",
+        "//src/lib/zexe_backend:__subpackages__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Sgn",
-    src = "sgn.ml",
-    intf = ":_Sgn.cmi",
-    ns = ":Sgn_type_ns",
-    opts = SGN_TYPE_MODULE_OPTS,
+    struct = "sgn.ml",
+    sig = ":_Sgn.cmi",
     ppx = SGN_TYPE_PPX,
     ppx_args = SGN_TYPE_PPX_ARGS,
-    deps = SGN_TYPE_DEPS,
+    deps_opam = SGN_TYPE_DEPS_OPAM,
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Sgn.cmi",
     src = "sgn.mli",
-    ns = ":Sgn_type_ns",
-    opts = SGN_TYPE_INTERFACE_OPTS,
     ppx = SGN_TYPE_PPX,
     ppx_args = SGN_TYPE_PPX_ARGS,
-    deps = SGN_TYPE_DEPS,
+    deps_opam = SGN_TYPE_DEPS_OPAM,
 )

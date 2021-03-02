@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -8,13 +6,8 @@ load(
 #############
 ocaml_module(
     name = "transition_frontier_controller",
-    src = "transition_frontier_controller.ml",
-    opts = [],
+    struct = "transition_frontier_controller.ml",
     ppx = "//bzl/ppx/exe:ppx_version",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
-    visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/coda_intf",
         "@mina//src/lib/consensus",
@@ -27,6 +20,11 @@ ocaml_module(
         "@mina//src/lib/syncable_ledger",
         "@mina//src/lib/test_genesis_ledger",
         "@mina//src/lib/transition_handler",
-        "@opam//pkg:core_kernel",
+    ],
+    deps_opam = [
+        "core_kernel",
+    ],
+    visibility = [
+        "//src/lib/transition_router:__pkg__",
     ],
 )

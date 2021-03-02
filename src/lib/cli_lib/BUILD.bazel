@@ -1,28 +1,21 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY CLI_LIB
 ################################################################
-CLI_LIB_INTERFACE_OPTS = []
+CLI_LIB_SIGNATURE_OPTS = []
 
 CLI_LIB_MODULE_OPTS = []
 
 CLI_LIB_DEPS = [
     # do not sort (buildifier)
-    # "@opam//pkg:core",
-    # "@opam//pkg:async_unix",
-    # "@opam//pkg:ppx_deriving_yojson.runtime",
-    # "@opam//pkg:yojson",
-    # "@ocaml_sodium//lib:sodium",
+    "@ocaml_sodium//lib:sodium",
     # "@mina//src/lib/mina_base",
     # "@mina//src/lib/secrets",
     # "@mina//src/lib/work_selector",
@@ -30,14 +23,16 @@ CLI_LIB_DEPS = [
     # "@mina//src/lib/rosetta_coding",
 ]
 
-##############
-ocaml_archive(
+CLI_LIB_DEPS_OPAM = [
+    "core",
+    "async_unix",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
+]
+#########
+ocaml_ns_library(
     name = "cli_lib",
-    doc = "Library to communicate with Coda as cli as the front-end",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CLI_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Arg_type",
         ":_Background_daemon",
         ":_Commands",
@@ -48,31 +43,20 @@ ocaml_archive(
         ":_Render",
         ":_Stdout_log",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Cli_lib_ns",
-    ns = "cli_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "arg_type.ml",
-        "background_daemon.ml",
-        "commands.ml",
-        "default.ml",
-        "exceptions.ml",
-        "flag.ml",
-        "graphql_types.ml",
-        "render.ml",
-        "stdout_log.ml",
-    ],
+    visibility = [
+        "//src/app/archive:__pkg__",
+        "//src/app/best_tip_merger:__pkg__",
+        "//src/app/cli/src/init:__pkg__",
+        "//src/app/cli_lib:__pkg__",
+        "//src/app/generate_keypair:__pkg__",
+        "//src/lib/daemon_rpcs:__pkg__",
+        "//src/lib/snark_worker:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Arg_type",
-    src = "arg_type.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -80,17 +64,17 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "arg_type.ml",
     deps = CLI_LIB_DEPS + [
         "@mina//src/lib/work_selector",
-    ]
+    ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Background_daemon",
-    src = "background_daemon.ml",
-    intf = ":_Background_daemon.cmi",
-    ns = ":Cli_lib_ns",
+    sig  = ":_Background_daemon.cmi",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -98,18 +82,19 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "background_daemon.ml",
     deps = CLI_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Flag",
     ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Background_daemon.cmi",
     src = "background_daemon.mli",
-    ns = ":Cli_lib_ns",
-    opts = CLI_LIB_INTERFACE_OPTS,
+    opts = CLI_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -120,13 +105,12 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Flag",
     ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Commands",
-    src = "commands.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -134,19 +118,19 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "commands.ml",
     deps = CLI_LIB_DEPS + [
         "@mina//src/lib/rosetta_coding",
         "@mina//src/lib/secrets",
-        ":_Exceptions",         # obazl:retain
-        ":_Flag"                # obazl:retain
+        ":_Exceptions",  # obazl:retain
+        ":_Flag",  # obazl:retain
     ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Default",
-    src = "default.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -154,14 +138,14 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "default.ml",
     deps = CLI_LIB_DEPS,
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Exceptions",
-    src = "exceptions.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -169,17 +153,17 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS + [
-        "@opam//pkg:async"
-    ]
+    struct = "exceptions.ml",
+    deps = CLI_LIB_DEPS,
+    deps_opam = CLI_LIB_DEPS_OPAM + [
+        "async",
+    ],
 )
 
 #############
 ocaml_module(
     name = "_Flag",
-    src = "flag.ml",
-    intf = ":_Flag.cmi",
-    ns = ":Cli_lib_ns",
+    sig  = ":_Flag.cmi",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -187,34 +171,34 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "flag.ml",
     deps = CLI_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Arg_type",
     ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Flag.cmi",
     src = "flag.mli",
-    ns = ":Cli_lib_ns",
-    opts = CLI_LIB_INTERFACE_OPTS,
+    opts = CLI_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "cli_lib",
     ],
-    deps = CLI_LIB_DEPS +[
+    deps = CLI_LIB_DEPS + [
         "@mina//src/lib/graphql_lib",
-    ]
+    ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Graphql_types",
-    src = "graphql_types.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -222,18 +206,18 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "graphql_types.ml",
     deps = CLI_LIB_DEPS + [
         "//src/lib/currency",
         "//src/lib/mina_base",
-        "//src/lib/signature_lib"
-    ]
+        "//src/lib/signature_lib",
+    ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Render",
-    src = "render.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -241,16 +225,16 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "render.ml",
     deps = CLI_LIB_DEPS + [
         "@mina//src/lib/mina_base",
-    ]
+    ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Stdout_log",
-    src = "stdout_log.ml",
-    ns = ":Cli_lib_ns",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -258,38 +242,42 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
+    struct = "stdout_log.ml",
     deps = CLI_LIB_DEPS + [
-        "//src/lib/logger"
+        "//src/lib/logger",
     ],
+    deps_opam = CLI_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/cli_lib:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving.make",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.make",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

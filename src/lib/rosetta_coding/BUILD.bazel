@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -19,38 +17,27 @@ ROSETTA_CODING_MODULE_OPTS = []
 
 ROSETTA_CODING_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/snark_params",
     "@mina//src/lib/signature_lib",
 ]
+ROSETTA_CODING_DEPS_OPAM = [
+    "core_kernel",
+]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "rosetta_coding",
-    doc = "Encoders and decoders for Rosetta",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = ROSETTA_CODING_DEPS + [
-        # do not sort (buildifier)
-        ":_Coding",
-    ],
-)
-
-#########
-ocaml_ns(
-    name = "Rosetta_coding_ns",
-    ns = "rosetta_coding",
     submodules = [
-        # do not sort (buildifier)
-        "coding.ml",
+         ":_Coding",
     ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Coding",
-    src = "coding.ml",
-    ns = ":Rosetta_coding_ns",
     opts = ROSETTA_CODING_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -59,27 +46,31 @@ ocaml_module(
         "rosetta_coding",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "coding.ml",
     deps = ROSETTA_CODING_DEPS,
+    deps_opam = ROSETTA_CODING_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_assert.runtime-lib",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/rosetta_coding:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

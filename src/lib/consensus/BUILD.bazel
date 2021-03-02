@@ -1,14 +1,12 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_executable",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -25,8 +23,6 @@ CONSENSUS_MODULE_OPTS = []
 
 CONSENSUS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:yojson",
     "@mina//src/lib/snarky_taylor",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/block_time",
@@ -45,14 +41,16 @@ CONSENSUS_DEPS = [
     "@mina//src/lib/inline_test_quiet_logs",
 ]
 
-##############
-ocaml_archive(
+CONSENSUS_DEPS_OPAM = [
+    "core_kernel",
+    "yojson",
+]
+
+#################
+ocaml_ns_library(
     name = "consensus",
-    doc = "Consensus mechanisms",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CONSENSUS_DEPS + [
-        # do not sort (buildifier)
+    main = "_Consensus",
+    submodules = [
         ":_Consensus",
         ":_Constants",
         ":_Epoch",
@@ -66,35 +64,16 @@ ocaml_archive(
         ":_Stake_proof",
         ":_Sub_window",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Consensus_ns",
-    ns = "consensus",
-    submodules = [
-        # do not sort (buildifier)
-        "consensus.ml",
-        "constants.ml",
-        "epoch.ml",
-        "genesis_epoch_data.ml",
-        "global_slot.ml",
-        "global_sub_window.ml",
-        "intf.ml",
-        "num_util.ml",
-        "proof_of_stake.ml",
-        "slot.ml",
-        "stake_proof.ml",
-        "sub_window.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Consensus",
-    src = "consensus.ml",
-    intf = ":_Consensus.cmi",
-    ns = ":Consensus_ns",
+    struct = "consensus.ml",
+    sig  = ":_Consensus.cmi",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -108,13 +87,13 @@ ocaml_module(
         ":_Intf",
         ":_Proof_of_stake",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Consensus.cmi",
     src = "consensus.mli",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -128,13 +107,13 @@ ocaml_interface(
         ":_Intf",
         ":_Proof_of_stake",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Constants",
-    src = "constants.ml",
-    ns = ":Consensus_ns",
+    struct = "constants.ml",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -145,13 +124,12 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
     deps = CONSENSUS_DEPS,
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Epoch",
-    src = "epoch.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -160,19 +138,19 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "epoch.ml",
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
         ":_Num_util",
         ":_Slot",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Genesis_epoch_data",
-    src = "genesis_epoch_data.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -181,15 +159,15 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "genesis_epoch_data.ml",
     deps = CONSENSUS_DEPS,
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Global_slot",
-    src = "global_slot.ml",
-    intf = ":_Global_slot.cmi",
-    ns = ":Consensus_ns",
+    sig  = ":_Global_slot.cmi",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -199,19 +177,20 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "global_slot.ml",
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
         ":_Epoch",
         ":_Slot",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Global_slot.cmi",
     src = "global_slot.mli",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -226,14 +205,13 @@ ocaml_interface(
         ":_Epoch",
         ":_Slot",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Global_sub_window",
-    src = "global_sub_window.ml",
-    intf = ":_Global_sub_window.cmi",
-    ns = ":Consensus_ns",
+    sig  = ":_Global_sub_window.cmi",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -242,19 +220,20 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "global_sub_window.ml",
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
         ":_Global_slot",
         ":_Sub_window",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Global_sub_window.cmi",
     src = "global_sub_window.mli",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -269,13 +248,12 @@ ocaml_interface(
         ":_Global_slot",
         ":_Sub_window",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -284,19 +262,19 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "intf.ml",
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
         ":_Global_slot",
         ":_Slot",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Num_util",
-    src = "num_util.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -305,15 +283,15 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "num_util.ml",
     deps = CONSENSUS_DEPS,
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Proof_of_stake",
-    src = "proof_of_stake.ml",
-    intf = ":_Proof_of_stake.cmi",
-    ns = ":Consensus_ns",
+    sig  = ":_Proof_of_stake.cmi",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -323,6 +301,7 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
+    struct = "proof_of_stake.ml",
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
@@ -336,13 +315,13 @@ ocaml_module(
         ":_Stake_proof",
         ":_Sub_window",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Proof_of_stake.cmi",
     src = "proof_of_stake.mli",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -356,13 +335,12 @@ ocaml_interface(
         ":_Global_slot",
         ":_Intf",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Slot",
-    src = "slot.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -371,17 +349,17 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "slot.ml",
     deps = CONSENSUS_DEPS + [
         # do not sort (buildifier)
         ":_Constants",
     ],
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Stake_proof",
-    src = "stake_proof.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -390,14 +368,14 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "stake_proof.ml",
     deps = CONSENSUS_DEPS,
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Sub_window",
-    src = "sub_window.ml",
-    ns = ":Consensus_ns",
     opts = CONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -406,7 +384,9 @@ ocaml_module(
         "consensus",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "sub_window.ml",
     deps = CONSENSUS_DEPS,
+    deps_opam = CONSENSUS_DEPS_OPAM
 )
 
 ################################################################
@@ -420,13 +400,16 @@ PROOF_OF_STAKE_FUZZER_MODULE_OPTS = []
 
 PROOF_OF_STAKE_FUZZER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/consensus",
     "@mina//src/lib/prover",
     "@mina//src/lib/blockchain_snark",
+]
+
+PROOF_OF_STAKE_FUZZER_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 PROOF_OF_STAKE_FUZZER_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
@@ -446,54 +429,58 @@ ocaml_executable(
         # do not sort (buildifier)
         ":_Proof_of_stake_fuzzer",
     ],
+    deps_opam = PROOF_OF_STAKE_FUZZER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Proof_of_stake_fuzzer",
-    src = "proof_of_stake_fuzzer.ml",
     opts = PROOF_OF_STAKE_FUZZER_MODULE_OPTS,
     ppx = PROOF_OF_STAKE_FUZZER_PPX,
     ppx_args = PROOF_OF_STAKE_FUZZER_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "proof_of_stake_fuzzer.ml",
     deps = PROOF_OF_STAKE_FUZZER_DEPS,
+    deps_opam = PROOF_OF_STAKE_FUZZER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:fieldslib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "fieldslib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/consensus:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_base",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.std",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_fields_conv",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_base",
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_deriving.std",
+        "ppx_deriving_yojson",
+        "ppx_fields_conv",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -15,48 +12,34 @@ SNARKY_VERIFIER_MODULE_OPTS = []
 
 SNARKY_VERIFIER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",  # obazl:retain
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/sgn_type",
     "@mina//src/lib/snarky_curves",
     "@snarky//src/base:snarky_backendless",
     "@snarky//snarkette",
 ]
+SNARKY_VERIFIER_DEPS_OPAM = [
+    "core",  # obazl:retain
+    "core_kernel",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "snarky_verifier",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARKY_VERIFIER_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Bowe_gabizon",
         ":_Groth",
         ":_Groth_maller",
         ":_Inputs",
         ":_Summary",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Snarky_verifier_ns",
-    ns = "snarky_verifier",
-    submodules = [
-        # do not sort (buildifier)
-        "bowe_gabizon.ml",
-        "groth.ml",
-        "groth_maller.ml",
-        "inputs.ml",
-        "summary.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Bowe_gabizon",
-    src = "bowe_gabizon.ml",
-    ns = ":Snarky_verifier_ns",
     opts = SNARKY_VERIFIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -64,18 +47,18 @@ ocaml_module(
         "-inline-test-lib",
         "snarky_verifier",
     ],
+    struct = "bowe_gabizon.ml",
     deps = SNARKY_VERIFIER_DEPS + [
         # do not sort (buildifier)
         ":_Inputs",
         ":_Summary",
     ],
+    deps_opam = SNARKY_VERIFIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Groth",
-    src = "groth.ml",
-    ns = ":Snarky_verifier_ns",
     opts = SNARKY_VERIFIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -83,18 +66,18 @@ ocaml_module(
         "-inline-test-lib",
         "snarky_verifier",
     ],
+    struct = "groth.ml",
     deps = SNARKY_VERIFIER_DEPS + [
         # do not sort (buildifier)
         ":_Inputs",
         ":_Summary",
     ],
+    deps_opam = SNARKY_VERIFIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Groth_maller",
-    src = "groth_maller.ml",
-    ns = ":Snarky_verifier_ns",
     opts = SNARKY_VERIFIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -102,18 +85,18 @@ ocaml_module(
         "-inline-test-lib",
         "snarky_verifier",
     ],
+    struct = "groth_maller.ml",
     deps = SNARKY_VERIFIER_DEPS + [
         # do not sort (buildifier)
         ":_Inputs",
         ":_Summary",
     ],
+    deps_opam = SNARKY_VERIFIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Inputs",
-    src = "inputs.ml",
-    ns = ":Snarky_verifier_ns",
     opts = SNARKY_VERIFIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -121,14 +104,14 @@ ocaml_module(
         "-inline-test-lib",
         "snarky_verifier",
     ],
+    struct = "inputs.ml",
     deps = SNARKY_VERIFIER_DEPS,
+    deps_opam = SNARKY_VERIFIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Summary",
-    src = "summary.ml",
-    ns = ":Snarky_verifier_ns",
     opts = SNARKY_VERIFIER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -136,34 +119,38 @@ ocaml_module(
         "-inline-test-lib",
         "snarky_verifier",
     ],
+    struct = "summary.ml",
     deps = SNARKY_VERIFIER_DEPS,
+    deps_opam = SNARKY_VERIFIER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/snarky_verifier:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

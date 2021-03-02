@@ -1,23 +1,20 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
     "ocaml_module",
+    "ocaml_signature",
 )
 
 #############
 ocaml_module(
     name = "full_frontier",
-    src = "full_frontier.ml",
-    intf = ":_Full_frontier.cmi",
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "full_frontier",
     ],
-    visibility = ["//visibility:public"],
+    sig = ":_Full_frontier.cmi",
+    struct = "full_frontier.ml",
     deps = [
         "@mina//src/lib/coda_state",
         "@mina//src/lib/coda_transition",
@@ -25,12 +22,15 @@ ocaml_module(
         "@mina//src/lib/mina_base",
         "@mina//src/lib/staged_ledger",
         "@mina//src/lib/transition_frontier/frontier_base",
-        "@opam//pkg:core_kernel",
+    ],
+    deps_opam = ["core_kernel"],
+    visibility = [
+        "//src/lib/transition_frontier:__subpackages__",
     ],
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Full_frontier.cmi",
     src = "full_frontier.mli",
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson",
@@ -46,6 +46,6 @@ ocaml_interface(
         "@mina//src/lib/mina_base",
         "@mina//src/lib/staged_ledger",
         "@mina//src/lib/transition_frontier/frontier_base",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = ["core_kernel"]
 )

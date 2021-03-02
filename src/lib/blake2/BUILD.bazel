@@ -1,11 +1,9 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -17,9 +15,12 @@ BLAKE2_MODULE_OPTS = []
 
 BLAKE2_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:digestif.c",
     "@ppx_version//src/runtime:ppx_version_runtime",
+]
+
+BLAKE2_DEPS_OPAM = [
+    "core_kernel",
+    "digestif.c",
 ]
 
 BLAKE2_PPX = "@//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.eq__ppx_deriving_yojson"
@@ -30,46 +31,38 @@ BLAKE2_PPX_ARGS = [
     "blake2",
 ]
 
-##############
-ocaml_archive(
-    name = "blake2",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = BLAKE2_DEPS + [
-        # do not sort (buildifier)
-        ":_Blake2",
-        ":_Intf",
-    ],
-)
-
 #########
-ocaml_ns(
-    name = "Blake2_ns",
-    ns = "blake2",
+ocaml_ns_library(
+    name = "blake2",
+    main = ":_Blake2",
     submodules = [
-        # do not sort (buildifier)
-        "blake2.ml",
-        "intf.ml",
+        ":_Blake2",
+        ":_Intf"
+    ],
+    visibility = [
+        "//src/lib/cache_dir:__pkg__",
+        "//src/lib/genesis_constants:__pkg__",
+        "//src/lib/signature_lib:__pkg__",
+        "//src/lib/snarky_blake2:__pkg__"
     ],
 )
 
 #############
 ocaml_module(
     name = "_Blake2",
-    src = "blake2.ml",
-    intf = ":_Blake2.cmi",
-    ns = ":Blake2_ns",
+    sig  = ":_Blake2.cmi",
     opts = BLAKE2_MODULE_OPTS,
     ppx = BLAKE2_PPX,
     ppx_args = BLAKE2_PPX_ARGS,
+    struct = "blake2.ml",
     deps = BLAKE2_DEPS,
+    deps_opam = BLAKE2_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Blake2.cmi",
     src = "blake2.mli",
-    ns = ":Blake2_ns",
     opts = BLAKE2_INTERFACE_OPTS,
     ppx = BLAKE2_PPX,
     ppx_args = BLAKE2_PPX_ARGS,
@@ -77,15 +70,16 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = BLAKE2_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Blake2_ns",
     opts = BLAKE2_MODULE_OPTS,
     ppx = BLAKE2_PPX,
     ppx_args = BLAKE2_PPX_ARGS,
+    struct = "intf.ml",
     deps = BLAKE2_DEPS,
+    deps_opam = BLAKE2_DEPS_OPAM
 )

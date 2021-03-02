@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -19,52 +17,48 @@ MISSING_BLOCKS_AUDITOR_MODULE_OPTS = []
 
 MISSING_BLOCKS_AUDITOR_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:caqti",
-    "@opam//pkg:caqti-async",
-    "@opam//pkg:caqti-driver-postgresql",
     "@mina//src/lib/logger",
+]
+
+MISSING_BLOCKS_AUDITOR_DEPS_OPAM = [
+    "async",
+    "core_kernel",
+    "caqti",
+    "caqti-async",
+    "caqti-driver-postgresql",
 ]
 
 MISSING_BLOCKS_AUDITOR_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_let"
 
-MISSING_BLOCKS_AUDITOR_PPX_ARGS = [
-    # do not sort (buildifier)
-]
-
 #################
 ocaml_executable(
-    name = "missing_blocks_auditor.exe",
-    opts = MISSING_BLOCKS_AUDITOR_EXECUTABLE_OPTS,
+    name = "missing_blocks_auditor",
     visibility = ["//visibility:public"],
-    deps = MISSING_BLOCKS_AUDITOR_DEPS + [
+    deps = [
         # do not sort (buildifier)
         ":_Missing_blocks_auditor",
-        ":_Sql",
+        # ":_Sql",
     ],
 )
 
 #############
 ocaml_module(
-    name = "_Missing_blocks_auditor",
-    src = "missing_blocks_auditor.ml",
-    opts = MISSING_BLOCKS_AUDITOR_MODULE_OPTS,
+    name   = "_Missing_blocks_auditor",
+    struct = "missing_blocks_auditor.ml",
     ppx = MISSING_BLOCKS_AUDITOR_PPX,
-    ppx_args = MISSING_BLOCKS_AUDITOR_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     deps = MISSING_BLOCKS_AUDITOR_DEPS + [
         ":_Sql"                 # obazl:retain
     ],
+    deps_opam = MISSING_BLOCKS_AUDITOR_DEPS_OPAM
 )
 
 #############
 ocaml_module(
-    name = "_Sql",
-    src = "sql.ml",
-    opts = MISSING_BLOCKS_AUDITOR_MODULE_OPTS,
+    name   = "_Sql",
+    struct = "sql.ml",
     ppx = MISSING_BLOCKS_AUDITOR_PPX,
-    ppx_args = MISSING_BLOCKS_AUDITOR_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     deps = MISSING_BLOCKS_AUDITOR_DEPS,
+    deps_opam = MISSING_BLOCKS_AUDITOR_DEPS_OPAM
 )

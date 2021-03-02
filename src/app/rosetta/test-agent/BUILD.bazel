@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -19,20 +17,23 @@ AGENT_MODULE_OPTS = []
 
 AGENT_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:async_ssl",
-    "@opam//pkg:caqti",
-    "@opam//pkg:caqti-async",
-    "@opam//pkg:caqti-driver-postgresql",
-    "@opam//pkg:cohttp",
-    "@opam//pkg:ctypes",
-    "@opam//pkg:cohttp-async",
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
     "@mina//src/lib/logger",
     "@mina//src/lib/rosetta_models",
     "@mina//src/app/rosetta/lib",
+]
+
+AGENT_DEPS_OPAM = [
+    "async",
+    "async_ssl",
+    "caqti",
+    "caqti-async",
+    "caqti-driver-postgresql",
+    "cohttp",
+    "ctypes",
+    "cohttp-async",
+    "core_kernel",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
 ]
 
 AGENT_PPX = "@//bzl/ppx/exe:graphql_ppx__ppx_coda__ppx_deriving.show__ppx_deriving_yojson__ppx_jane__ppx_version__ppx_deriving.eq"
@@ -45,10 +46,10 @@ AGENT_PPX_ARGS = [
 
 #################
 ocaml_executable(
-    name = "agent.exe",
+    name = "test-agent",
     opts = AGENT_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = AGENT_DEPS + [
+    deps = [
         # do not sort (buildifier)
         ":_Agent",
         ":_Offline",
@@ -61,7 +62,7 @@ ocaml_executable(
 #############
 ocaml_module(
     name = "_Agent",
-    src = "agent.ml",
+    struct = "agent.ml",
     opts = AGENT_MODULE_OPTS,
     ppx = AGENT_PPX,
     ppx_args = AGENT_PPX_ARGS,
@@ -72,12 +73,13 @@ ocaml_module(
         ":_Peek",               # obazl:retain
         ":_Poke",
     ],
+    deps_opam = AGENT_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Offline",
-    src = "offline.ml",
+    struct = "offline.ml",
     opts = AGENT_MODULE_OPTS,
     ppx = AGENT_PPX,
     ppx_args = AGENT_PPX_ARGS,
@@ -85,32 +87,35 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Peek",
     ],
+    deps_opam = AGENT_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Operation_expectation",
-    src = "operation_expectation.ml",
+    struct = "operation_expectation.ml",
     opts = AGENT_MODULE_OPTS,
     ppx = AGENT_PPX,
     ppx_args = AGENT_PPX_ARGS,
     deps = AGENT_DEPS,
+    deps_opam = AGENT_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Peek",
-    src = "peek.ml",
+    struct = "peek.ml",
     opts = AGENT_MODULE_OPTS,
     ppx = AGENT_PPX,
     ppx_args = AGENT_PPX_ARGS,
     deps = AGENT_DEPS,
+    deps_opam = AGENT_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Poke",
-    src = "poke.ml",
+    struct = "poke.ml",
     opts = AGENT_MODULE_OPTS,
     ppx = AGENT_PPX,
     ppx_args = AGENT_PPX_ARGS + [
@@ -118,4 +123,5 @@ ocaml_module(
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = AGENT_DEPS,
+    deps_opam = AGENT_DEPS_OPAM
 )

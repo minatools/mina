@@ -1,18 +1,28 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
     "ocaml_module",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "staged_ledger_diff",
+    main = ":_Staged_ledger_diff",
+    submodules = [
+        ":_Staged_ledger_diff",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "staged_ledger_diff",
-    src = "staged_ledger_diff.ml",
-    intf = ":_Staged_ledger_diff.cmi",
-    opts = [],
+    name = "_Staged_ledger_diff",
+    struct = "staged_ledger_diff.ml",
+    sig = ":_Staged_ledger_diff.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -23,15 +33,16 @@ ocaml_module(
     deps = [
         "@mina//src/lib/mina_base",
         "@mina//src/lib/transaction_snark_work",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ]
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Staged_ledger_diff.cmi",
     src = "staged_ledger_diff.mli",
-    opts = [],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -41,35 +52,39 @@ ocaml_interface(
     deps = [
         "@mina//src/lib/mina_base",
         "@mina//src/lib/transaction_snark_work",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ]
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/staged_ledger_diff:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

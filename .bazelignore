@@ -1,9 +1,22 @@
 # OBAZL:TRANSISTION: These git submodules are pinned to old versions, which screws up queries.
 # Once all Bazel code is merged and pins are corrected, these lines can be removed.
 src/external
+
 src/lib/marlin
 src/lib/marlin/zexe
+
+## not yet:
+src/lib/merkle_ledger_tests
+
+# avoid "Code is expired" test:
+src/lib/ppx_coda/tests
+
+# avoid broken code:
+src/lib/pickles/precomputed/gen_values
+
+src/lib/sha256_lib
 src/lib/snarky
+
 # /OBAZL:TRANSITION
 
 ## normal:

@@ -1,24 +1,34 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "mina_networking",
+    main = ":_Mina_networking",
+    submodules = [
+        ":_Mina_networking",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "mina_networking",
-    src = "mina_networking.ml",
-    intf = ":_Mina_networking.cmi",
-    opts = [],
+    name = "_Mina_networking",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "mina_networking",
     ],
+    sig = ":_Mina_networking.cmi",
+    struct = "mina_networking.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/coda_intf",
@@ -34,14 +44,16 @@ ocaml_module(
         "@mina//src/lib/sync_status",
         "@mina//src/lib/transition_frontier",
         "@mina//src/lib/unix_timestamp",
-        "@opam//pkg:async",
-        "@opam//pkg:async_extra",
-        "@opam//pkg:core",
     ],
+    deps_opam = [
+        "async",
+        "async_extra",
+        "core",
+    ]
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Mina_networking.cmi",
     src = "mina_networking.mli",
     opts = [],
@@ -65,25 +77,27 @@ ocaml_interface(
         "@mina//src/lib/sync_status",
         "@mina//src/lib/transition_frontier",
         "@mina//src/lib/unix_timestamp",
-        "@opam//pkg:async",
-        "@opam//pkg:async_extra",
-        "@opam//pkg:core",
     ],
+    deps_opam = [
+        "async",
+        "async_extra",
+        "core",
+    ]
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:fieldslib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "fieldslib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/mina_networking:__pkg__",
@@ -91,17 +105,19 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@mina//src/lib/ppx_register_event",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.make",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_fields_conv",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_deriving.eq",
+        "ppx_deriving.make",
+        "ppx_deriving_yojson",
+        "ppx_fields_conv",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

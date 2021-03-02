@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 load(
     "//:BUILD.bzl",
@@ -18,12 +15,14 @@ ROSETTA_LIB_MODULE_OPTS = ["-linkall"]
 
 ROSETTA_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:caqti",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/rosetta_models",
     "@mina//src/lib/snark_params",
     "@mina//src/lib/signature_lib",
+]
+ROSETTA_LIB_DEPS_OPAM = [
+    "core_kernel",
+    "caqti",
 ]
 
 ROSETTA_LIB_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_optcomp__ppx_assert__ppx_let__ppx_sexp_conv__ppx_compare__ppx_deriving.std__ppx_custom_printf__ppx_deriving_yojson__ppx_inline_test"
@@ -34,14 +33,10 @@ ROSETTA_LIB_PPX_ARGS = [
     "rosetta_lib",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "rosetta_lib",
-    doc = "Rosetta-related support code",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = ROSETTA_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Amount_of",
         ":_Errors",
         ":_Monad_fail",
@@ -51,121 +46,107 @@ ocaml_archive(
         ":_User_command_info",
         ":_Validation",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Rosetta_lib_ns",
-    ns = "rosetta_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "amount_of.ml",
-        "errors.ml",
-        "monad_fail.ml",
-        "operation_statuses.ml",
-        "operation_types.ml",
-        "transaction.ml",
-        "user_command_info.ml",
-        "validation.ml",
-    ],
+    visibility = [
+        "//src/app/rosetta/lib:__pkg__",
+        "//src/lib/rosetta_lib/test:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Amount_of",
-    src = "amount_of.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "amount_of.ml",
     deps = ROSETTA_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Errors",
         ":_Monad_fail",
     ],
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Errors",
-    src = "errors.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "errors.ml",
     deps = ROSETTA_LIB_DEPS + [
         "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime",
     ],
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Monad_fail",
-    src = "monad_fail.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "monad_fail.ml",
     deps = ROSETTA_LIB_DEPS,
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Operation_statuses",
-    src = "operation_statuses.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "operation_statuses.ml",
     deps = ROSETTA_LIB_DEPS + [
         "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime",
     ],
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Operation_types",
-    src = "operation_types.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "operation_types.ml",
     deps = ROSETTA_LIB_DEPS + [
         "//src/lib/ppx_coda/ppx_representatives/runtime:ppx_representatives_runtime",
     ],
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transaction",
-    src = "transaction.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "transaction.ml",
     deps = ROSETTA_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Errors",
         ":_User_command_info",
     ],
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_User_command_info",
-    src = "user_command_info.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     ppx_print = "@ppx//print:binary",
+    struct = "user_command_info.ml",
     deps = ROSETTA_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Amount_of",
@@ -174,16 +155,17 @@ ocaml_module(
         ":_Operation_types",
         ":_Validation",
     ],
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Validation",
-    src = "validation.ml",
-    ns = ":Rosetta_lib_ns",
     opts = ROSETTA_LIB_MODULE_OPTS,
     ppx = ROSETTA_LIB_PPX,
     ppx_args = ROSETTA_LIB_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "validation.ml",
     deps = ROSETTA_LIB_DEPS,
+    deps_opam = ROSETTA_LIB_DEPS_OPAM
 )

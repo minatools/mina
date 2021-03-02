@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 
@@ -18,7 +15,6 @@ BLOCKCHAIN_SNARK_MODULE_OPTS = []
 
 BLOCKCHAIN_SNARK_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
     "@mina//src/lib/cache_dir",
     "@snarky//src/base:snarky_backendless",
     "@mina//src/lib/snark_params",
@@ -29,37 +25,30 @@ BLOCKCHAIN_SNARK_DEPS = [
     "@mina//src/lib/consensus",
 ]
 
-##############
-ocaml_archive(
-    name = "blockchain_snark",
-    doc = "blockchain state transition snarking library",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = BLOCKCHAIN_SNARK_DEPS + [
-        # do not sort (buildifier)
-        ":_Blockchain",
-        ":_Blockchain_snark_state",
-    ],
-)
+BLOCKCHAIN_SNARK_DEPS_OPAM = [
+    "core",
+]
 
 #########
-ocaml_ns(
-    name = "Blockchain_snark_ns",
-    ns = "blockchain_snark",
+ocaml_ns_library(
+    name = "blockchain_snark",
     submodules = [
-        # do not sort (buildifier)
-        "blockchain.ml",
-        "blockchain_snark_state.ml",
+        ":_Blockchain",
+        ":_Blockchain_snark_state"
     ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Blockchain",
-    src = "blockchain.ml",
-    intf = ":_Blockchain.cmi",
-    ns = ":Blockchain_snark_ns",
-    opts = BLOCKCHAIN_SNARK_MODULE_OPTS,
+    struct = "blockchain.ml",
+    sig = ":_Blockchain.cmi",
+    opts = BLOCKCHAIN_SNARK_MODULE_OPTS + [
+        "-w", "-32" # unused value
+    ],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -67,13 +56,13 @@ ocaml_module(
         "blockchain_snark",
     ],
     deps = BLOCKCHAIN_SNARK_DEPS,
+    deps_opam = BLOCKCHAIN_SNARK_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Blockchain.cmi",
     src = "blockchain.mli",
-    ns = ":Blockchain_snark_ns",
     opts = BLOCKCHAIN_SNARK_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -82,14 +71,12 @@ ocaml_interface(
         "blockchain_snark",
     ],
     deps = BLOCKCHAIN_SNARK_DEPS,
+    deps_opam = BLOCKCHAIN_SNARK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Blockchain_snark_state",
-    src = "blockchain_snark_state.ml",
-    intf = ":_Blockchain_snark_state.cmi",
-    ns = ":Blockchain_snark_ns",
     opts = BLOCKCHAIN_SNARK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -97,14 +84,16 @@ ocaml_module(
         "-inline-test-lib",
         "blockchain_snark",
     ],
+    sig = ":_Blockchain_snark_state.cmi",
+    struct = "blockchain_snark_state.ml",
     deps = BLOCKCHAIN_SNARK_DEPS,
+    deps_opam = BLOCKCHAIN_SNARK_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Blockchain_snark_state.cmi",
     src = "blockchain_snark_state.mli",
-    ns = ":Blockchain_snark_ns",
     opts = BLOCKCHAIN_SNARK_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -113,34 +102,32 @@ ocaml_interface(
         "blockchain_snark",
     ],
     deps = BLOCKCHAIN_SNARK_DEPS,
+    deps_opam = BLOCKCHAIN_SNARK_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
-    ],
-    main = "//bzl/ppx/exe:Driver",
-    opts = [],
-    visibility = [
-        "//src/lib/blockchain_snark:__pkg__",
-    ],
+    main = "//bzl/ppx/exe:ppxlib_driver",
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
+    deps_opam = [
+        "ppx_jane",
+        "ppx_deriving.eq",
+    ],
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
+    ]
 )

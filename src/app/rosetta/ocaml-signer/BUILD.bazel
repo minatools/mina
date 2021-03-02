@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -15,14 +13,17 @@ SIGNER_MODULE_OPTS = []
 
 SIGNER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:async_ssl",
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
     "@mina//src/lib/logger",
     "@mina//src/lib/rosetta_models",
     "@mina//src/app/rosetta/lib",
+]
+
+SIGNER_DEPS_OPAM = [
+    "async",
+    "async_ssl",
+    "core_kernel",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
 ]
 
 SIGNER_PPX = "@//bzl/ppx/exe:graphql_ppx__ppx_coda__ppx_deriving.show__ppx_deriving_yojson__ppx_jane__ppx_version__ppx_deriving.eq"
@@ -35,21 +36,19 @@ SIGNER_PPX_ARGS = [
 
 #################
 ocaml_executable(
-    name = "signer.exe",
+    name = "signer",
     opts = SIGNER_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = SIGNER_DEPS + [
-        # do not sort (buildifier)
-        ":_Signer",
-    ],
+    deps = [":_Signer"]
 )
 
 #############
 ocaml_module(
-    name = "_Signer",
-    src = "signer.ml",
+    name   = "_Signer",
+    struct = "signer.ml",
     opts = SIGNER_MODULE_OPTS,
     ppx = SIGNER_PPX,
     ppx_args = SIGNER_PPX_ARGS,
     deps = SIGNER_DEPS,
+    deps_opam = SIGNER_DEPS_OPAM
 )

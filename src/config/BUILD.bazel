@@ -102,14 +102,15 @@ config_setting( name = "config_testnet_public",
 #                 flag_values = { "//dev/profile": "any" })
 
 # build this target to verify that selecting by profile works:
-mina_test_config(
-    name="config",
-    config = select({
-        ":config_dev": ":dev",
-        ":config_debug": ":debug",
-        ":config_fake_hash": ":fake_hash",
-        ":config_testnet_public": ":testnet_public",
-        # "//conditions:default": ":config"
-    }),
-    visibility = ["//visibility:public"],
-)
+# mina_test_config(
+#     name="config",
+#     config = select({
+#         ":profile": "dev",
+#         # ":config_dev": "//src:dev",
+#         # ":config_debug": ":debug",
+#         # ":config_fake_hash": ":fake_hash",
+#         # ":config_testnet_public": ":testnet_public",
+#         # "//conditions:default": ":config"
+#     }, no_match_error = "No matching config"),
+#     visibility = ["//visibility:public"],
+# )

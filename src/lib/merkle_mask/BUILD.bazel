@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -15,25 +12,23 @@ MERKLE_MASK_MODULE_OPTS = []
 
 MERKLE_MASK_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:bitstring",
-    "@opam//pkg:integers",
-    "@opam//pkg:yojson",
     "@mina//src/lib/debug_assert",
     "@mina//src/lib/immutable_array",
     "@mina//src/lib/merkle_ledger",
     "@mina//src/lib/merkle_address",
     "@mina//src/lib/visualization",
 ]
+MERKLE_MASK_DEPS_OPAM = [
+    "core",
+    "bitstring",
+    "integers",
+    "yojson",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "merkle_mask",
-    doc = "Implementation of Merkle tree masks",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = MERKLE_MASK_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Base_merkle_tree_intf",
         ":_Inputs_intf",
         ":_Maskable_merkle_tree",
@@ -41,28 +36,14 @@ ocaml_archive(
         ":_Masking_merkle_tree",
         ":_Masking_merkle_tree_intf",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Merkle_mask_ns",
-    ns = "merkle_mask",
-    submodules = [
-        # do not sort (buildifier)
-        "base_merkle_tree_intf.ml",
-        "inputs_intf.ml",
-        "maskable_merkle_tree.ml",
-        "maskable_merkle_tree_intf.ml",
-        "masking_merkle_tree.ml",
-        "masking_merkle_tree_intf.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Base_merkle_tree_intf",
-    src = "base_merkle_tree_intf.ml",
-    ns = ":Merkle_mask_ns",
     opts = MERKLE_MASK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -70,14 +51,14 @@ ocaml_module(
         "-inline-test-lib",
         "merkle_mask",
     ],
+    struct = "base_merkle_tree_intf.ml",
     deps = MERKLE_MASK_DEPS,
+    deps_opam = MERKLE_MASK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Inputs_intf",
-    src = "inputs_intf.ml",
-    ns = ":Merkle_mask_ns",
     opts = MERKLE_MASK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -85,17 +66,17 @@ ocaml_module(
         "-inline-test-lib",
         "merkle_mask",
     ],
-    deps = MERKLE_MASK_DEPS + [
+    struct = "inputs_intf.ml",
+    deps = [
         # do not sort (buildifier)
         ":_Base_merkle_tree_intf",
     ],
+    deps_opam = MERKLE_MASK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Maskable_merkle_tree",
-    src = "maskable_merkle_tree.ml",
-    ns = ":Merkle_mask_ns",
     opts = MERKLE_MASK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -103,18 +84,18 @@ ocaml_module(
         "-inline-test-lib",
         "merkle_mask",
     ],
-    deps = MERKLE_MASK_DEPS + [
+    struct = "maskable_merkle_tree.ml",
+    deps = [
         # do not sort (buildifier)
         ":_Inputs_intf",
         ":_Masking_merkle_tree_intf",
     ],
+    deps_opam = MERKLE_MASK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Maskable_merkle_tree_intf",
-    src = "maskable_merkle_tree_intf.ml",
-    ns = ":Merkle_mask_ns",
     opts = MERKLE_MASK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -122,17 +103,17 @@ ocaml_module(
         "-inline-test-lib",
         "merkle_mask",
     ],
-    deps = MERKLE_MASK_DEPS + [
+    struct = "maskable_merkle_tree_intf.ml",
+    deps = [
         # do not sort (buildifier)
         ":_Base_merkle_tree_intf",
     ],
+    deps_opam = MERKLE_MASK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Masking_merkle_tree",
-    src = "masking_merkle_tree.ml",
-    ns = ":Merkle_mask_ns",
     opts = MERKLE_MASK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -140,17 +121,17 @@ ocaml_module(
         "-inline-test-lib",
         "merkle_mask",
     ],
-    deps = MERKLE_MASK_DEPS + [
+    struct = "masking_merkle_tree.ml",
+    deps = [
         # do not sort (buildifier)
         ":_Inputs_intf",
     ],
+    deps_opam = MERKLE_MASK_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Masking_merkle_tree_intf",
-    src = "masking_merkle_tree_intf.ml",
-    ns = ":Merkle_mask_ns",
     opts = MERKLE_MASK_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -158,40 +139,45 @@ ocaml_module(
         "-inline-test-lib",
         "merkle_mask",
     ],
-    deps = MERKLE_MASK_DEPS + [
+    struct = "masking_merkle_tree_intf.ml",
+    deps = [
         # do not sort (buildifier)
         ":_Base_merkle_tree_intf",
     ],
+    deps_opam = MERKLE_MASK_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
-        "//src/lib/merkle_mask:__pkg__",
+        "//visibility:public",
+        # "//src/lib/merkle_mask:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.show",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving.show",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

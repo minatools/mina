@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -11,91 +9,82 @@ load(
     "CONFIG_MLH",
 )
 
-################################################################
-## STANZA 1: EXECUTABLE REPLAYER
-################################################################
-REPLAYER_EXECUTABLE_OPTS = []
-
-REPLAYER_MODULE_OPTS = []
-
 REPLAYER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async_kernel",
-    "@opam//pkg:core",
-    "@opam//pkg:caqti",
-    "@opam//pkg:caqti-async",
-    "@opam//pkg:caqti-driver-postgresql",
-    "@opam//pkg:yojson",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/genesis_constants",
     "@mina//src/lib/genesis_ledger_helper",
 ]
 
+REPLAYER_DEPS_OPAM = [
+    "async_kernel",
+    "core",
+    "caqti",
+    "caqti-async",
+    "caqti-driver-postgresql",
+    "yojson",
+]
+
 #################
 ocaml_executable(
-    name = "replayer.exe",
-    opts = REPLAYER_EXECUTABLE_OPTS,
+    name = "replayer",
     visibility = ["//visibility:public"],
-    deps = REPLAYER_DEPS + [
+    deps = [
         # do not sort (buildifier)
         ":_Replayer",
-        ":_Sql",
+        # ":_Sql",
     ],
 )
 
 #############
 ocaml_module(
-    name = "_Replayer",
-    src = "replayer.ml",
-    opts = REPLAYER_MODULE_OPTS,
+    name   = "_Replayer",
+    struct = "replayer.ml",
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     ppx_data = CONFIG_MLH,
     deps = REPLAYER_DEPS + [
         # do not sort (buildifier)
         ":_Sql",
     ],
+    deps_opam = REPLAYER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
-    name = "_Sql",
-    src = "sql.ml",
-    opts = REPLAYER_MODULE_OPTS,
+    name   = "_Sql",
+    struct = "sql.ml",
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     ppx_data = CONFIG_MLH,
     deps = REPLAYER_DEPS,
+    deps_opam = REPLAYER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_compare.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/app/replayer:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_compare",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_hash",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_compare",
+        "ppx_deriving_yojson",
+        "ppx_hash",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

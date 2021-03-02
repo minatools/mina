@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -17,9 +14,11 @@ OTP_LIB_MODULE_OPTS = []
 
 OTP_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:async_kernel",
     "@mina//src/lib/pipe_lib",
+]
+OTP_LIB_DEPS_OPAM = [
+    "core_kernel",
+    "async_kernel",
 ]
 
 OTP_LIB_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
@@ -30,48 +29,34 @@ OTP_LIB_PPX_ARGS = [
     "otp_lib",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "otp_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = OTP_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Agent",
         ":_Capped_supervisor",
         ":_Worker_supervisor",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Otp_lib_ns",
-    ns = "otp_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "agent.ml",
-        "capped_supervisor.ml",
-        "worker_supervisor.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Agent",
-    src = "agent.ml",
-    intf = ":_Agent.cmi",
-    ns = ":Otp_lib_ns",
+    sig  = ":_Agent.cmi",
     opts = OTP_LIB_MODULE_OPTS,
     ppx = OTP_LIB_PPX,
     ppx_args = OTP_LIB_PPX_ARGS,
+    struct = "agent.ml",
     deps = OTP_LIB_DEPS,
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Agent.cmi",
     src = "agent.mli",
-    ns = ":Otp_lib_ns",
     opts = OTP_LIB_INTERFACE_OPTS,
     ppx = OTP_LIB_PPX,
     ppx_args = OTP_LIB_PPX_ARGS,
@@ -81,20 +66,18 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Capped_supervisor",
-    src = "capped_supervisor.ml",
-    intf = ":_Capped_supervisor.cmi",
-    ns = ":Otp_lib_ns",
+    sig  = ":_Capped_supervisor.cmi",
     opts = OTP_LIB_MODULE_OPTS,
     ppx = OTP_LIB_PPX,
     ppx_args = OTP_LIB_PPX_ARGS,
+    struct = "capped_supervisor.ml",
     deps = OTP_LIB_DEPS,
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Capped_supervisor.cmi",
     src = "capped_supervisor.mli",
-    ns = ":Otp_lib_ns",
     opts = OTP_LIB_INTERFACE_OPTS,
     ppx = OTP_LIB_PPX,
     ppx_args = OTP_LIB_PPX_ARGS,
@@ -104,10 +87,9 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Worker_supervisor",
-    src = "worker_supervisor.ml",
-    ns = ":Otp_lib_ns",
     opts = OTP_LIB_MODULE_OPTS,
     ppx = OTP_LIB_PPX,
     ppx_args = OTP_LIB_PPX_ARGS,
+    struct = "worker_supervisor.ml",
     deps = OTP_LIB_DEPS,
 )

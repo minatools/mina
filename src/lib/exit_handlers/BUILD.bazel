@@ -1,41 +1,51 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "exit_handlers",
+    main = ":_Exit_handlers",
+    submodules = [
+        ":_Exit_handlers",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "exit_handlers",
-    src = "exit_handlers.ml",
-    opts = [],
+    name = "_Exit_handlers",
+    struct = "exit_handlers.ml",
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/logger",
-        "@opam//pkg:async_kernel",
-        "@opam//pkg:async_unix",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "async_kernel",
+        "async_unix",
+        "core_kernel",
+    ]
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    main = "//bzl/ppx/exe:Driver",
-    opts = [],
+    main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
         "//src/lib/exit_handlers:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_let",
+        "ppxlib",
+    ]
 )

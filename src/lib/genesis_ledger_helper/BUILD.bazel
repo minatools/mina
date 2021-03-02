@@ -1,20 +1,30 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
+#################
+ocaml_ns_library(
+    name = "genesis_ledger_helper",
+    main = ":_Genesis_ledger_helper",
+    submodules = [
+        ":_Genesis_ledger_helper",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
 #############
 ocaml_module(
-    name = "genesis_ledger_helper",
-    src = "genesis_ledger_helper.ml",
-    opts = [],
+    name = "_Genesis_ledger_helper",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -22,6 +32,7 @@ ocaml_module(
         "genesis_ledger_helper",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "genesis_ledger_helper.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/cache_dir",
@@ -32,41 +43,44 @@ ocaml_module(
         "@mina//src/lib/runtime_config",
         "@mina//src/lib/signature_lib",
         "@mina//src/lib/snark_keys",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ]
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
-    opts = [],
+    main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
         "//src/lib/genesis_ledger_helper:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.std",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_custom_printf",
+        "ppx_deriving.std",
+        "ppx_deriving_yojson",
+        "ppx_inline_test",
+        "ppx_jane",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

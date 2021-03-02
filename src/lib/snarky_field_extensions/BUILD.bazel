@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -14,9 +11,11 @@ SNARKY_FIELD_EXTENSIONS_MODULE_OPTS = []
 
 SNARKY_FIELD_EXTENSIONS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@snarky//src/base:snarky_backendless",
     "@snarky//snarkette",
+]
+SNARKY_FIELD_EXTENSIONS_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 SNARKY_FIELD_EXTENSIONS_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson"
@@ -27,34 +26,23 @@ SNARKY_FIELD_EXTENSIONS_PPX_ARGS = [
     "snarky_field_extensions",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "snarky_field_extensions",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARKY_FIELD_EXTENSIONS_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Field_extensions",
         ":_Intf",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Snarky_field_extensions_ns",
-    ns = "snarky_field_extensions",
-    submodules = [
-        # do not sort (buildifier)
-        "field_extensions.ml",
-        "intf.ml",
-    ],
+    visibility = [
+        "//src/lib/snarky_curves:__pkg__",
+        "//src/lib/snarky_pairing:__pkg__",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Field_extensions",
-    src = "field_extensions.ml",
-    ns = ":Snarky_field_extensions_ns",
+    struct = "field_extensions.ml",
     opts = SNARKY_FIELD_EXTENSIONS_MODULE_OPTS,
     ppx = SNARKY_FIELD_EXTENSIONS_PPX,
     ppx_args = SNARKY_FIELD_EXTENSIONS_PPX_ARGS,
@@ -62,15 +50,16 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = SNARKY_FIELD_EXTENSIONS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Snarky_field_extensions_ns",
+    struct = "intf.ml",
     opts = SNARKY_FIELD_EXTENSIONS_MODULE_OPTS,
     ppx = SNARKY_FIELD_EXTENSIONS_PPX,
     ppx_args = SNARKY_FIELD_EXTENSIONS_PPX_ARGS,
     deps = SNARKY_FIELD_EXTENSIONS_DEPS,
+    deps_opam = SNARKY_FIELD_EXTENSIONS_DEPS_OPAM
 )

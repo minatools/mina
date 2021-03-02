@@ -1,15 +1,25 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
+)
+
+#################
+ocaml_ns_library(
+    name = "block_producer",
+    main = ":_Block_producer",
+    submodules = [
+        ":_Block_producer",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "block_producer",
-    src = "block_producer.ml",
+    name = "_Block_producer",
     opts = [],
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -17,6 +27,7 @@ ocaml_module(
         "-inline-test-lib",
         "block_producer",
     ],
+    struct = "block_producer.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/coda_intf",
@@ -34,27 +45,29 @@ ocaml_module(
         "@mina//src/lib/transition_chain_prover",
         "@mina//src/lib/transition_frontier",
         "@mina//src/lib/unix_timestamp",
-        "@opam//pkg:async",
-        "@opam//pkg:async_extra",
-        "@opam//pkg:core",
     ],
+    deps_opam = [
+        "async",
+        "async_extra",
+        "core",
+    ]
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/block_producer:__pkg__",
@@ -62,8 +75,10 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@mina//src/lib/ppx_register_event",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

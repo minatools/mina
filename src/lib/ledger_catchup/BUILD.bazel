@@ -1,24 +1,25 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
 )
+
+DEPS_OPAM = [
+    "async_kernel",
+    "core_kernel",
+]
 
 #############
 ocaml_module(
     name = "ledger_catchup",
-    src = "ledger_catchup.ml",
-    intf = ":_Ledger_catchup.cmi",
-    opts = [],
+    struct = "ledger_catchup.ml",
+    sig = ":_Ledger_catchup.cmi",
     ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "ledger_catchup",
     ],
-    visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/coda_intf",
         "@mina//src/lib/consensus",
@@ -33,16 +34,17 @@ ocaml_module(
         "@mina//src/lib/transition_chain_verifier",
         "@mina//src/lib/transition_frontier",
         "@mina//src/lib/transition_handler",
-        "@opam//pkg:async_kernel",
-        "@opam//pkg:core_kernel",
+    ],
+    deps_opam = DEPS_OPAM,
+    visibility = [
+        "//src/lib/transition_frontier_controller:__pkg__",
     ],
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Ledger_catchup.cmi",
     src = "ledger_catchup.mli",
-    opts = [],
     ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
     ppx_args = [
         # do not sort (buildifier)
@@ -63,7 +65,6 @@ ocaml_interface(
         "@mina//src/lib/transition_chain_verifier",
         "@mina//src/lib/transition_frontier",
         "@mina//src/lib/transition_handler",
-        "@opam//pkg:async_kernel",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = DEPS_OPAM
 )

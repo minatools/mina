@@ -1,13 +1,11 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -16,16 +14,12 @@ load(
 ################################################################
 ## STANZA 1: LIBRARY STAGED_LEDGER
 ################################################################
-STAGED_LEDGER_INTERFACE_OPTS = []
+STAGED_LEDGER_SIGNATURE_OPTS = []
 
 STAGED_LEDGER_MODULE_OPTS = []
 
 STAGED_LEDGER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:lens",
-    "@opam//pkg:async",
-    "@opam//pkg:async_extra",
     "@mina//src/lib/transaction_snark_scan_state",
     "@mina//src/lib/sgn",
     "@mina//src/lib/transaction_snark",
@@ -39,38 +33,30 @@ STAGED_LEDGER_DEPS = [
     "@mina//src/lib/staged_ledger_diff",
     "@mina//src/lib/inline_test_quiet_logs",
 ]
+STAGED_LEDGER_DEPS_OPAM = [
+    "core",
+    "lens",
+    "async",
+    "async_extra",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "staged_ledger",
-    doc = "Staged Ledger updates the current ledger with new transactions",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = STAGED_LEDGER_DEPS + [
-        # do not sort (buildifier)
+    main = "_Staged_ledger",
+    submodules = [
         ":_Diff_creation_log",
         ":_Pre_diff_info",
         ":_Staged_ledger",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Staged_ledger_ns",
-    ns = "staged_ledger",
-    submodules = [
-        # do not sort (buildifier)
-        "diff_creation_log.ml",
-        "pre_diff_info.ml",
-        "staged_ledger.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Diff_creation_log",
-    src = "diff_creation_log.ml",
-    ns = ":Staged_ledger_ns",
     opts = STAGED_LEDGER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -79,14 +65,14 @@ ocaml_module(
         "staged_ledger",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "diff_creation_log.ml",
     deps = STAGED_LEDGER_DEPS,
+    deps_opam = STAGED_LEDGER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Pre_diff_info",
-    src = "pre_diff_info.ml",
-    ns = ":Staged_ledger_ns",
     opts = STAGED_LEDGER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -95,15 +81,15 @@ ocaml_module(
         "staged_ledger",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "pre_diff_info.ml",
     deps = STAGED_LEDGER_DEPS,
+    deps_opam = STAGED_LEDGER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Staged_ledger",
-    src = "staged_ledger.ml",
-    intf = ":_Staged_ledger.cmi",
-    ns = ":Staged_ledger_ns",
+    sig  = ":_Staged_ledger.cmi",
     opts = STAGED_LEDGER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -112,19 +98,20 @@ ocaml_module(
         "staged_ledger",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "staged_ledger.ml",
     deps = STAGED_LEDGER_DEPS + [
         # do not sort (buildifier)
         ":_Diff_creation_log",
         ":_Pre_diff_info",
     ],
+    deps_opam = STAGED_LEDGER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Staged_ledger.cmi",
     src = "staged_ledger.mli",
-    ns = ":Staged_ledger_ns",
-    opts = STAGED_LEDGER_INTERFACE_OPTS,
+    opts = STAGED_LEDGER_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -136,43 +123,46 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Pre_diff_info",
     ],
+    deps_opam = STAGED_LEDGER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:lens",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:fieldslib",
+    deps_adjunct_opam = [
+        "yojson",
+        "lens",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "fieldslib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/staged_ledger:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:lens.ppx_deriving",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.make",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_fields_conv",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_pipebang",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "lens.ppx_deriving",
+        "ppx_assert",
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_deriving.eq",
+        "ppx_deriving.make",
+        "ppx_deriving_yojson",
+        "ppx_fields_conv",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_pipebang",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

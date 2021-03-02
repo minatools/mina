@@ -1,11 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    # "ocaml_archive",
+    "ocaml_signature",
+    "ocaml_library",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -17,9 +16,12 @@ SNARKY_GROUP_MAP_MODULE_OPTS = []
 
 SNARKY_GROUP_MAP_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@snarky//group_map",
     "@snarky//src/base:snarky_backendless",
+]
+
+SNARKY_GROUP_MAP_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 SNARKY_GROUP_MAP_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq"
@@ -30,61 +32,57 @@ SNARKY_GROUP_MAP_PPX_ARGS = [
     "snarky_group_map",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "snarky_group_map",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARKY_GROUP_MAP_DEPS + [
-        # do not sort (buildifier)
+    main = ":_Snarky_group_map",
+    submodules = [
         ":_Checked_map",
         ":_Snarky_group_map",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Snarky_group_map_ns",
-    ns = "snarky_group_map",
-    submodules = [
-        # do not sort (buildifier)
-        "checked_map.ml",
-        "snarky_group_map.ml",
-    ],
+    visibility = [
+        "//src/lib/pickles:__pkg__",
+        "//src/lib/snark_params:__pkg__",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Checked_map",
-    src = "checked_map.ml",
-    intf = ":_Checked_map.cmi",
-    ns = ":Snarky_group_map_ns",
-    opts = SNARKY_GROUP_MAP_MODULE_OPTS,
+    # ns_env = ":_ns_env",
+    opts = SNARKY_GROUP_MAP_MODULE_OPTS + [
+        "-open", "Group_map"    # FIXME: should not be necessary
+    ],
     ppx = SNARKY_GROUP_MAP_PPX,
     ppx_args = SNARKY_GROUP_MAP_PPX_ARGS,
+    sig = ":_Checked_map.cmi",
+    struct = "checked_map.ml",
     deps = SNARKY_GROUP_MAP_DEPS,
+    deps_opam = SNARKY_GROUP_MAP_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Checked_map.cmi",
     src = "checked_map.mli",
-    ns = ":Snarky_group_map_ns",
     opts = SNARKY_GROUP_MAP_INTERFACE_OPTS,
     ppx = SNARKY_GROUP_MAP_PPX,
     ppx_args = SNARKY_GROUP_MAP_PPX_ARGS,
     deps = SNARKY_GROUP_MAP_DEPS,
+    deps_opam = SNARKY_GROUP_MAP_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Snarky_group_map",
-    src = "snarky_group_map.ml",
-    intf = ":_Snarky_group_map.cmi",
-    ns = ":Snarky_group_map_ns",
-    opts = SNARKY_GROUP_MAP_MODULE_OPTS,
+    opts = SNARKY_GROUP_MAP_MODULE_OPTS + [
+        # "-open", "Group_map"    # FIXME: should not be necessary
+    ],
     ppx = SNARKY_GROUP_MAP_PPX,
     ppx_args = SNARKY_GROUP_MAP_PPX_ARGS,
+    sig = ":_Snarky_group_map.cmi",
+    struct = "snarky_group_map.ml",
+    deps_opam = SNARKY_GROUP_MAP_DEPS_OPAM,
     deps = SNARKY_GROUP_MAP_DEPS + [
         # do not sort (buildifier)
         ":_Checked_map",
@@ -92,12 +90,12 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Snarky_group_map.cmi",
     src = "snarky_group_map.mli",
-    ns = ":Snarky_group_map_ns",
     opts = SNARKY_GROUP_MAP_INTERFACE_OPTS,
     ppx = SNARKY_GROUP_MAP_PPX,
     ppx_args = SNARKY_GROUP_MAP_PPX_ARGS,
     deps = SNARKY_GROUP_MAP_DEPS,
+    deps_opam = SNARKY_GROUP_MAP_DEPS_OPAM
 )

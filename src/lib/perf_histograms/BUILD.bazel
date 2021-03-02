@@ -1,28 +1,29 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY PERF_HISTOGRAMS
 ################################################################
-PERF_HISTOGRAMS_INTERFACE_OPTS = []
+PERF_HISTOGRAMS_SIGNATURE_OPTS = []
 
 PERF_HISTOGRAMS_MODULE_OPTS = []
 
 PERF_HISTOGRAMS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:yojson",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
     "@mina//src/lib/mina_metrics",
+]
+
+PERF_HISTOGRAMS_DEPS_OPAM = [
+    "core",
+    "async",
+    "core_kernel",
+    "yojson",
+    "ppx_deriving_yojson.runtime",
 ]
 
 PERF_HISTOGRAMS_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson"
@@ -33,114 +34,100 @@ PERF_HISTOGRAMS_PPX_ARGS = [
     "perf_histograms",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "perf_histograms",
-    doc = "Performance monitoring with histograms",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = PERF_HISTOGRAMS_DEPS + [
-        # do not sort (buildifier)
+    main = "_Perf_histograms",
+    submodules = [
         ":_Histogram",
         ":_Intf",
         ":_Perf_histograms",
         ":_Perf_histograms0",
         ":_Rpc",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Perf_histograms_ns",
-    ns = "perf_histograms",
-    submodules = [
-        # do not sort (buildifier)
-        "histogram.ml",
-        "intf.ml",
-        "perf_histograms.ml",
-        "perf_histograms0.ml",
-        "rpc.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Histogram",
-    src = "histogram.ml",
-    ns = ":Perf_histograms_ns",
     opts = PERF_HISTOGRAMS_MODULE_OPTS,
     ppx = PERF_HISTOGRAMS_PPX,
     ppx_args = PERF_HISTOGRAMS_PPX_ARGS,
+    struct = "histogram.ml",
     deps = PERF_HISTOGRAMS_DEPS,
+    deps_opam = PERF_HISTOGRAMS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Perf_histograms_ns",
     opts = PERF_HISTOGRAMS_MODULE_OPTS,
     ppx = PERF_HISTOGRAMS_PPX,
     ppx_args = PERF_HISTOGRAMS_PPX_ARGS,
+    struct = "intf.ml",
     deps = PERF_HISTOGRAMS_DEPS,
+    deps_opam = PERF_HISTOGRAMS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Perf_histograms",
-    src = "perf_histograms.ml",
-    intf = ":_Perf_histograms.cmi",
-    ns = ":Perf_histograms_ns",
+    sig  = ":_Perf_histograms.cmi",
     opts = PERF_HISTOGRAMS_MODULE_OPTS,
     ppx = PERF_HISTOGRAMS_PPX,
     ppx_args = PERF_HISTOGRAMS_PPX_ARGS,
+    struct = "perf_histograms.ml",
     deps = PERF_HISTOGRAMS_DEPS + [
         # do not sort (buildifier)
         ":_Histogram",
         ":_Perf_histograms0",
         ":_Rpc",
     ],
+    deps_opam = PERF_HISTOGRAMS_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Perf_histograms.cmi",
     src = "perf_histograms.mli",
-    ns = ":Perf_histograms_ns",
-    opts = PERF_HISTOGRAMS_INTERFACE_OPTS,
+    opts = PERF_HISTOGRAMS_SIGNATURE_OPTS,
     ppx = PERF_HISTOGRAMS_PPX,
     ppx_args = PERF_HISTOGRAMS_PPX_ARGS,
     deps = PERF_HISTOGRAMS_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = PERF_HISTOGRAMS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Perf_histograms0",
-    src = "perf_histograms0.ml",
-    ns = ":Perf_histograms_ns",
     opts = PERF_HISTOGRAMS_MODULE_OPTS,
     ppx = PERF_HISTOGRAMS_PPX,
     ppx_args = PERF_HISTOGRAMS_PPX_ARGS,
+    struct = "perf_histograms0.ml",
     deps = PERF_HISTOGRAMS_DEPS + [
         # do not sort (buildifier)
         ":_Histogram",
     ],
+    deps_opam = PERF_HISTOGRAMS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Rpc",
-    src = "rpc.ml",
-    ns = ":Perf_histograms_ns",
     opts = PERF_HISTOGRAMS_MODULE_OPTS,
     ppx = PERF_HISTOGRAMS_PPX,
     ppx_args = PERF_HISTOGRAMS_PPX_ARGS,
+    struct = "rpc.ml",
     deps = PERF_HISTOGRAMS_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
         ":_Perf_histograms0",  # obazl:retain
     ],
+    deps_opam = PERF_HISTOGRAMS_DEPS_OPAM
 )

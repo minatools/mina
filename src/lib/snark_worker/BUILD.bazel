@@ -1,13 +1,11 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -22,9 +20,6 @@ SNARK_WORKER_MODULE_OPTS = []
 
 SNARK_WORKER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:core_kernel.hash_heap",
     "@mina//src/lib/cli_lib",
     "@mina//src/lib/currency",
     "@mina//src/lib/snark_work_lib",
@@ -36,15 +31,17 @@ SNARK_WORKER_DEPS = [
     "@mina//src/lib/ledger_proof",
     "@mina//src/lib/transaction_witness",
 ]
+SNARK_WORKER_DEPS_OPAM = [
+    "core_kernel",
+    "async",
+    "core_kernel.hash_heap",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "snark_worker",
-    doc = "Lib powering the snark_worker interactions with the daemon",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARK_WORKER_DEPS + [
-        # do not sort (buildifier)
+    main = "_Snark_worker",
+    submodules = [
         ":_Debug",
         ":_Functor",
         ":_Intf",
@@ -52,28 +49,14 @@ ocaml_archive(
         ":_Rpcs",
         ":_Snark_worker",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Snark_worker_ns",
-    ns = "snark_worker",
-    submodules = [
-        # do not sort (buildifier)
-        "debug.ml",
-        "functor.ml",
-        "intf.ml",
-        "prod.ml",
-        "rpcs.ml",
-        "snark_worker.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Debug",
-    src = "debug.ml",
-    ns = ":Snark_worker_ns",
     opts = SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -82,14 +65,14 @@ ocaml_module(
         "snark_worker",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "debug.ml",
     deps = SNARK_WORKER_DEPS,
+    deps_opam = SNARK_WORKER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Functor",
-    src = "functor.ml",
-    ns = ":Snark_worker_ns",
     opts = SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -98,18 +81,18 @@ ocaml_module(
         "snark_worker",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "functor.ml",
     deps = SNARK_WORKER_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
         ":_Rpcs",
     ],
+    deps_opam = SNARK_WORKER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Snark_worker_ns",
     opts = SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -118,14 +101,14 @@ ocaml_module(
         "snark_worker",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "intf.ml",
     deps = SNARK_WORKER_DEPS,
+    deps_opam = SNARK_WORKER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Prod",
-    src = "prod.ml",
-    ns = ":Snark_worker_ns",
     opts = SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -134,14 +117,14 @@ ocaml_module(
         "snark_worker",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "prod.ml",
     deps = SNARK_WORKER_DEPS,
+    deps_opam = SNARK_WORKER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Rpcs",
-    src = "rpcs.ml",
-    ns = ":Snark_worker_ns",
     opts = SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -150,18 +133,18 @@ ocaml_module(
         "snark_worker",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "rpcs.ml",
     deps = SNARK_WORKER_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = SNARK_WORKER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Snark_worker",
-    src = "snark_worker.ml",
-    intf = ":_Snark_worker.cmi",
-    ns = ":Snark_worker_ns",
+    sig  = ":_Snark_worker.cmi",
     opts = SNARK_WORKER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -170,6 +153,7 @@ ocaml_module(
         "snark_worker",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "snark_worker.ml",
     deps = SNARK_WORKER_DEPS + [
         # do not sort (buildifier)
         ":_Debug",
@@ -181,10 +165,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Snark_worker.cmi",
     src = "snark_worker.mli",
-    ns = ":Snark_worker_ns",
     opts = SNARK_WORKER_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -202,14 +185,14 @@ ocaml_interface(
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/snark_worker:__pkg__",
@@ -217,14 +200,16 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@mina//src/lib/ppx_register_event",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_custom_printf",
+        "ppx_deriving_yojson",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

@@ -1,33 +1,34 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
+    "ocaml_signature",
+    "ocaml_ns_library",
     "ocaml_module",
+)
+
+#################
+ocaml_ns_library(
+    name = "immutable_array",
+    main = ":_Immutable_array",
+    submodules = [
+        ":_Immutable_array",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "immutable_array",
-    src = "immutable_array.ml",
-    intf = ":_Immutable_array.cmi",
-    opts = [],
+    name = "_Immutable_array",
     ppx = "//bzl/ppx/exe:ppx_version",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
+    sig = ":_Immutable_array.cmi",
+    struct = "immutable_array.ml",
     visibility = ["//visibility:public"],
-    deps = [],
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Immutable_array.cmi",
     src = "immutable_array.mli",
-    opts = [],
-    ppx = "//bzl/ppx/exe:ppx_version",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
-    deps = [],
+    ppx = "//bzl/ppx/exe:ppx_version"
 )

@@ -1,24 +1,20 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY BOOTSTRAP_CONTROLLER
 ################################################################
-BOOTSTRAP_CONTROLLER_INTERFACE_OPTS = []
+BOOTSTRAP_CONTROLLER_SIGNATURE_OPTS = []
 
 BOOTSTRAP_CONTROLLER_MODULE_OPTS = []
 
 BOOTSTRAP_CONTROLLER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/syncable_ledger",
@@ -30,35 +26,26 @@ BOOTSTRAP_CONTROLLER_DEPS = [
     "@mina//src/lib/fake_network",
 ]
 
-##############
-ocaml_archive(
-    name = "bootstrap_controller",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = BOOTSTRAP_CONTROLLER_DEPS + [
-        # do not sort (buildifier)
-        ":_Bootstrap_controller",
-        ":_Transition_cache",
-    ],
-)
+BOOTSTRAP_CONTROLLER_DEPS_OPAM = [
+    "core"
+]
 
 #########
-ocaml_ns(
-    name = "Bootstrap_controller_ns",
-    ns = "bootstrap_controller",
+ocaml_ns_library(
+    name = "bootstrap_controller",
+    main = ":_Bootstrap_controller",
     submodules = [
-        # do not sort (buildifier)
-        "bootstrap_controller.ml",
-        "transition_cache.ml",
+        ":_Bootstrap_controller",
+        ":_Transition_cache"
     ],
+    visibility = [
+        "//src/lib/transition_router:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Bootstrap_controller",
-    src = "bootstrap_controller.ml",
-    intf = ":_Bootstrap_controller.cmi",
-    ns = ":Bootstrap_controller_ns",
     opts = BOOTSTRAP_CONTROLLER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -66,18 +53,20 @@ ocaml_module(
         "-inline-test-lib",
         "bootstrap_controller",
     ],
+    sig = ":_Bootstrap_controller.cmi",
+    struct = "bootstrap_controller.ml",
     deps = BOOTSTRAP_CONTROLLER_DEPS + [
         # do not sort (buildifier)
         ":_Transition_cache",
     ],
+    deps_opam = BOOTSTRAP_CONTROLLER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Bootstrap_controller.cmi",
     src = "bootstrap_controller.mli",
-    ns = ":Bootstrap_controller_ns",
-    opts = BOOTSTRAP_CONTROLLER_INTERFACE_OPTS,
+    opts = BOOTSTRAP_CONTROLLER_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -85,14 +74,12 @@ ocaml_interface(
         "bootstrap_controller",
     ],
     deps = BOOTSTRAP_CONTROLLER_DEPS,
+    deps_opam = BOOTSTRAP_CONTROLLER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transition_cache",
-    src = "transition_cache.ml",
-    intf = ":_Transition_cache.cmi",
-    ns = ":Bootstrap_controller_ns",
     opts = BOOTSTRAP_CONTROLLER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -100,15 +87,17 @@ ocaml_module(
         "-inline-test-lib",
         "bootstrap_controller",
     ],
+    sig = ":_Transition_cache.cmi",
+    struct = "transition_cache.ml",
     deps = BOOTSTRAP_CONTROLLER_DEPS,
+    deps_opam = BOOTSTRAP_CONTROLLER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Transition_cache.cmi",
     src = "transition_cache.mli",
-    ns = ":Bootstrap_controller_ns",
-    opts = BOOTSTRAP_CONTROLLER_INTERFACE_OPTS,
+    opts = BOOTSTRAP_CONTROLLER_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -116,24 +105,25 @@ ocaml_interface(
         "bootstrap_controller",
     ],
     deps = BOOTSTRAP_CONTROLLER_DEPS,
+    deps_opam = BOOTSTRAP_CONTROLLER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/bootstrap_controller:__pkg__",
@@ -141,9 +131,11 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@mina//src/lib/ppx_register_event",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

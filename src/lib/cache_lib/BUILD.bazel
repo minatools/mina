@@ -1,13 +1,11 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -16,48 +14,38 @@ load(
 ################################################################
 ## STANZA 1: LIBRARY CACHE_LIB
 ################################################################
-CACHE_LIB_INTERFACE_OPTS = []
+CACHE_LIB_SIGNATURE_OPTS = []
 
 CACHE_LIB_MODULE_OPTS = []
 
 CACHE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async_kernel",
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/logger",
 ]
 
-##############
-ocaml_archive(
-    name = "cache_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CACHE_LIB_DEPS + [
-        # do not sort (buildifier)
-        ":_Cache_lib",
-        ":_Impl",
-        ":_Intf",
-    ],
-)
+CACHE_LIB_DEPS_OPAM = [
+    "async_kernel",
+    "core_kernel",
+]
 
 #########
-ocaml_ns(
-    name = "Cache_lib_ns",
-    ns = "cache_lib",
+ocaml_ns_library(
+    name = "cache_lib",
+    main = "_Cache_lib",
     submodules = [
-        # do not sort (buildifier)
-        "cache_lib.ml",
-        "impl.ml",
-        "intf.ml",
+        ":_Cache_lib",
+        ":_Impl",
+        ":_Intf"
     ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Cache_lib",
-    src = "cache_lib.ml",
-    intf = ":_Cache_lib.cmi",
-    ns = ":Cache_lib_ns",
+    sig  = ":_Cache_lib.cmi",
     opts = CACHE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -66,19 +54,20 @@ ocaml_module(
         "cache_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "cache_lib.ml",
     deps = CACHE_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Impl",
         ":_Intf",
     ],
+    deps_opam = CACHE_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Cache_lib.cmi",
     src = "cache_lib.mli",
-    ns = ":Cache_lib_ns",
-    opts = CACHE_LIB_INTERFACE_OPTS,
+    opts = CACHE_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -90,13 +79,12 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = CACHE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Impl",
-    src = "impl.ml",
-    ns = ":Cache_lib_ns",
     opts = CACHE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -105,17 +93,17 @@ ocaml_module(
         "cache_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "impl.ml",
     deps = CACHE_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
     ],
+    deps_opam = CACHE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Cache_lib_ns",
     opts = CACHE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -124,30 +112,34 @@ ocaml_module(
         "cache_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "intf.ml",
     deps = CACHE_LIB_DEPS,
+    deps_opam = CACHE_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/cache_lib:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_base",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_base",
+        "ppx_custom_printf",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

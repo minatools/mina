@@ -1,12 +1,13 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl",
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_genrule",
     "ocaml_module",
 )
 
 #############
 ocaml_module(
     name = "dummy_values",
-    src = "dummy_values.ml",
-    opts = [],
+    struct = "_Dummy_values",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppxlib.metaquot",
     ppx_args = [
         # do not sort (buildifier)
@@ -20,14 +21,16 @@ ocaml_module(
     ],
 )
 
+#########################################################
 TOOL = "//src/lib/dummy_values/gen_values:gen_values.exe"
 
-genrule(
-    name = "gensrcs",
-    outs = ["dummy_values.ml"],
+##############
+ocaml_genrule(
+    name   = "_Dummy_values",
+    out    = "dummy_values.ml",
+    tools  = [TOOL],
     cmd = "\n".join([
         "$(location {tool})".format(tool = TOOL),
-        "cp dummy_values.ml \"$@\"",
+        "cp dummy_values.ml $(location dummy_values.ml)",
     ]),
-    tools = [TOOL],
 )

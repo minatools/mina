@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -25,19 +22,17 @@ GRAPHQL_QUERY_MODULE_OPTS = []
 
 GRAPHQL_QUERY_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/graphql_lib",
 ]
+GRAPHQL_QUERY_DEPS_OPAM = ["core"]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "graphql_query",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = GRAPHQL_QUERY_DEPS + [
-        # do not sort (buildifier)
+    main = "_Graphql_query",
+    submodules = [
         ":_Base_types",
         ":_Blocks",
         ":_Clear_data",
@@ -48,27 +43,10 @@ ocaml_archive(
     ],
 )
 
-#########
-ocaml_ns(
-    name = "Graphql_query_ns",
-    ns = "graphql_query",
-    submodules = [
-        # do not sort (buildifier)
-        "base_types.ml",
-        "blocks.ml",
-        "clear_data.ml",
-        "fee_transfers.ml",
-        "graphql_query.ml",
-        "public_keys.ml",
-        "user_commands.ml",
-    ],
-)
-
 #############
 ocaml_module(
     name = "_Base_types",
-    src = "base_types.ml",
-    ns = ":Graphql_query_ns",
+    struct = "base_types.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS + [
         "-w",
         "-3",  # Deprecated synonym for the ’deprecated’ alert.
@@ -83,13 +61,13 @@ ocaml_module(
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS,
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Blocks",
-    src = "blocks.ml",
-    ns = ":Graphql_query_ns",
+    struct = "blocks.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -102,13 +80,13 @@ ocaml_module(
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     ppx_print = PPX_PRINT,  # obazl:retain
     deps = GRAPHQL_QUERY_DEPS,
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Clear_data",
-    src = "clear_data.ml",
-    ns = ":Graphql_query_ns",
+    struct = "clear_data.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -120,13 +98,13 @@ ocaml_module(
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS,
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Fee_transfers",
-    src = "fee_transfers.ml",
-    ns = ":Graphql_query_ns",
+    struct = "fee_transfers.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -141,13 +119,13 @@ ocaml_module(
     deps = GRAPHQL_QUERY_DEPS + [
         ":_Base_types",  # obazl:retain
     ],
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Graphql_query",
-    src = "graphql_query.ml",
-    ns = ":Graphql_query_ns",
+    struct = "graphql_query.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -166,13 +144,13 @@ ocaml_module(
         ":_Public_keys",
         ":_User_commands",
     ],
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Public_keys",
-    src = "public_keys.ml",
-    ns = ":Graphql_query_ns",
+    struct = "public_keys.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -184,13 +162,13 @@ ocaml_module(
     ],
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = GRAPHQL_QUERY_DEPS,
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_User_commands",
-    src = "user_commands.ml",
-    ns = ":Graphql_query_ns",
+    struct = "user_commands.ml",
     opts = GRAPHQL_QUERY_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -205,31 +183,34 @@ ocaml_module(
     deps = GRAPHQL_QUERY_DEPS + [
         ":_Base_types",  # obazl:retain
     ],
+    deps_opam = GRAPHQL_QUERY_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/app/archive/archive_lib/graphql_query:__pkg__",
     ],
     deps = [
         "@graphql_ppx//src/native:graphql_ppx",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

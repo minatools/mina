@@ -1,23 +1,33 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
+)
+
+#################
+ocaml_ns_library(
+    name = "proof_carrying_data",
+    main = ":_Proof_carrying_data",
+    submodules = [
+        ":_Proof_carrying_data",
+    ],
+    visibility = [
+        "//src/lib/coda_intf:__pkg__",
+        "//src/lib/mina_networking:__pkg__",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "proof_carrying_data",
-    src = "proof_carrying_data.ml",
-    opts = [],
+    name = "_Proof_carrying_data",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "proof_carrying_data",
     ],
-    visibility = ["//visibility:public"],
-    deps = [
-        "@opam//pkg:core_kernel",
+    struct = "proof_carrying_data.ml",
+    deps_opam = [
+        "core_kernel",
     ],
 )

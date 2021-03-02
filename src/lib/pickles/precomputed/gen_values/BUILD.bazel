@@ -1,3 +1,6 @@
+## WARNING:  SEEMS TO BE BROKEN WRT MARLIN_PLONK
+# line 38 ill-typed: Marlin_plonk_bindings.Tweedle_fp_urs.lagrange_commitment ...
+
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -13,21 +16,21 @@ GEN_VALUES_MODULE_OPTS = []
 
 GEN_VALUES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/crypto_params",
-    "@mina//src/lib/pickles",
+    "//src/lib/pickles/backend",
+    "//src/lib/ppx_util",
+    "//src/lib/zexe_backend",
 ]
 GEN_VALUES_DEPS_OPAM = [
-    "async",
-    "core",
     "ppxlib",
+    "core_kernel",
 ]
 
-GEN_VALUES_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppxlib.metaquot"
+GEN_VALUES_PPX = "@//bzl/ppx/exe:ppx_version__ppx_optcomp__ppx_let__ppxlib.metaquot"
 
 GEN_VALUES_PPX_ARGS = [
     # do not sort (buildifier)
-    "-inline-test-lib",
-    "gen_values",
+    # "-inline-test-lib",
+    # "gen_values",
 ]
 
 #################
@@ -35,7 +38,7 @@ ocaml_executable(
     name = "gen_values.exe",
     opts = GEN_VALUES_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = GEN_VALUES_DEPS + [
+    deps = [ # GEN_VALUES_DEPS + [
         # do not sort (buildifier)
         ":_Gen_values",
     ],
@@ -45,10 +48,13 @@ ocaml_executable(
 #############
 ocaml_module(
     name = "_Gen_values",
-    opts = GEN_VALUES_MODULE_OPTS,
+    struct = "gen_values.ml",
+    opts = GEN_VALUES_MODULE_OPTS + [
+        "-w", "-6" ## label was omitted in application of this function
+    ],
     ppx = GEN_VALUES_PPX,
     ppx_args = GEN_VALUES_PPX_ARGS,
-    struct = "gen_values.ml",
+    # ppx_print = "@ppx//print:text",
     deps = GEN_VALUES_DEPS,
     deps_opam = GEN_VALUES_DEPS_OPAM
 )

@@ -1,22 +1,33 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
+)
+
+#################
+ocaml_ns_library(
+    name = "backend",
+    main = "_Backend",
+    submodules = [
+        "_Backend",
+    ],
+    visibility = [
+        "//src/lib/pickles/limb_vector:__pkg__",
+        "//src/lib/pickles/precomputed/gen_values:__pkg__"
+    ],
 )
 
 #############
 ocaml_module(
-    name = "backend",
-    src = "backend.ml",
-    opts = [],
+    name = "_Backend",
+    # opts = ["-open", "Tweedle"],
     ppx = "//bzl/ppx/exe:ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "backend",
     ],
-    visibility = ["//visibility:public"],
+    struct = "backend.ml",
     deps = [
         "@mina//src/lib/zexe_backend",
     ],

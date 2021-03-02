@@ -16,30 +16,28 @@ BEST_TIP_MERGER_MODULE_OPTS = []
 
 BEST_TIP_MERGER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
     "@mina//src/lib/logger",
     "@mina//src/app/rosetta/lib",
     "@mina//src/lib/cli_lib",
 ]
-
+BEST_TIP_MERGER_DEPS_OPAM = [
+    "async",
+    "core_kernel",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
+]
 #################
 ocaml_executable(
-    name = "best_tip_merger.exe",
+    name = "best_tip_merger",
     opts = BEST_TIP_MERGER_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = BEST_TIP_MERGER_DEPS + [
-        # do not sort (buildifier)
-        ":_Best_tip_merger",
-    ],
+    deps = [":_Best_tip_merger"]
 )
 
 #############
 ocaml_module(
-    name = "_Best_tip_merger",
-    src = "best_tip_merger.ml",
+    name   = "_Best_tip_merger",
+    struct = "best_tip_merger.ml",
     opts = BEST_TIP_MERGER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -48,37 +46,40 @@ ocaml_module(
         "best_tip_merger",
     ],
     deps = BEST_TIP_MERGER_DEPS,
+    deps_opam = BEST_TIP_MERGER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/app/best_tip_merger:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.show",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving.show",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

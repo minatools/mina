@@ -1,38 +1,52 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_interface",
     "ocaml_module",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
+#################
+ocaml_ns_library(
+    name = "sgn",
+    main = ":_Sgn",
+    submodules = [
+        ":_Sgn",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
 #############
 ocaml_module(
-    name = "sgn",
-    src = "sgn.ml",
-    intf = ":_Sgn.cmi",
+    name = "_Sgn",
     opts = [],
     ppx = "//bzl/ppx/exe:ppx_version__ppx_bin_prot__ppx_sexp_conv__ppx_compare__ppx_hash__ppx_optcomp__ppx_deriving.eq__ppx_deriving_yojson",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
+    sig = ":_Sgn.cmi",
+    struct = "sgn.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/sgn_type",
         "@mina//src/lib/snark_params",
-        "@opam//pkg:core_kernel",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:yojson",
     ],
+    deps_opam = [
+        "core_kernel",
+        "ppx_deriving_yojson.runtime",
+        "yojson",
+    ]
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Sgn.cmi",
     src = "sgn.mli",
     opts = [],
@@ -44,8 +58,10 @@ ocaml_interface(
     deps = [
         "@mina//src/lib/sgn_type",
         "@mina//src/lib/snark_params",
-        "@opam//pkg:core_kernel",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:yojson",
     ],
+    deps_opam = [
+        "core_kernel",
+        "ppx_deriving_yojson.runtime",
+        "yojson",
+    ]
 )

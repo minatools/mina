@@ -47,7 +47,7 @@ ocaml_archive(
 )
 
 #########
-ocaml_ns(
+ocaml_ns_archive(
     name = "Vrf_lib_tests_ns",
     ns = "vrf_lib_tests",
     submodules = [
@@ -60,21 +60,21 @@ ocaml_ns(
 #############
 ocaml_module(
     name = "_Integrated_test",
-    src = "integrated_test.ml",
     ns = ":Vrf_lib_tests_ns",
     opts = VRF_LIB_TESTS_MODULE_OPTS,
     ppx = VRF_LIB_TESTS_PPX,
     ppx_args = VRF_LIB_TESTS_PPX_ARGS,
+    struct = "integrated_test.ml",
     deps = VRF_LIB_TESTS_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Standalone_test",
-    src = "standalone_test.ml",
     ns = ":Vrf_lib_tests_ns",
     opts = VRF_LIB_TESTS_MODULE_OPTS,
     ppx = VRF_LIB_TESTS_PPX,
     ppx_args = VRF_LIB_TESTS_PPX_ARGS,
+    struct = "standalone_test.ml",
     deps = VRF_LIB_TESTS_DEPS,
 )

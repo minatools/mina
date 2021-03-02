@@ -1,66 +1,51 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY CHILD_PROCESSES
 ################################################################
-CHILD_PROCESSES_INTERFACE_OPTS = []
+CHILD_PROCESSES_SIGNATURE_OPTS = []
 
 CHILD_PROCESSES_MODULE_OPTS = []
 
 CHILD_PROCESSES_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core",
-    "@opam//pkg:ctypes",
-    "@opam//pkg:ctypes.foreign",
     "@mina//src/lib/file_system",
     "@mina//src/lib/logger",
     "@mina//src/lib/pipe_lib",
 ]
 
-##############
-ocaml_archive(
-    name = "child_processes",
-    cc_deps = {
-        ":caml_syslimits": "default",
-    },
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CHILD_PROCESSES_DEPS + [
-        # do not sort (buildifier)
-        ":_Child_processes",
-        ":_Syslimits",
-        ":_Termination",
-    ],
-)
+CHILD_PROCESSES_DEPS_OPAM = [
+    "async",
+    "core",
+    "ctypes",
+    "ctypes.foreign",
+]
 
 #########
-ocaml_ns(
-    name = "Child_processes_ns",
-    ns = "child_processes",
+ocaml_ns_library(
+    name = "child_processes",
+    main = ":_Child_processes",
     submodules = [
-        # do not sort (buildifier)
-        "child_processes.ml",
-        "syslimits.ml",
-        "termination.ml",
+        ":_Child_processes",
+        ":_Syslimits",
+        ":_Termination"
     ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/coda_net2:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Child_processes",
-    src = "child_processes.ml",
-    intf = ":_Child_processes.cmi",
-    ns = ":Child_processes_ns",
+    sig  = ":_Child_processes.cmi",
     opts = CHILD_PROCESSES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -68,19 +53,20 @@ ocaml_module(
         "-inline-test-lib",
         "child_processes",
     ],
+    struct = "child_processes.ml",
     deps = CHILD_PROCESSES_DEPS + [
         # do not sort (buildifier)
         ":_Syslimits",  # obazl:retain
         ":_Termination",
     ],
+    deps_opam = CHILD_PROCESSES_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Child_processes.cmi",
     src = "child_processes.mli",
-    ns = ":Child_processes_ns",
-    opts = CHILD_PROCESSES_INTERFACE_OPTS,
+    opts = CHILD_PROCESSES_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -91,13 +77,12 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Termination",
     ],
+    deps_opam = CHILD_PROCESSES_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Syslimits",
-    src = "syslimits.ml",
-    ns = ":Child_processes_ns",
     opts = CHILD_PROCESSES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -105,7 +90,12 @@ ocaml_module(
         "-inline-test-lib",
         "child_processes",
     ],
+    struct = "syslimits.ml",
     deps = CHILD_PROCESSES_DEPS,
+    deps_opam = CHILD_PROCESSES_DEPS_OPAM,
+    cc_deps = {
+        ":caml_syslimits": "default",
+    },
 )
 
 ###########
@@ -122,8 +112,6 @@ cc_library(
 #############
 ocaml_module(
     name = "_Termination",
-    src = "termination.ml",
-    ns = ":Child_processes_ns",
     opts = CHILD_PROCESSES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -131,32 +119,36 @@ ocaml_module(
         "-inline-test-lib",
         "child_processes",
     ],
+    struct = "termination.ml",
     deps = CHILD_PROCESSES_DEPS,
+    deps_opam = CHILD_PROCESSES_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/child_processes:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.show",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_pipebang",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_custom_printf",
+        "ppx_deriving.show",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_pipebang",
+        "ppxlib",
+    ]
 )

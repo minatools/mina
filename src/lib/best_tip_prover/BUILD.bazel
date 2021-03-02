@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -8,14 +6,13 @@ load(
 #############
 ocaml_module(
     name = "best_tip_prover",
-    src = "best_tip_prover.ml",
-    opts = [],
     ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane__ppx_deriving.eq",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "best_tip_prover",
     ],
+    struct = "best_tip_prover.ml",
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/coda_intf",
@@ -23,6 +20,8 @@ ocaml_module(
         "@mina//src/lib/mina_base",
         "@mina//src/lib/transition_chain_prover",
         "@mina//src/lib/transition_frontier",
-        "@opam//pkg:core_kernel",
     ],
+    deps_opam = [
+        "core_kernel",
+    ]
 )

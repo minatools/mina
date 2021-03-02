@@ -1,145 +1,125 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
+## WARNING: use ocaml_ns_library, not ocaml_ns_archive
 
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY LOGPROC_LIB
 ################################################################
-LOGPROC_LIB_INTERFACE_OPTS = []
-
-LOGPROC_LIB_MODULE_OPTS = []
-
-LOGPROC_LIB_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:yojson",
-    "@opam//pkg:angstrom",
-    "@opam//pkg:re2",
-    "@mina//src/lib/logproc_lib:interpolator_lib",
+LOGPROC_LIB_DEPS_OPAM = [
+    "core_kernel",
+    "yojson",
+    "angstrom",
+    "re2",
 ]
 
-LOGPROC_LIB_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.std"
+PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.std"
 
-LOGPROC_LIB_PPX_ARGS = [
+PPX_ARGS = [
     # do not sort (buildifier)
     "-inline-test-lib",
     "logproc_lib",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "logproc_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = LOGPROC_LIB_DEPS + [
-        # do not sort (buildifier)
+    main = ":_Logproc_lib",
+    submodules = [
         ":_Filter",
         ":_Logproc_lib",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Logproc_lib_ns",
-    ns = "logproc_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "filter.ml",
-        "logproc_lib.ml",
+    sublibs = [
+        ":interpolator_lib"
     ],
-)
-
-#############
-ocaml_module(
-    name = "_Filter",
-    src = "filter.ml",
-    intf = ":_Filter.cmi",
-    ns = ":Logproc_lib_ns",
-    opts = LOGPROC_LIB_MODULE_OPTS,
-    ppx = LOGPROC_LIB_PPX,
-    ppx_args = LOGPROC_LIB_PPX_ARGS,
-    deps = LOGPROC_LIB_DEPS,
-)
-
-################
-ocaml_interface(
-    name = "_Filter.cmi",
-    src = "filter.mli",
-    ns = ":Logproc_lib_ns",
-    opts = LOGPROC_LIB_INTERFACE_OPTS,
-    ppx = LOGPROC_LIB_PPX,
-    ppx_args = LOGPROC_LIB_PPX_ARGS,
-    deps = LOGPROC_LIB_DEPS,
+    visibility = ["//visibility:public"]
 )
 
 #############
 ocaml_module(
     name = "_Logproc_lib",
-    src = "logproc_lib.ml",
-    ns = ":Logproc_lib_ns",
-    opts = LOGPROC_LIB_MODULE_OPTS,
-    ppx = LOGPROC_LIB_PPX,
-    ppx_args = LOGPROC_LIB_PPX_ARGS,
-    deps = LOGPROC_LIB_DEPS + [
-        # do not sort (buildifier)
+    struct = "logproc_lib.ml",
+    deps      = [
         ":_Filter",
+        ":interpolator_lib"
     ],
+    deps_opam = LOGPROC_LIB_DEPS_OPAM,
+    ppx = PPX,
+    ppx_args = PPX_ARGS,
 )
+
+#############
+ocaml_module(
+    name = "_Filter",
+    struct = "filter.ml",
+    sig  = ":_Filter.cmi",
+    deps_opam = LOGPROC_LIB_DEPS_OPAM,
+    ppx = PPX,
+    ppx_args = PPX_ARGS,
+)
+
+################
+ocaml_signature(
+    name = "_Filter.cmi",
+    src = "filter.mli",
+    ppx = PPX,
+    ppx_args = PPX_ARGS,
+    # deps = LOGPROC_LIB_DEPS,
+    deps_opam = LOGPROC_LIB_DEPS_OPAM
+)
+
+#############
+# ocaml_module(
+#     name = "_Logproc_lib",
+#     # ppx = PPX,
+#     # ppx_args = PPX_ARGS,
+#     struct = "logproc_lib.ml",
+#     deps = [
+#         ":_Filter",
+#         ":interpolator_lib"
+#     ]
+
+#     # deps = [":_Filter"]
+# )
 
 ################################################################
 ## STANZA 2: LIBRARY INTERPOLATOR_LIB
 ################################################################
-INTERPOLATOR_LIB_MODULE_OPTS = []
 
-INTERPOLATOR_LIB_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:yojson",
-    "@opam//pkg:angstrom",
-]
+# Dune builds this as a separate library:
+# ;; interpolator is made separately available because
+# ;; filter depends on re2, which binds to C++ code,
+# ;; making it unusable from js_of_ocaml
+# With Bazel we don't really need to do that, but the code is set up to expect it.
 
-INTERPOLATOR_LIB_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.std"
-
-INTERPOLATOR_LIB_PPX_ARGS = [
-    # do not sort (buildifier)
-    "-inline-test-lib",
-    "interpolator_lib",
-]
-
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "interpolator_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = INTERPOLATOR_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Interpolator",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Interpolator_lib_ns",
-    ns = "interpolator_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "interpolator.ml",
-    ],
+    visibility = [
+        "//src/lib/structured_log_events:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Interpolator",
-    src = "interpolator.ml",
-    ns = ":Interpolator_lib_ns",
-    opts = INTERPOLATOR_LIB_MODULE_OPTS,
-    ppx = INTERPOLATOR_LIB_PPX,
-    ppx_args = INTERPOLATOR_LIB_PPX_ARGS,
-    deps = INTERPOLATOR_LIB_DEPS,
+    struct = "interpolator.ml",
+    deps_opam = [
+        "core_kernel",
+        "yojson",
+        "angstrom",
+    ],
+    ppx = PPX,
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib", "interpolator_lib",
+    ]
 )

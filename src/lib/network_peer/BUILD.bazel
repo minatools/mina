@@ -1,59 +1,47 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY NETWORK_PEER
 ################################################################
-NETWORK_PEER_INTERFACE_OPTS = []
+NETWORK_PEER_SIGNATURE_OPTS = []
 
 NETWORK_PEER_MODULE_OPTS = []
 
-NETWORK_PEER_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:async_rpc_kernel",
+NETWORK_PEER_DEPS = []
+NETWORK_PEER_DEPS_OPAM = [
+    "core",
+    "async",
+    "async_rpc_kernel",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "network_peer",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = NETWORK_PEER_DEPS + [
-        # do not sort (buildifier)
+    main = ":_Network_peer",
+    submodules = [
         ":_Envelope",
         ":_Network_peer",
         ":_Peer",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Network_peer_ns",
-    ns = "network_peer",
-    submodules = [
-        # do not sort (buildifier)
-        "envelope.ml",
-        "network_peer.ml",
-        "peer.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/coda_net2:__pkg__",
+        # "//src/lib/node_addrs_and_ports:__pkg__",
+        # "//src/lib/trust_system:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Envelope",
-    src = "envelope.ml",
-    intf = ":_Envelope.cmi",
-    ns = ":Network_peer_ns",
+    sig  = ":_Envelope.cmi",
     opts = NETWORK_PEER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -61,18 +49,19 @@ ocaml_module(
         "-inline-test-lib",
         "network_peer",
     ],
+    struct = "envelope.ml",
     deps = NETWORK_PEER_DEPS + [
         # do not sort (buildifier)
         ":_Peer",
     ],
+    deps_opam = NETWORK_PEER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Envelope.cmi",
     src = "envelope.mli",
-    ns = ":Network_peer_ns",
-    opts = NETWORK_PEER_INTERFACE_OPTS,
+    opts = NETWORK_PEER_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -83,13 +72,12 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Peer",
     ],
+    deps_opam = NETWORK_PEER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Network_peer",
-    src = "network_peer.ml",
-    ns = ":Network_peer_ns",
     opts = NETWORK_PEER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -97,18 +85,18 @@ ocaml_module(
         "-inline-test-lib",
         "network_peer",
     ],
+    struct = "network_peer.ml",
     deps = NETWORK_PEER_DEPS + [
         # do not sort (buildifier)
         ":_Envelope",
         ":_Peer",
     ],
+    deps_opam = NETWORK_PEER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Peer",
-    src = "peer.ml",
-    ns = ":Network_peer_ns",
     opts = NETWORK_PEER_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -116,37 +104,41 @@ ocaml_module(
         "-inline-test-lib",
         "network_peer",
     ],
+    struct = "peer.ml",
     deps = NETWORK_PEER_DEPS,
+    deps_opam = NETWORK_PEER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/network_peer:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

@@ -1,27 +1,13 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
     "ppx_executable",
 )
 
-################################################################
-## STANZA 1: EXECUTABLE TEST_EXECUTIVE
-################################################################
-TEST_EXECUTIVE_EXECUTABLE_OPTS = []
-
-TEST_EXECUTIVE_INTERFACE_OPTS = []
-
-TEST_EXECUTIVE_MODULE_OPTS = []
-
 TEST_EXECUTIVE_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:yojson",
-    "@opam//pkg:cmdliner",
     "@mina//src/lib/file_system",
     "@mina//src/lib/currency",
     "@mina//src/lib/mina_base",
@@ -33,19 +19,24 @@ TEST_EXECUTIVE_DEPS = [
     "@mina//src/lib/bash_colors",
 ]
 
+TEST_EXECUTIVE_DEPS_OPAM = [
+    "core_kernel",
+    "yojson",
+    "cmdliner",
+]
+
 #################
 ocaml_executable(
-    name = "test_executive.exe",
-    opts = TEST_EXECUTIVE_EXECUTABLE_OPTS,
+    name = "test_executive",
     visibility = ["//visibility:public"],
-    deps = TEST_EXECUTIVE_DEPS + [
+    deps = [
         # do not sort (buildifier)
-        ":_Block_production_test",
-        ":_Block_production_test_timed_accounts",
-        ":_Bootstrap_test",
-        ":_Mina_peers_test",
-        ":_Payments_timed_accounts",
-        ":_Send_payment_test",
+        # ":_Block_production_test",
+        # ":_Block_production_test_timed_accounts",
+        # ":_Bootstrap_test",
+        # ":_Mina_peers_test",
+        # ":_Payments_timed_accounts",
+        # ":_Send_payment_test",
         ":_Test_executive",
     ],
 )
@@ -53,9 +44,8 @@ ocaml_executable(
 #############
 ocaml_module(
     name = "_Block_production_test",
-    src = "block_production_test.ml",
-    intf = ":_Block_production_test.cmi",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "block_production_test.ml",
+    sig  = ":_Block_production_test.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -63,13 +53,13 @@ ocaml_module(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Block_production_test.cmi",
-    src = "block_production_test.mli",
-    opts = TEST_EXECUTIVE_INTERFACE_OPTS,
+    src  = "block_production_test.mli",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -77,13 +67,13 @@ ocaml_interface(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Block_production_test_timed_accounts",
-    src = "block_production_test_timed_accounts.ml",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "block_production_test_timed_accounts.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -91,14 +81,14 @@ ocaml_module(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Bootstrap_test",
-    src = "bootstrap_test.ml",
-    intf = ":_Bootstrap_test.cmi",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "bootstrap_test.ml",
+    sig  = ":_Bootstrap_test.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -106,13 +96,13 @@ ocaml_module(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Bootstrap_test.cmi",
-    src = "bootstrap_test.mli",
-    opts = TEST_EXECUTIVE_INTERFACE_OPTS,
+    src  = "bootstrap_test.mli",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -120,13 +110,13 @@ ocaml_interface(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Mina_peers_test",
-    src = "mina_peers_test.ml",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "mina_peers_test.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -134,13 +124,13 @@ ocaml_module(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Payments_timed_accounts",
-    src = "payments_timed_accounts.ml",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "payments_timed_accounts.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -148,13 +138,13 @@ ocaml_module(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Send_payment_test",
-    src = "send_payment_test.ml",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "send_payment_test.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -162,13 +152,13 @@ ocaml_module(
         "test_executive",
     ],
     deps = TEST_EXECUTIVE_DEPS,
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Test_executive",
-    src = "test_executive.ml",
-    opts = TEST_EXECUTIVE_MODULE_OPTS,
+    struct = "test_executive.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -184,34 +174,37 @@ ocaml_module(
         ":_Payments_timed_accounts",
         ":_Send_payment_test",
     ],
+    deps_opam = TEST_EXECUTIVE_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/app/test_executive:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

@@ -1,38 +1,28 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
 PPX_PRINT = "@ppx//print:binary"  # FIXME: modules needing this break if ppx_print == text
 
-################################################################
-## STANZA 1: LIBRARY PICKLES_TYPES
-################################################################
-PICKLES_TYPES_INTERFACE_OPTS = []
-
-PICKLES_TYPES_MODULE_OPTS = []
-
 PICKLES_TYPES_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/marlin_plonk_bindings:types",
+    "@mina//src/lib/marlin_plonk_bindings:marlin_plonk_bindings_types",
     # "@mina//src/lib/marlin_plonk_bindings/types:marlin_plonk_bindings_types",
 ]
 
-##############
-ocaml_archive(
+PICKLES_TYPES_DEPS_OPAM = [
+    "core_kernel",
+]
+
+#########
+ocaml_ns_library(
     name = "pickles_types",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = PICKLES_TYPES_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Abc",
         ":_At_most",
         ":_Dlog_marlin_types",
@@ -49,38 +39,16 @@ ocaml_archive(
         ":_Shifted_value",
         ":_Vector",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Pickles_types_ns",
-    ns = "pickles_types",
-    submodules = [
-        # do not sort (buildifier)
-        "abc.ml",
-        "at_most.ml",
-        "dlog_marlin_types.ml",
-        "dlog_plonk_types.ml",
-        "hlist.ml",
-        "hlist0.ml",
-        "matrix_evals.ml",
-        "nat.ml",
-        "or_infinity.ml",
-        "pairing_marlin_types.ml",
-        "pcs_batch.ml",
-        "plonk_verification_key_evals.ml",
-        "scalar_challenge.ml",
-        "shifted_value.ml",
-        "vector.ml",
+    visibility = [
+        "//src/lib/pickles_base:__pkg__",
+        "//src/lib/pickles:__subpackages__",
+        "//src/lib/zexe_backend:__subpackages__"
     ],
 )
 
 #############
 ocaml_module(
     name = "_Abc",
-    src = "abc.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -89,15 +57,14 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "abc.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_At_most",
-    src = "at_most.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -105,6 +72,8 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_types",
     ],
+    struct = "at_most.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
@@ -115,9 +84,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Dlog_marlin_types",
-    src = "dlog_marlin_types.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -126,6 +92,8 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "dlog_marlin_types.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Abc",
@@ -137,9 +105,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Dlog_plonk_types",
-    src = "dlog_plonk_types.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -148,6 +113,8 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "dlog_plonk_types.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Or_infinity",
@@ -158,9 +125,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Hlist",
-    src = "hlist.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -169,6 +133,8 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "hlist.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Hlist0",
@@ -180,9 +146,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Hlist0",
-    src = "hlist0.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -190,6 +153,8 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_types",
     ],
+    struct = "hlist0.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
@@ -199,9 +164,6 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Matrix_evals",
-    src = "matrix_evals.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -210,15 +172,14 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "matrix_evals.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Nat",
-    src = "nat.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -226,15 +187,14 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_types",
     ],
+    struct = "nat.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Or_infinity",
-    src = "or_infinity.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -243,15 +203,14 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "or_infinity.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Pairing_marlin_types",
-    src = "pairing_marlin_types.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -259,6 +218,8 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_types",
     ],
+    struct = "pairing_marlin_types.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Abc",  # obazl:retain
@@ -270,10 +231,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Pcs_batch",
-    src = "pcs_batch.ml",
-    intf = ":_Pcs_batch.cmi",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
+    sig  = ":_Pcs_batch.cmi",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -281,6 +239,8 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_types",
     ],
+    struct = "pcs_batch.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Dlog_plonk_types",
@@ -290,11 +250,9 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Pcs_batch.cmi",
     src = "pcs_batch.mli",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -302,6 +260,7 @@ ocaml_interface(
         "-inline-test-lib",
         "pickles_types",
     ],
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Dlog_plonk_types",
@@ -313,9 +272,6 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Plonk_verification_key_evals",
-    src = "plonk_verification_key_evals.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -324,15 +280,14 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "plonk_verification_key_evals.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Scalar_challenge",
-    src = "scalar_challenge.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -341,15 +296,14 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "scalar_challenge.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Shifted_value",
-    src = "shifted_value.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -358,15 +312,14 @@ ocaml_module(
         "pickles_types",
     ],
     ppx_print = PPX_PRINT,
+    struct = "shifted_value.ml",
     deps = PICKLES_TYPES_DEPS,
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Vector",
-    src = "vector.ml",
-    ns = ":Pickles_types_ns",
-    opts = PICKLES_TYPES_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -374,6 +327,8 @@ ocaml_module(
         "-inline-test-lib",
         "pickles_types",
     ],
+    struct = "vector.ml",
+    deps_opam = PICKLES_TYPES_DEPS_OPAM,
     deps = PICKLES_TYPES_DEPS + [
         # do not sort (buildifier)
         ":_Hlist0",
@@ -384,32 +339,33 @@ ocaml_module(
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
-    opts = [],
+    main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
         "//src/lib/pickles_types:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving.std",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
+    deps_opam = [
+        "ppx_jane",
+        "ppxlib",
+        "ppx_deriving.std",
+        "ppx_deriving_yojson",
+    ]
 )

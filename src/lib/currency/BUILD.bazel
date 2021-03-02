@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -17,13 +15,13 @@ PPX_PRINT = "@ppx//print:binary"
 ################################################################
 ## STANZA 1: LIBRARY CURRENCY
 ################################################################
-CURRENCY_INTERFACE_OPTS = []
+CURRENCY_SIGNATURE_OPTS = []
 
 CURRENCY_MODULE_OPTS = []
 
 CURRENCY_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
+    "@mina//src/lib/ppx_dhall_type",
     "@mina//src/lib/coda_numbers",
     "@snarky//fold_lib",
     "@snarky//tuple_lib",
@@ -34,7 +32,10 @@ CURRENCY_DEPS = [
     "@mina//src/lib/unsigned_extended",
     "@mina//src/lib/test_util",
     "@mina//src/lib/codable",
-    "@mina//src/lib/ppx_dhall_type",
+]
+
+CURRENCY_DEPS_OPAM = [
+    "core"
 ]
 
 CURRENCY_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_let__ppx_assert__ppx_bin_prot__ppx_sexp_conv__ppx_compare__ppx_hash__ppx_optcomp__ppx_custom_printf__ppx_deriving.std__ppx_deriving_yojson__h_list.ppx__ppx_inline_test"
@@ -45,44 +46,37 @@ CURRENCY_PPX_ARGS = [
     "currency",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "currency",
-    doc = "Currency types",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CURRENCY_DEPS + [
-        # do not sort (buildifier)
+    main = "_Currency",
+    submodules = [
         ":_Currency",
         ":_Intf",
         ":_Signed_poly",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Currency_ns",
-    ns = "currency",
-    submodules = [
-        # do not sort (buildifier)
-        "currency.ml",
-        "intf.ml",
-        "signed_poly.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/coda_compile_config:__pkg__",
+        # "//src/lib/coda_numbers:__pkg__",
+        # "//src/lib/genesis_constants:__pkg__",
+        # "//src/lib/quickcheck_lib:__pkg__",
+        # "//src/lib/runtime_config:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Currency",
-    src = "currency.ml",
-    intf = ":_Currency.cmi",
-    ns = ":Currency_ns",
+    sig  = ":_Currency.cmi",
     opts = CURRENCY_MODULE_OPTS + [
-        "-w", "-32" # Unused value declaration.
+        "-w",
+        "-32",  # Unused value declaration.
     ],
     ppx = CURRENCY_PPX,
     ppx_args = CURRENCY_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "currency.ml",
     deps = CURRENCY_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
@@ -91,12 +85,12 @@ ocaml_module(
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Currency.cmi",
     src = "currency.mli",
-    ns = ":Currency_ns",
-    opts = CURRENCY_INTERFACE_OPTS + [
-        "-w", "-32" # unused value to_yojson, of_yojson, equal
+    opts = CURRENCY_SIGNATURE_OPTS + [
+        "-w",
+        "-32",  # unused value to_yojson, of_yojson, equal
     ],
     ppx = CURRENCY_PPX,
     ppx_args = CURRENCY_PPX_ARGS,
@@ -111,12 +105,11 @@ ocaml_interface(
 #############
 ocaml_module(
     name = "_Intf",
-    src = "intf.ml",
-    ns = ":Currency_ns",
     opts = CURRENCY_MODULE_OPTS,
     ppx = CURRENCY_PPX,
     ppx_args = CURRENCY_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "intf.ml",
     deps = CURRENCY_DEPS + [
         # do not sort (buildifier)
         ":_Signed_poly",
@@ -126,12 +119,11 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Signed_poly",
-    src = "signed_poly.ml",
-    ns = ":Currency_ns",
     opts = CURRENCY_MODULE_OPTS,
     ppx = CURRENCY_PPX,
     ppx_args = CURRENCY_PPX_ARGS,
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,
+    struct = "signed_poly.ml",
     deps = CURRENCY_DEPS,
 )

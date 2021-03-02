@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -11,17 +9,8 @@ load(
     "CONFIG_MLH",
 )
 
-################################################################
-## STANZA 1: EXECUTABLE RUNTIME_GENESIS_LEDGER
-################################################################
-RUNTIME_GENESIS_LEDGER_EXECUTABLE_OPTS = []
-
-RUNTIME_GENESIS_LEDGER_MODULE_OPTS = []
-
 RUNTIME_GENESIS_LEDGER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:core",
     "@mina//src/lib/blockchain_snark",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/genesis_proof",
@@ -34,47 +23,43 @@ RUNTIME_GENESIS_LEDGER_DEPS = [
     "@mina//src/lib/staged_ledger",
 ]
 
+RUNTIME_GENESIS_LEDGER_DEPS = [
+    "async",
+    "core",
+]
+
 #################
 ocaml_executable(
     name = "runtime_genesis_ledger.exe",
-    opts = RUNTIME_GENESIS_LEDGER_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = RUNTIME_GENESIS_LEDGER_DEPS + [
-        # do not sort (buildifier)
-        ":_Runtime_genesis_ledger",
-    ],
+    deps = [":_Runtime_genesis_ledger"]
 )
 
 #############
 ocaml_module(
-    name = "_Runtime_genesis_ledger",
-    src = "runtime_genesis_ledger.ml",
-    opts = RUNTIME_GENESIS_LEDGER_MODULE_OPTS,
+    name   = "_Runtime_genesis_ledger",
+    struct = "runtime_genesis_ledger.ml",
     ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     ppx_data = CONFIG_MLH,
     deps = RUNTIME_GENESIS_LEDGER_DEPS,
+    deps_opam = RUNTIME_GENESIS_LEDGER_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_deriving_yojson.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
-    opts = [],
-    visibility = [
-        "//src/app/runtime_genesis_ledger:__pkg__",
-    ],
+    main = "//bzl/ppx/exe:ppxlib_driver",
     deps = [
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving_yojson",
+        "ppx_let",
+        "ppxlib",
+    ]
 )

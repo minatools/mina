@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -15,46 +12,35 @@ INTEGRATION_TEST_LIB_MODULE_OPTS = []
 
 INTEGRATION_TEST_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:cmdliner",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/runtime_config",
     "@mina//src/lib/genesis_constants",
     "@mina//src/lib/transition_frontier",
     "@mina//src/lib/user_command_input",
 ]
+INTEGRATION_TEST_LIB_DEPS_OPAM = [
+    "core",
+    "async",
+    "cmdliner",
+]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "integration_test_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = INTEGRATION_TEST_LIB_DEPS + [
-        # do not sort (buildifier)
+    main = "_Integration_test_lib",
+    submodules = [
         ":_Integration_test_lib",
         ":_Malleable_error",
         ":_Test_error",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Integration_test_lib_ns",
-    ns = "integration_test_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "integration_test_lib.ml",
-        "malleable_error.ml",
-        "test_error.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Integration_test_lib",
-    src = "integration_test_lib.ml",
-    ns = ":Integration_test_lib_ns",
     opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -62,18 +48,18 @@ ocaml_module(
         "-inline-test-lib",
         "integration_test_lib",
     ],
+    struct = "integration_test_lib.ml",
     deps = INTEGRATION_TEST_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Malleable_error",
         ":_Test_error",
     ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Malleable_error",
-    src = "malleable_error.ml",
-    ns = ":Integration_test_lib_ns",
     opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -81,17 +67,17 @@ ocaml_module(
         "-inline-test-lib",
         "integration_test_lib",
     ],
+    struct = "malleable_error.ml",
     deps = INTEGRATION_TEST_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Test_error",
     ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Test_error",
-    src = "test_error.ml",
-    ns = ":Integration_test_lib_ns",
     opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -99,35 +85,39 @@ ocaml_module(
         "-inline-test-lib",
         "integration_test_lib",
     ],
+    struct = "test_error.ml",
     deps = INTEGRATION_TEST_LIB_DEPS,
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/integration_test_lib:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_compare",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.std",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_compare",
+        "ppx_custom_printf",
+        "ppx_deriving.std",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

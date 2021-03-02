@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -15,39 +12,26 @@ SPARSE_LEDGER_LIB_MODULE_OPTS = []
 
 SPARSE_LEDGER_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/logger",
 ]
+SPARSE_LEDGER_LIB_DEPS_OPAM = ["core_kernel"]
 
-##############
-ocaml_archive(
+
+#########
+ocaml_ns_library(
     name = "sparse_ledger_lib",
-    doc = "sparse Ledger implementation",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SPARSE_LEDGER_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Inputs",
         ":_Sparse_ledger",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Sparse_ledger_lib_ns",
-    ns = "sparse_ledger_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "inputs.ml",
-        "sparse_ledger.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Inputs",
-    src = "inputs.ml",
-    ns = ":Sparse_ledger_lib_ns",
     opts = SPARSE_LEDGER_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -55,14 +39,14 @@ ocaml_module(
         "-inline-test-lib",
         "sparse_ledger_lib",
     ],
+    struct = "inputs.ml",
     deps = SPARSE_LEDGER_LIB_DEPS,
+    deps_opam = SPARSE_LEDGER_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Sparse_ledger",
-    src = "sparse_ledger.ml",
-    ns = ":Sparse_ledger_lib_ns",
     opts = SPARSE_LEDGER_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -70,36 +54,40 @@ ocaml_module(
         "-inline-test-lib",
         "sparse_ledger_lib",
     ],
+    struct = "sparse_ledger.ml",
     deps = SPARSE_LEDGER_LIB_DEPS,
+    deps_opam = SPARSE_LEDGER_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/sparse_ledger_lib:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

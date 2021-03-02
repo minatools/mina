@@ -1,60 +1,67 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
-    "ocaml_interface",
+    "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY PIPE_LIB
 ################################################################
-PIPE_LIB_INTERFACE_OPTS = []
+PIPE_LIB_SIGNATURE_OPTS = []
 
 PIPE_LIB_MODULE_OPTS = []
 
 PIPE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:async",
     "@mina//src/lib/o1trace",
     "@mina//src/lib/logger",
 ]
 
-##############
-ocaml_archive(
+PIPE_LIB_DEPS_OPAM = [
+    "core_kernel",
+    "async",
+]
+
+#################
+ocaml_ns_library(
     name = "pipe_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = PIPE_LIB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Broadcast_pipe",
         ":_Linear_pipe",
         ":_Strict_pipe",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Pipe_lib_ns",
-    ns = "pipe_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "broadcast_pipe.ml",
-        "linear_pipe.ml",
-        "strict_pipe.ml",
+    visibility = [
+        "//src/lib/block_producer:__pkg__",
+        "//src/lib/bootstrap_controller:__pkg__",
+        "//src/lib/child_processes:__pkg__",
+        "//src/lib/coda_incremental:__pkg__",
+        "//src/lib/coda_net2:__pkg__",
+        "//src/lib/distributed_dsl:__pkg__",
+        "//src/lib/gossip_net:__pkg__",
+        "//src/lib/integration_test_cloud_engine:__pkg__",
+        "//src/lib/ledger_catchup:__pkg__",
+        "//src/lib/mina_lib:__pkg__",
+        "//src/lib/network_pool:__pkg__",
+        "//src/lib/otp_lib:__pkg__",
+        "//src/lib/parallel_scan:__pkg__",
+        "//src/lib/pipe_lib:__pkg__",
+        "//src/lib/staged_ledger:__pkg__",
+        "//src/lib/syncable_ledger:__pkg__",
+        "//src/lib/transaction_snark_scan_state:__pkg__",
+        "//src/lib/transition_frontier/extensions:__pkg__",
+        "//src/lib/transition_handler:__pkg__",
+        "//src/lib/transition_router:__pkg__",
+        "//src/lib/trust_system:__pkg__",
+        "//src/lib/web_client_pipe:__pkg__",
     ],
 )
 
 #############
 ocaml_module(
     name = "_Broadcast_pipe",
-    src = "broadcast_pipe.ml",
-    intf = ":_Broadcast_pipe.cmi",
-    ns = ":Pipe_lib_ns",
     opts = PIPE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -62,15 +69,17 @@ ocaml_module(
         "-inline-test-lib",
         "pipe_lib",
     ],
+    sig = ":_Broadcast_pipe.cmi",
+    struct = "broadcast_pipe.ml",
     deps = PIPE_LIB_DEPS,
+    deps_opam = PIPE_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Broadcast_pipe.cmi",
     src = "broadcast_pipe.mli",
-    ns = ":Pipe_lib_ns",
-    opts = PIPE_LIB_INTERFACE_OPTS,
+    opts = PIPE_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -78,14 +87,12 @@ ocaml_interface(
         "pipe_lib",
     ],
     deps = PIPE_LIB_DEPS,
+    deps_opam = PIPE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Linear_pipe",
-    src = "linear_pipe.ml",
-    intf = ":_Linear_pipe.cmi",
-    ns = ":Pipe_lib_ns",
     opts = PIPE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -93,15 +100,17 @@ ocaml_module(
         "-inline-test-lib",
         "pipe_lib",
     ],
+    sig = ":_Linear_pipe.cmi",
+    struct = "linear_pipe.ml",
     deps = PIPE_LIB_DEPS,
+    deps_opam = PIPE_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Linear_pipe.cmi",
     src = "linear_pipe.mli",
-    ns = ":Pipe_lib_ns",
-    opts = PIPE_LIB_INTERFACE_OPTS,
+    opts = PIPE_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -109,14 +118,12 @@ ocaml_interface(
         "pipe_lib",
     ],
     deps = PIPE_LIB_DEPS,
+    deps_opam = PIPE_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Strict_pipe",
-    src = "strict_pipe.ml",
-    intf = ":_Strict_pipe.cmi",
-    ns = ":Pipe_lib_ns",
     opts = PIPE_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -124,18 +131,20 @@ ocaml_module(
         "-inline-test-lib",
         "pipe_lib",
     ],
+    sig = ":_Strict_pipe.cmi",
+    struct = "strict_pipe.ml",
     deps = PIPE_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Linear_pipe",
     ],
+    deps_opam = PIPE_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Strict_pipe.cmi",
     src = "strict_pipe.mli",
-    ns = ":Pipe_lib_ns",
-    opts = PIPE_LIB_INTERFACE_OPTS,
+    opts = PIPE_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -146,33 +155,36 @@ ocaml_interface(
         # do not sort (buildifier)
         ":_Linear_pipe",
     ],
+    deps_opam = PIPE_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/pipe_lib:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_deriving.make",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.make",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

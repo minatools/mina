@@ -1,20 +1,30 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
 )
 
+#################
+ocaml_ns_library(
+    name = "genesis_constants",
+    main = ":_Genesis_constants",
+    submodules = [
+        ":_Genesis_constants",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+)
+
 #############
 ocaml_module(
-    name = "genesis_constants",
-    src = "genesis_constants.ml",
-    opts = [],
+    name = "_Genesis_constants",
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -23,52 +33,57 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     ppx_print = "@ppx//print:binary",
-    visibility = ["//visibility:public"],
+    struct = "genesis_constants.ml",
     deps = [
         "@mina//src/lib/blake2",
         "@mina//src/lib/coda_compile_config",
         "@mina//src/lib/currency",
         "@mina//src/lib/data_hash_lib",
-        "@opam//pkg:core",
         "@ppx_version//src/runtime:ppx_version_runtime",
     ],
+    deps_opam = [
+        "core",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:fieldslib",
+    deps_adjunct_opam = [
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "fieldslib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/genesis_constants:__pkg__",
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_compare",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.ord",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_fields_conv",
-        "@opam//pkg:ppx_hash",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_compare",
+        "ppx_custom_printf",
+        "ppx_deriving.eq",
+        "ppx_deriving.ord",
+        "ppx_deriving_yojson",
+        "ppx_fields_conv",
+        "ppx_hash",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

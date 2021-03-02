@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 load(
@@ -19,41 +16,28 @@ SNARK_BITS_NONCONSENSUS_MODULE_OPTS = []
 
 SNARK_BITS_NONCONSENSUS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:integers",
     "@snarky//fold_lib",
     "@snarky//bitstring_lib",
+    "@snarky//src/base:snarky_backendless",
+]
+SNARK_BITS_NONCONSENSUS_DEPS_OPAM = [
+    "core_kernel",
+    "integers",
 ]
 
-##############
-ocaml_archive(
-    name = "snark_bits_nonconsensus",
-    doc = "Snark parameters",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARK_BITS_NONCONSENSUS_DEPS + [
-        # do not sort (buildifier)
+#########
+ocaml_ns_library(
+    name = "snark_bits",
+    submodules = [
         ":_Bits",
         ":_Bits_intf",
-    ],
-)
-
-#########
-ocaml_ns(
-    name = "Snark_bits_nonconsensus_ns",
-    ns = "snark_bits_nonconsensus",
-    submodules = [
-        # do not sort (buildifier)
-        "bits.ml",
-        "bits_intf.ml",
     ],
 )
 
 #############
 ocaml_module(
     name = "_Bits",
-    src = "bits.ml",
-    ns = ":Snark_bits_nonconsensus_ns",
+    struct = "bits.ml",
     opts = SNARK_BITS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -64,13 +48,13 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Bits_intf",
     ],
+    deps_opam = SNARK_BITS_NONCONSENSUS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Bits_intf",
-    src = "bits_intf.ml",
-    ns = ":Snark_bits_nonconsensus_ns",
+    struct = "bits_intf.ml",
     opts = SNARK_BITS_NONCONSENSUS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -78,26 +62,28 @@ ocaml_module(
     ],
     ppx_data = CONFIG_MLH,
     deps = SNARK_BITS_NONCONSENSUS_DEPS,
+    deps_opam = SNARK_BITS_NONCONSENSUS_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
+    deps_adjunct_opam = [
+        "ppx_deriving.runtime",
+        "ppx_inline_test.runtime-lib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
-    visibility = [
-        "//src/nonconsensus/snark_bits:__pkg__",
-    ],
+    # visibility = [
+    #     "//src/nonconsensus/snark_bits:__pkg__",
+    # ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppxlib",
-        "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
+        "@ppx_optcomp//src:ppx_optcomp",
     ],
+    deps_opam = [
+        "ppx_let",
+        "ppx_deriving.eq",
+        "ppx_inline_test",
+    ]
 )

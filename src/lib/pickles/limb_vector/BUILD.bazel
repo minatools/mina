@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -14,10 +11,13 @@ LIMB_VECTOR_MODULE_OPTS = []
 
 LIMB_VECTOR_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/pickles/backend",
     "@mina//src/lib/pickles_types",
     "@snarky//src/base:snarky_backendless",
+]
+
+LIMB_VECTOR_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 LIMB_VECTOR_PPX = "@//bzl/ppx/exe:ppx_version__ppx_coda__ppx_jane__ppx_deriving.std__ppx_deriving_yojson"
@@ -28,87 +28,76 @@ LIMB_VECTOR_PPX_ARGS = [
     "limb_vector",
 ]
 
-##############
-ocaml_archive(
-    name = "limb_vector",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = LIMB_VECTOR_DEPS + [
-        # do not sort (buildifier)
-        ":_Challenge",
-        ":_Constant",
-        ":_Limb_vector",
-        ":_Make",
-    ],
-)
-
 #########
-ocaml_ns(
-    name = "Limb_vector_ns",
-    ns = "limb_vector",
+ocaml_ns_library(
+    name = "limb_vector",
+    main = ":_Limb_vector",
     submodules = [
-        # do not sort (buildifier)
-        "challenge.ml",
-        "constant.ml",
-        "limb_vector.ml",
-        "make.ml",
+        ":_Constant",
+        ":_Make",
+        ":_Challenge",
+        ":_Limb_vector",
     ],
+    visibility = [
+        "//src/lib/pickles:__pkg__",
+        "//src/lib/pickles/composition_types:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Challenge",
-    src = "challenge.ml",
-    ns = ":Limb_vector_ns",
     opts = LIMB_VECTOR_MODULE_OPTS,
     ppx = LIMB_VECTOR_PPX,
     ppx_args = LIMB_VECTOR_PPX_ARGS,
+    struct = "challenge.ml",
     deps = LIMB_VECTOR_DEPS + [
         # do not sort (buildifier)
         ":_Constant",
         ":_Make",
     ],
+    deps_opam = LIMB_VECTOR_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Constant",
-    src = "constant.ml",
-    ns = ":Limb_vector_ns",
     opts = LIMB_VECTOR_MODULE_OPTS + [
         "-w",
         "-22",  # Deriving bin_io and deriving version disallowed for types in functor body
     ],
     ppx = LIMB_VECTOR_PPX,
     ppx_args = LIMB_VECTOR_PPX_ARGS,
+    struct = "constant.ml",
     deps = LIMB_VECTOR_DEPS,
+    deps_opam = LIMB_VECTOR_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Limb_vector",
-    src = "limb_vector.ml",
-    ns = ":Limb_vector_ns",
     opts = LIMB_VECTOR_MODULE_OPTS,
     ppx = LIMB_VECTOR_PPX,
     ppx_args = LIMB_VECTOR_PPX_ARGS,
+    struct = "limb_vector.ml",
     deps = LIMB_VECTOR_DEPS + [
         # do not sort (buildifier)
         ":_Challenge",
         ":_Constant",
     ],
+    deps_opam = LIMB_VECTOR_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Make",
-    src = "make.ml",
-    ns = ":Limb_vector_ns",
     opts = LIMB_VECTOR_MODULE_OPTS,
     ppx = LIMB_VECTOR_PPX,
     ppx_args = LIMB_VECTOR_PPX_ARGS,
+    struct = "make.ml",
     deps = LIMB_VECTOR_DEPS + [
         # do not sort (buildifier)
         ":_Constant",
     ],
+    deps_opam = LIMB_VECTOR_DEPS_OPAM
 )

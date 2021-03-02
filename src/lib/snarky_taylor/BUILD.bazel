@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 
 ################################################################
@@ -17,9 +14,12 @@ SNARKY_TAYLOR_MODULE_OPTS = []
 
 SNARKY_TAYLOR_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@snarky//src/base:snarky_backendless",
     "@snarky//snarky_integer",
+]
+
+SNARKY_TAYLOR_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 SNARKY_TAYLOR_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq"
@@ -30,62 +30,52 @@ SNARKY_TAYLOR_PPX_ARGS = [
     "snarky_taylor",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "snarky_taylor",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = SNARKY_TAYLOR_DEPS + [
-        # do not sort (buildifier)
+    main = "_Snarky_taylor",
+    submodules = [
         ":_Floating_point",
         ":_Snarky_taylor",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Snarky_taylor_ns",
-    ns = "snarky_taylor",
-    submodules = [
-        # do not sort (buildifier)
-        "floating_point.ml",
-        "snarky_taylor.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Floating_point",
-    src = "floating_point.ml",
-    intf = ":_Floating_point.cmi",
-    ns = ":Snarky_taylor_ns",
+    sig  = ":_Floating_point.cmi",
     opts = SNARKY_TAYLOR_MODULE_OPTS,
     ppx = SNARKY_TAYLOR_PPX,
     ppx_args = SNARKY_TAYLOR_PPX_ARGS,
+    struct = "floating_point.ml",
     deps = SNARKY_TAYLOR_DEPS,
+    deps_opam = SNARKY_TAYLOR_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Floating_point.cmi",
     src = "floating_point.mli",
-    ns = ":Snarky_taylor_ns",
     opts = SNARKY_TAYLOR_INTERFACE_OPTS,
     ppx = SNARKY_TAYLOR_PPX,
     ppx_args = SNARKY_TAYLOR_PPX_ARGS,
     deps = SNARKY_TAYLOR_DEPS,
+    deps_opam = SNARKY_TAYLOR_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Snarky_taylor",
-    src = "snarky_taylor.ml",
-    ns = ":Snarky_taylor_ns",
     opts = SNARKY_TAYLOR_MODULE_OPTS,
     ppx = SNARKY_TAYLOR_PPX,
     ppx_args = SNARKY_TAYLOR_PPX_ARGS,
+    struct = "snarky_taylor.ml",
     deps = SNARKY_TAYLOR_DEPS + [
         # do not sort (buildifier)
         ":_Floating_point",
     ],
+    deps_opam = SNARKY_TAYLOR_DEPS_OPAM
 )

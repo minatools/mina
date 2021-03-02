@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -14,12 +11,12 @@ ROCKSDB_MODULE_OPTS = ["-linkall"]
 
 ROCKSDB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
     "@ocaml_rocksdb//:rocks",
     "@mina//src/lib/key_value_database",
     "@mina//src/lib/file_system",
     "@mina//src/lib/logger",
 ]
+ROCKSDB_DEPS_OPAM = ["core"]
 
 ROCKSDB_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
 
@@ -29,49 +26,36 @@ ROCKSDB_PPX_ARGS = [
     "rocksdb",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "rocksdb",
-    doc = "RocksDB Database module",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = ROCKSDB_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Database",
         ":_Serializable",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Rocksdb_ns",
-    ns = "rocksdb",
-    submodules = [
-        # do not sort (buildifier)
-        "database.ml",
-        "serializable.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/trust_system:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Database",
-    src = "database.ml",
-    ns = ":Rocksdb_ns",
     opts = ROCKSDB_MODULE_OPTS,
     ppx = ROCKSDB_PPX,
     ppx_args = ROCKSDB_PPX_ARGS,
+    struct = "database.ml",
     deps = ROCKSDB_DEPS,
 )
 
 #############
 ocaml_module(
     name = "_Serializable",
-    src = "serializable.ml",
-    ns = ":Rocksdb_ns",
     opts = ROCKSDB_MODULE_OPTS,
     ppx = ROCKSDB_PPX,
     ppx_args = ROCKSDB_PPX_ARGS,
+    struct = "serializable.ml",
     deps = ROCKSDB_DEPS + [
         # do not sort (buildifier)
         ":_Database",

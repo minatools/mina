@@ -1,28 +1,27 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY FRONTIER_BASE
 ################################################################
-FRONTIER_BASE_INTERFACE_OPTS = []
+FRONTIER_BASE_SIGNATURE_OPTS = []
 
 FRONTIER_BASE_MODULE_OPTS = []
 
 FRONTIER_BASE_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/coda_state",
     "@mina//src/lib/coda_transition",
     "@mina//src/lib/staged_ledger",
     "@mina//src/lib/base58_check",
+]
+FRONTIER_BASE_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 FRONTIER_BASE_PPX = "@//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson"
@@ -33,75 +32,61 @@ FRONTIER_BASE_PPX_ARGS = [
     "frontier_base",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "frontier_base",
-    visibility = ["//visibility:public"],
-    deps = FRONTIER_BASE_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_Breadcrumb",
         ":_Diff",
         ":_Frontier_intf",
         ":_Root_data",
         ":_Root_identifier",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Frontier_base_ns",
-    ns = "frontier_base",
-    submodules = [
-        # do not sort (buildifier)
-        "breadcrumb.ml",
-        "diff.ml",
-        "frontier_intf.ml",
-        "root_data.ml",
-        "root_identifier.ml",
-    ],
+    visibility = [
+        "//src/lib/transition_frontier:__subpackages__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Breadcrumb",
-    src = "breadcrumb.ml",
-    intf = ":_Breadcrumb.cmi",
-    ns = ":Frontier_base_ns",
+    sig  = ":_Breadcrumb.cmi",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
+    struct = "breadcrumb.ml",
     deps = FRONTIER_BASE_DEPS,
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Breadcrumb.cmi",
     src = "breadcrumb.mli",
-    ns = ":Frontier_base_ns",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
     deps = FRONTIER_BASE_DEPS,
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Diff",
-    src = "diff.ml",
-    intf = ":_Diff.cmi",
-    ns = ":Frontier_base_ns",
+    sig  = ":_Diff.cmi",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
+    struct = "diff.ml",
     deps = FRONTIER_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Breadcrumb",
         ":_Root_data",
     ],
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Diff.cmi",
     src = "diff.mli",
-    ns = ":Frontier_base_ns",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
     deps = FRONTIER_BASE_DEPS + [
@@ -109,65 +94,66 @@ ocaml_interface(
         ":_Breadcrumb",
         ":_Root_data",
     ],
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Frontier_intf",
-    src = "frontier_intf.ml",
-    ns = ":Frontier_base_ns",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
+    struct = "frontier_intf.ml",
     deps = FRONTIER_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Breadcrumb",
     ],
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Root_data",
-    src = "root_data.ml",
-    intf = ":_Root_data.cmi",
-    ns = ":Frontier_base_ns",
+    sig  = ":_Root_data.cmi",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
+    struct = "root_data.ml",
     deps = FRONTIER_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Breadcrumb",
     ],
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Root_data.cmi",
     src = "root_data.mli",
-    ns = ":Frontier_base_ns",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
     deps = FRONTIER_BASE_DEPS + [
         # do not sort (buildifier)
         ":_Breadcrumb",
     ],
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Root_identifier",
-    src = "root_identifier.ml",
-    intf = ":_Root_identifier.cmi",
-    ns = ":Frontier_base_ns",
+    sig  = ":_Root_identifier.cmi",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
+    struct = "root_identifier.ml",
     deps = FRONTIER_BASE_DEPS,
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Root_identifier.cmi",
     src = "root_identifier.mli",
-    ns = ":Frontier_base_ns",
     ppx = FRONTIER_BASE_PPX,
     ppx_args = FRONTIER_BASE_PPX_ARGS,
     deps = FRONTIER_BASE_DEPS,
+    deps_opam = FRONTIER_BASE_DEPS_OPAM
 )

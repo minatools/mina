@@ -8,8 +8,8 @@ load(
 #############
 ocaml_module(
     name = "ppx_representatives_runtime",
-    src = "ppx_representatives_runtime.ml",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = [],
+    struct = "ppx_representatives_runtime.ml",
+    visibility = [
+        "//visibility:public"
+    ]
 )

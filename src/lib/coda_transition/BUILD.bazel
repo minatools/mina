@@ -1,23 +1,19 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY CODA_TRANSITION
 ################################################################
-CODA_TRANSITION_INTERFACE_OPTS = []
+CODA_TRANSITION_SIGNATURE_OPTS = []
 
 CODA_TRANSITION_MODULE_OPTS = []
 
 CODA_TRANSITION_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/staged_ledger",
     "@mina//src/lib/transition_chain_verifier",
     "@mina//src/lib/truth",
@@ -31,6 +27,9 @@ CODA_TRANSITION_DEPS = [
     "@mina//src/lib/verifier",
     "@mina//src/lib/allocation_functor",
 ]
+CODA_TRANSITION_DEPS_OPAM = [
+    "core_kernel",
+]
 
 CODA_TRANSITION_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane__ppx_deriving.std__ppx_deriving_yojson"
 
@@ -40,75 +39,63 @@ CODA_TRANSITION_PPX_ARGS = [
     "coda_transition",
 ]
 
-##############
-ocaml_archive(
+#################
+ocaml_ns_library(
     name = "coda_transition",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = CODA_TRANSITION_DEPS + [
-        # do not sort (buildifier)
+    submodules = [
         ":_External_transition",
         ":_External_transition_intf",
         ":_Internal_transition",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Coda_transition_ns",
-    ns = "coda_transition",
-    submodules = [
-        # do not sort (buildifier)
-        "external_transition.ml",
-        "external_transition_intf.ml",
-        "internal_transition.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_External_transition",
-    src = "external_transition.ml",
-    intf = ":_External_transition.cmi",
-    ns = ":Coda_transition_ns",
+    sig  = ":_External_transition.cmi",
     opts = CODA_TRANSITION_MODULE_OPTS,
     ppx = CODA_TRANSITION_PPX,
     ppx_args = CODA_TRANSITION_PPX_ARGS,
+    struct = "external_transition.ml",
     deps = CODA_TRANSITION_DEPS,
+    deps_opam = CODA_TRANSITION_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_External_transition.cmi",
     src = "external_transition.mli",
-    ns = ":Coda_transition_ns",
-    opts = CODA_TRANSITION_INTERFACE_OPTS,
+    opts = CODA_TRANSITION_SIGNATURE_OPTS,
     ppx = CODA_TRANSITION_PPX,
     ppx_args = CODA_TRANSITION_PPX_ARGS,
     deps = CODA_TRANSITION_DEPS + [
         # do not sort (buildifier)
         ":_External_transition_intf",
     ],
+    deps_opam = CODA_TRANSITION_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_External_transition_intf",
-    src = "external_transition_intf.ml",
-    ns = ":Coda_transition_ns",
     opts = CODA_TRANSITION_MODULE_OPTS,
     ppx = CODA_TRANSITION_PPX,
     ppx_args = CODA_TRANSITION_PPX_ARGS,
+    struct = "external_transition_intf.ml",
     deps = CODA_TRANSITION_DEPS,
+    deps_opam = CODA_TRANSITION_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Internal_transition",
-    src = "internal_transition.ml",
-    ns = ":Coda_transition_ns",
     opts = CODA_TRANSITION_MODULE_OPTS,
     ppx = CODA_TRANSITION_PPX,
     ppx_args = CODA_TRANSITION_PPX_ARGS,
+    struct = "internal_transition.ml",
     deps = CODA_TRANSITION_DEPS,
+    deps_opam = CODA_TRANSITION_DEPS_OPAM
 )

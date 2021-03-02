@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
 )
 
 ################################################################
@@ -12,9 +9,8 @@ load(
 ################################################################
 GADT_LIB_MODULE_OPTS = []
 
-GADT_LIB_DEPS = [
-    # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
+GADT_LIB_DEPS_OPAM = [
+    "core_kernel",
 ]
 
 GADT_LIB_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
@@ -25,50 +21,37 @@ GADT_LIB_PPX_ARGS = [
     "gadt_lib",
 ]
 
-##############
-ocaml_archive(
-    name = "gadt_lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = GADT_LIB_DEPS + [
-        # do not sort (buildifier)
-        ":_Peano",
-        ":_Vect",
-    ],
-)
-
 #########
-ocaml_ns(
-    name = "Gadt_lib_ns",
-    ns = "gadt_lib",
+ocaml_ns_library(
+    name = "gadt_lib",
     submodules = [
-        # do not sort (buildifier)
-        "peano.ml",
-        "vect.ml",
+        ":_Peano",
+        "_Vect",
     ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Peano",
-    src = "peano.ml",
-    ns = ":Gadt_lib_ns",
     opts = GADT_LIB_MODULE_OPTS,
     ppx = GADT_LIB_PPX,
     ppx_args = GADT_LIB_PPX_ARGS,
-    deps = GADT_LIB_DEPS,
+    struct = "peano.ml",
+    deps_opam = GADT_LIB_DEPS_OPAM,
 )
 
 #############
 ocaml_module(
     name = "_Vect",
-    src = "vect.ml",
-    ns = ":Gadt_lib_ns",
     opts = GADT_LIB_MODULE_OPTS,
     ppx = GADT_LIB_PPX,
     ppx_args = GADT_LIB_PPX_ARGS,
-    deps = GADT_LIB_DEPS + [
-        # do not sort (buildifier)
+    struct = "vect.ml",
+    deps = [
         ":_Peano",
     ],
+    deps_opam = GADT_LIB_DEPS_OPAM
 )

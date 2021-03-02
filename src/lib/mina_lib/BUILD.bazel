@@ -1,11 +1,8 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
     "ppx_executable",
 )
 load(
@@ -16,16 +13,12 @@ load(
 ################################################################
 ## STANZA 1: LIBRARY MINA_LIB
 ################################################################
-MINA_LIB_INTERFACE_OPTS = []
+MINA_LIB_SIGNATURE_OPTS = []
 
 MINA_LIB_MODULE_OPTS = []
 
 MINA_LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    "@opam//pkg:async",
-    "@opam//pkg:async_extra",
-    "@opam//pkg:incremental",
     "@mina//src/lib/coda_intf",
     "@mina//src/lib/coda_version",
     "@mina//src/lib/pipe_lib",
@@ -51,46 +44,42 @@ MINA_LIB_DEPS = [
     "@mina//src/lib/transaction_status",
     "@mina//src/lib/sync_status",
     "@mina//src/lib/daemon_rpcs",
-    "@mina//src/app/archive/archive_lib",
     "@mina//src/lib/exit_handlers",
+
+    "@mina//src/app/archive/archive_lib",
 ]
 
-##############
-ocaml_archive(
+MINA_LIB_DEPS_OPAM = [
+    "core",
+    "async",
+    "async_extra",
+    "incremental",
+]
+
+#########
+ocaml_ns_library(
     name = "mina_lib",
-    doc = "Coda gut layer",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = MINA_LIB_DEPS + [
-        # do not sort (buildifier)
+    main = "_Mina_lib",
+    submodules = [
         ":_Archive_client",
         ":_Coda_subscriptions",
         ":_Conf_dir",
         ":_Config",
         ":_Mina_lib",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Mina_lib_ns",
-    ns = "mina_lib",
-    submodules = [
-        # do not sort (buildifier)
-        "archive_client.ml",
-        "coda_subscriptions.ml",
-        "conf_dir.ml",
-        "config.ml",
-        "mina_lib.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+        # "//src/lib/coda_commands:__pkg__",
+        # "//src/lib/coda_plugins:__pkg__",
+        # "//src/lib/genesis_ledger:__pkg__",
+        # "//src/lib/genesis_ledger_helper:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Archive_client",
-    src = "archive_client.ml",
-    intf = ":_Archive_client.cmi",
-    ns = ":Mina_lib_ns",
+    sig  = ":_Archive_client.cmi",
     opts = MINA_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -99,15 +88,16 @@ ocaml_module(
         "mina_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "archive_client.ml",
     deps = MINA_LIB_DEPS,
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Archive_client.cmi",
     src = "archive_client.mli",
-    ns = ":Mina_lib_ns",
-    opts = MINA_LIB_INTERFACE_OPTS,
+    opts = MINA_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -116,13 +106,12 @@ ocaml_interface(
     ],
     ppx_data = CONFIG_MLH,
     deps = MINA_LIB_DEPS,
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Coda_subscriptions",
-    src = "coda_subscriptions.ml",
-    ns = ":Mina_lib_ns",
     opts = MINA_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -131,14 +120,14 @@ ocaml_module(
         "mina_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "coda_subscriptions.ml",
     deps = MINA_LIB_DEPS,
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Conf_dir",
-    src = "conf_dir.ml",
-    ns = ":Mina_lib_ns",
     opts = MINA_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -147,14 +136,14 @@ ocaml_module(
         "mina_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "conf_dir.ml",
     deps = MINA_LIB_DEPS,
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Config",
-    src = "config.ml",
-    ns = ":Mina_lib_ns",
     opts = MINA_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -163,15 +152,15 @@ ocaml_module(
         "mina_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "config.ml",
     deps = MINA_LIB_DEPS,
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Mina_lib",
-    src = "mina_lib.ml",
-    intf = ":_Mina_lib.cmi",
-    ns = ":Mina_lib_ns",
+    sig  = ":_Mina_lib.cmi",
     opts = MINA_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -180,6 +169,7 @@ ocaml_module(
         "mina_lib",
     ],
     ppx_data = CONFIG_MLH,
+    struct = "mina_lib.ml",
     deps = MINA_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Archive_client",  # obazl:retain
@@ -187,14 +177,14 @@ ocaml_module(
         ":_Conf_dir",
         ":_Config",
     ],
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Mina_lib.cmi",
     src = "mina_lib.mli",
-    ns = ":Mina_lib_ns",
-    opts = MINA_LIB_INTERFACE_OPTS,
+    opts = MINA_LIB_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -208,21 +198,22 @@ ocaml_interface(
         ":_Conf_dir",
         ":_Config",
     ],
+    deps_opam = MINA_LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:bin_prot",
-        "@opam//pkg:fieldslib",
+    deps_adjunct_opam = [
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "bin_prot",
+        "fieldslib",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/mina_lib:__pkg__",
@@ -230,18 +221,20 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda",
         "@mina//src/lib/ppx_register_event",
-        "@opam//pkg:ppx_bin_prot",
-        "@opam//pkg:ppx_compare",
-        "@opam//pkg:ppx_custom_printf",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.make",
-        "@opam//pkg:ppx_fields_conv",
-        "@opam//pkg:ppx_hash",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_let",
-        "@opam//pkg:ppx_sexp_conv",
-        "@opam//pkg:ppxlib",
         "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_bin_prot",
+        "ppx_compare",
+        "ppx_custom_printf",
+        "ppx_deriving.eq",
+        "ppx_deriving.make",
+        "ppx_fields_conv",
+        "ppx_hash",
+        "ppx_inline_test",
+        "ppx_let",
+        "ppx_sexp_conv",
+        "ppxlib",
+    ]
 )

@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -8,8 +6,7 @@ load(
 #############
 ocaml_module(
     name = "command_line_tests",
-    src = "command_line_tests.ml",
-    opts = [],
+    struct = "command_line_tests.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq",
     ppx_args = [
         # do not sort (buildifier)
@@ -19,7 +16,9 @@ ocaml_module(
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/cache_dir",
-        "@opam//pkg:async",
-        "@opam//pkg:core",
     ],
+    deps_opam = [
+        "async",
+        "core",
+    ]
 )

@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -19,10 +17,10 @@ TEST_ENCODINGS_MODULE_OPTS = []
 
 TEST_ENCODINGS_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:core_kernel",
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/rosetta_lib",
 ]
+TEST_ENCODINGS_DEPS_OPAM = ["core_kernel"]
 
 TEST_ENCODINGS_PPX = "@//bzl/ppx/exe:ppx_version__ppx_optcomp"
 
@@ -39,15 +37,17 @@ ocaml_executable(
         # do not sort (buildifier)
         ":_Test_encodings",
     ],
+    deps_opam = TEST_ENCODINGS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Test_encodings",
-    src = "test_encodings.ml",
     opts = TEST_ENCODINGS_MODULE_OPTS,
     ppx = TEST_ENCODINGS_PPX,
     ppx_args = TEST_ENCODINGS_PPX_ARGS,
     ppx_data = CONFIG_MLH,
+    struct = "test_encodings.ml",
     deps = TEST_ENCODINGS_DEPS,
+    deps_opam = TEST_ENCODINGS_DEPS_OPAM
 )

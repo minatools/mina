@@ -1,10 +1,7 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
 
@@ -23,17 +20,6 @@ LIB_MODULE_OPTS = []
 
 LIB_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:async",
-    "@opam//pkg:async_ssl",
-    "@opam//pkg:caqti",
-    "@opam//pkg:caqti-async",
-    "@opam//pkg:caqti-driver-postgresql",
-    "@opam//pkg:cohttp",
-    "@opam//pkg:ctypes",
-    "@opam//pkg:cohttp-async",
-    "@opam//pkg:core_kernel",
-    "@opam//pkg:ppx_deriving_yojson.runtime",
-    "@opam//pkg:yojson",
     "@mina//src/lib/logger",
     "@mina//src/lib/rosetta_lib",
     "@mina//src/lib/rosetta_models",
@@ -44,12 +30,24 @@ LIB_DEPS = [
     "@mina//src/lib/unsigned_extended",
 ]
 
-##############
-ocaml_archive(
+LIB_DEPS_OPAM = [
+    "async",
+    "async_ssl",
+    "caqti",
+    "caqti-async",
+    "caqti-driver-postgresql",
+    "cohttp",
+    "ctypes",
+    "cohttp-async",
+    "core_kernel",
+    "ppx_deriving_yojson.runtime",
+    "yojson",
+]
+
+#########
+ocaml_ns_library(
     name = "lib",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = LIB_DEPS + [
+    submodules = [
         # do not sort (buildifier)
         ":_Account",
         ":_Block",
@@ -64,34 +62,16 @@ ocaml_archive(
         ":_Test",
         ":_These",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Lib_ns",
-    ns = "lib",
-    submodules = [
-        # do not sort (buildifier)
-        "account.ml",
-        "block.ml",
-        "cli.ml",
-        "construction.ml",
-        "decoders.ml",
-        "graphql.ml",
-        "mempool.ml",
-        "network.ml",
-        "rosetta.ml",
-        "signer.ml",
-        "test.ml",
-        "these.ml",
+    visibility = [
+        "//src/app/best_tip_merger:__pkg__",
+        "//src/app/rosetta:__subpackages__",
     ],
 )
 
 #############
 ocaml_module(
     name = "_Account",
-    src = "account.ml",
-    ns = ":Lib_ns",
+    struct = "account.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -108,13 +88,13 @@ ocaml_module(
         ":_Graphql",
         ":_Network",
     ],
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Block",
-    src = "block.ml",
-    ns = ":Lib_ns",
+    struct = "block.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -132,13 +112,13 @@ ocaml_module(
         ":_Network",
         ":_These",
     ],
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Cli",
-    src = "cli.ml",
-    ns = ":Lib_ns",
+    struct = "cli.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -147,13 +127,13 @@ ocaml_module(
         "lib",
     ],
     deps = LIB_DEPS,
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Construction",
-    src = "construction.ml",
-    ns = ":Lib_ns",
+    struct = "construction.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -169,13 +149,13 @@ ocaml_module(
         ":_Graphql",
         ":_Network",
     ],
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Decoders",
-    src = "decoders.ml",
-    ns = ":Lib_ns",
+    struct = "decoders.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -184,13 +164,13 @@ ocaml_module(
         "lib",
     ],
     deps = LIB_DEPS,
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Graphql",
-    src = "graphql.ml",
-    ns = ":Lib_ns",
+    struct = "graphql.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -199,13 +179,13 @@ ocaml_module(
         "lib",
     ],
     deps = LIB_DEPS,
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Mempool",
-    src = "mempool.ml",
-    ns = ":Lib_ns",
+    struct = "mempool.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -221,13 +201,13 @@ ocaml_module(
         ":_Graphql",
         ":_Network",
     ],
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Network",
-    src = "network.ml",
-    ns = ":Lib_ns",
+    struct = "network.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -242,13 +222,13 @@ ocaml_module(
         ":_Graphql",
         ":_Test",  # obazl:retain
     ],
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Rosetta",
-    src = "rosetta.ml",
-    ns = ":Lib_ns",
+    struct = "rosetta.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -265,13 +245,13 @@ ocaml_module(
         ":_Mempool",
         ":_Network",
     ],
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Signer",
-    src = "signer.ml",
-    ns = ":Lib_ns",
+    struct = "signer.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -280,13 +260,13 @@ ocaml_module(
         "lib",
     ],
     deps = LIB_DEPS,
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Test",
-    src = "test.ml",
-    ns = ":Lib_ns",
+    struct = "test.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -295,13 +275,13 @@ ocaml_module(
         "lib",
     ],
     deps = LIB_DEPS,
+    deps_opam = LIB_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_These",
-    src = "these.ml",
-    ns = ":Lib_ns",
+    struct = "these.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -310,40 +290,40 @@ ocaml_module(
         "lib",
     ],
     deps = LIB_DEPS,
+    deps_opam = LIB_DEPS_OPAM
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
-    visibility = [
-        "//src/app/rosetta/lib:__pkg__",
-    ],
     deps = [
         "@graphql_ppx//src/native:graphql_ppx",
         "@mina//src/lib/ppx_coda",
-        "@opam//pkg:ppx_assert",
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.show",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_inline_test",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_assert",
+        "ppx_deriving.eq",
+        "ppx_deriving.show",
+        "ppx_deriving_yojson",
+        "ppx_inline_test",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )

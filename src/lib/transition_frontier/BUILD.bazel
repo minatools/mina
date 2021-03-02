@@ -1,28 +1,27 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
-    "ocaml_interface",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
 
 ################################################################
 ## STANZA 1: LIBRARY TRANSITION_FRONTIER
 ################################################################
-TRANSITION_FRONTIER_INTERFACE_OPTS = []
+TRANSITION_FRONTIER_SIGNATURE_OPTS = []
 
 TRANSITION_FRONTIER_MODULE_OPTS = []
 
 TRANSITION_FRONTIER_DEPS = [
     # do not sort (buildifier)
-    "@opam//pkg:ppx_deriving_yojson.runtime",
     "@mina//src/lib/transition_frontier/frontier_base",
     "@mina//src/lib/transition_frontier/persistent_root",
     "@mina//src/lib/transition_frontier/persistent_frontier",
     "@mina//src/lib/transition_frontier/full_frontier",
     "@mina//src/lib/transition_frontier/extensions",
+]
+TRANSITION_FRONTIER_DEPS_OPAM = [
+    "ppx_deriving_yojson.runtime",
 ]
 
 TRANSITION_FRONTIER_PPX = "@//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.eq__ppx_deriving_yojson"
@@ -33,61 +32,52 @@ TRANSITION_FRONTIER_PPX_ARGS = [
     "transition_frontier",
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "transition_frontier",
-    visibility = ["//visibility:public"],
-    deps = TRANSITION_FRONTIER_DEPS + [
-        # do not sort (buildifier)
+    main = "_Transition_frontier",
+    submodules = [
         ":_Catchup_hash_tree",
         ":_Transition_frontier",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "Transition_frontier_ns",
-    ns = "transition_frontier",
-    submodules = [
-        # do not sort (buildifier)
-        "catchup_hash_tree.ml",
-        "transition_frontier.ml",
-    ],
+    visibility = [
+        "//visibility:public",
+    ]
 )
 
 #############
 ocaml_module(
     name = "_Catchup_hash_tree",
-    src = "catchup_hash_tree.ml",
-    ns = ":Transition_frontier_ns",
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
+    struct = "catchup_hash_tree.ml",
     deps = TRANSITION_FRONTIER_DEPS,
+    deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transition_frontier",
-    src = "transition_frontier.ml",
-    intf = ":_Transition_frontier.cmi",
-    ns = ":Transition_frontier_ns",
+    sig  = ":_Transition_frontier.cmi",
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
+    struct = "transition_frontier.ml",
     deps = TRANSITION_FRONTIER_DEPS + [
         # do not sort (buildifier)
         ":_Catchup_hash_tree",
     ],
+    deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
 )
 
 ################
-ocaml_interface(
+ocaml_signature(
     name = "_Transition_frontier.cmi",
     src = "transition_frontier.mli",
-    ns = ":Transition_frontier_ns",
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
     deps = TRANSITION_FRONTIER_DEPS + [
         # do not sort (buildifier)
         ":_Catchup_hash_tree",
     ],
+    deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
 )

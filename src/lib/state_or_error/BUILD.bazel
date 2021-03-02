@@ -1,12 +1,10 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns",
+    "ocaml_ns_library",
     "ppx_executable",
 )
+
 load(
     "//:BUILD.bzl",
     "CONFIG_MLH",
@@ -17,41 +15,28 @@ load(
 ################################################################
 STATE_OR_ERROR_MODULE_OPTS = []
 
-STATE_OR_ERROR_DEPS = [
+STATE_OR_ERROR_DEPS_OPAM = [
     # do not sort (buildifier)
-    "@opam//pkg:core",
-    # "@opam//pkg:ppx_fields_conv",  # obazl:retain
+    "core",
+    # "ppx_fields_conv",  # obazl:retain
 ]
 
-##############
-ocaml_archive(
+#########
+ocaml_ns_library(
     name = "state_or_error",
-    doc = "State monad with or_error",
-    opts = [],
-    visibility = ["//visibility:public"],
-    deps = STATE_OR_ERROR_DEPS + [
-        # do not sort (buildifier)
+    main = ":_State_or_error",
+    submodules = [
         ":_State_or_error",
         ":_State_or_error_intf",
     ],
-)
-
-#########
-ocaml_ns(
-    name = "State_or_error_ns",
-    ns = "state_or_error",
-    submodules = [
-        # do not sort (buildifier)
-        "state_or_error.ml",
-        "state_or_error_intf.ml",
-    ],
+    visibility = [
+        "//src/lib/parallel_scan:__pkg__"
+    ]
 )
 
 #############
 ocaml_module(
     name = "_State_or_error",
-    src = "state_or_error.ml",
-    ns = ":State_or_error_ns",
     opts = STATE_OR_ERROR_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -60,17 +45,17 @@ ocaml_module(
         "state_or_error",
     ],
     ppx_data = CONFIG_MLH,
-    deps = STATE_OR_ERROR_DEPS + [
+    struct = "state_or_error.ml",
+    deps = [
         # do not sort (buildifier)
         ":_State_or_error_intf",
     ],
+    deps_opam = STATE_OR_ERROR_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_State_or_error_intf",
-    src = "state_or_error_intf.ml",
-    ns = ":State_or_error_ns",
     opts = STATE_OR_ERROR_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -79,37 +64,40 @@ ocaml_module(
         "state_or_error",
     ],
     ppx_data = CONFIG_MLH,
-    deps = STATE_OR_ERROR_DEPS,
+    struct = "state_or_error_intf.ml",
+    deps_opam = STATE_OR_ERROR_DEPS_OPAM,
 )
 
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    adjunct_deps = [
-        "@opam//pkg:ppx_expect.collector",
-        "@opam//pkg:yojson",
-        "@opam//pkg:ppx_hash.runtime-lib",
-        "@opam//pkg:ppx_deriving_yojson.runtime",
-        "@opam//pkg:ppx_sexp_conv.runtime-lib",
-        "@opam//pkg:ppx_deriving.runtime",
-        "@opam//pkg:ppx_assert.runtime-lib",
-        "@opam//pkg:ppx_compare.runtime-lib",
-        "@opam//pkg:ppx_inline_test.runtime-lib",
-        "@opam//pkg:ppx_bench.runtime-lib",
-        "@opam//pkg:ppx_enumerate.runtime-lib",
-        "@opam//pkg:ppx_module_timer.runtime",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "yojson",
+        "ppx_hash.runtime-lib",
+        "ppx_deriving_yojson.runtime",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_deriving.runtime",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
     ],
-    main = "//bzl/ppx/exe:Driver",
+    main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/state_or_error:__pkg__",
     ],
     deps = [
-        "@opam//pkg:ppx_deriving.eq",
-        "@opam//pkg:ppx_deriving.make",
-        "@opam//pkg:ppx_deriving_yojson",
-        "@opam//pkg:ppx_jane",
-        "@opam//pkg:ppxlib",
         "@ppx_version//src:ppx_version",
     ],
+    deps_opam = [
+        "ppx_deriving.eq",
+        "ppx_deriving.make",
+        "ppx_deriving_yojson",
+        "ppx_jane",
+        "ppxlib",
+    ]
 )
