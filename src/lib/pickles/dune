@@ -4,10 +4,10 @@
  (public_name pickles)
  (flags -warn-error -22+34+33+27)
  (instrumentation (backend bisect_ppx))
- (preprocess (pps ppx_version ppx_coda ppx_jane ppx_deriving.std ppx_deriving_yojson h_list.ppx))
+ (preprocess (pps ppx_version ppx_coda ppx_jane ppx_compare ppx_deriving_yojson h_list.ppx))
  (libraries
    digestif
-   coda_version
+   mina_version
    zexe_backend
    random_oracle_input
    pickles_base

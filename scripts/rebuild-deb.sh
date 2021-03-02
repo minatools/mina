@@ -14,7 +14,7 @@ GITHASH_CONFIG=$(git rev-parse --short=8 --verify HEAD)
 
 # Identify All Artifacts by Branch and Git Hash
 set +u
-PVKEYHASH=$(./default/src/app/cli/src/coda.exe internal snark-hashes | sort | md5sum | cut -c1-8)
+PVKEYHASH=$(./default/src/app/cli/src/mina.exe internal snark-hashes | sort | md5sum | cut -c1-8)
 
 PROJECT="mina-$(echo "$DUNE_PROFILE" | tr _ -)"
 
@@ -47,7 +47,7 @@ License: Apache-2.0
 Vendor: none
 Architecture: amd64
 Maintainer: o(1)Labs <build@o1labs.org>
-Installed-Size: 
+Installed-Size:
 Depends: libssl1.1, libprocps6, libgmp10, libffi6, libgomp1
 Section: base
 Priority: optional
@@ -64,6 +64,7 @@ cat "${BUILDDIR}/DEBIAN/control"
 # Binaries
 mkdir -p "${BUILDDIR}/usr/local/bin"
 cp ./default/src/app/generate_keypair/generate_keypair.exe "${BUILDDIR}/usr/local/bin/mina-generate-keypair"
+cp ./default/src/app/validate_keypair/validate_keypair.exe "${BUILDDIR}/usr/local/bin/mina-validate-keypair"
 
 # echo contents of deb
 echo "------------------------------------------------------------"
@@ -75,8 +76,9 @@ echo "------------------------------------------------------------"
 fakeroot dpkg-deb --build "${BUILDDIR}" mina-generate-keypair_${GENERATE_KEYPAIR_VERSION}.deb
 ls -lh mina*.deb
 
-# Remove generate-keypair binary before other builds with the same dir
+# Remove generate-keypair, validate-keypair binaries before other builds with the same dir
 rm -f "${BUILDDIR}/usr/local/bin/mina-generate-keypair"
+rm -f "${BUILDDIR}/usr/local/bin/mina-validate-keypair"
 
 ##################################### END GENERATE KEYPAIR PACKAGE #######################################
 
@@ -104,7 +106,8 @@ cat "${BUILDDIR}/DEBIAN/control"
 echo "------------------------------------------------------------"
 # Binaries
 mkdir -p "${BUILDDIR}/usr/local/bin"
-cp ./default/src/app/cli/src/coda.exe "${BUILDDIR}/usr/local/bin/coda"
+cp ./default/src/app/cli/src/mina.exe "${BUILDDIR}/usr/local/bin/mina"
+cp ./default/src/app/rosetta/rosetta.exe "${BUILDDIR}/usr/local/bin/mina-rosetta"
 ls -l ../src/app/libp2p_helper/result/bin
 p2p_path="${BUILDDIR}/usr/local/bin/coda-libp2p_helper"
 cp ../src/app/libp2p_helper/result/bin/libp2p_helper $p2p_path
@@ -182,7 +185,8 @@ for f in /tmp/s3_cache_dir/genesis*; do
 done
 
 #copy config.json
-cp ../genesis_ledgers/phase_three/config.json "${BUILDDIR}/var/lib/coda/config_${GITHASH_CONFIG}.json"
+cp '../genesis_ledgers/final-final-2_(3).json' "${BUILDDIR}/var/lib/coda/config_${GITHASH_CONFIG}.json"
+cp ../genesis_ledgers/devnet.json "${BUILDDIR}/var/lib/coda/devnet.json"
 
 # Bash autocompletion
 # NOTE: We do not list bash-completion as a required package,
@@ -190,7 +194,7 @@ cp ../genesis_ledgers/phase_three/config.json "${BUILDDIR}/var/lib/coda/config_$
 mkdir -p "${BUILDDIR}/etc/bash_completion.d"
 cwd=$(pwd)
 export PATH=${cwd}/${BUILDDIR}/usr/local/bin/:${PATH}
-env COMMAND_OUTPUT_INSTALLATION_BASH=1 coda  > "${BUILDDIR}/etc/bash_completion.d/coda"
+env COMMAND_OUTPUT_INSTALLATION_BASH=1 mina  > "${BUILDDIR}/etc/bash_completion.d/mina"
 
 # echo contents of deb
 echo "------------------------------------------------------------"

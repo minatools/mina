@@ -1,7 +1,7 @@
 open Core_kernel
 open Async
 open Mina_base
-open Coda_transition
+open Mina_transition
 open Frontier_base
 open Network_peer
 
@@ -9,12 +9,12 @@ module type Inputs_intf = sig
   module Transition_frontier : module type of Transition_frontier
 
   module Best_tip_prover :
-    Coda_intf.Best_tip_prover_intf
+    Mina_intf.Best_tip_prover_intf
     with type transition_frontier := Transition_frontier.t
 end
 
 module Make (Inputs : Inputs_intf) :
-  Coda_intf.Sync_handler_intf
+  Mina_intf.Sync_handler_intf
   with type transition_frontier := Inputs.Transition_frontier.t = struct
   open Inputs
 
@@ -150,18 +150,35 @@ module Make (Inputs : Inputs_intf) :
           Transition_frontier.max_catchup_chunk_length ;
         None )
     in
-    Option.all
-    @@ List.map hashes ~f:(fun hash ->
-           let%map validated_transition =
-             Option.merge
-               Transition_frontier.(
-                 find frontier hash >>| Breadcrumb.validated_transition)
-               ( find_in_root_history frontier hash
-               >>| fun x -> Root_data.Historical.transition x )
-               ~f:Fn.const
-           in
-           External_transition.Validation.forget_validation
-             validated_transition )
+    let get hash =
+      let%map validated_transition =
+        Option.merge
+          Transition_frontier.(
+            find frontier hash >>| Breadcrumb.validated_transition)
+          ( find_in_root_history frontier hash
+          >>| fun x -> Root_data.Historical.transition x )
+          ~f:Fn.const
+      in
+      External_transition.Validation.forget_validation validated_transition
+    in
+    match Transition_frontier.catchup_tree frontier with
+    | Full _ ->
+        (* Super catchup *)
+        Option.return @@ List.filter_map hashes ~f:get
+    | Hash _ ->
+        (* Normal catchup *)
+        Option.all @@ List.map hashes ~f:get
+
+  let best_tip_path ~frontier =
+    let rec go acc b =
+      let acc = Breadcrumb.state_hash b :: acc in
+      match Transition_frontier.find frontier (Breadcrumb.parent_hash b) with
+      | None ->
+          acc
+      | Some b' ->
+          go acc b'
+    in
+    go [] (Transition_frontier.best_tip frontier)
 
   module Root = struct
     let prove ~logger ~consensus_constants ~frontier seen_consensus_state =

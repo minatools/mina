@@ -1,8 +1,8 @@
 open Core
 open Async
 open Mina_base
-open Coda_state
-open Coda_transition
+open Mina_state
+open Mina_transition
 open Blockchain_snark
 
 module type S = Intf.S
@@ -266,7 +266,7 @@ module Worker = struct
           ~processor:(Logger.Processor.raw ())
           ~transport:
             (Logger.Transport.File_system.dumb_logrotate ~directory:conf_dir
-               ~log_filename:"coda-prover.log" ~max_size ~num_rotate) ;
+               ~log_filename:"mina-prover.log" ~max_size ~num_rotate) ;
         [%log info] "Prover started" ;
         Worker_state.create
           {conf_dir; logger; proof_level; constraint_constants}

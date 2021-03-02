@@ -21,6 +21,7 @@ type t =
   ; monitor: Monitor.t option
   ; is_seed: bool
   ; disable_telemetry: bool
+  ; super_catchup: bool
   ; initial_block_production_keypairs: Keypair.Set.t
   ; coinbase_receiver: Consensus.Coinbase_receiver.t
   ; work_selection_method: (module Work_selector.Selection_method_intf)
@@ -48,5 +49,8 @@ type t =
   ; demo_mode: bool [@default false]
   ; log_block_creation: bool [@default false]
   ; precomputed_values: Precomputed_values.t
-  ; start_time: Time.t }
+  ; start_time: Time.t
+  ; precomputed_blocks_path: string option
+  ; log_precomputed_blocks: bool
+  ; upload_blocks_to_gcloud: bool }
 [@@deriving make]

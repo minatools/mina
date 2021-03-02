@@ -58,7 +58,7 @@ of the repo.
 
 - Pull down developer container image (~2GB download, go stretch your legs)
 
-`docker pull codaprotocol/coda:toolchain-9924f4c56a40d65d36440e8f70b93720f29ba171`
+`docker pull codaprotocol/coda:toolchain-14cb996cc7d8910a2ff6ae3ce132cea571bbb69c`
 
 - Create local builder image
 
@@ -79,11 +79,6 @@ of the repo.
 <a href="#dev-env"></a>
 
 #### Customizing your dev environment for autocomplete/merlin
-
-- If you build in Docker, the files created for merlin will have invalid paths. You can fix those paths after a
-  build
-
-`make USEDOCKER=TRUE merlin-fixup`
 
 - If you use vim, add this snippet in your vimrc to use merlin. (REMEMBER to change the HOME directory to match yours)
 
@@ -219,7 +214,7 @@ Coda genesis constants consists of constants for the consensus algorithm, sizes 
 All the constants can be set at compile-time. A subset of the compile-time constants can be overriden when generating the genesis state using `runtime_genesis_ledger.exe`, and a subset of those can again be overridden at runtime by passing the new values to the daemon.
 
 The constants at compile-time are set for different configurations using optional compilation. This is how integration tests/builds with multiple configurations are run.
-Currently some of these constants (defined [here](src/lib/coda_compile_config/coda_compile_config.ml)) cannot be changed after building and would require creating a new build profile (\*.mlh files) for any change in the values.
+Currently some of these constants (defined [here](src/lib/mina_compile_config/mina_compile_config.ml)) cannot be changed after building and would require creating a new build profile (\*.mlh files) for any change in the values.
 
 <b> 1. Constants that can be overridden when generating the genesis state are:</b>
 
@@ -255,4 +250,4 @@ To do this, pass a json file to the daemon using the flag `genesis-constants` wi
 }
 ```
 
-The daemon logs should reflect these changes. Also, `coda client status` displays some of the constants.
+The daemon logs should reflect these changes. Also, `mina client status` displays some of the constants.

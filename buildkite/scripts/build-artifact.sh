@@ -21,8 +21,8 @@ echo "--- Publish pvkeys"
 echo "--- Build libp2p_helper TODO: use the previously uploaded build artifact"
 LIBP2P_NIXLESS=1 make libp2p_helper
 
-echo "--- Build generate-keypair binary"
-dune build --profile=${DUNE_PROFILE} src/app/generate_keypair/generate_keypair.exe 2>&1 | tee /tmp/buildocaml2.log
+echo "--- Build generate-keypair and validate-keypair binaries"
+dune build --profile=${DUNE_PROFILE} src/app/generate_keypair/generate_keypair.exe src/app/validate_keypair/validate_keypair.exe 2>&1 | tee /tmp/buildocaml2.log
 
 echo "--- Build runtime_genesis_ledger binary"
 dune exec --profile=${DUNE_PROFILE} src/app/runtime_genesis_ledger/runtime_genesis_ledger.exe
@@ -35,7 +35,7 @@ echo "--- Upload genesis data"
 
 echo "--- Build logproc + coda + rosetta"
 echo "Building from Commit SHA: $CODA_COMMIT_SHA1"
-dune build --profile=${DUNE_PROFILE} src/app/logproc/logproc.exe src/app/cli/src/coda.exe src/app/rosetta/rosetta.exe 2>&1 | tee /tmp/buildocaml3.log
+dune build --profile=${DUNE_PROFILE} src/app/logproc/logproc.exe src/app/cli/src/mina.exe src/app/rosetta/rosetta.exe 2>&1 | tee /tmp/buildocaml3.log
 
 echo "--- Build replayer"
 dune build --profile=${DUNE_PROFILE} src/app/replayer/replayer.exe 2>&1 | tee /tmp/buildocaml4.log

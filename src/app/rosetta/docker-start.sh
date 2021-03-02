@@ -6,8 +6,8 @@ function cleanup
 {
   echo "Killing archive.exe"
   kill $(ps aux | egrep '/mina-bin/.*archive.exe' | grep -v grep | awk '{ print $2 }') || true
-  echo "Killing coda.exe"
-  kill $(ps aux | egrep '/mina-bin/.*coda.exe'    | grep -v grep | awk '{ print $2 }') || true
+  echo "Killing mina.exe"
+  kill $(ps aux | egrep '/mina-bin/.*mina.exe'    | grep -v grep | awk '{ print $2 }') || true
   echo "Killing rosetta.exe"
   kill $(ps aux | egrep '/mina-bin/rosetta'       | grep -v grep | awk '{ print $2 }') || true
   echo "Stopping postgres"
@@ -26,14 +26,6 @@ pg_ctlcluster 11 main start
 # wait for it to settle
 sleep 3
 
-# archive
-/mina-bin/archive/archive.exe run \
-  -postgres-uri $PG_CONN \
-  -server-port 3086 &
-
-# wait for it to settle
-sleep 3
-
 export CODA_PRIVKEY_PASS=""
 export CODA_LIBP2P_HELPER_PATH=/mina-bin/libp2p_helper
 
@@ -46,8 +38,17 @@ PK=${MINA_PK:=ZsMSUuKL9zLAF7sMn951oakTFRCCDw9rDfJgqJ55VMtPXaPa5vPwntQRFJzsHyeh8R
 
 echo "MINA Flags: $MINA_FLAGS -config-file ${MINA_CONFIG_FILE}"
 
+# archive
+/mina-bin/archive/archive.exe run \
+  -postgres-uri $PG_CONN \
+  -config-file ${MINA_CONFIG_FILE} \
+  -server-port 3086 &
+
+# wait for it to settle
+sleep 3
+
 # Daemon w/ mounted config file, initial file is phase 3 config.json
-/mina-bin/cli/src/coda.exe daemon \
+/mina-bin/cli/src/mina.exe daemon \
     -config-file ${MINA_CONFIG_FILE} \
     ${MINA_FLAGS} $@ &
 
