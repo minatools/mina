@@ -23,7 +23,7 @@ GRAPHQL_QUERY_MODULE_OPTS = []
 GRAPHQL_QUERY_DEPS = [
     # do not sort (buildifier)
     "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_transition",
+    "@mina//src/lib/mina_transition",
     "@mina//src/lib/graphql_lib",
 ]
 GRAPHQL_QUERY_DEPS_OPAM = ["core"]

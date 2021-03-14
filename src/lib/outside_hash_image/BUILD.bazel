@@ -3,15 +3,12 @@ load(
     "ocaml_module",
     "ocaml_ns_library"
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 #################
 ocaml_ns_library(
-    name = "outside_hash_image",
-    main = ":_Outside_hash_image",
+    name = "#outside_hash_image",
     submodules = [
         ":_Outside_hash_image"
     ],
@@ -31,6 +28,6 @@ ocaml_module(
     struct = "outside_hash_image.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/snark_params",
+        "@mina//src/lib/snark_params:#snark_params",
     ],
 )

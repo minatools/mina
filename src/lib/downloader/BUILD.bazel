@@ -1,0 +1,37 @@
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_module",
+    "ocaml_ns_library"
+)
+
+#################
+ocaml_ns_library(
+    name = "#downloader",
+    submodules = [
+        ":_Downloader",
+    ],
+    visibility = ["//visibility:public"]
+)
+
+#############
+ocaml_module(
+    name = "_Downloader",
+    struct = "downloader.ml",
+    ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version__ppx_deriving.std__ppx_deriving_yojson",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "hex",
+    ],
+    visibility = ["//visibility:public"],
+    deps      = [
+        "//src/lib/trust_system:#trust_system",
+        "//src/lib/pipe_lib:#pipe_lib",
+        "//src/lib/mina_base:#mina_base",
+        "//src/lib/network_peer:#network_peer"
+    ],
+    deps_opam = [
+        "core",
+        "async"
+    ],
+)

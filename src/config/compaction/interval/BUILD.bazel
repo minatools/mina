@@ -1,0 +1,14 @@
+""" config/compaction/interval
+
+Configuration flag and constants for compaction_interval parameter.
+"""
+
+load("@bazel_skylib//rules:common_settings.bzl", "int_flag", "int_setting")
+
+package(default_visibility = ["//visibility:public"])
+
+int_flag( name = "interval", build_setting_default = 3600)
+
+int_setting( name = "3600", build_setting_default = 3600)
+
+

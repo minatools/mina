@@ -5,10 +5,7 @@ load(
     "ocaml_ns_library",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY RANDOM_ORACLE
@@ -16,10 +13,10 @@ load(
 RANDOM_ORACLE_DEPS = [
     # do not sort (buildifier)
     "@mina//src/lib/random_oracle_input",
-    "@mina//src/lib/o1trace",
-    "@mina//src/lib/pickles",
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//sponge",
+    "@mina//src/lib/o1trace:#o1trace",
+    "@mina//src/lib/pickles:#pickles",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//sponge:#sponge",
 ]
 RANDOM_ORACLE_DEPS_OPAM = [
     "core_kernel",
@@ -35,8 +32,7 @@ RANDOM_ORACLE_PPX_ARGS = [
 
 #################
 ocaml_ns_library(
-    name = "random_oracle",
-    main = "_Random_oracle",
+    name = "#random_oracle",
     submodules = [
         ":_Intf",
         ":_Random_oracle",
@@ -57,7 +53,6 @@ ocaml_module(
     struct = "intf.ml",
     ppx = RANDOM_ORACLE_PPX,
     ppx_args = RANDOM_ORACLE_PPX_ARGS,
-    ppx_data = CONFIG_MLH,
     deps = RANDOM_ORACLE_DEPS,
     deps_opam = RANDOM_ORACLE_DEPS_OPAM
 )

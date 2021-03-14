@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "sync_status",
-    main = ":_Sync_status",
+    name = "#sync_status",
     submodules = [
         ":_Sync_status",
     ],
@@ -29,8 +28,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/currency",
-        "@mina//src/lib/signature_lib",
+        "@mina//src/lib/currency:#currency",
+        "@mina//src/lib/signature_lib:#signature_lib",
     ],
     deps_opam = [
         "core_kernel",
@@ -59,7 +58,7 @@ ppx_executable(
         "//src/lib/sync_status:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving_yojson",

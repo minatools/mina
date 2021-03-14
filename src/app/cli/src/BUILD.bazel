@@ -4,40 +4,39 @@ load(
     "ocaml_module",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
-## STANZA 2: EXECUTABLE CODA
+## STANZA 2: EXECUTABLE MINA
 ################################################################
-CODA_EXECUTABLE_OPTS = []
+MINA_EXECUTABLE_OPTS = []
 
-CODA_MODULE_OPTS = []
+MINA_MODULE_OPTS = []
 
-CODA_DEPS = [
+MINA_DEPS = [
     # do not sort (buildifier)
-    # "@ocaml_jemalloc//src:jemalloc",
-    "@mina//src/app/cli/src/init",
-    "@mina//src/app/cli/src/tests",
-    "@mina//src/lib/consensus",
-    "@mina//src/lib/child_processes",
-    "@mina//src/lib/memory_stats",
-    "@mina//src/lib/node_addrs_and_ports",
-    "@mina//src/lib/genesis_ledger_helper",
-    "@mina//src/lib/coda_plugins",
-    "@mina//src/lib/error_json",
-]
+    "@mina//src/app/cli/src/init:#init",
+    "@mina//src/lib/consensus:#consensus",
+    "@mina//src/lib/child_processes:#child_processes",
+    "@mina//src/lib/memory_stats:#memory_stats",
+    "@mina//src/lib/node_addrs_and_ports:#node_addrs_and_ports",
+    "@mina//src/lib/genesis_ledger_helper:#genesis_ledger_helper",
+    "@mina//src/lib/mina_plugins:#mina_plugins",
+    "@mina//src/lib/error_json:#error_json",
+] + select({
+    "//src/config/integration_tests:enabled": ["@mina//src/app/cli/src/tests:#tests"],
+    "//conditions:default": []
+})
 
 #################
 ocaml_executable(
-    name = "coda",
-    opts = CODA_EXECUTABLE_OPTS,
+    name = "mina",
+    opts = MINA_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = CODA_DEPS + [
+    deps = MINA_DEPS + [
         # do not sort (buildifier)
-        ":_Coda",
+        ":_Mina",
     ],
     # cc_deps = {
     #     ## FIXME: make this a dep on the OCaml wrapper
@@ -58,15 +57,15 @@ ocaml_executable(
 
 #############
 ocaml_module(
-    name = "_Coda",
-    struct = "coda.ml",
-    opts = CODA_MODULE_OPTS,
+    name = "_Mina",
+    struct = "mina.ml",
+    opts = MINA_MODULE_OPTS,
     ppx = ":ppx2.exe",
     ppx_args = [
         # do not sort (buildifier)
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_DEPS,
+    deps = MINA_DEPS,
 )
 
 ###############
@@ -83,9 +82,9 @@ ppx_executable(
         "//src/app/cli/src:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppxlib",

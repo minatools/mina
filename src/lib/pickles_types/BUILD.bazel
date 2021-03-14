@@ -9,10 +9,8 @@ load(
 PPX_PRINT = "@ppx//print:binary"  # FIXME: modules needing this break if ppx_print == text
 
 PICKLES_TYPES_DEPS = [
-    # do not sort (buildifier)
-    "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/marlin_plonk_bindings:marlin_plonk_bindings_types",
-    # "@mina//src/lib/marlin_plonk_bindings/types:marlin_plonk_bindings_types",
+    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
 ]
 
 PICKLES_TYPES_DEPS_OPAM = [
@@ -21,7 +19,7 @@ PICKLES_TYPES_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "pickles_types",
+    name = "#pickles_types",
     submodules = [
         ":_Abc",
         ":_At_most",
@@ -358,8 +356,8 @@ ppx_executable(
         "//src/lib/pickles_types:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

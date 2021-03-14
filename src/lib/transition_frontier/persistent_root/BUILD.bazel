@@ -15,8 +15,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/transition_frontier/full_frontier",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/transition_frontier/full_frontier"
     ],
     deps_opam = [
         "core_kernel",

@@ -6,10 +6,8 @@ load(
     "ppx_ns_archive",
     "ppx_ns_library",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 # load("@obazl_rules_ocaml//ocaml:macros.bzl", "ns_env")
 # ns_env(aliases = glob(["*.ml"]))
@@ -19,9 +17,9 @@ load(
 ################################################################
 PPX_CODA_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/ppx_register_event",
+    "@mina//src/lib/ppx_register_event:#ppx_register_event",
     "@mina//src/lib/ppx_coda/ppx_to_enum",
-    "@mina//src/lib/ppx_coda/ppx_representatives",
+    "@mina//src/lib/ppx_coda/ppx_representatives:#ppx_representatives",
 ]
 
 PPX_CODA_DEPS_OPAM = [
@@ -33,7 +31,7 @@ PPX_CODA_DEPS_OPAM = [
 ]
 
 ppx_ns_library(
-    name = "ppx_coda",
+    name = "#ppx_coda",
     submodules = [
         ":Check_ocaml_word_size",
         ":Define_from_scope",
@@ -115,13 +113,13 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppxlib",
         "ppxlib.metaquot",
     ],
     deps_adjunct = [
-        "@mina//src/lib/ppx_register_event",
+        "@mina//src/lib/ppx_register_event:#ppx_register_event",
     ]
 )

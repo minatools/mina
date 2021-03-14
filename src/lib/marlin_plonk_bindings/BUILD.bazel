@@ -13,12 +13,12 @@ THIS_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "marlin_plonk_bindings",
-    main = ":_Marlin_plonk_bindings",
+    name = "#marlin_plonk_bindings",
     submodules = [
         ":_Marlin_plonk_bindings",
     ],
     visibility = [
+        "//src/lib/pickles_types:__pkg__",
         "//src/lib/zexe_backend:__subpackages__"
         # "//visibility:public"
     ],
@@ -40,6 +40,22 @@ ocaml_module(
         ":marlin_plonk_bindings_bn_382_fp_vector",
         ":marlin_plonk_bindings_bn_382_fq",
         ":marlin_plonk_bindings_bn_382_fq_vector",
+
+        ":marlin_plonk_bindings_pasta_fp",
+        ":marlin_plonk_bindings_pasta_fp_index",
+        ":marlin_plonk_bindings_pasta_fp_oracles",
+        ":marlin_plonk_bindings_pasta_fp_verifier_index",
+        ":marlin_plonk_bindings_pasta_fp_proof",
+        ":marlin_plonk_bindings_pasta_fp_urs",
+        ":marlin_plonk_bindings_pasta_fq",
+        ":marlin_plonk_bindings_pasta_fq_index",
+        ":marlin_plonk_bindings_pasta_fq_oracles",
+        ":marlin_plonk_bindings_pasta_fq_verifier_index",
+        ":marlin_plonk_bindings_pasta_fq_proof",
+        ":marlin_plonk_bindings_pasta_fq_urs",
+        ":marlin_plonk_bindings_pasta_pallas",
+        ":marlin_plonk_bindings_pasta_vesta",
+
         ":marlin_plonk_bindings_tweedle_dee",
         ":marlin_plonk_bindings_tweedle_dum",
         ":marlin_plonk_bindings_tweedle_fp",
@@ -113,6 +129,188 @@ ocaml_module(
     struct = "bn_382_fq/vector/marlin_plonk_bindings_bn_382_fq_vector.ml",
     deps = [":marlin_plonk_bindings_bn_382_fq"],
 )
+
+#########################################
+################  PASTA  ################
+#########################################
+
+################  PASTA FP
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp/marlin_plonk_bindings_pasta_fp.ml",
+    deps = [":marlin_plonk_bindings_bigint_256"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp_vector",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp/vector/marlin_plonk_bindings_pasta_fp_vector.ml",
+    deps = [":marlin_plonk_bindings_pasta_fp"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp_index",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp_index/marlin_plonk_bindings_pasta_fp_index.ml",
+    deps = [":marlin_plonk_bindings_pasta_fp_urs"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp_oracles",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp_plonk_oracles/marlin_plonk_bindings_pasta_fp_oracles.ml",
+    deps = [":marlin_plonk_bindings_pasta_fp_proof"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp_verifier_index",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp_plonk_verifier_index/marlin_plonk_bindings_pasta_fp_verifier_index.ml",
+    deps = [":marlin_plonk_bindings_pasta_fp_index"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp_proof",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp_proof/marlin_plonk_bindings_pasta_fp_proof.ml",
+    deps = [
+        ":marlin_plonk_bindings_pasta_fp_verifier_index",
+        ":marlin_plonk_bindings_pasta_fp_vector"
+    ],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fp_urs",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fp_urs/marlin_plonk_bindings_pasta_fp_urs.ml",
+    deps = [
+        ":marlin_plonk_bindings_types",
+        ":marlin_plonk_bindings_pasta_fp",
+        ":marlin_plonk_bindings_pasta_fq",
+        ":marlin_plonk_bindings_pasta_vesta"
+    ]
+)
+
+################  PASTA FQ
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq/marlin_plonk_bindings_pasta_fq.ml",
+    deps = [":marlin_plonk_bindings_bigint_256"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq_vector",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq/vector/marlin_plonk_bindings_pasta_fq_vector.ml",
+    deps = [":marlin_plonk_bindings_pasta_fq"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq_index",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq_index/marlin_plonk_bindings_pasta_fq_index.ml",
+    deps = [":marlin_plonk_bindings_pasta_fq_urs"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq_oracles",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq_plonk_oracles/marlin_plonk_bindings_pasta_fq_oracles.ml",
+    deps = [":marlin_plonk_bindings_pasta_fq_proof"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq_verifier_index",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq_plonk_verifier_index/marlin_plonk_bindings_pasta_fq_verifier_index.ml",
+    deps = [":marlin_plonk_bindings_pasta_fq_index"],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq_proof",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq_proof/marlin_plonk_bindings_pasta_fq_proof.ml",
+    deps = [
+        ":marlin_plonk_bindings_pasta_fq_verifier_index",
+        ":marlin_plonk_bindings_pasta_fq_vector"
+    ],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_fq_urs",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_fq_urs/marlin_plonk_bindings_pasta_fq_urs.ml",
+    deps = [
+        ":marlin_plonk_bindings_types",
+        ":marlin_plonk_bindings_pasta_fp",
+        ":marlin_plonk_bindings_pasta_fq",
+        ":marlin_plonk_bindings_pasta_pallas"
+    ]
+)
+
+################  PASTA PALLAS, VESTA
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_pallas",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_pallas/marlin_plonk_bindings_pasta_pallas.ml",
+    deps = [
+        ":marlin_plonk_bindings_types",
+        ":marlin_plonk_bindings_pasta_fp",
+        ":marlin_plonk_bindings_pasta_fq"
+    ],
+)
+
+#############
+ocaml_module(
+    name = "marlin_plonk_bindings_pasta_vesta",
+    ppx = THIS_PPX,
+    ppx_args = THIS_PPX_ARGS,
+    struct = "pasta_vesta/marlin_plonk_bindings_pasta_vesta.ml",
+    deps = [
+        ":marlin_plonk_bindings_types",
+        ":marlin_plonk_bindings_pasta_fp",
+        ":marlin_plonk_bindings_pasta_fq"
+    ],
+)
+
+###########################################
+################  TWEEDLE  ################
+###########################################
 
 #############
 ocaml_module(

@@ -19,11 +19,17 @@ def cc_fetch_rules():
 
     maybe(
         http_archive,
-        name = "rules_foreign_cc",
-        strip_prefix="rules_foreign_cc-main",
-        url = "https://github.com/obazl/rules_foreign_cc/archive/main.zip"
-        # sha256 = "3e6b0691fc57db8217d535393dcc2cf7c1d39fc87e9adb6e7d7bab1483915110"
+        name         = "rules_foreign_cc",
+        sha256       = "c2cdcf55ffaf49366725639e45dedd449b8c3fe22b54e31625eb80ce3a240f1e",
+        strip_prefix = "rules_foreign_cc-0.1.0",
+        url          = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.1.0.zip",
     )
+    #     http_archive,
+    #     name = "rules_foreign_cc",
+    #     strip_prefix="rules_foreign_cc-main",
+    #     url = "https://github.com/obazl/rules_foreign_cc/archive/main.zip",
+    #     sha256 = "06ddbff28e6b5dd668bf212c6f892444cedb5dab7ed446c04aa69034dc28b17d"
+    # )
 
 ########################
 # def ocaml_fetch_rules():
@@ -62,16 +68,32 @@ def cc_fetch_rules():
 #######################
 def rust_fetch_rules():
 
+    ## WARNING: "The rules are under active development, as such the
+    ## lastest commit on the main branch should be used."
+
+    rust_commitid = "2de6496df08b94e65a38a0fcafae9fff712862e2"
+
     maybe(
         http_archive,
-        name = "io_bazel_rules_rust",
-        sha256 = "618cba29165b7a893960de7bc48510b0fb182b21a4286e1d3dbacfef89ace906",
-        strip_prefix = "rules_rust-5998baf9016eca24fafbad60e15f4125dd1c5f46",
+        name = "rules_rust",
+        sha256       = "e09656770684ae5f67951c05ad1a2b5561ca220d0bf1bad228712a71af02ce79",
+        strip_prefix = "rules_rust-" + rust_commitid,
         urls = [
-            # Master branch as of 2020-09-24
-            "https://github.com/bazelbuild/rules_rust/archive/5998baf9016eca24fafbad60e15f4125dd1c5f46.tar.gz",
+            # 2021-03-04:
+            "https://github.com/bazelbuild/rules_rust/archive/" + rust_commitid + ".tar.gz",
         ],
     )
+
+    # maybe(
+    #     http_archive,
+    #     name = "io_bazel_rules_rust",
+    #     sha256 = "618cba29165b7a893960de7bc48510b0fb182b21a4286e1d3dbacfef89ace906",
+    #     strip_prefix = "rules_rust-5998baf9016eca24fafbad60e15f4125dd1c5f46",
+    #     urls = [
+    #         # Master branch as of 2020-09-24
+    #         "https://github.com/bazelbuild/rules_rust/archive/5998baf9016eca24fafbad60e15f4125dd1c5f46.tar.gz",
+    #     ],
+    # )
 
 ################################################################
 opam_pkgs = {

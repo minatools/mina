@@ -14,7 +14,7 @@ OTP_LIB_MODULE_OPTS = []
 
 OTP_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/pipe_lib",
+    "@mina//src/lib/pipe_lib:#pipe_lib",
 ]
 OTP_LIB_DEPS_OPAM = [
     "core_kernel",
@@ -31,7 +31,7 @@ OTP_LIB_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "otp_lib",
+    name = "#otp_lib",
     submodules = [
         ":_Agent",
         ":_Capped_supervisor",

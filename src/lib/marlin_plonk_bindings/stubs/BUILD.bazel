@@ -1,4 +1,4 @@
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+load("@rules_rust//rust:rust.bzl", "rust_library")
 load("//bzl/config/rust:BUILD.bzl", "RUST_CRATE_TYPE", "RUST_PROFILE")
 
 rust_library(
@@ -14,13 +14,13 @@ rust_library(
     }, no_match_error = "Uknown platform. Only MacOS and Linux supported."),
     srcs = glob(["src/**/*.rs"]),
     deps = [
-        "//bzl/external/rust:libc",
-        "//bzl/external/rust:num_bigint",
-        "//bzl/external/rust:ocaml",
-        "//bzl/external/rust:rand",
-        "//bzl/external/rust:rand_core",
-        "//bzl/external/rust:rayon",
-        "//bzl/external/rust:sprs",
+        "//bzl/raze/cargo:libc",
+        "//bzl/raze/cargo:num_bigint",
+        "//bzl/raze/cargo:ocaml",
+        "//bzl/raze/cargo:rand",
+        "//bzl/raze/cargo:rand_core",
+        "//bzl/raze/cargo:rayon",
+        "//bzl/raze/cargo:sprs",
 
         "@zexe//algebra",
         "@zexe//ff-fft",

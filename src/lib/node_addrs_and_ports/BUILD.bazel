@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "node_addrs_and_ports",
-    main = ":_Node_addrs_and_ports",
+    name = "#node_addrs_and_ports",
     submodules = [
         ":_Node_addrs_and_ports",
     ],
@@ -29,7 +28,7 @@ ocaml_module(
     struct = "node_addrs_and_ports.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/network_peer",
+        "@mina//src/lib/network_peer:#network_peer",
     ],
     deps_opam = [
         "async",
@@ -60,7 +59,7 @@ ppx_executable(
         "//src/lib/node_addrs_and_ports:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving_yojson",

@@ -11,15 +11,16 @@ load(
 ################################################################
 ZEXE_BACKEND_COMMON_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/hex",
-    "@mina//src/lib/pickles_types",
-    "@mina//src/lib/marlin_plonk_bindings",
-    "@mina//src/lib/key_cache",
-    "@mina//src/lib/sgn_type",
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//sponge",
-    "@snarky//snarkette",
-    "@mina//src/lib/allocation_functor",
+    "@mina//src/lib/hex:#hex",
+    "@mina//src/lib/pickles_types:#pickles_types",
+    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
+    "@mina//src/lib/key_cache:#key_cache",
+    "@mina//src/lib/sgn_type:#sgn_type",
+    "@snarky//src/intf:#snarky_intf",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//sponge:#sponge",
+    "@snarky//snarkette:#snarkette",
+    "@mina//src/lib/allocation_functor:#allocation_functor",
 ]
 
 ZEXE_BACKEND_COMMON_DEPS_OPAM = [
@@ -31,7 +32,7 @@ ZEXE_BACKEND_COMMON_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "zexe_backend_common",
+    name = "#zexe_backend_common",
     submodules = [
         ":_Bigint",
         ":_Curve",
@@ -47,9 +48,14 @@ ocaml_ns_library(
         ":_Scale_round",
         ":_Var",
         ":_Version",
+
+        ## add aliasing equations to resolver:
+        # "@snarky//src/intf:snarky_intf",
+        # "//src/lib/allocation_functor",
+        # "//src/lib/pickles_types",
     ],
     visibility = [
-        "//src/lib/zexe_backend/tweedle:__pkg__"
+        "//src/lib/zexe_backend:__subpackages__"
     ],
 )
 
@@ -151,6 +157,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Field",
+    struct = "field.ml",
     opts = [
         "-w", "-22",  # Preprocessor warning.
         "-w", "-6",  # Error (warning 6): label over was omitted in the application of this function.
@@ -163,7 +170,6 @@ ocaml_module(
         "-inline-test-lib",
         "zexe_backend_common",
     ],
-    struct = "field.ml",
     deps_opam = ZEXE_BACKEND_COMMON_DEPS_OPAM,
     deps = [
         # do not sort (buildifier)
@@ -357,9 +363,9 @@ ppx_executable(
         "ppx_enumerate.runtime-lib",
         "ppx_module_timer.runtime",
     ],
-    deps_adjunct = [
-        "@ppx_version//src/runtime:ppx_version_runtime"
-    ],
+    # deps_adjunct = [
+    #     "@ppx_version//src/runtime:#ppx_version_runtime"
+    # ],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [
         "-w",
@@ -369,8 +375,8 @@ ppx_executable(
         "//src/lib/zexe_backend/zexe_backend_common:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
-        "@mina//src/lib/ppx_coda",
+        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

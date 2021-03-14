@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "global_signer_private_key",
-    main = ":_Global_signer_private_key",
+    name = "#global_signer_private_key",
     submodules = [
         ":_Global_signer_private_key",
     ],
@@ -28,7 +27,7 @@ ocaml_module(
     struct = "global_signer_private_key.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/signature_lib",
+        "@mina//src/lib/signature_lib:#signature_lib",
     ],
     deps_opam = [
         "core_kernel",

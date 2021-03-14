@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "telemetry",
-    main = ":_Telemetry",
+    name = "#telemetry",
     submodules = [
         ":_Telemetry",
     ],
@@ -24,7 +23,7 @@ ocaml_module(
     ppx = ":ppx1.exe",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_networking",
+        "@mina//src/lib/mina_networking:#mina_networking",
     ],
     deps_opam = [
         "core_kernel",
@@ -46,7 +45,7 @@ ppx_executable(
         "//src/lib/telemetry:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_base",

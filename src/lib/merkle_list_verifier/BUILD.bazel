@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "merkle_list_verifier",
-    main = ":_Merkle_list_verifier",
+    name = "#merkle_list_verifier",
     submodules = [
         ":_Merkle_list_verifier",
     ],
@@ -27,7 +26,7 @@ ocaml_module(
     ],
     struct = "merkle_list_verifier.ml",
     deps = [
-        "@mina//src/lib/non_empty_list",
+        "@mina//src/lib/non_empty_list:#non_empty_list",
     ],
     deps_opam = [
         "core_kernel",

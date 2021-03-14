@@ -1,0 +1,10 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag", "string_setting")
+
+package(default_visibility = ["//visibility:public"])
+
+string_flag( name = "expiry", build_setting_default = "never" )
+#              values = ["never", "???"])
+
+string_setting( name = "never", build_setting_default = "never")
+string_setting( name = "2024", build_setting_default = "2024-12-10 14:00:00-07:00")
+

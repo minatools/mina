@@ -1,25 +1,26 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ppx_executable"
 )
 
 #############
 ocaml_module(
     name = "transition_frontier_controller",
     struct = "transition_frontier_controller.ml",
-    ppx = "//bzl/ppx/exe:ppx_version",
+    ppx = ":ppx1.exe",
     deps = [
-        "@mina//src/lib/coda_intf",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/ledger_catchup",
-        "@mina//src/lib/merkle_address",
-        "@mina//src/lib/merkle_mask",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/mina_networking",
-        "@mina//src/lib/sync_handler",
-        "@mina//src/lib/syncable_ledger",
-        "@mina//src/lib/test_genesis_ledger",
-        "@mina//src/lib/transition_handler",
+        "@mina//src/lib/mina_intf:#mina_intf",
+        "@mina//src/lib/consensus:#consensus",
+        "@mina//src/lib/ledger_catchup:#ledger_catchup",
+        "@mina//src/lib/merkle_address:#merkle_address",
+        "@mina//src/lib/merkle_mask:#merkle_mask",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/mina_networking:#mina_networking",
+        "@mina//src/lib/sync_handler:#sync_handler",
+        "@mina//src/lib/syncable_ledger:#syncable_ledger",
+        "@mina//src/lib/test_genesis_ledger:#test_genesis_ledger",
+        "@mina//src/lib/transition_handler:#transition_handler",
     ],
     deps_opam = [
         "core_kernel",
@@ -28,3 +29,31 @@ ocaml_module(
         "//src/lib/transition_router:__pkg__",
     ],
 )
+
+###############
+ppx_executable(
+    name = "ppx1.exe",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
+    ],
+    main = "//bzl/ppx/exe:ppxlib_driver",
+    opts = [],
+    visibility = [
+    ],
+    deps_opam = [
+        "ppxlib"
+    ],
+    deps = [
+        "//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
+    ]
+)
+

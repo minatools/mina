@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "snark_keys_header",
-    main = ":_Snark_keys_header",
+    name = "#snark_keys_header",
     submodules = [
         ":_Snark_keys_header",
     ],
@@ -58,6 +57,6 @@ ppx_executable(
         "ppx_sexp_conv",
         "ppxlib",
     ],
-    deps = ["@ppx_version//src:ppx_version"]
+    deps = ["@ppx_version//src:#ppx_version"]
 
 )

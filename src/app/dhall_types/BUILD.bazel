@@ -3,10 +3,8 @@ load(
     "ocaml_executable",
     "ocaml_module",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: EXECUTABLE DUMP_DHALL_TYPES

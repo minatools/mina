@@ -14,9 +14,9 @@ ocaml_module(
     ],
     struct = "test_util.ml",
     deps = [
-        "@mina//src/lib/snark_params",
-        "@snarky//fold_lib",
-        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/snark_params:#snark_params",
+        "@snarky//fold_lib:#fold_lib",
+        "@snarky//src/base:#snarky_backendless",
     ],
     deps_opam = [
         "core_kernel",

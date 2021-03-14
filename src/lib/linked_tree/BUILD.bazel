@@ -14,7 +14,7 @@ ocaml_module(
         "linked_tree",
     ],
     deps = [
-        "@mina//src/lib/coda_numbers",
+        "@mina//src/lib/mina_numbers:#mina_numbers",
     ],
     deps_opam = [
         "core",

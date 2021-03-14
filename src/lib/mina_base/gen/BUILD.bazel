@@ -13,11 +13,11 @@ GEN_MODULE_OPTS = []
 
 GEN_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/crs",
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//tuple_lib",
-    "@mina//src/lib/crypto_params",
-    "@mina//src/lib/signature_lib",
+    "@mina//src/lib/crs:#crs",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//tuple_lib:#tuple_lib",
+    "@mina//src/lib/crypto_params:#crypto_params",
+    "@mina//src/lib/signature_lib:#signature_lib",
 ]
 
 GEN_DEPS_OPAM = [

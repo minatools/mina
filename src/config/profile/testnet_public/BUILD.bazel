@@ -1,0 +1,47 @@
+load("//bzl:rules.bzl", "mina_profile")
+
+mina_profile(
+    name = "testnet_public",
+    visibility = ["//visibility:public"],
+    ledger_depth = "//src/config/ledger_depth:full",
+    curve_size   = "//src/config/curve_size:medium",
+    coinbase     = "//src/config/coinbase:standard",
+
+    ## [%%import "/src/config/consensus/postake_short.mlh"] - same as default (dev)
+    # consensus_k = "//src/config/consensus/k:short",                                      # 24
+    # consensus_delta = "//src/config/consensus/delta:short",                              # 0
+    # consensus_slots_per_epoch = "//src/config/consensus/slots/epoch:short",              # 576
+    # consensus_slots_per_sub_window = "//src/config/consensus/slots/subwindow:short",     # 2
+    # consensus subwindows_per_window = "//src/config/consensus/subwindows/window:short",  # 3
+
+    # [%%import "/src/config/scan_state/standard.mlh"]
+    scan_state_transaction_capacity_log_2 = "//src/config/scan_state/txn_capacity/log2:medium", # 3
+
+    # [%%import "/src/config/debug_level/some.mlh"] - same as default (dev)
+    # override:
+    cache_exceptions = "//src/config/debug/cache_exceptions:disable",
+
+    # [%%import "/src/config/proof_level/full.mlh"]
+    proof_level = "//src/config/proof_level:full",
+
+    # [%%import "/src/config/txpool_size.mlh"] - same as default (dev)
+
+    # [%%import "/src/config/account_creation_fee/standard.mlh"]
+    account_creation_fee_int = "//src/config/fees/account_creation:standard",  # 1
+
+    # [%%import "/src/config/amount_defaults/standard.mlh"] - same as default
+
+    # [%%import "/src/config/protocol_version/current.mlh"] - same as default
+
+    # [%%import "/src/config/supercharged_coinbase_factor/two.mlh"] - same as default
+
+    time_offsets = "//src/config/time_offsets:disable",
+    plugins      = "//src/config/plugins:disable",
+
+    genesis_ledger = "//src/config/genesis/ledger:testnet_postake",
+    genesis_state_timestamp = "//src/config/genesis/state_timestamp:testnet_public",#"2019-01-30 12:00:00-08:00"
+    block_window_duration = "//src/config/block_window/duration:20000",
+
+    integration_tests = "//src/config/integration_tests:disable",
+    force_updates = "//src/config/force_updates:enable",
+)

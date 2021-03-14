@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "transition_chain_verifier",
-    main = ":_Transition_chain_verifier",
+    name = "#transition_chain_verifier",
     submodules = [
         ":_Transition_chain_verifier",
     ],
@@ -30,9 +29,9 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_state",
-        "@mina//src/lib/merkle_list_verifier",
-        "@mina//src/lib/mina_base",
+        "@mina//src/lib/mina_state:#mina_state",
+        "@mina//src/lib/merkle_list_verifier:#merkle_list_verifier",
+        "@mina//src/lib/mina_base:#mina_base",
     ],
     deps_opam = [
         "core_kernel",
@@ -50,9 +49,9 @@ ocaml_signature(
         "transition_chain_verifier",
     ],
     deps = [
-        "@mina//src/lib/coda_state",
-        "@mina//src/lib/merkle_list_verifier",
-        "@mina//src/lib/mina_base",
+        "@mina//src/lib/mina_state:#mina_state",
+        "@mina//src/lib/merkle_list_verifier:#merkle_list_verifier",
+        "@mina//src/lib/mina_base:#mina_base",
     ],
     deps_opam = [
         "core_kernel",

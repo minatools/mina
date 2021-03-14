@@ -5,10 +5,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY SNARK_PARAMS
@@ -17,18 +14,18 @@ SNARK_PARAMS_MODULE_OPTS = ["-linkall"]
 
 SNARK_PARAMS_DEPS = [
     # do not sort (buildifier)
-    "@snarky//sponge",
-    "@snarky//group_map",
-    "@snarky//fold_lib",
-    "@mina//src/lib/o1trace",
-    "@snarky//tuple_lib",
-    "@snarky//bitstring_lib",
-    "@mina//src/lib/snarky_group_map",
-    "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/snarky_curves",
-    "@mina//src/lib/snark_bits",
-    "@mina//src/lib/pickles",
-    "@mina//src/lib/crypto_params",
+    "@snarky//sponge:#sponge",
+    "@snarky//group_map:#group_map",
+    "@snarky//fold_lib:#fold_lib",
+    "@mina//src/lib/o1trace:#o1trace",
+    "@snarky//tuple_lib:#tuple_lib",
+    "@snarky//bitstring_lib:#bitstring_lib",
+    "@mina//src/lib/snarky_group_map:#snarky_group_map",
+    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/snarky_curves:#snarky_curves",
+    "@mina//src/lib/snark_bits:#snark_bits",
+    "@mina//src/lib/pickles:#pickles",
+    "@mina//src/lib/crypto_params:#crypto_params",
 ]
 
 SNARK_PARAMS_DEPS_OPAM = [
@@ -38,8 +35,7 @@ SNARK_PARAMS_DEPS_OPAM = [
 
 #################
 ocaml_ns_library(
-    name = "snark_params",
-    main = "_Snark_params",
+    name = "#snark_params",
     submodules = [
         ":_Snark_params",
         # ":_Snark_intf",
@@ -48,7 +44,7 @@ ocaml_ns_library(
     visibility = [
         "//visibility:public",
         # "//src/lib/block_time:__pkg__",
-        # "//src/lib/coda_numbers:__pkg__",
+        # "//src/lib/mina_numbers:__pkg__",
         # "//src/lib/currency:__pkg__",
         # "//src/lib/data_hash_lib:__pkg__",
         # "//src/lib/hash_prefix_states:__pkg__",
@@ -133,7 +129,7 @@ ppx_executable(
     opts = [],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

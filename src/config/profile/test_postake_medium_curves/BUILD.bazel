@@ -1,0 +1,57 @@
+load("//bzl:rules.bzl", "mina_profile")
+
+mina_profile(
+    name = "test_postake_medium_curves",
+    visibility = ["//visibility:public"],
+
+    # [%%import "/src/config/ledger_depth/full.mlh"]
+    ledger_depth = "//src/config/ledger_depth:full",
+
+    # [%%import "/src/config/curve/medium.mlh"]
+    curve_size   = "//src/config/curve_size:medium",
+
+    # [%%import "/src/config/coinbase/standard.mlh"]
+    coinbase     = "//src/config/coinbase:standard",
+
+    # [%%import "/src/config/consensus/postake_medium_curve.mlh"]
+    consensus_k = "//src/config/consensus/k:postake_medium_curve",                         # 3
+    consensus_delta = "//src/config/consensus/delta:postake_medium_curve",                 # 0
+    consensus_slots_per_epoch = "//src/config/consensus/slots/epoch:postake_medium_curve", # 72
+    consensus_slots_per_subwindow = "//src/config/consensus/slots/subwindow:postake_medium_curve", # 2
+    consensus_subwindows_per_window = "//src/config/consensus/subwindows/window:postake_medium_curve", # 2
+
+    # [%%import "/src/config/scan_state/tiny.mlh"]
+    scan_state_transaction_capacity_log_2 = "//src/config/scan_state/txn_capacity/log2:medium", # 3
+
+    # [%%import "/src/config/debug_level/some.mlh"] - same as default (dev)
+
+    # [%%import "/src/config/proof_level/full.mlh"]
+    proof_level = "//src/config/proof_level:full",
+
+    # [%%import "/src/config/txpool_size.mlh"] - same as default (dev)
+
+    # [%%import "/src/config/account_creation_fee/standard.mlh"]
+    account_creation_fee_int = "//src/config/fees/account_creation:standard",  # 1
+
+    # [%%import "/src/config/amount_defaults/standard.mlh"] - same as default
+
+    # [%%import "/src/config/protocol_version/current.mlh"] - same as default
+
+    # [%%import "/src/config/supercharged_coinbase_factor/two.mlh"] - same as default
+
+    time_offsets = "//src/config/time_offsets:enable",
+    plugins      = "//src/config/plugins:disable",
+
+    genesis_ledger = "//src/config/genesis/ledger:test",
+    genesis_state_timestamp = "//src/config/genesis/state_timestamp:testnet_public",#"2019-01-30 12:00:00-08:00"
+    block_window_duration = "//src/config/block_window/duration:360000",
+
+    integration_tests = "//src/config/integration_tests:enable",
+    force_updates = "//src/config/force_updates:disable",
+
+    download_snark_keys = "//src/config/snark_keys/download:disable",
+    # mock_frontend_data = "//src/config/mock_frontend_data",       # False
+    print_versioned_types = "//src/config/print_versioned_types:disable",
+    daemon_expiry = "//src/config/daemon/expiry:never",
+    test_full_epoch = "//src/config/test/epoch_full:disable"
+)

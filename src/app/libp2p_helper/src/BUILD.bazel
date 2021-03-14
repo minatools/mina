@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 # gazelle:prefix
 
@@ -21,6 +21,8 @@ go_library(
         "@com_github_libp2p_go_libp2p_core//metrics",
         "@com_github_libp2p_go_libp2p_core//network",
         "@com_github_libp2p_go_libp2p_core//peer",
+        "@com_github_libp2p_go_libp2p_core//peerstore",
+        "@com_github_libp2p_go_libp2p_core//protocol",
         "@com_github_libp2p_go_libp2p_core//routing",
         "@com_github_libp2p_go_libp2p_discovery//:go-libp2p-discovery",
         "@com_github_libp2p_go_libp2p_kad_dht//:go-libp2p-kad-dht",
@@ -31,6 +33,18 @@ go_library(
         "@com_github_libp2p_go_libp2p_record//:go-libp2p-record",
         "@com_github_libp2p_go_mplex//:go-mplex",
         "@com_github_multiformats_go_multiaddr//:go-multiaddr",
+        "@com_github_multiformats_go_multiaddr//net",
         "@org_golang_x_crypto//blake2b",
+    ],
+)
+
+go_test(
+    name = "lib_test",
+    srcs = ["codanet_test.go"],
+    embed = [":codanet"],
+    deps = [
+        "@com_github_libp2p_go_libp2p_core//peer",
+        "@com_github_multiformats_go_multiaddr//:go-multiaddr",
+        "@com_github_stretchr_testify//require",
     ],
 )

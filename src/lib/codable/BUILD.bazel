@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "codable",
-    main = ":_Codable",
+    name = "#codable",
     submodules = [
         ":_Codable"
     ],
@@ -28,7 +27,7 @@ ocaml_module(
     struct = "codable.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/base58_check",
+        "@mina//src/lib/base58_check:#base58_check",
     ],
     deps_opam = [
         "core_kernel",

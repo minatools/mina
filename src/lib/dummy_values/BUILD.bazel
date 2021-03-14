@@ -16,8 +16,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/crypto_params",
-        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/crypto_params:#crypto_params",
+        "@snarky//src/base:#snarky_backendless",
     ],
 )
 
@@ -27,7 +27,7 @@ TOOL = "//src/lib/dummy_values/gen_values:gen_values.exe"
 ##############
 ocaml_genrule(
     name   = "_Dummy_values",
-    out    = "dummy_values.ml",
+    outs   = ["dummy_values.ml"],
     tools  = [TOOL],
     cmd = "\n".join([
         "$(location {tool})".format(tool = TOOL),

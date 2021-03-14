@@ -23,7 +23,7 @@ GADT_LIB_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "gadt_lib",
+    name = "#gadt_lib",
     submodules = [
         ":_Peano",
         "_Vect",

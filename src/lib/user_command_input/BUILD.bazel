@@ -17,16 +17,16 @@ ocaml_module(
     sig = ":_User_command_input.cmi",
     struct = "user_command_input.ml",
     deps = [
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/participating_state",
-        "@mina//src/lib/secrets",
-        "@mina//src/lib/signature_lib",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/participating_state:#participating_state",
+        "@mina//src/lib/secrets:#secrets",
+        "@mina//src/lib/signature_lib:#signature_lib",
     ],
     deps_opam = [
         "core",
     ],
     visibility = [
-        "//src/lib/coda_commands:__pkg__",
+        "//src/lib/mina_commands:__pkg__",
         "//src/lib/daemon_rpcs:__pkg__",
         "//src/lib/integration_test_lib:__pkg__",
         "//src/lib/integration_test_cloud_engine:__pkg__",
@@ -47,10 +47,10 @@ ocaml_signature(
         "user_command_input",
     ],
     deps = [
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/participating_state",
-        "@mina//src/lib/secrets",
-        "@mina//src/lib/signature_lib",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/participating_state:#participating_state",
+        "@mina//src/lib/secrets:#secrets",
+        "@mina//src/lib/signature_lib:#signature_lib",
     ],
     deps_opam = [
         "core",
@@ -80,8 +80,8 @@ ppx_executable(
         "//src/lib/user_command_input:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.make",

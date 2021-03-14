@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "cache_dir",
-    main = ":_Cache_dir",
+    name = "#cache_dir",
     submodules = [
         ":_Cache_dir"
     ],
@@ -27,9 +26,9 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/blake2",
-        "@mina//src/lib/key_cache",
-        "@mina//src/lib/logger",
+        "@mina//src/lib/blake2:#blake2",
+        "@mina//src/lib/key_cache:#key_cache",
+        "@mina//src/lib/logger:#logger",
     ],
     deps_opam = [
         "async",
@@ -48,8 +47,8 @@ ppx_executable(
         "//src/lib/cache_dir:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_custom_printf",

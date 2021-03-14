@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "key_value_database",
-    main = ":_Key_value_database",
+    name = "#key_value_database",
     submodules = [
         ":_Key_value_database",
     ],

@@ -15,7 +15,7 @@ ALLOCATION_FUNCTOR_MODULE_OPTS = []
 
 ALLOCATION_FUNCTOR_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_metrics",
+    "@mina//src/lib/mina_metrics:#mina_metrics",
 ]
 ALLOCATION_FUNCTOR_DEPS_OPAM = [
     "core_kernel"
@@ -23,7 +23,7 @@ ALLOCATION_FUNCTOR_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "allocation_functor",
+    name = "#allocation_functor",
     submodules = [
         ":_Intf",
         ":_Make",
@@ -127,16 +127,16 @@ ppx_executable(
         "ppx_enumerate.runtime-lib",
         "ppx_module_timer.runtime",
     ],
-    deps_adjunct = [
-        "@ppx_version//src/runtime:ppx_version_runtime",
-    ],
+    # deps_adjunct = [
+    #     "@ppx_version//src/runtime:#ppx_version_runtime",
+    # ],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/allocation_functor:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_jane",

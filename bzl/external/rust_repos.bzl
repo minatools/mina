@@ -1,29 +1,49 @@
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")  # buildifier: disable=load
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")  # buildifier: disable=load
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")  # buildifier: disable=load
 
 def rust_fetch_libs():
 
-    # native.local_repository( name = "zexe" , path = "src/lib/marlin/zexe")
-    maybe(
-        git_repository,
-        name = "zexe",
-        remote = "https://github.com/o1-labs/zexe",
-        commit = "0ce97035781551ddf9dd0bec017d29de227d7d42",
-        shallow_since = "1608332456 +0000"
-        # remote = "https://github.com/obazl/zexe",
-        # branch = "bazel"
-        # branch = "master",
-     )
+    ## commit ids should match submodule pins
+    minatools = struct(
+        zexe = struct(
+            commitid = "f317d3e5f7edc7cd3630baf08fe0de459ef9374a",
+            sha256   = "843794aff7822840d7d3976e5ee681b5dd0890f13ce4d734fac8fdc35707c16e"
+        ),
+        marlin = struct(
+            commitid = "0096f8d15582d363d7de420274f1b911be6831c4",
+            sha256   = "8a520b330c26c3fda68269e9d6686b1bc49f745d7ae272cbcb69bf464bf5986e"
+        )
+    )
+    # o1labs = struct(
+    #     commitid = "...",  # prod (o1-labs)
+    #     sha256   = ""  # proc
+    # )
 
-    # native.local_repository( name = "marlin" , path = "src/lib/marlin")
     maybe(
-        git_repository,
-        name = "marlin",
-        remote = "https://github.com/o1-labs/marlin.git",
-        commit = "282c76f278c5744bd9c27d53cc6cdb0ca768ac00",
-        shallow_since = "1608343138 +0000"
-        # branch = "master",
+        http_archive,
+        name         = "marlin",
+        sha256       = minatools.marlin.sha256,
+        strip_prefix = "marlin-" + minatools.marlin.commitid,
+        urls = [
+            ## dev:
+            "https://github.com/minatools/marlin/archive/" + minatools.marlin.commitid + ".tar.gz"
 
-        # remote = "https://github.com/obazl/marlin",
-        # branch = "mina"
+            ## prod:
+            ## "https://github.com/o1-labs/marlin",
+        ],
+    )
+
+    maybe(
+        http_archive,
+        name         = "zexe",
+        sha256       = minatools.zexe.sha256,
+        strip_prefix = "zexe-" + minatools.zexe.commitid,
+        urls = [
+            ## dev:
+            "https://github.com/minatools/zexe/archive/" + minatools.zexe.commitid + ".tar.gz"
+
+            ## prod:
+            ## "https://github.com/o1-labs/zexe",
+        ],
     )

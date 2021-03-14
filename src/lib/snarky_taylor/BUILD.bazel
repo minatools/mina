@@ -14,8 +14,8 @@ SNARKY_TAYLOR_MODULE_OPTS = []
 
 SNARKY_TAYLOR_DEPS = [
     # do not sort (buildifier)
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//snarky_integer",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//snarky_integer:#snarky_integer",
 ]
 
 SNARKY_TAYLOR_DEPS_OPAM = [
@@ -32,8 +32,7 @@ SNARKY_TAYLOR_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "snarky_taylor",
-    main = "_Snarky_taylor",
+    name = "#snarky_taylor",
     submodules = [
         ":_Floating_point",
         ":_Snarky_taylor",

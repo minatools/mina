@@ -11,9 +11,8 @@ VRF_LIB_MODULE_OPTS = []
 
 VRF_LIB_DEPS = [
     # do not sort (buildifier)
-    "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/snarky_curves",
-    # "@mina//src/lib/test_util",
+    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/snarky_curves:#snarky_curves",
 ]
 VRF_LIB_DEPS_OPAM = [
     "core",
@@ -29,7 +28,7 @@ VRF_LIB_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "vrf_lib",
+    name = "#vrf_lib",
     submodules = [
         ":_Integrated",
         ":_Standalone",
@@ -47,7 +46,7 @@ ocaml_module(
     ppx_args = VRF_LIB_PPX_ARGS,
     struct = "integrated.ml",
     deps = VRF_LIB_DEPS + [
-        "@mina//src/lib/genesis_constants",
+        "@mina//src/lib/genesis_constants:#genesis_constants",
     ],
     deps_opam = VRF_LIB_DEPS_OPAM
 )

@@ -6,15 +6,11 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 #################
 ocaml_ns_library(
-    name = "transaction_snark_scan_state",
-    main = ":_Transaction_snark_scan_state",
+    name = "#transaction_snark_scan_state",
     submodules = [
         ":_Transaction_snark_scan_state",
     ],
@@ -32,18 +28,18 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_state",
-        "@mina//src/lib/ledger_proof",
-        "@mina//src/lib/logger",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/parallel_scan",
-        "@mina//src/lib/pipe_lib",
-        "@mina//src/lib/sgn",
-        "@mina//src/lib/snark_params",
-        "@mina//src/lib/snark_work_lib",
-        "@mina//src/lib/transaction_snark",
-        "@mina//src/lib/transaction_snark_work",
-        "@mina//src/lib/transaction_witness",
+        "@mina//src/lib/mina_state:#mina_state",
+        "@mina//src/lib/ledger_proof:#ledger_proof",
+        "@mina//src/lib/logger:#logger",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/parallel_scan:#parallel_scan",
+        "@mina//src/lib/pipe_lib:#pipe_lib",
+        "@mina//src/lib/sgn:#sgn",
+        "@mina//src/lib/snark_params:#snark_params",
+        "@mina//src/lib/snark_work_lib:#snark_work_lib",
+        "@mina//src/lib/transaction_snark:#transaction_snark",
+        "@mina//src/lib/transaction_snark_work:#transaction_snark_work",
+        "@mina//src/lib/transaction_witness:#transaction_witness",
     ],
     deps_opam = [
         "async",
@@ -61,18 +57,18 @@ ocaml_signature(
     ppx = ":ppx1.exe",
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/coda_state",
-        "@mina//src/lib/ledger_proof",
-        "@mina//src/lib/logger",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/parallel_scan",
-        "@mina//src/lib/pipe_lib",
-        "@mina//src/lib/sgn",
-        "@mina//src/lib/snark_params",
-        "@mina//src/lib/snark_work_lib",
-        "@mina//src/lib/transaction_snark",
-        "@mina//src/lib/transaction_snark_work",
-        "@mina//src/lib/transaction_witness",
+        "@mina//src/lib/mina_state:#mina_state",
+        "@mina//src/lib/ledger_proof:#ledger_proof",
+        "@mina//src/lib/logger:#logger",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/parallel_scan:#parallel_scan",
+        "@mina//src/lib/pipe_lib:#pipe_lib",
+        "@mina//src/lib/sgn:#sgn",
+        "@mina//src/lib/snark_params:#snark_params",
+        "@mina//src/lib/snark_work_lib:#snark_work_lib",
+        "@mina//src/lib/transaction_snark:#transaction_snark",
+        "@mina//src/lib/transaction_snark_work:#transaction_snark_work",
+        "@mina//src/lib/transaction_witness:#transaction_witness",
     ],
     deps_opam = [
         "async",
@@ -100,9 +96,9 @@ ppx_executable(
         "//src/lib/transaction_snark_scan_state:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_base",

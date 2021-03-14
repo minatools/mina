@@ -6,15 +6,11 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 #########
 ocaml_ns_library(
-    name = "hash_prefix_states",
-    main = ":_Hash_prefix_states",
+    name = "#hash_prefix_states",
     submodules = [
         ":_Hash_prefix_states",
     ],
@@ -37,9 +33,9 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_compile_config",
-        "@mina//src/lib/random_oracle",
-        "@mina//src/lib/snark_params",
+        "@mina//src/lib/mina_compile_config:#mina_compile_config",
+        "@mina//src/lib/random_oracle:#random_oracle",
+        "@mina//src/lib/snark_params:#snark_params",
     ],
 )
 
@@ -55,9 +51,9 @@ ocaml_signature(
     ],
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/coda_compile_config",
-        "@mina//src/lib/random_oracle",
-        "@mina//src/lib/snark_params",
+        "@mina//src/lib/mina_compile_config:#mina_compile_config",
+        "@mina//src/lib/random_oracle:#random_oracle",
+        "@mina//src/lib/snark_params:#snark_params",
     ],
 )
 
@@ -76,7 +72,7 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

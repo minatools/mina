@@ -37,10 +37,12 @@ go_test(
     srcs = ["main_test.go"],
     embed = [":libp2p_helper_lib"],
     deps = [
+        "@com_github_ipfs_go_log//:go-log",
         "@com_github_libp2p_go_libp2p_core//crypto",
         "@com_github_libp2p_go_libp2p_core//host",
         "@com_github_libp2p_go_libp2p_core//network",
         "@com_github_libp2p_go_libp2p_core//peer",
+        "@com_github_libp2p_go_libp2p_core//peerstore",
         "@com_github_libp2p_go_libp2p_core//protocol",
         "@com_github_libp2p_go_libp2p_pubsub//:go-libp2p-pubsub",
         "@com_github_multiformats_go_multiaddr//:go-multiaddr",

@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "unix_timestamp",
-    main = ":_Unix_timestamp",
+    name = "#unix_timestamp",
     submodules = [
         ":_Unix_timestamp",
     ],

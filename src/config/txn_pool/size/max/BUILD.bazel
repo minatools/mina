@@ -1,0 +1,15 @@
+""" config/txn_pool/size
+
+Configuration flag and constants for pool_max_size.
+
+Note this value needs to be consistent across nodes to prevent
+spurious bans. See comment in transaction_pool.ml for more details.
+"""
+
+load("@bazel_skylib//rules:common_settings.bzl", "int_flag", "int_setting")
+
+package(default_visibility = ["//visibility:public"])
+
+int_flag( name = "max", build_setting_default = 3000)
+
+

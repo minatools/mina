@@ -1,0 +1,6 @@
+load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
+
+package(default_visibility = ["//visibility:public"])
+
+bool_flag( name = "fork", build_setting_default = False)
+

@@ -6,8 +6,7 @@ load(
 
 #################
 ppx_ns_library(
-    name = "ppx_representatives",
-    main = ":_Ppx_representatives",
+    name = "#ppx_representatives",
     submodules = [
         ":_Ppx_representatives",
     ],

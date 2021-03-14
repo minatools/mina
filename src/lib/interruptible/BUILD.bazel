@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "interruptible",
-    main = ":_Interruptible",
+    name = "#interruptible",
     submodules = [
         ":_Interruptible",
     ],

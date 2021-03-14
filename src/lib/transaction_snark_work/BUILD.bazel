@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "transaction_snark_work",
-    main = ":_Transaction_snark_work",
+    name = "#transaction_snark_work",
     submodules = [
         ":_Transaction_snark_work",
     ],
@@ -30,10 +29,10 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/ledger_proof",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/one_or_two",
-        "@mina//src/lib/transaction_snark",
+        "@mina//src/lib/ledger_proof:#ledger_proof",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/one_or_two:#one_or_two",
+        "@mina//src/lib/transaction_snark:#transaction_snark",
     ],
     deps_opam = [
         "core_kernel",
@@ -51,10 +50,10 @@ ocaml_signature(
         "transaction_snark_work",
     ],
     deps = [
-        "@mina//src/lib/ledger_proof",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/one_or_two",
-        "@mina//src/lib/transaction_snark",
+        "@mina//src/lib/ledger_proof:#ledger_proof",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/one_or_two:#one_or_two",
+        "@mina//src/lib/transaction_snark:#transaction_snark",
     ],
     deps_opam = [
         "core_kernel",

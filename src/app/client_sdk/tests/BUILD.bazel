@@ -1,15 +1,11 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
     "ocaml_module",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: EXECUTABLE TEST_SIGNATURES
@@ -24,7 +20,7 @@ TEST_SIGNATURES_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
     "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_numbers",
+    "@mina//src/lib/mina_numbers",
     "@mina//src/lib/currency",
     "@mina//src/lib/signature_lib",
     "@mina//src/lib/snark_params",
@@ -65,7 +61,7 @@ TEST_SIGNATURES_NONCONSENSUS_DEPS = [
     # do not sort (buildifier)
     "@opam//pkg:core_kernel",
     "@mina//src/nonconsensus/mina_base:mina_base_nonconsensus",
-    "@mina//src/nonconsensus/coda_numbers:coda_numbers_nonconsensus",
+    "@mina//src/nonconsensus/mina_numbers:mina_numbers_nonconsensus",
     "@mina//src/nonconsensus/currency:currency_nonconsensus",
     "@mina//src/nonconsensus/signature_lib:signature_lib_nonconsensus",
     "@mina//src/nonconsensus/snark_params:snark_params_nonconsensus",

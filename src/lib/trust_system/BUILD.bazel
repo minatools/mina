@@ -15,13 +15,12 @@ TRUST_SYSTEM_MODULE_OPTS = []
 
 TRUST_SYSTEM_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/network_peer",
-    "@mina//src/lib/key_value_database",
-    "@mina//src/lib/logger",
-    "@mina//src/lib/pipe_lib",
-    "@mina//src/lib/rocksdb",
-    "@mina//src/lib/mina_metrics",
-    "@ppx_version//src/runtime:ppx_version_runtime",
+    "@mina//src/lib/network_peer:#network_peer",
+    "@mina//src/lib/key_value_database:#key_value_database",
+    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/pipe_lib:#pipe_lib",
+    "@mina//src/lib/rocksdb:#rocksdb",
+    "@mina//src/lib/mina_metrics:#mina_metrics",
 ]
 TRUST_SYSTEM_DEPS_OPAM = [
     "core",
@@ -30,8 +29,7 @@ TRUST_SYSTEM_DEPS_OPAM = [
 
 #################
 ocaml_ns_library(
-    name = "trust_system",
-    main = ":_Trust_system",
+    name = "#trust_system",
     submodules = [
         ":_Banned_status",
         ":_Peer_status",
@@ -48,6 +46,7 @@ ocaml_ns_library(
 #############
 ocaml_module(
     name = "_Banned_status",
+    struct = "banned_status.ml",
     opts = TRUST_SYSTEM_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -55,8 +54,9 @@ ocaml_module(
         "-inline-test-lib",
         "trust_system",
     ],
-    struct = "banned_status.ml",
-    deps = TRUST_SYSTEM_DEPS,
+    deps = TRUST_SYSTEM_DEPS + [
+        "@ppx_version//src/runtime:#ppx_version_runtime"
+    ],
     deps_opam = TRUST_SYSTEM_DEPS_OPAM,
 )
 
@@ -186,15 +186,16 @@ ppx_executable(
         "bin_prot",
         "fieldslib",
     ],
+    # deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
         "//src/lib/trust_system:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@mina//src/lib/ppx_register_event",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_register_event:#ppx_register_event",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

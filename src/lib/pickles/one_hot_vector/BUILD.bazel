@@ -7,8 +7,7 @@ load(
 
 
 ocaml_ns_library(
-    name = "one_hot_vector",
-    main = ":_One_hot_vector",
+    name = "#one_hot_vector",
     submodules = [
         ":_One_hot_vector",
     ],
@@ -29,9 +28,9 @@ ocaml_module(
     sig = ":_One_hot_vector.cmi",
     struct = "one_hot_vector.ml",
     deps = [
-        "@mina//src/lib/pickles_types",
-        "@mina//src/lib/zexe_backend",
-        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/pickles_types:#pickles_types",
+        "@mina//src/lib/zexe_backend:#zexe_backend",
+        "@snarky//src/base:#snarky_backendless",
     ],
     deps_opam = [
         "core_kernel",
@@ -53,9 +52,9 @@ ocaml_signature(
         "one_hot_vector",
     ],
     deps = [
-        "@mina//src/lib/pickles_types",
-        "@mina//src/lib/zexe_backend",
-        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/pickles_types:#pickles_types",
+        "@mina//src/lib/zexe_backend:#zexe_backend",
+        "@snarky//src/base:#snarky_backendless",
     ],
     deps_opam = [
         "core_kernel",

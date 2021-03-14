@@ -8,7 +8,7 @@ ocaml_module(
     name = "empty_hashes",
     ppx = "//bzl/ppx/exe:ppx_version",
     struct = "empty_hashes.ml",
-    deps = ["@mina//src/lib/immutable_array"],
+    deps = ["@mina//src/lib/immutable_array:#immutable_array"],
     deps_opam = ["core"],
     visibility = [
         "//src/lib/merkle_ledger:__pkg__"

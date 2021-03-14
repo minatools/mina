@@ -16,8 +16,8 @@ ARCHIVE_MODULE_OPTS = []
 
 ARCHIVE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/app/archive/archive_lib",
-    "@mina//src/lib/cli_lib",
+    "@mina//src/app/archive/archive_lib:#archive_lib",
+    "@mina//src/lib/cli_lib:#cli_lib",
 ]
 ARCHIVE_DEPS_OPAM = [
     "core",
@@ -74,8 +74,8 @@ ppx_executable(
         "//src/app/archive:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_jane",

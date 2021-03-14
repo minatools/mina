@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "webkit_trace_event",
-    main = ":_Webkit_trace_event",
+    name = "#webkit_trace_event",
     submodules = [
         ":_Webkit_trace_event"
     ],

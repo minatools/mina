@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "rose_tree",
-    main = ":_Rose_tree",
+    name = "#rose_tree",
     submodules = [
         ":_Rose_tree",
     ],
@@ -29,7 +28,7 @@ ocaml_module(
         "rose_tree",
     ],
     deps = [
-        "@mina//src/lib/non_empty_list",
+        "@mina//src/lib/non_empty_list:#non_empty_list",
     ],
     deps_opam = [
         "async_kernel",
@@ -53,7 +52,7 @@ ocaml_signature(
         "rose_tree",
     ],
     deps = [
-        "@mina//src/lib/non_empty_list",
+        "@mina//src/lib/non_empty_list:#non_empty_list",
     ],
     deps_opam = [
         "async_kernel",

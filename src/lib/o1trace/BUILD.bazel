@@ -4,17 +4,14 @@ load(
     "ocaml_ns_library",
     "ocaml_signature",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 PPX_PRINT = "@ppx//print:text"
 
 #################
 ocaml_ns_library(
-    name = "o1trace",
-    main = ":_O1trace",
+    name = "#o1trace",
     submodules = [
         ":_O1trace",
     ],
@@ -29,14 +26,11 @@ ocaml_module(
     struct = "o1trace.ml",
     sig = ":_O1trace.cmi",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_optcomp",
-    ppx_args = [
-        # do not sort (buildifier)
-    ],
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/webkit_trace_event",
+        "@mina//src/lib/webkit_trace_event:#webkit_trace_event",
     ],
     deps_opam = [
         "async",
@@ -48,7 +42,6 @@ ocaml_module(
 ocaml_signature(
     name = "_O1trace.cmi",
     src = "o1trace.mli",
-    opts = [],
     ppx = "//bzl/ppx/exe:ppx_version__ppx_optcomp",
     ppx_args = [
         # do not sort (buildifier)
@@ -56,7 +49,7 @@ ocaml_signature(
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
     deps = [
-        "@mina//src/lib/webkit_trace_event",
+        "@mina//src/lib/webkit_trace_event:#webkit_trace_event",
     ],
     deps_opam = [
         "async",

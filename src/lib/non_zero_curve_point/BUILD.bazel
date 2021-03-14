@@ -5,10 +5,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 PPX_PRINT = "@ppx//print:binary"
 
@@ -19,10 +16,10 @@ NON_ZERO_CURVE_POINT_MODULE_OPTS = []
 
 NON_ZERO_CURVE_POINT_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/snark_params",
-    "@snarky//fold_lib",
-    "@mina//src/lib/codable",
-    "@ppx_version//src/runtime:ppx_version_runtime",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@snarky//fold_lib:#fold_lib",
+    "@mina//src/lib/codable:#codable",
+    # "@ppx_version//src/runtime:#ppx_version_runtime",
 ]
 
 NON_ZERO_CURVE_POINT_DEPS_OPAM = [
@@ -31,8 +28,7 @@ NON_ZERO_CURVE_POINT_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "non_zero_curve_point",
-    main = "_Non_zero_curve_point",
+    name = "#non_zero_curve_point",
     submodules = [
         ":_Compressed_poly",
         ":_Non_zero_curve_point",
@@ -101,9 +97,9 @@ ppx_executable(
         "//src/lib/non_zero_curve_point:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],

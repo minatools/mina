@@ -6,10 +6,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY STAGED_LEDGER
@@ -20,17 +17,17 @@ STAGED_LEDGER_MODULE_OPTS = []
 
 STAGED_LEDGER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/transaction_snark_scan_state",
-    "@mina//src/lib/sgn",
-    "@mina//src/lib/transaction_snark",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/merkle_mask",
-    "@mina//src/lib/pipe_lib",
-    "@mina//src/lib/logger",
-    "@mina//src/lib/ledger_proof",
-    "@mina//src/lib/verifier",
-    "@mina//src/lib/transaction_snark_work",
-    "@mina//src/lib/staged_ledger_diff",
+    "@mina//src/lib/transaction_snark_scan_state:#transaction_snark_scan_state",
+    "@mina//src/lib/sgn:#sgn",
+    "@mina//src/lib/transaction_snark:#transaction_snark",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/merkle_mask:#merkle_mask",
+    "@mina//src/lib/pipe_lib:#pipe_lib",
+    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/ledger_proof:#ledger_proof",
+    "@mina//src/lib/verifier:#verifier",
+    "@mina//src/lib/transaction_snark_work:#transaction_snark_work",
+    "@mina//src/lib/staged_ledger_diff:#staged_ledger_diff",
     "@mina//src/lib/inline_test_quiet_logs",
 ]
 STAGED_LEDGER_DEPS_OPAM = [
@@ -42,8 +39,7 @@ STAGED_LEDGER_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "staged_ledger",
-    main = "_Staged_ledger",
+    name = "#staged_ledger",
     submodules = [
         ":_Diff_creation_log",
         ":_Pre_diff_info",
@@ -146,9 +142,9 @@ ppx_executable(
         "//src/lib/staged_ledger:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "lens.ppx_deriving",

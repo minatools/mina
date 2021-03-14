@@ -11,9 +11,9 @@ LIMB_VECTOR_MODULE_OPTS = []
 
 LIMB_VECTOR_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/pickles/backend",
-    "@mina//src/lib/pickles_types",
-    "@snarky//src/base:snarky_backendless",
+    "@mina//src/lib/pickles/backend:#backend",
+    "@mina//src/lib/pickles_types:#pickles_types",
+    "@snarky//src/base:#snarky_backendless",
 ]
 
 LIMB_VECTOR_DEPS_OPAM = [
@@ -30,8 +30,7 @@ LIMB_VECTOR_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "limb_vector",
-    main = ":_Limb_vector",
+    name = "#limb_vector",
     submodules = [
         ":_Constant",
         ":_Make",

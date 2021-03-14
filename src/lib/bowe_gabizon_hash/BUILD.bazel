@@ -26,8 +26,7 @@ BOWE_GABIZON_HASH_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "bowe_gabizon_hash",
-    main = ":_Bowe_gabizon_hash",
+    name = "#bowe_gabizon_hash",
     submodules = [
         ":_Bowe_gabizon_hash",
         ":_Inputs_intf"

@@ -8,10 +8,14 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "structured_log_events",
-    main = ":_Structured_log_events",
+    name = "#structured_log_events",
+    # transitivity = False,
     submodules = [
         ":_Structured_log_events",
+        ## _Structured_log_events refers to interpolator_lib, but does
+        ## not contain an aliasing equation for it.  So we must list it
+        ## both as a submodule here, and as a dep of _Structured_log_events.
+        "@mina//src/lib/logproc_lib:#interpolator_lib",
     ],
     visibility = [
         "//visibility:public",
@@ -24,7 +28,7 @@ ocaml_module(
     struct = "structured_log_events.ml",
     sig = ":_Structured_log_events.cmi",
     deps = [
-        "@mina//src/lib/logproc_lib:interpolator_lib",
+        "@mina//src/lib/logproc_lib:#interpolator_lib",
     ],
     deps_opam = [
         "core_kernel",
@@ -50,7 +54,7 @@ ocaml_signature(
         "structured_log_events",
     ],
     deps = [
-        "@mina//src/lib/logproc_lib:interpolator_lib",
+        "@mina//src/lib/logproc_lib:#interpolator_lib",
     ],
     deps_opam = [
         "core_kernel",
@@ -80,7 +84,7 @@ ppx_executable(
         "//src/lib/structured_log_events:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.std",

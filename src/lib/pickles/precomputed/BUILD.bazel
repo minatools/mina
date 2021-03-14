@@ -14,7 +14,7 @@ ocaml_module(
     ],
     struct = "precomputed.ml",
     deps = [
-        "@mina//src/lib/zexe_backend",
+        "@mina//src/lib/zexe_backend:#zexe_backend",
     ],
     deps_opam = [
         "core_kernel",

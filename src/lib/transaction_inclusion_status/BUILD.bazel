@@ -7,10 +7,9 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "transaction_status",
-    main = ":_Transaction_status",
+    name = "#transaction_inclusion_status",
     submodules = [
-        ":_Transaction_status",
+        ":_Transaction_inclusion_status",
     ],
     visibility = [
         "//visibility:public",
@@ -19,20 +18,20 @@ ocaml_ns_library(
 
 #############
 ocaml_module(
-    name = "_Transaction_status",
-    struct = "transaction_status.ml",
-    sig = ":_Transaction_status.cmi",
+    name = "_Transaction_inclusion_status",
+    struct = "transaction_inclusion_status.ml",
+    sig = ":_Transaction_inclusion_status.cmi",
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "transaction_status",
+        "transaction_inclusion_status",
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/network_pool",
-        "@mina//src/lib/transition_frontier",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/network_pool:#network_pool",
+        "@mina//src/lib/transition_frontier:#transition_frontier",
     ],
     deps_opam = [
         "core_kernel",
@@ -41,18 +40,18 @@ ocaml_module(
 
 ################
 ocaml_signature(
-    name = "_Transaction_status.cmi",
-    src = "transaction_status.mli",
+    name = "_Transaction_inclusion_status.cmi",
+    src = "transaction_inclusion_status.mli",
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "transaction_status",
+        "transaction_inclusion_status",
     ],
     deps = [
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/network_pool",
-        "@mina//src/lib/transition_frontier",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/network_pool:#network_pool",
+        "@mina//src/lib/transition_frontier:#transition_frontier",
     ],
     deps_opam = [
         "core_kernel",

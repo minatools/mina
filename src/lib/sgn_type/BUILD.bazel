@@ -24,7 +24,7 @@ SGN_TYPE_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "sgn_type",
+    name = "#sgn_type",
     opts = [
         "-w", "-31"   ## two files both define a module
     ],

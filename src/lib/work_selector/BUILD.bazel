@@ -5,10 +5,8 @@ load(
     "ocaml_signature",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY WORK_SELECTOR
@@ -19,12 +17,12 @@ WORK_SELECTOR_MODULE_OPTS = []
 
 WORK_SELECTOR_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/debug_assert",
-    "@mina//src/lib/logger",
-    "@mina//src/lib/coda_intf",
-    "@mina//src/lib/unix_timestamp",
-    "@mina//src/lib/staged_ledger",
-    "@mina//src/lib/network_pool",
+    "@mina//src/lib/debug_assert:#debug_assert",
+    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/mina_intf:#mina_intf",
+    "@mina//src/lib/unix_timestamp:#unix_timestamp",
+    "@mina//src/lib/staged_ledger:#staged_ledger",
+    "@mina//src/lib/network_pool:#network_pool",
 ]
 WORK_SELECTOR_DEPS_OPAM = [
     "core",
@@ -34,8 +32,7 @@ WORK_SELECTOR_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "work_selector",
-    main = "_Work_selector",
+    name = "#work_selector",
     submodules = [
         ":_Inputs",
         ":_Intf",
@@ -262,9 +259,9 @@ ppx_executable(
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_assert",

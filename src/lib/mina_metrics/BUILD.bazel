@@ -4,10 +4,8 @@ load(
     "ocaml_ns_library",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY MINA_METRICS
@@ -17,7 +15,7 @@ MINA_METRICS_MODULE_OPTS = []
 MINA_METRICS_DEPS = [
     # do not sort (buildifier)
     "@ocaml_jemalloc//src:jemalloc",
-    "@mina//src/lib/logger",
+    "@mina//src/lib/logger:#logger",
 ]
 
 MINA_METRICS_DEPS_OPAM = [
@@ -30,9 +28,7 @@ MINA_METRICS_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "mina_metrics",
-    main = "_Mina_metrics",
-    # includes = ["_Mina_metrics"],
+    name = "#mina_metrics",
     submodules = [
         ":_Mina_metrics",
         ":_Metric_generators",
@@ -101,8 +97,8 @@ ppx_executable(
         "//src/lib/mina_metrics:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
         "@ppx_optcomp//src:ppx_optcomp",
     ],
     deps_opam = [

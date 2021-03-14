@@ -12,9 +12,9 @@ ROCKSDB_MODULE_OPTS = ["-linkall"]
 ROCKSDB_DEPS = [
     # do not sort (buildifier)
     "@ocaml_rocksdb//:rocks",
-    "@mina//src/lib/key_value_database",
-    "@mina//src/lib/file_system",
-    "@mina//src/lib/logger",
+    "@mina//src/lib/key_value_database:#key_value_database",
+    "@mina//src/lib/file_system:#file_system",
+    "@mina//src/lib/logger:#logger",
 ]
 ROCKSDB_DEPS_OPAM = ["core"]
 
@@ -28,7 +28,7 @@ ROCKSDB_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "rocksdb",
+    name = "#rocksdb",
     submodules = [
         ":_Database",
         ":_Serializable",

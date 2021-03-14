@@ -5,10 +5,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY ROSETTA_CODING
@@ -17,8 +14,8 @@ ROSETTA_CODING_MODULE_OPTS = []
 
 ROSETTA_CODING_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/signature_lib",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/signature_lib:#signature_lib",
 ]
 ROSETTA_CODING_DEPS_OPAM = [
     "core_kernel",
@@ -26,7 +23,7 @@ ROSETTA_CODING_DEPS_OPAM = [
 
 #################
 ocaml_ns_library(
-    name = "rosetta_coding",
+    name = "#rosetta_coding",
     submodules = [
          ":_Coding",
     ],
@@ -65,7 +62,7 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_assert",

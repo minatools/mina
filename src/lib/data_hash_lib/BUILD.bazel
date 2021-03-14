@@ -6,10 +6,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY DATA_HASH_LIB
@@ -20,16 +17,16 @@ DATA_HASH_LIB_MODULE_OPTS = []
 
 DATA_HASH_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/codable",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/outside_hash_image",
-    "@mina//src/lib/random_oracle",
+    "@mina//src/lib/codable:#codable",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/outside_hash_image:#outside_hash_image",
+    "@mina//src/lib/random_oracle:#random_oracle",
 ]
 DATA_HASH_LIB_DEPS_OPAM = ["core_kernel"]
 
 #########
 ocaml_ns_library(
-    name = "data_hash_lib",
+    name = "#data_hash_lib",
     submodules = [
         ":_Data_hash",
         ":_Data_hash_intf",
@@ -152,9 +149,9 @@ ppx_executable(
         "//src/lib/data_hash_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

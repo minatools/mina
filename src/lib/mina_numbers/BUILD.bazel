@@ -6,41 +6,37 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
-## STANZA 1: LIBRARY CODA_NUMBERS
+## STANZA 1: LIBRARY MINA_NUMBERS
 ################################################################
-CODA_NUMBERS_SIGNATURE_OPTS = []
+MINA_NUMBERS_SIGNATURE_OPTS = []
 
-CODA_NUMBERS_MODULE_OPTS = []
+MINA_NUMBERS_MODULE_OPTS = []
 
-CODA_NUMBERS_DEPS = [
+MINA_NUMBERS_DEPS = [
     # do not sort (buildifier)
-    "@snarky//fold_lib",
-    "@snarky//tuple_lib",
-    "@mina//src/lib/snark_bits",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/unsigned_extended",
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//snarky_integer",
-    "@mina//src/lib/ppx_dhall_type",
-    "@mina//src/lib/codable",
+    "@snarky//fold_lib:#fold_lib",
+    "@snarky//tuple_lib:#tuple_lib",
+    "@mina//src/lib/snark_bits:#snark_bits",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/unsigned_extended:#unsigned_extended",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//snarky_integer:#snarky_integer",
+    "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
+    "@mina//src/lib/codable:#codable",
 ]
-CODA_NUMBERS_DEPS_OPAM = [
+MINA_NUMBERS_DEPS_OPAM = [
     "core"
 ]
 
 #########
 ocaml_ns_library(
-    name = "coda_numbers",
-    main = ":_Coda_numbers",
+    name = "#mina_numbers",
     submodules = [
         ":_Account_nonce",
-        ":_Coda_numbers",
+        ":_Mina_numbers",
         ":_Global_slot",
         ":_Hd_index",
         ":_Intf",
@@ -60,54 +56,54 @@ ocaml_ns_library(
 ocaml_module(
     name = "_Account_nonce",
     sig  = ":_Account_nonce.cmi",
-    opts = CODA_NUMBERS_MODULE_OPTS,
+    opts = MINA_NUMBERS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
     struct = "account_nonce.ml",
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Account_nonce.cmi",
     src = "account_nonce.mli",
-    opts = CODA_NUMBERS_SIGNATURE_OPTS,
+    opts = MINA_NUMBERS_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
-    name = "_Coda_numbers",
-    opts = CODA_NUMBERS_MODULE_OPTS,
+    name = "_Mina_numbers",
+    opts = MINA_NUMBERS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
-    struct = "coda_numbers.ml",
-    deps = CODA_NUMBERS_DEPS + [
+    struct = "mina_numbers.ml",
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Account_nonce",
         ":_Global_slot",
@@ -115,91 +111,91 @@ ocaml_module(
         ":_Length",
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Global_slot",
     sig  = ":_Global_slot.cmi",
-    opts = CODA_NUMBERS_MODULE_OPTS,
+    opts = MINA_NUMBERS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
     struct = "global_slot.ml",
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Global_slot.cmi",
     src = "global_slot.mli",
-    opts = CODA_NUMBERS_SIGNATURE_OPTS,
+    opts = MINA_NUMBERS_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Hd_index",
     sig  = ":_Hd_index.cmi",
-    opts = CODA_NUMBERS_MODULE_OPTS,
+    opts = MINA_NUMBERS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
     struct = "hd_index.ml",
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Hd_index.cmi",
     src = "hd_index.mli",
-    opts = CODA_NUMBERS_SIGNATURE_OPTS,
+    opts = MINA_NUMBERS_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Intf",
-    opts = CODA_NUMBERS_MODULE_OPTS + [
+    opts = MINA_NUMBERS_MODULE_OPTS + [
         "-w",
         "-32",  # Unused value declaration.
     ],
@@ -207,90 +203,90 @@ ocaml_module(
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
     struct = "intf.ml",
-    deps = CODA_NUMBERS_DEPS,
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps = MINA_NUMBERS_DEPS,
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Length",
     sig  = ":_Length.cmi",
-    opts = CODA_NUMBERS_MODULE_OPTS,
+    opts = MINA_NUMBERS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
     struct = "length.ml",
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Length.cmi",
     src = "length.mli",
-    opts = CODA_NUMBERS_SIGNATURE_OPTS,
+    opts = MINA_NUMBERS_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Nat",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Nat",
     sig  = ":_Nat.cmi",
-    opts = CODA_NUMBERS_MODULE_OPTS,
+    opts = MINA_NUMBERS_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
     struct = "nat.ml",
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Nat.cmi",
     src = "nat.mli",
-    opts = CODA_NUMBERS_SIGNATURE_OPTS,
+    opts = MINA_NUMBERS_SIGNATURE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_numbers",
+        "mina_numbers",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_NUMBERS_DEPS + [
+    deps = MINA_NUMBERS_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
     ],
-    deps_opam = CODA_NUMBERS_DEPS_OPAM
+    deps_opam = MINA_NUMBERS_DEPS_OPAM
 )
 
 ###############
@@ -309,20 +305,20 @@ ppx_executable(
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
-        "//src/lib/coda_numbers:__pkg__",
+        "//src/lib/mina_numbers:__pkg__",
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",
-        "ppx_compare",
-        "ppx_deriving.eq",
-        "ppx_deriving_yojson",
-        "ppx_hash",
-        "ppx_inline_test",
         "ppx_sexp_conv",
-        "ppxlib",
+        "ppx_compare",
+        "ppx_hash",
+        "ppx_let",
+        "ppx_deriving_yojson",
+        "ppx_deriving.eq",
+        "ppx_inline_test",
     ]
 )

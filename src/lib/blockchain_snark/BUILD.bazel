@@ -15,14 +15,14 @@ BLOCKCHAIN_SNARK_MODULE_OPTS = []
 
 BLOCKCHAIN_SNARK_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/cache_dir",
-    "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_state",
-    "@mina//src/lib/transaction_snark",
-    "@mina//src/lib/bignum_bigint",
-    "@mina//src/lib/consensus",
+    "@snarky//src/base:#snarky_backendless",
+    "//src/lib/cache_dir:#cache_dir",
+    "//src/lib/snark_params:#snark_params",
+    "//src/lib/mina_base:#mina_base",
+    "//src/lib/mina_state:#mina_state",
+    "//src/lib/transaction_snark:#transaction_snark",
+    "//src/lib/bignum_bigint:#bignum_bigint",
+    "//src/lib/consensus:#consensus",
 ]
 
 BLOCKCHAIN_SNARK_DEPS_OPAM = [
@@ -31,7 +31,7 @@ BLOCKCHAIN_SNARK_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "blockchain_snark",
+    name = "#blockchain_snark",
     submodules = [
         ":_Blockchain",
         ":_Blockchain_snark_state"
@@ -110,8 +110,8 @@ ppx_executable(
     name = "ppx1.exe",
     main = "//bzl/ppx/exe:ppxlib_driver",
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

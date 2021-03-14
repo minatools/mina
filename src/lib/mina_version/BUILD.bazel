@@ -2,19 +2,30 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
      "ocaml_module",
      "ocaml_signature")
 
-load("@obazl_tools_bazel//tools:rules.bzl", "stamped_filegroup")
+## Only stamp if --stamp flag and '--workspace_status_command=bzl/tools/stamp.sh'
+## are passed (see .bazelrc).
+## Otherwise use generic default version.
 
-## Only stamp if --stamp flag is pased.  Otherwise use generic defaults.
+## Passing '--workspace_status_command=bzl/tools/stamp.sh' tells Bazel
+## to use bzl/tools/stamp.sh to write 'bazel-out/stable-status.txt'.
+## Passing '--stamp' sets '//:stampit', which we use below to select a
+## target that uses a genrule to generate mina_version.ml from
+## 'bazel-out/stable-status.txt'.
+
+## You can add a label by passing '--embed_label', e.g. '--embed_label=" (Bazel)"
+
+# To test: $ bazel build src/lib/mina_version --config=beta --config=dbg --embed_label="Testing stamp"
 
 #############
 ocaml_module(
-    name = "coda_version",
-    struct = "default/coda_version.ml",
-    # struct = select({
-    #     "//:stampit": "coda_version.ml",
-    #     "//conditions:default": "default/coda_version.ml",
-    # }),
-    sig = ":_Coda_version.cmi",
+    name = "mina_version",
+    # struct = "default/mina_version.ml",
+    struct = select({
+        "//:stampit": "mina_version.ml",
+        "//conditions:default": "default/mina_version.ml",
+    }),
+    sig = ":_Mina_version.cmi",
+    deps_opam = ["core_kernel"],
     opts = [
         "-w", "-32",  # Error (warning 32): unused value marlin_branch.
     ],
@@ -24,44 +35,44 @@ ocaml_module(
 
 ################
 ocaml_signature(
-    name = "_Coda_version.cmi",
-    src = "coda_version.mli",
+    name = "_Mina_version.cmi",
+    src = "mina_version.mli",
     ppx = "//bzl/ppx/exe:ppx_version",
 )
 
 ########
 ## we're not using any ocaml tools, so native genrule suffices:
 ## NB: this only runs if --stamp flag is passed
-# genrule(
-#     name = "gensrc",
-#     srcs = ["coda_version.ml.template"],
-#     outs = ["coda_version.ml"],
-#     cmd = "\n".join([
-#         "exec <bazel-out/stable-status.txt",
-#         "while read -r K V LINE",  # -r "backslash does not act as an escape char"
-#         "do",
-#         "    echo $$K",
-#         "    eval $$K=$$V",
-#         "done",
-#         "exec 3>$@",
-#         "exec <$<",
-#         "while read -r LINE",
-#         "do",
-#         "    LINE=\"$${LINE//\\{MINA_COMMIT_ID\\}/$$STABLE_MINA_COMMIT_ID}\"",
-#         "    LINE=\"$${LINE//\\{MINA_COMMIT_ID_SHORT\\}/$$STABLE_MINA_COMMIT_ID_SHORT}\"",
-#         "    LINE=\"$${LINE//\\{MINA_BRANCH\\}/$$STABLE_MINA_BRANCH}\"",
-#         "    LINE=\"$${LINE//\\{MINA_COMMIT_DATE\\}/$$STABLE_MINA_COMMIT_DATE}\"",
-#         "    echo",
-#         "    LINE=\"$${LINE//\\{MARLIN_COMMIT_ID\\}/$$STABLE_MARLIN_COMMIT_ID}\"",
-#         "    LINE=\"$${LINE//\\{MARLIN_COMMIT_ID_SHORT\\}/$$STABLE_MARLIN_COMMIT_ID_SHORT}\"",
-#         "    LINE=\"$${LINE//\\{MARLIN_COMMIT_DATE\\}/$$STABLE_MARLIN_COMMIT_DATE}\"",
-#         "    echo",
-#         "    LINE=\"$${LINE//\\{ZEXE_COMMIT_ID\\}/$$STABLE_ZEXE_COMMIT_ID}\"",
-#         "    LINE=\"$${LINE//\\{ZEXE_COMMIT_ID_SHORT\\}/$$STABLE_ZEXE_COMMIT_ID_SHORT}\"",
-#         "    LINE=\"$${LINE//\\{ZEXE_COMMIT_DATE\\}/$$STABLE_ZEXE_COMMIT_DATE}\"",
-#         "    echo $$LINE 1>&3",
-#         "done",
-#     ]),
-#     stamp = True,
-#     visibility = ["//visibility:public"],
-# )
+genrule(
+    name = "gensrc",
+    srcs = ["mina_version.ml.template"],
+    outs = ["mina_version.ml"],
+    ## cmd reads bazel-out/stable-status.txt lines and parses into a dict, then reads
+    ## template file line-by-line, substituting data from stable-status.txt,
+    ## and writes to output file.
+    cmd = "\n".join([
+        "exec <bazel-out/stable-status.txt",
+        "while read -r K V LINE",  # -r "backslash does not act as an escape char"
+        "do",
+        # "    echo $$K",
+        "    eval $$K=$$V",
+        "done",
+        "exec 3>$@",
+        "exec <$<",
+        "while read -r LINE",
+        "do",
+        "    LINE=\"$${LINE//\\{MINA_LABEL\\}/$$BUILD_EMBED_LABEL}\"",
+        "    LINE=\"$${LINE//\\{MINA_COMMIT_ID\\}/$$STABLE_MINA_COMMIT_ID}\"",
+        "    LINE=\"$${LINE//\\{MINA_COMMIT_ID_SHORT\\}/$$STABLE_MINA_COMMIT_ID_SHORT}\"",
+        "    LINE=\"$${LINE//\\{MINA_BRANCH\\}/$$STABLE_MINA_BRANCH}\"",
+        "    LINE=\"$${LINE//\\{MINA_COMMIT_DATE\\}/$$STABLE_MINA_COMMIT_DATE}\"",
+        "    echo",
+        "    LINE=\"$${LINE//\\{MARLIN_COMMIT_ID\\}/$$STABLE_MARLIN_COMMIT_ID}\"",
+        "    LINE=\"$${LINE//\\{MARLIN_COMMIT_ID_SHORT\\}/$$STABLE_MARLIN_COMMIT_ID_SHORT}\"",
+        "    LINE=\"$${LINE//\\{MARLIN_COMMIT_DATE\\}/$$STABLE_MARLIN_COMMIT_DATE}\"",
+        "    echo $$LINE 1>&3",
+        "done",
+    ]),
+    stamp = True,
+    visibility = ["//visibility:public"],
+)

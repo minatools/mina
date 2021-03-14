@@ -31,7 +31,7 @@ CLI_LIB_DEPS_OPAM = [
 ]
 #########
 ocaml_ns_library(
-    name = "cli_lib",
+    name = "#cli_lib",
     submodules = [
         ":_Arg_type",
         ":_Background_daemon",
@@ -66,7 +66,7 @@ ocaml_module(
     ],
     struct = "arg_type.ml",
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/work_selector",
+        "@mina//src/lib/work_selector:#work_selector",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -111,6 +111,7 @@ ocaml_signature(
 #############
 ocaml_module(
     name = "_Commands",
+    struct = "commands.ml",
     opts = CLI_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -118,10 +119,10 @@ ocaml_module(
         "-inline-test-lib",
         "cli_lib",
     ],
-    struct = "commands.ml",
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/rosetta_coding",
-        "@mina//src/lib/secrets",
+        "@mina//src/lib/rosetta_coding:#rosetta_coding",
+        "@mina//src/lib/secrets:#secrets",
+        "@mina//src/lib/rosetta_lib:#rosetta_lib",
         ":_Exceptions",  # obazl:retain
         ":_Flag",  # obazl:retain
     ],
@@ -191,7 +192,7 @@ ocaml_signature(
         "cli_lib",
     ],
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/graphql_lib",
+        "@mina//src/lib/graphql_lib:#graphql_lib",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -208,9 +209,9 @@ ocaml_module(
     ],
     struct = "graphql_types.ml",
     deps = CLI_LIB_DEPS + [
-        "//src/lib/currency",
-        "//src/lib/mina_base",
-        "//src/lib/signature_lib",
+        "//src/lib/currency:#currency",
+        "//src/lib/mina_base:#mina_base",
+        "//src/lib/signature_lib:#signature_lib",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -227,7 +228,7 @@ ocaml_module(
     ],
     struct = "render.ml",
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/mina_base",
+        "@mina//src/lib/mina_base:#mina_base",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -244,7 +245,7 @@ ocaml_module(
     ],
     struct = "stdout_log.ml",
     deps = CLI_LIB_DEPS + [
-        "//src/lib/logger",
+        "//src/lib/logger:#logger",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -272,7 +273,7 @@ ppx_executable(
         "//src/lib/cli_lib:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.make",

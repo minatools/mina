@@ -6,45 +6,46 @@ load(
 )
 
 ################################################################
-## STANZA 1: LIBRARY CODA_TRANSITION
+## STANZA 1: LIBRARY MINA_TRANSITION
 ################################################################
-CODA_TRANSITION_SIGNATURE_OPTS = []
+MINA_TRANSITION_SIGNATURE_OPTS = []
 
-CODA_TRANSITION_MODULE_OPTS = []
+MINA_TRANSITION_MODULE_OPTS = []
 
-CODA_TRANSITION_DEPS = [
+MINA_TRANSITION_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/staged_ledger",
-    "@mina//src/lib/transition_chain_verifier",
+    "@mina//src/lib/staged_ledger:#staged_ledger",
+    "@mina//src/lib/transition_chain_verifier:#transition_chain_verifier",
     "@mina//src/lib/truth",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_net2",
-    "@mina//src/lib/coda_state",
-    "@mina//src/lib/precomputed_values",
-    "@mina//src/lib/consensus",
-    "@mina//src/lib/protocol_version",
-    "@mina//src/lib/staged_ledger_diff",
-    "@mina//src/lib/verifier",
-    "@mina//src/lib/allocation_functor",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_net2:#mina_net2",
+    "@mina//src/lib/mina_state:#mina_state",
+    "@mina//src/lib/precomputed_values:#precomputed_values",
+    "@mina//src/lib/consensus:#consensus",
+    "@mina//src/lib/protocol_version:#protocol_version",
+    "@mina//src/lib/staged_ledger_diff:#staged_ledger_diff",
+    "@mina//src/lib/verifier:#verifier",
+    "@mina//src/lib/allocation_functor:#allocation_functor",
 ]
-CODA_TRANSITION_DEPS_OPAM = [
+MINA_TRANSITION_DEPS_OPAM = [
     "core_kernel",
 ]
 
-CODA_TRANSITION_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane__ppx_deriving.std__ppx_deriving_yojson"
+MINA_TRANSITION_PPX = "@//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane__ppx_deriving.std__ppx_deriving_yojson"
 
-CODA_TRANSITION_PPX_ARGS = [
+MINA_TRANSITION_PPX_ARGS = [
     # do not sort (buildifier)
     "-inline-test-lib",
-    "coda_transition",
+    "mina_transition",
 ]
 
 #################
 ocaml_ns_library(
-    name = "coda_transition",
+    name = "#mina_transition",
     submodules = [
         ":_External_transition",
         ":_External_transition_intf",
+        ":_External_transition_sample_precomputed_block",
         ":_Internal_transition",
     ],
     visibility = [
@@ -56,46 +57,59 @@ ocaml_ns_library(
 ocaml_module(
     name = "_External_transition",
     sig  = ":_External_transition.cmi",
-    opts = CODA_TRANSITION_MODULE_OPTS,
-    ppx = CODA_TRANSITION_PPX,
-    ppx_args = CODA_TRANSITION_PPX_ARGS,
+    opts = MINA_TRANSITION_MODULE_OPTS,
+    ppx = MINA_TRANSITION_PPX,
+    ppx_args = MINA_TRANSITION_PPX_ARGS,
     struct = "external_transition.ml",
-    deps = CODA_TRANSITION_DEPS,
-    deps_opam = CODA_TRANSITION_DEPS_OPAM
+    deps = MINA_TRANSITION_DEPS + [
+        "_External_transition_sample_precomputed_block",
+    ],
+    deps_opam = MINA_TRANSITION_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_External_transition.cmi",
     src = "external_transition.mli",
-    opts = CODA_TRANSITION_SIGNATURE_OPTS,
-    ppx = CODA_TRANSITION_PPX,
-    ppx_args = CODA_TRANSITION_PPX_ARGS,
-    deps = CODA_TRANSITION_DEPS + [
+    opts = MINA_TRANSITION_SIGNATURE_OPTS,
+    ppx = MINA_TRANSITION_PPX,
+    ppx_args = MINA_TRANSITION_PPX_ARGS,
+    deps = MINA_TRANSITION_DEPS + [
         # do not sort (buildifier)
         ":_External_transition_intf",
     ],
-    deps_opam = CODA_TRANSITION_DEPS_OPAM
+    deps_opam = MINA_TRANSITION_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_External_transition_intf",
-    opts = CODA_TRANSITION_MODULE_OPTS,
-    ppx = CODA_TRANSITION_PPX,
-    ppx_args = CODA_TRANSITION_PPX_ARGS,
+    opts = MINA_TRANSITION_MODULE_OPTS,
+    ppx = MINA_TRANSITION_PPX,
+    ppx_args = MINA_TRANSITION_PPX_ARGS,
     struct = "external_transition_intf.ml",
-    deps = CODA_TRANSITION_DEPS,
-    deps_opam = CODA_TRANSITION_DEPS_OPAM
+    deps = MINA_TRANSITION_DEPS,
+    deps_opam = MINA_TRANSITION_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_External_transition_sample_precomputed_block",
+    struct = "external_transition_sample_precomputed_block.ml",
+    opts = MINA_TRANSITION_MODULE_OPTS,
+    ppx = MINA_TRANSITION_PPX,
+    ppx_args = MINA_TRANSITION_PPX_ARGS,
+    deps = MINA_TRANSITION_DEPS,
+    deps_opam = MINA_TRANSITION_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Internal_transition",
-    opts = CODA_TRANSITION_MODULE_OPTS,
-    ppx = CODA_TRANSITION_PPX,
-    ppx_args = CODA_TRANSITION_PPX_ARGS,
+    opts = MINA_TRANSITION_MODULE_OPTS,
+    ppx = MINA_TRANSITION_PPX,
+    ppx_args = MINA_TRANSITION_PPX_ARGS,
     struct = "internal_transition.ml",
-    deps = CODA_TRANSITION_DEPS,
-    deps_opam = CODA_TRANSITION_DEPS_OPAM
+    deps = MINA_TRANSITION_DEPS,
+    deps_opam = MINA_TRANSITION_DEPS_OPAM
 )

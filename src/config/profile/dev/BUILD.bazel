@@ -1,0 +1,7 @@
+load("//bzl:rules.bzl", "mina_profile")
+
+mina_profile(
+    name = "dev",
+    visibility = ["//visibility:public"],
+)
+

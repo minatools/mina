@@ -6,10 +6,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY NETWORK_POOL
@@ -20,16 +17,16 @@ NETWORK_POOL_MODULE_OPTS = []
 
 NETWORK_POOL_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/one_or_two",
-    "@mina//src/lib/pipe_lib",
-    "@mina//src/lib/quickcheck_lib",
-    "@mina//src/lib/verifier",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/ledger_proof",
-    "@mina//src/lib/transaction_snark",
-    "@mina//src/lib/transition_frontier",
-    "@mina//src/lib/consensus",
-    "@mina//src/lib/coda_numbers",
+    "@mina//src/lib/one_or_two:#one_or_two",
+    "@mina//src/lib/pipe_lib:#pipe_lib",
+    "@mina//src/lib/quickcheck_lib:#quickcheck_lib",
+    "@mina//src/lib/verifier:#verifier",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/ledger_proof:#ledger_proof",
+    "@mina//src/lib/transaction_snark:#transaction_snark",
+    "@mina//src/lib/transition_frontier:#transition_frontier",
+    "@mina//src/lib/consensus:#consensus",
+    "@mina//src/lib/mina_numbers:#mina_numbers",
 ]
 
 NETWORK_POOL_DEPS_OPAM = [
@@ -39,7 +36,7 @@ NETWORK_POOL_DEPS_OPAM = [
 
 #################
 ocaml_ns_library(
-    name = "network_pool",
+    name = "#network_pool",
     submodules = [
         ":_Batcher",
         ":_F_sequence",
@@ -52,14 +49,14 @@ ocaml_ns_library(
         ":_Rate_limiter",
         ":_Snark_pool",
         ":_Snark_pool_diff",
-        ":_Test",
+        # ":_Test",
         ":_Transaction_pool",
     ],
     visibility = [
         "//src/lib/block_producer:__pkg__",
         "//src/lib/gossip_net:__pkg__",
         "//src/lib/mina_networking:__pkg__",
-        "//src/lib/transaction_status:__pkg__",
+        "//src/lib/transaction_inclusion_status:__pkg__",
         "//src/lib/work_selector:__pkg__"
     ]
 )
@@ -373,6 +370,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Transaction_pool",
+    struct = "transaction_pool.ml",
     opts = NETWORK_POOL_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -381,12 +379,12 @@ ocaml_module(
         "network_pool",
     ],
     ppx_data = CONFIG_MLH,
-    struct = "transaction_pool.ml",
     deps = NETWORK_POOL_DEPS + [
         # do not sort (buildifier)
         ":_Batcher",
         ":_Indexed_pool",
         ":_Intf",
+        ":_Mocks",
         ":_Network_pool_base",
     ],
     deps_opam = NETWORK_POOL_DEPS_OPAM
@@ -412,10 +410,10 @@ ppx_executable(
         "//src/lib/network_pool:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@mina//src/lib/ppx_register_event",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_register_event:#ppx_register_event",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "transition_chain_prover",
-    main = ":_Transition_chain_prover",
+    name = "#transition_chain_prover",
     submodules = [
         ":_Transition_chain_prover",
     ],
@@ -28,10 +27,10 @@ ocaml_module(
     struct = "transition_chain_prover.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_intf",
+        "@mina//src/lib/mina_intf:#mina_intf",
         "@mina//src/lib/merkle_list_prover",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/transition_frontier",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/transition_frontier:#transition_frontier",
     ],
     deps_opam = [
         "core_kernel",

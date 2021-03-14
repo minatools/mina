@@ -1,0 +1,6 @@
+load("@bazel_skylib//rules:common_settings.bzl", "int_flag")
+
+package(default_visibility = ["//visibility:public"])
+
+int_flag( name = "global_slot", build_setting_default = 0)
+

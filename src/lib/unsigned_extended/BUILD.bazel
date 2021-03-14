@@ -6,10 +6,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY UNSIGNED_EXTENDED
@@ -20,9 +17,8 @@ UNSIGNED_EXTENDED_MODULE_OPTS = []
 
 UNSIGNED_EXTENDED_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/snark_params",
-    # "@mina//src/lib/ppx_dhall_type",
-    "@ppx_version//src/runtime:ppx_version_runtime",
+    "@mina//src/lib/snark_params:#snark_params",
+    # "@ppx_version//src/runtime:#ppx_version_runtime",
 ]
 
 UNSIGNED_EXTENDED_DEPS_OPAM = [
@@ -32,8 +28,7 @@ UNSIGNED_EXTENDED_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "unsigned_extended",
-    main = "_Unsigned_extended",
+    name = "#unsigned_extended",
     submodules = [
         ":_Intf",
         ":_Unsigned_extended",
@@ -44,11 +39,11 @@ ocaml_ns_library(
         "//src/lib/unsigned_extended:__pkg__",
         "//src/lib/mina_base:__pkg__",
         "//src/lib/snark_params:__pkg__",
-        "//src/lib/coda_numbers:__pkg__",
+        "//src/lib/mina_numbers:__pkg__",
         "//src/lib/block_time:__pkg__",
         "//src/nonconsensus/currency:__pkg__",
         "//src/nonconsensus/unsigned_extended:__pkg__",
-        "//src/nonconsensus/coda_numbers:__pkg__",
+        "//src/nonconsensus/mina_numbers:__pkg__",
         "//src/nonconsensus/rosetta_lib:__pkg__",
         "//src/app/rosetta/lib:__pkg__",
     ]
@@ -103,7 +98,8 @@ ocaml_signature(
     deps = UNSIGNED_EXTENDED_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
-        "@mina//src/lib/ppx_dhall_type",
+        "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
+        # "@ppx_version//src/runtime:#ppx_version_runtime",
     ],
 )
 
@@ -120,15 +116,16 @@ ppx_executable(
         "ppx_inline_test.runtime-lib",
         "bin_prot",
     ],
+    # deps_adjunct = [# "@ppx_version//src/runtime:#ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/unsigned_extended:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

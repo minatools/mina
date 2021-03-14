@@ -6,10 +6,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY CACHE_LIB
@@ -20,7 +17,7 @@ CACHE_LIB_MODULE_OPTS = []
 
 CACHE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/logger",
+    "@mina//src/lib/logger:#logger",
 ]
 
 CACHE_LIB_DEPS_OPAM = [
@@ -30,8 +27,7 @@ CACHE_LIB_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "cache_lib",
-    main = "_Cache_lib",
+    name = "#cache_lib",
     submodules = [
         ":_Cache_lib",
         ":_Impl",
@@ -131,9 +127,9 @@ ppx_executable(
         "//src/lib/cache_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_base",

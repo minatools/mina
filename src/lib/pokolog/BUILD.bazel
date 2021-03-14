@@ -25,8 +25,7 @@ POKOLOG_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "pokolog",
-    main = ":_Pokolog",
+    name = "#pokolog",
     submodules = [
         ":_Group_intf",
         ":_Hash_intf",

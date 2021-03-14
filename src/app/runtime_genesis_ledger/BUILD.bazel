@@ -4,17 +4,15 @@ load(
     "ocaml_module",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 RUNTIME_GENESIS_LEDGER_DEPS = [
     # do not sort (buildifier)
     "@mina//src/lib/blockchain_snark",
     "@mina//src/lib/mina_base",
     "@mina//src/lib/genesis_proof",
-    "@mina//src/lib/coda_state",
+    "@mina//src/lib/mina_state",
     "@mina//src/lib/genesis_ledger_helper",
     "@mina//src/lib/runtime_config",
     "@mina//src/lib/snark_keys",

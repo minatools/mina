@@ -4,15 +4,13 @@ load(
     "ocaml_module",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 REPLAYER_DEPS = [
     # do not sort (buildifier)
     "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_state",
+    "@mina//src/lib/mina_state",
     "@mina//src/lib/genesis_constants",
     "@mina//src/lib/genesis_ledger_helper",
 ]

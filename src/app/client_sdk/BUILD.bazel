@@ -4,10 +4,8 @@ load(
     "ocaml_module",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: EXECUTABLE CLIENT_SDK

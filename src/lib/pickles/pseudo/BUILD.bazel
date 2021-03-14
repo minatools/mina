@@ -14,10 +14,10 @@ ocaml_module(
     ],
     struct = "pseudo.ml",
     deps = [
-        "@mina//src/lib/pickles/one_hot_vector",
+        "@mina//src/lib/pickles/one_hot_vector:#one_hot_vector",
         "@mina//src/lib/pickles/plonk_checks",
-        "@mina//src/lib/pickles_types",
-        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/pickles_types:#pickles_types",
+        "@snarky//src/base:#snarky_backendless",
     ],
     deps_opam = [
         "core_kernel",

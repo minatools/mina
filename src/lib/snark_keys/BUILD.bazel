@@ -5,8 +5,7 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
 
 #################
 ocaml_ns_library(
-    name = "snark_keys",
-    main = ":_Snark_keys",
+    name = "#snark_keys",
     submodules = [
         ":_Snark_keys",
     ],
@@ -27,8 +26,8 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/blockchain_snark",
-        "@mina//src/lib/transaction_snark",
+        "@mina//src/lib/blockchain_snark:#blockchain_snark",
+        "@mina//src/lib/transaction_snark:#transaction_snark",
     ],
     deps_opam = [
         "async",
@@ -41,7 +40,7 @@ TOOL = "//src/lib/snark_keys/gen_keys:gen_keys.exe"
 
 ocaml_genrule(
     name = "snark_keys_ml",
-    out  = "snark_keys.ml",
+    outs = ["snark_keys.ml"],
     cmd  = "\n".join([
         "$(location {tool})".format(tool = TOOL),
         "cp snark_keys.ml $(location snark_keys.ml)",

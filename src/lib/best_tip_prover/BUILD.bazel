@@ -15,11 +15,11 @@ ocaml_module(
     struct = "best_tip_prover.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/coda_intf",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/transition_chain_prover",
-        "@mina//src/lib/transition_frontier",
+        "@mina//src/lib/mina_intf:#mina_intf",
+        "@mina//src/lib/consensus:#consensus",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/transition_chain_prover:#transition_chain_prover",
+        "@mina//src/lib/transition_frontier:#transition_frontier",
     ],
     deps_opam = [
         "core_kernel",

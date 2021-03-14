@@ -6,38 +6,37 @@ load(
 )
 
 ################################################################
-## STANZA 1: LIBRARY CODA_INTF
+## STANZA 1: LIBRARY MINA_INTF
 ################################################################
-CODA_INTF_MODULE_OPTS = []
+MINA_INTF_MODULE_OPTS = []
 
-CODA_INTF_DEPS = [
+MINA_INTF_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/currency",
+    "@mina//src/lib/currency:#currency",
     "@mina//src/lib/truth",
-    "@mina//src/lib/gadt_lib",
-    "@mina//src/lib/signature_lib",
-    "@mina//src/lib/cache_lib",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_state",
-    "@mina//src/lib/snark_work_lib",
-    "@mina//src/lib/proof_carrying_data",
-    "@mina//src/lib/coda_incremental",
-    "@mina//src/lib/blockchain_snark",
-    "@mina//src/lib/transaction_snark",
-    "@mina//src/lib/coda_transition",
+    "@mina//src/lib/gadt_lib:#gadt_lib",
+    "@mina//src/lib/signature_lib:#signature_lib",
+    "@mina//src/lib/cache_lib:#cache_lib",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_state:#mina_state",
+    "@mina//src/lib/snark_work_lib:#snark_work_lib",
+    "@mina//src/lib/proof_carrying_data:#proof_carrying_data",
+    "@mina//src/lib/mina_incremental:#mina_incremental",
+    "@mina//src/lib/blockchain_snark:#blockchain_snark",
+    "@mina//src/lib/transaction_snark:#transaction_snark",
+    "@mina//src/lib/mina_transition:#mina_transition",
 ]
 
-CODA_INTF_DEPS_OPAM = [
+MINA_INTF_DEPS_OPAM = [
     "core",
     "async_kernel",
 ]
 
 #########
 ocaml_ns_library(
-    name = "coda_intf",
-    main = ":_Coda_intf",
+    name = "#mina_intf",
     submodules = [
-        ":_Coda_intf",
+        ":_mina_intf",
         ":_Core_intf",
         ":_Transition_frontier_components_intf",
     ],
@@ -48,51 +47,51 @@ ocaml_ns_library(
 
 #############
 ocaml_module(
-    name = "_Coda_intf",
-    opts = CODA_INTF_MODULE_OPTS,
+    name = "_mina_intf",
+    opts = MINA_INTF_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_intf",
+        "mina_intf",
     ],
-    struct = "coda_intf.ml",
-    deps = CODA_INTF_DEPS + [
+    struct = "mina_intf.ml",
+    deps = MINA_INTF_DEPS + [
         # do not sort (buildifier)
         ":_Core_intf",
         ":_Transition_frontier_components_intf",
     ],
-    deps_opam = CODA_INTF_DEPS_OPAM
+    deps_opam = MINA_INTF_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Core_intf",
-    opts = CODA_INTF_MODULE_OPTS,
+    opts = MINA_INTF_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_intf",
+        "mina_intf",
     ],
     struct = "core_intf.ml",
-    deps = CODA_INTF_DEPS,
-    deps_opam = CODA_INTF_DEPS_OPAM
+    deps = MINA_INTF_DEPS,
+    deps_opam = MINA_INTF_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Transition_frontier_components_intf",
-    opts = CODA_INTF_MODULE_OPTS,
+    opts = MINA_INTF_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_intf",
+        "mina_intf",
     ],
     struct = "transition_frontier_components_intf.ml",
-    deps = CODA_INTF_DEPS,
-    deps_opam = CODA_INTF_DEPS_OPAM
+    deps = MINA_INTF_DEPS,
+    deps_opam = MINA_INTF_DEPS_OPAM
 )
 
 ###############
@@ -115,10 +114,10 @@ ppx_executable(
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
-        "//src/lib/coda_intf:__pkg__",
+        "//src/lib/mina_intf:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.std",

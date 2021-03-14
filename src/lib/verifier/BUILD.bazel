@@ -7,10 +7,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY VERIFIER
@@ -21,15 +18,15 @@ VERIFIER_MODULE_OPTS = []
 
 VERIFIER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/precomputed_values",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_state",
-    "@mina//src/lib/blockchain_snark",
-    "@mina//src/lib/memory_stats",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/ledger_proof",
-    "@mina//src/lib/logger",
-    "@mina//src/lib/child_processes",
+    "@mina//src/lib/precomputed_values:#precomputed_values",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_state:#mina_state",
+    "@mina//src/lib/blockchain_snark:#blockchain_snark",
+    "@mina//src/lib/memory_stats:#memory_stats",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/ledger_proof:#ledger_proof",
+    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/child_processes:#child_processes",
 ]
 VERIFIER_DEPS_OPAM = [
     "core_kernel",
@@ -39,8 +36,7 @@ VERIFIER_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "verifier",
-    main = "_Verifier",
+    name = "#verifier",
     submodules = [
         ":_Common",
         ":_Dummy",
@@ -223,9 +219,9 @@ ppx_executable(
         "//src/lib/verifier:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

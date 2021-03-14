@@ -12,10 +12,10 @@ MERKLE_LEDGER_TESTS_MODULE_OPTS = []
 
 MERKLE_LEDGER_TESTS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/merkle_ledger",
-    "@mina//src/lib/merkle_mask",
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/signature_lib",
+    "@mina//src/lib/merkle_ledger:#merkle_ledger",
+    "@mina//src/lib/merkle_mask:#merkle_mask",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/signature_lib:#signature_lib",
 ]
 MERKLE_LEDGER_TESTS_DEPS_OPAM = [
     "core",
@@ -24,7 +24,7 @@ MERKLE_LEDGER_TESTS_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "merkle_ledger_tests",
+    name = "#merkle_ledger_tests",
     submodules = [
         ":_Binary_tree",
         ":_Test",
@@ -144,7 +144,7 @@ ppx_executable(
         "//src/lib/merkle_ledger_tests:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

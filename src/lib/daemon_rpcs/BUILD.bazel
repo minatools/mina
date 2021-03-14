@@ -12,15 +12,15 @@ DAEMON_RPCS_MODULE_OPTS = []
 
 DAEMON_RPCS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
+    "@mina//src/lib/mina_base:#mina_base",
     "@mina//src/lib/user_command_input",
-    "@mina//src/lib/mina_networking",
-    "@mina//src/lib/perf_histograms",
-    "@mina//src/lib/consensus",
-    "@mina//src/lib/sync_status",
-    "@mina//src/lib/transaction_status",
-    "@mina//src/lib/node_addrs_and_ports",
-    "@mina//src/lib/cli_lib",
+    "@mina//src/lib/mina_networking:#mina_networking",
+    "@mina//src/lib/perf_histograms:#perf_histograms",
+    "@mina//src/lib/consensus:#consensus",
+    "@mina//src/lib/sync_status:#sync_status",
+    "@mina//src/lib/transaction_inclusion_status:#transaction_inclusion_status",
+    "@mina//src/lib/node_addrs_and_ports:#node_addrs_and_ports",
+    "@mina//src/lib/cli_lib:#cli_lib",
 ]
 
 DAEMON_RPCS_DEPS_OPAM = [
@@ -32,14 +32,14 @@ DAEMON_RPCS_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "daemon_rpcs",
+    name = "#daemon_rpcs",
     submodules = [
         ":_Client",
         ":_Daemon_rpcs",
         ":_Types",
     ],
     visibility = [
-        "//src/lib/coda_commands:__pkg__",
+        "//src/lib/mina_commands:__pkg__",
         "//src/lib/mina_lib:__pkg__"
     ]
 )
@@ -116,7 +116,7 @@ ppx_executable(
         "//src/lib/daemon_rpcs:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

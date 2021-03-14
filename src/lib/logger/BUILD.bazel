@@ -30,8 +30,7 @@ LOGGER_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "logger",
-    main = ":_Logger",
+    name = "#logger",
     opts = OPTS,
     submodules = [
         ":_Logger",
@@ -74,7 +73,7 @@ ocaml_module(
     ppx_args = LOGGER_PPX_ARGS,
     deps_opam = LOGGER_DEPS_OPAM,
     deps = [
-        "@mina//src/lib/logproc_lib",
+        "@mina//src/lib/logproc_lib:#logproc_lib",
         ":_Tags",
     ],
 )
@@ -89,8 +88,8 @@ ocaml_signature(
     deps_opam = LOGGER_DEPS_OPAM,
     deps = [
         # do not sort (buildifier)
-        "@mina//src/lib/logproc_lib",
-        "@mina//src/lib/structured_log_events",
+        "@mina//src/lib/logproc_lib:#logproc_lib",
+        "@mina//src/lib/structured_log_events:#structured_log_events",
         ":_Tags",
     ],
 )

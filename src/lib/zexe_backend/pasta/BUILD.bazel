@@ -1,0 +1,131 @@
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_ns_library",
+)
+
+################################################################
+## STANZA 1: LIBRARY PASTA
+################################################################
+PASTA_MODULE_OPTS = ["-w", "-27"]
+
+PASTA_DEPS = [
+    # do not sort (buildifier)
+    "@mina//src/lib/zexe_backend/zexe_backend_common:#zexe_backend_common",
+    "@mina//src/lib/hex:#hex",
+    "@mina//src/lib/pickles_types:#pickles_types",
+    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
+    "@mina//src/lib/key_cache:#key_cache",
+    "@mina//src/lib/sgn_type:#sgn_type",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//sponge:#sponge",
+    "@snarky//snarkette:#snarkette",
+]
+PASTA_DEPS_OPAM = [
+    "core"
+]
+
+PASTA_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving_yojson__ppx_deriving.std"
+
+PASTA_PPX_ARGS = [
+    # do not sort (buildifier)
+    "-inline-test-lib",
+    "pasta",
+]
+
+#########
+ocaml_ns_library(
+    name = "#pasta",
+    submodules = [
+        ":_Basic",
+        ":_Pallas_based_plonk",
+        ":_Pasta",
+        ":_Precomputed",
+        ":_Vesta_based_plonk",
+    ],
+    visibility = [
+        "//src/lib/zexe_backend:__pkg__"
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Basic",
+    struct = "basic.ml",
+    opts = PASTA_MODULE_OPTS + [
+        # "-w",
+        # "-33",  # Error (warning 33): unused open Core_kernel.
+    ],
+    ppx = PASTA_PPX,
+    ppx_args = PASTA_PPX_ARGS,
+    deps = PASTA_DEPS,
+    deps_opam = PASTA_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Pallas_based_plonk",
+    struct = "pallas_based_plonk.ml",
+    opts = PASTA_MODULE_OPTS + [
+        "-w", "-32"  # unused value verify
+    ],
+    ppx = PASTA_PPX,
+    ppx_args = PASTA_PPX_ARGS,
+    deps = PASTA_DEPS + [
+        # # do not sort (buildifier)
+        ":_Basic",
+        ":_Precomputed",
+    ],
+    deps_opam = PASTA_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Pasta",
+    struct = "pasta.ml",
+    opts = PASTA_MODULE_OPTS + [
+        "-w", "-32"  # unused value verify
+    ],
+    ppx = PASTA_PPX,
+    ppx_args = PASTA_PPX_ARGS,
+    deps = PASTA_DEPS + [
+        # do not sort (buildifier)
+        ":_Basic",
+        ":_Pallas_based_plonk",
+        ":_Vesta_based_plonk",
+        # ":_Precomputed",
+    ],
+    deps_opam = PASTA_DEPS_OPAM
+)
+#############
+ocaml_module(
+    name = "_Precomputed",
+    opts = PASTA_MODULE_OPTS,
+    ppx = PASTA_PPX,
+    ppx_args = PASTA_PPX_ARGS,
+    struct = "precomputed.ml",
+    deps = PASTA_DEPS + [
+        # do not sort (buildifier)
+        ":_Basic",
+    ],
+    deps_opam = PASTA_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Vesta_based_plonk",
+    struct = "vesta_based_plonk.ml",
+    opts = PASTA_MODULE_OPTS + [
+        "-w", "-32"  # unused value verify
+    ],
+    ppx = PASTA_PPX,
+    ppx_args = PASTA_PPX_ARGS,
+    deps = PASTA_DEPS + [
+        # # do not sort (buildifier)
+        ":_Basic",
+        ":_Precomputed",
+    ],
+    deps_opam = PASTA_DEPS_OPAM
+)
+

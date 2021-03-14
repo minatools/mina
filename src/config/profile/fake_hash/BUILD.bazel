@@ -1,0 +1,13 @@
+load("//bzl:rules.bzl", "mina_profile")
+
+mina_profile(
+    name = "fake_hash",
+    visibility = ["//visibility:public"],
+    ledger_depth = "//src/config/ledger_depth:tiny",
+    consensus_k = "//src/config/consensus/tiny:k",
+    # scan_state/medium.mlh
+    scan_state_transaction_capacity_log_2 = "//src/config/scan_state/medium:txn_capacity_log2",
+    proof_level = "//src/config/proof_level:none",
+    fake_hash = ":fake_hash_true", # src/config/fake_hash.mlh
+    block_window_duration = ":block_window_duration_600"
+)

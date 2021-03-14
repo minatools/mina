@@ -1,0 +1,11 @@
+load("@bazel_skylib//rules:common_settings.bzl",
+     "bool_flag",
+     "bool_setting")
+
+package(default_visibility = ["//visibility:public"])
+
+bool_flag( name = "logs", build_setting_default = False)
+
+bool_setting( name = "none", build_setting_default = False)
+bool_setting( name = "some", build_setting_default = False)
+bool_setting( name = "all",  build_setting_default = True)

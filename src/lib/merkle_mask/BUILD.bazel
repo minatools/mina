@@ -12,11 +12,11 @@ MERKLE_MASK_MODULE_OPTS = []
 
 MERKLE_MASK_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/debug_assert",
-    "@mina//src/lib/immutable_array",
-    "@mina//src/lib/merkle_ledger",
-    "@mina//src/lib/merkle_address",
-    "@mina//src/lib/visualization",
+    "@mina//src/lib/debug_assert:#debug_assert",
+    "@mina//src/lib/immutable_array:#immutable_array",
+    "@mina//src/lib/merkle_ledger:#merkle_ledger",
+    "@mina//src/lib/merkle_address:#merkle_address",
+    "@mina//src/lib/visualization:#visualization",
 ]
 MERKLE_MASK_DEPS_OPAM = [
     "core",
@@ -27,7 +27,7 @@ MERKLE_MASK_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "merkle_mask",
+    name = "#merkle_mask",
     submodules = [
         ":_Base_merkle_tree_intf",
         ":_Inputs_intf",
@@ -171,7 +171,7 @@ ppx_executable(
         # "//src/lib/merkle_mask:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

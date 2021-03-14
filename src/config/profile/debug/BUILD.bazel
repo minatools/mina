@@ -1,0 +1,16 @@
+load("//bzl:rules.bzl", "mina_profile")
+
+mina_profile(
+    name = "debug", # src/config/debug.mlh
+    visibility = ["//visibility:public"],
+    scan_state_transaction_capacity_log_2 = "//src/config/scan_state/txn_capacity/log2:standard", # 7,
+    scan_state_work_delay = "//src/config/scan_state/work_delay:standard", # 2, # scan_state/standard.mlh
+
+    debug_logs = "//src/config/debug/logs:all",  # debug_level/all.mlh
+    call_logger = "//src/config/debug/call_logger:all",
+    record_async_backtraces = "//src/config/debug/record_async_backtraces:all",
+
+    account_creation_fee_int = "//src/config/fees/account_creation:standard",
+    plugins = "//src/config/plugins:disable",
+    time_offsets = "//src/config/time_offsets:disable"
+)

@@ -26,8 +26,7 @@ DISTRIBUTED_DSL_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "distributed_dsl",
-    main = "_Distributed_dsl",
+    name = "#distributed_dsl",
     submodules = [
         ":_Distributed_dsl",
         ":_Node",

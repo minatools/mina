@@ -5,10 +5,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY STATE_OR_ERROR
@@ -23,8 +20,7 @@ STATE_OR_ERROR_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "state_or_error",
-    main = ":_State_or_error",
+    name = "#state_or_error",
     submodules = [
         ":_State_or_error",
         ":_State_or_error_intf",
@@ -91,7 +87,7 @@ ppx_executable(
         "//src/lib/state_or_error:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

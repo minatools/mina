@@ -12,7 +12,7 @@ STORAGE_MODULE_OPTS = []
 
 STORAGE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/logger",
+    "@mina//src/lib/logger:#logger",
 ]
 STORAGE_DEPS_OPAM = [
     "core",
@@ -30,8 +30,7 @@ STORAGE_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "storage",
-    main = "_Storage",
+    name = "#storage",
     submodules = [
         # do not sort (buildifier)
         ":_Checked_data",

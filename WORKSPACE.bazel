@@ -45,23 +45,17 @@ http_archive(
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 bazel_skylib_workspace()
 
-git_repository(
-    name = "obazl_tools_bazel",
-    remote = "https://github.com/obazl/tools_bazel",
-    branch = "main",
-)
-
-git_repository(
+#############
+http_archive(
     name = "obazl_rules_ocaml",
-    remote = "https://github.com/obazl/rules_ocaml",
-    # tag    = "v1.0.0-beta.1"
-    branch = "dev",
+    strip_prefix = "rules_ocaml-06eaca64f51a198978a803532b9e0be1c52ff45d",
+    urls = [
+        "https://github.com/obazl/rules_ocaml/archive/06eaca64f51a198978a803532b9e0be1c52ff45d.tar.gz"
+    ],
+    sha256 = "45fdda94f8e66982ae7c0a43527c6254b31af32484bdc8a57a789bfd918e52b3"
 )
+
 load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
-
-# load("//:WORKSPACE.bzl", "ocaml_fetch_rules")
-# ocaml_fetch_rules()
-
 load("//:WORKSPACE.bzl", "opam")
 ocaml_configure( opam = opam, build = "mina-0.1.0" )
 
@@ -117,11 +111,13 @@ libp2p_fetch_go_libs(go_repository)
 # and prep the gazelle tool.
 gazelle_dependencies(go_repository_default_config = "@libp2p_helper//:WORKSPACE.bazel")
 
-# direct deps
+################################################################
+# ocaml deps
 load("//bzl/external:ocaml_repos.bzl", "ocaml_fetch_libs")
 ocaml_fetch_libs()
 
-# indirect deps - these all depend on CC libs, which must be fetched
+#### wrapped cc deps - ocaml_fetch_libs() fetches three ocaml libs
+## that have cc deps, which must be fetch separately:
 load("@ocaml_rocksdb//:WORKSPACE.bzl", "librocksdb_fetch_repos")
 librocksdb_fetch_repos()
 
@@ -139,23 +135,28 @@ load("//:WORKSPACE.bzl", "rust_fetch_rules")
 # load("//bzl/external:rust_repos.bzl", "rust_fetch_rules")
 rust_fetch_rules()
 
-load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
-rust_repositories(version = "1.47.0", edition="2018")
+load("@rules_rust//rust:repositories.bzl",
+     "rust_repositories", "rust_repository_set")
 
-load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
-bazel_version(name = "bazel_version")
+rust_repositories(version = "1.47.0", rustfmt_version = "1.4.20", edition="2018")
 
-#### direct Rust dependencies ####
-load("//bzl/external:rust_repos.bzl", "rust_fetch_libs")
-rust_fetch_libs()
+#### Application Rust dependencies ####
+## to use submodules:
+local_repository( name = "marlin" , path = "src/lib/marlin")
+local_repository( name = "zexe" , path = "src/lib/marlin/zexe")
+
+## use this if NOT using submodules:
+# load("//bzl/external:rust_repos.bzl", "rust_fetch_libs")
+# rust_fetch_libs()
 
 #### indirect Rust dependencies ####
-load("@zexe//bzl/cargo:crates.bzl", "zexe_fetch_remote_crates")
+load("@zexe//bzl/raze:crates.bzl", zexe_fetch_remote_crates = "raze_fetch_remote_crates")
 zexe_fetch_remote_crates()
 
-load("@marlin//bzl/cargo:crates.bzl", marlin_fetch_remote_crates = "raze_fetch_remote_crates")
+load("@marlin//bzl/raze:crates.bzl", marlin_fetch_remote_crates = "raze_fetch_remote_crates")
 marlin_fetch_remote_crates()
 
 ## local rust code, configured by "cargo raze"
-load("//bzl/external/rust:crates.bzl", "marlin_plonk_bindings_fetch_remote_crates")
+load("//bzl/raze:crates.bzl", marlin_plonk_bindings_fetch_remote_crates = "raze_fetch_remote_crates")
 marlin_plonk_bindings_fetch_remote_crates()
+

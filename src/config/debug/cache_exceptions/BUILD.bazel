@@ -1,0 +1,15 @@
+load("@bazel_skylib//rules:common_settings.bzl",
+     "bool_flag",
+     "bool_setting")
+
+package(default_visibility = ["//visibility:public"])
+
+bool_flag( name = "cache_exceptions", build_setting_default = True)
+
+bool_setting( name = "enable", build_setting_default = True)
+bool_setting( name = "disable", build_setting_default = False)
+
+bool_setting( name = "none", build_setting_default = False)
+bool_setting( name = "some", build_setting_default = True)
+bool_setting( name = "all",  build_setting_default = True)
+

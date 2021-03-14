@@ -6,39 +6,36 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 PPX_PRINT = "@ppx//print:binary"
 
 ################################################################
-## STANZA 1: LIBRARY CODA_STATE
+## STANZA 1: LIBRARY MINA_STATE
 ################################################################
-CODA_STATE_INTERFACE_OPTS = []
+MINA_STATE_INTERFACE_OPTS = []
 
-CODA_STATE_MODULE_OPTS = []
+MINA_STATE_MODULE_OPTS = []
 
-CODA_STATE_DEPS = [
+MINA_STATE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/consensus",
-    "@mina//src/lib/test_genesis_ledger",
-    "@snarky//bitstring_lib",
-    "@snarky//fold_lib",
-    "@snarky//tuple_lib",
-    "@mina//src/lib/with_hash",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/consensus:#consensus",
+    "@mina//src/lib/test_genesis_ledger:#test_genesis_ledger",
+    "@snarky//bitstring_lib:#bitstring_lib",
+    "@snarky//fold_lib:#fold_lib",
+    "@snarky//tuple_lib:#tuple_lib",
+    "@mina//src/lib/with_hash:#with_hash",
 ]
 
-CODA_STATE_DEPS_OPAM = [
+MINA_STATE_DEPS_OPAM = [
     "core_kernel",
 ]
 
 #################
 ocaml_ns_library(
-    name = "coda_state",
+    name = "#mina_state",
     submodules = [
         ":_Ancestor",
         ":_Blockchain_state",
@@ -55,216 +52,216 @@ ocaml_ns_library(
 #############
 ocaml_module(
     name = "_Ancestor",
-    opts = CODA_STATE_MODULE_OPTS,
+    opts = MINA_STATE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
     struct = "ancestor.ml",
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Protocol_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Blockchain_state",
     sig  = ":_Blockchain_state.cmi",
-    opts = CODA_STATE_MODULE_OPTS,
+    opts = MINA_STATE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
     struct = "blockchain_state.ml",
-    deps = CODA_STATE_DEPS,
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps = MINA_STATE_DEPS,
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Blockchain_state.cmi",
     src = "blockchain_state.mli",
-    opts = CODA_STATE_INTERFACE_OPTS,
+    opts = MINA_STATE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_STATE_DEPS,
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps = MINA_STATE_DEPS,
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Consensus_state_hooks",
     sig  = ":_Consensus_state_hooks.cmi",
-    opts = CODA_STATE_MODULE_OPTS,
+    opts = MINA_STATE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
     struct = "consensus_state_hooks.ml",
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
         ":_Protocol_state",
         ":_Snark_transition",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Consensus_state_hooks.cmi",
     src = "consensus_state_hooks.mli",
-    opts = CODA_STATE_INTERFACE_OPTS,
+    opts = MINA_STATE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
         ":_Protocol_state",
         ":_Snark_transition",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Genesis_protocol_state",
     sig  = ":_Genesis_protocol_state.cmi",
-    opts = CODA_STATE_MODULE_OPTS,
+    opts = MINA_STATE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
     struct = "genesis_protocol_state.ml",
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
         ":_Protocol_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Genesis_protocol_state.cmi",
     src = "genesis_protocol_state.mli",
-    opts = CODA_STATE_INTERFACE_OPTS,
+    opts = MINA_STATE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Protocol_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Protocol_state",
     sig  = ":_Protocol_state.cmi",
-    opts = CODA_STATE_MODULE_OPTS,
+    opts = MINA_STATE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
     ppx_print = PPX_PRINT,  # obazl:retain
     struct = "protocol_state.ml",
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Protocol_state.cmi",
     src = "protocol_state.mli",
-    opts = CODA_STATE_INTERFACE_OPTS,
+    opts = MINA_STATE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Snark_transition",
     sig  = ":_Snark_transition.cmi",
-    opts = CODA_STATE_MODULE_OPTS,
+    opts = MINA_STATE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
     struct = "snark_transition.ml",
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Snark_transition.cmi",
     src = "snark_transition.mli",
-    opts = CODA_STATE_INTERFACE_OPTS,
+    opts = MINA_STATE_INTERFACE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
-        "coda_state",
+        "mina_state",
     ],
     ppx_data = CONFIG_MLH,
-    deps = CODA_STATE_DEPS + [
+    deps = MINA_STATE_DEPS + [
         # do not sort (buildifier)
         ":_Blockchain_state",
     ],
-    deps_opam = CODA_STATE_DEPS_OPAM
+    deps_opam = MINA_STATE_DEPS_OPAM
 )
 
 ###############
@@ -285,12 +282,12 @@ ppx_executable(
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
-        "//src/lib/coda_state:__pkg__",
+        "//src/lib/mina_state:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],

@@ -24,8 +24,7 @@ TRANSITION_FRONTIER_TESTS_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "transition_frontier_tests",
-    main = "_Transition_frontier_tests",
+    name = "#transition_frontier_tests",
     submodules = [
         ":_Full_frontier_tests",
         ":_Transition_frontier_tests",

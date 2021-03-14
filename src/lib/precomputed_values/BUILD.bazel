@@ -5,8 +5,7 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
 
 #################
 ocaml_ns_library(
-    name = "precomputed_values",
-    main = ":_Precomputed_values",
+    name = "#precomputed_values",
     submodules = [
         ":_Precomputed_values",
     ],
@@ -27,12 +26,12 @@ ocaml_module(
     ],
     deps = [
         # do not sort (buildifier)
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/crypto_params",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/crypto_params:#crypto_params",
         "@mina//src/lib/dummy_values",
-        "@mina//src/lib/genesis_proof",
-        "@mina//src/lib/snark_keys",
-        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/genesis_proof:#genesis_proof",
+        "@mina//src/lib/snark_keys:#snark_keys",
+        "@snarky//src/base:#snarky_backendless",
     ],
     visibility = ["//visibility:public"],
 )
@@ -43,7 +42,7 @@ TOOL = "//src/lib/precomputed_values/gen_values:gen_values.exe"
 ##############
 ocaml_genrule(
     name   = "precomputed_values_ml",
-    out    = "precomputed_values.ml",
+    outs    = ["precomputed_values.ml"],
     tools  = [TOOL],
     cmd    = "\n".join([
         "$(location {tool}) precomputed_values.ml".format(tool = TOOL),

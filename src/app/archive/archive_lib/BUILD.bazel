@@ -12,10 +12,10 @@ ARCHIVE_LIB_MODULE_OPTS = []
 
 ARCHIVE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_transition",
-    "@mina//src/lib/one_or_two",
-    "@mina//src/lib/transition_frontier",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_transition:#mina_transition",
+    "@mina//src/lib/one_or_two:#one_or_two",
+    "@mina//src/lib/transition_frontier:#transition_frontier",
 ]
 ARCHIVE_LIB_DEPS_OPAM = [
     "core",
@@ -27,13 +27,14 @@ ARCHIVE_LIB_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "archive_lib",
+    name = "#archive_lib",
     submodules = [
         ":_Ast",
         ":_Diff",
+        ":_Extensional",
         ":_Processor",
         ":_Rpc",
-        ":_Test",
+        # ":_Test",
     ],
     visibility = [
         "//src/app/archive:__pkg__",
@@ -74,6 +75,21 @@ ocaml_module(
 
 #############
 ocaml_module(
+    name = "_Extensional",
+    struct = "extensional.ml",
+    opts = ARCHIVE_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "archive_lib",
+    ],
+    deps = ARCHIVE_LIB_DEPS,
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
     name = "_Processor",
     struct = "processor.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
@@ -87,6 +103,7 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Diff",
         ":_Rpc",
+        "@mina//src/lib/genesis_ledger_helper:#genesis_ledger_helper",
     ],
     deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
@@ -105,6 +122,7 @@ ocaml_module(
     deps = ARCHIVE_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Diff",
+        ":_Extensional"
     ],
     deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
@@ -144,8 +162,8 @@ ppx_executable(
         "//src/app/archive/archive_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

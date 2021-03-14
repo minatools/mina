@@ -14,11 +14,11 @@ FRONTIER_BASE_MODULE_OPTS = []
 
 FRONTIER_BASE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/coda_state",
-    "@mina//src/lib/coda_transition",
-    "@mina//src/lib/staged_ledger",
-    "@mina//src/lib/base58_check",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_state:#mina_state",
+    "@mina//src/lib/mina_transition:#mina_transition",
+    "@mina//src/lib/staged_ledger:#staged_ledger",
+    "@mina//src/lib/base58_check:#base58_check",
 ]
 FRONTIER_BASE_DEPS_OPAM = [
     "core_kernel",
@@ -34,7 +34,7 @@ FRONTIER_BASE_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "frontier_base",
+    name = "#frontier_base",
     submodules = [
         ":_Breadcrumb",
         ":_Diff",

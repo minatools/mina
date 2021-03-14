@@ -5,10 +5,7 @@ load(
     "ocaml_signature",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 PPX_PRINT = "@ppx//print:binary"
 
@@ -21,17 +18,17 @@ CURRENCY_MODULE_OPTS = []
 
 CURRENCY_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/ppx_dhall_type",
-    "@mina//src/lib/coda_numbers",
-    "@snarky//fold_lib",
-    "@snarky//tuple_lib",
-    "@mina//src/lib/snark_bits",
-    "@mina//src/lib/sgn",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/random_oracle",
-    "@mina//src/lib/unsigned_extended",
+    "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
+    "@mina//src/lib/mina_numbers:#mina_numbers",
+    "@snarky//fold_lib:#fold_lib",
+    "@snarky//tuple_lib:#tuple_lib",
+    "@mina//src/lib/snark_bits:#snark_bits",
+    "@mina//src/lib/sgn:#sgn",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/random_oracle:#random_oracle",
+    "@mina//src/lib/unsigned_extended:#unsigned_extended",
     "@mina//src/lib/test_util",
-    "@mina//src/lib/codable",
+    "@mina//src/lib/codable:#codable",
 ]
 
 CURRENCY_DEPS_OPAM = [
@@ -48,8 +45,7 @@ CURRENCY_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "currency",
-    main = "_Currency",
+    name = "#currency",
     submodules = [
         ":_Currency",
         ":_Intf",
@@ -57,8 +53,8 @@ ocaml_ns_library(
     ],
     visibility = [
         "//visibility:public",
-        # "//src/lib/coda_compile_config:__pkg__",
-        # "//src/lib/coda_numbers:__pkg__",
+        # "//src/lib/mina_compile_config:__pkg__",
+        # "//src/lib/mina_numbers:__pkg__",
         # "//src/lib/genesis_constants:__pkg__",
         # "//src/lib/quickcheck_lib:__pkg__",
         # "//src/lib/runtime_config:__pkg__"

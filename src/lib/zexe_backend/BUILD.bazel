@@ -6,10 +6,10 @@ load(
 
 #########
 ocaml_ns_library(
-    name = "zexe_backend",
-    main = "_Zexe_backend",
+    name = "#zexe_backend",
     submodules = [
         ":_Zexe_backend",
+        "//src/lib/zexe_backend/zexe_backend_common:#zexe_backend_common",
     ],
     visibility = [
         "//src/lib/pickles:__subpackages__"
@@ -29,15 +29,17 @@ ocaml_module(
     ],
     struct = "zexe_backend.ml",
     deps = [
-        "@mina//src/lib/hex",
-        "@mina//src/lib/key_cache",
-        "@mina//src/lib/marlin_plonk_bindings",
-        "@mina//src/lib/pickles_types",
-        "@mina//src/lib/sgn_type",
-        "@mina//src/lib/zexe_backend/tweedle",
-        "@snarky//snarkette",
-        "@snarky//sponge",
-        "@snarky//src/base:snarky_backendless",
+        "@snarky//snarkette:#snarkette",
+        "@snarky//sponge:#sponge",
+        "@snarky//src/base:#snarky_backendless",
+        "//src/lib/hex:#hex",
+        "//src/lib/key_cache:#key_cache",
+        "//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
+        "//src/lib/pickles_types:#pickles_types",
+        "//src/lib/sgn_type:#sgn_type",
+        "//src/lib/zexe_backend/pasta:#pasta",
+        "//src/lib/zexe_backend/tweedle:#tweedle",
+        "//src/lib/zexe_backend/zexe_backend_common:#zexe_backend_common",
     ],
     deps_opam = [
         "core",

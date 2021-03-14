@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "syncable_ledger",
-    main = ":_Syncable_ledger",
+    name = "#syncable_ledger",
     submodules = [
         ":_Syncable_ledger",
     ],
@@ -30,11 +29,12 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/pipe_lib",
-        "@mina//src/lib/merkle_ledger",
-        "@mina//src/lib/logger",
-        "@mina//src/lib/trust_system",
-        "@mina//src/lib/interruptible",
+        # "@ppx_version//src/runtime:#ppx_version_runtime",
+        "@mina//src/lib/pipe_lib:#pipe_lib",
+        "@mina//src/lib/merkle_ledger:#merkle_ledger",
+        "@mina//src/lib/logger:#logger",
+        "@mina//src/lib/trust_system:#trust_system",
+        "@mina//src/lib/interruptible:#interruptible",
     ],
     deps_opam = [
         "core",
@@ -42,29 +42,6 @@ ocaml_module(
         "async_extra",
     ]
 )
-
-#############
-# ocaml_module(
-#     name = "test",
-#     opts = [],
-#     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq__ppx_deriving_yojson",
-#     ppx_args = [
-#         # do not sort (buildifier)
-#         "-inline-test-lib",
-#         "test",
-#     ],
-#     struct = "test.ml",
-#     visibility = ["//visibility:public"],
-#     deps = [
-#         "@mina//src/lib/merkle_ledger",
-#         "@mina//src/lib/merkle_ledger_tests",
-#         "@mina//src/lib/syncable_ledger",
-#     ],
-#     deps_opam = [
-#         "async",
-#         "core",
-#     ]
-# )
 
 ###############
 ppx_executable(
@@ -83,15 +60,16 @@ ppx_executable(
         "ppx_enumerate.runtime-lib",
         "ppx_module_timer.runtime",
     ],
+    # deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/syncable_ledger:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@mina//src/lib/ppx_register_event",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_register_event:#ppx_register_event",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_jane",

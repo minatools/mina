@@ -1,9 +1,9 @@
 [submodule "src/lib/snarky"]
 	path = src/lib/snarky
-	url = https://github.com/o1-labs/snarky
+	url = https://github.com/minatools/snarky
 [submodule "src/external/ppx_optcomp"]
 	path = src/external/ppx_optcomp
-	url = https://github.com/CodaProtocol/ppx_optcomp
+	url = https://github.com/minatools/ppx_optcomp
 [submodule "src/external/async_kernel"]
 	path = src/external/async_kernel
 	url = https://github.com/CodaProtocol/async_kernel
@@ -18,10 +18,12 @@
 	url = https://github.com/bkase/tablecloth
 [submodule "src/external/graphql_ppx"]
 	path = src/external/graphql_ppx
-	url = https://github.com/o1-labs/graphql_ppx.git
+	url = https://github.com/minatools/graphql_ppx
 [submodule "src/lib/marlin"]
 	path = src/lib/marlin
-	url = https://github.com/o1-labs/marlin.git
+	url = https://github.com/minatools/marlin
 [submodule "src/external/ppx_version"]
 	path = src/external/ppx_version
-	url = https://github.com/o1-labs/ppx_version.git
+	url = https://github.com/minatools/ppx_version
+[submodule "src/external/ppx_optcomp/"]
+	url = https://github.com/minatools/ppx_optcomp

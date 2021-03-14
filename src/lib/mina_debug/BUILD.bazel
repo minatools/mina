@@ -6,28 +6,28 @@ load(
 )
 
 ################################################################
-## STANZA 1: LIBRARY CODA_DEBUG
+## STANZA 1: LIBRARY MINA_DEBUG
 ################################################################
-CODA_DEBUG_INTERFACE_OPTS = []
+MINA_DEBUG_INTERFACE_OPTS = []
 
-CODA_DEBUG_MODULE_OPTS = []
+MINA_DEBUG_MODULE_OPTS = []
 
-CODA_DEBUG_DEPS_OPAM = [
+MINA_DEBUG_DEPS_OPAM = [
     # do not sort (buildifier)
     "core_kernel",
 ]
 
-CODA_DEBUG_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
+MINA_DEBUG_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane"
 
-CODA_DEBUG_PPX_ARGS = [
+MINA_DEBUG_PPX_ARGS = [
     # do not sort (buildifier)
     "-inline-test-lib",
-    "coda_debug",
+    "mina_debug",
 ]
 
 #########
 ocaml_ns_library(
-    name = "coda_debug",
+    name = "#mina_debug",
     submodules = [
         ":_Call_logger"
     ],
@@ -38,18 +38,18 @@ ocaml_module(
     name = "_Call_logger",
     struct = "call_logger.ml",
     sig = ":_Call_logger.cmi",
-    opts = CODA_DEBUG_MODULE_OPTS,
-    ppx = CODA_DEBUG_PPX,
-    ppx_args = CODA_DEBUG_PPX_ARGS,
-    deps_opam = CODA_DEBUG_DEPS_OPAM
+    opts = MINA_DEBUG_MODULE_OPTS,
+    ppx = MINA_DEBUG_PPX,
+    ppx_args = MINA_DEBUG_PPX_ARGS,
+    deps_opam = MINA_DEBUG_DEPS_OPAM
 )
 
 ################
 ocaml_signature(
     name = "_Call_logger.cmi",
     src = "call_logger.mli",
-    opts = CODA_DEBUG_INTERFACE_OPTS,
-    ppx = CODA_DEBUG_PPX,
-    ppx_args = CODA_DEBUG_PPX_ARGS,
-    deps_opam = CODA_DEBUG_DEPS_OPAM,
+    opts = MINA_DEBUG_INTERFACE_OPTS,
+    ppx = MINA_DEBUG_PPX,
+    ppx_args = MINA_DEBUG_PPX_ARGS,
+    deps_opam = MINA_DEBUG_DEPS_OPAM,
 )

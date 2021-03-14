@@ -1,23 +1,8 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    # "ocaml_ns_library",
     "ppx_executable",
 )
-
-#################
-# ocaml_ns_library(
-#     name = "random_oracle_input",
-#     main = "_Random_oracle_input",
-#     submodules = [
-#         "_Random_oracle_input",
-#     ],
-#     visibility = [
-#         "//src/lib/pickles:__pkg__",
-#         "//src/lib/pickles_base:__pkg__",
-#         "//src/lib/random_oracle:__pkg__",
-#     ],
-# )
 
 #############
 ocaml_module(
@@ -59,7 +44,7 @@ ppx_executable(
         "//src/lib/random_oracle_input:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_inline_test",

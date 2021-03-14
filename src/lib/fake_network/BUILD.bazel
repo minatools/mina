@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "fake_network",
-    main = ":_Fake_network",
+    name = "#fake_network",
     submodules = [
         ":_Fake_network",
     ],
@@ -30,10 +29,10 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/gadt_lib",
-        "@mina//src/lib/gossip_net",
-        "@mina//src/lib/mina_networking",
-        "@mina//src/lib/sync_handler",
+        "@mina//src/lib/gadt_lib:#gadt_lib",
+        "@mina//src/lib/gossip_net:#gossip_net",
+        "@mina//src/lib/mina_networking:#mina_networking",
+        "@mina//src/lib/sync_handler:#sync_handler",
     ],
     deps_opam = [
         "async",
@@ -52,10 +51,10 @@ ocaml_signature(
         "fake_network",
     ],
     deps = [
-        "@mina//src/lib/gadt_lib",
-        "@mina//src/lib/gossip_net",
-        "@mina//src/lib/mina_networking",
-        "@mina//src/lib/sync_handler",
+        "@mina//src/lib/gadt_lib:#gadt_lib",
+        "@mina//src/lib/gossip_net:#gossip_net",
+        "@mina//src/lib/mina_networking:#mina_networking",
+        "@mina//src/lib/sync_handler:#sync_handler",
     ],
     deps_opam = [
         "async",

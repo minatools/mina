@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "visualization",
-    main = ":_Visualization",
+    name = "#visualization",
     submodules = [
         ":_Visualization"
     ],

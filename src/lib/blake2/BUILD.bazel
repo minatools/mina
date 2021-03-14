@@ -13,11 +13,6 @@ BLAKE2_INTERFACE_OPTS = []
 
 BLAKE2_MODULE_OPTS = []
 
-BLAKE2_DEPS = [
-    # do not sort (buildifier)
-    "@ppx_version//src/runtime:ppx_version_runtime",
-]
-
 BLAKE2_DEPS_OPAM = [
     "core_kernel",
     "digestif.c",
@@ -33,11 +28,10 @@ BLAKE2_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "blake2",
-    main = ":_Blake2",
+    name = "#blake2",
     submodules = [
         ":_Blake2",
-        ":_Intf"
+        ":_Intf",
     ],
     visibility = [
         "//src/lib/cache_dir:__pkg__",
@@ -55,8 +49,10 @@ ocaml_module(
     ppx = BLAKE2_PPX,
     ppx_args = BLAKE2_PPX_ARGS,
     struct = "blake2.ml",
-    deps = BLAKE2_DEPS,
-    deps_opam = BLAKE2_DEPS_OPAM
+    deps_opam = BLAKE2_DEPS_OPAM,
+    deps = [
+        "@ppx_version//src/runtime:#ppx_version_runtime",
+    ],
 )
 
 ################
@@ -66,9 +62,9 @@ ocaml_signature(
     opts = BLAKE2_INTERFACE_OPTS,
     ppx = BLAKE2_PPX,
     ppx_args = BLAKE2_PPX_ARGS,
-    deps = BLAKE2_DEPS + [
-        # do not sort (buildifier)
+    deps = [
         ":_Intf",
+        "@ppx_version//src/runtime:#ppx_version_runtime",
     ],
     deps_opam = BLAKE2_DEPS_OPAM
 )
@@ -80,6 +76,8 @@ ocaml_module(
     ppx = BLAKE2_PPX,
     ppx_args = BLAKE2_PPX_ARGS,
     struct = "intf.ml",
-    deps = BLAKE2_DEPS,
-    deps_opam = BLAKE2_DEPS_OPAM
+    deps_opam = BLAKE2_DEPS_OPAM,
+    deps = [
+        "@ppx_version//src/runtime:#ppx_version_runtime",
+    ],
 )

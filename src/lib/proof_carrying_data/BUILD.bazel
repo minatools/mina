@@ -6,13 +6,12 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "proof_carrying_data",
-    main = ":_Proof_carrying_data",
+    name = "#proof_carrying_data",
     submodules = [
         ":_Proof_carrying_data",
     ],
     visibility = [
-        "//src/lib/coda_intf:__pkg__",
+        "//src/lib/mina_intf:__pkg__",
         "//src/lib/mina_networking:__pkg__",
     ],
 )

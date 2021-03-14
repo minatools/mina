@@ -35,8 +35,7 @@ INTEGRATION_TEST_CLOUD_ENGINE_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "integration_test_cloud_engine",
-    main = "_Integration_test_cloud_engine",
+    name = "#integration_test_cloud_engine",
     submodules = [
         ":_Cli_inputs",
         ":_Cmd_util",

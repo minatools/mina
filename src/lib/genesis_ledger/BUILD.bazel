@@ -4,10 +4,7 @@ load(
     "ocaml_ns_library",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY GENESIS_LEDGER
@@ -16,9 +13,9 @@ GENESIS_LEDGER_MODULE_OPTS = []
 
 GENESIS_LEDGER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/signature_lib",
-    "@mina//src/lib/runtime_config",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/signature_lib:#signature_lib",
+    "@mina//src/lib/runtime_config:#runtime_config",
 ]
 GENESIS_LEDGER_DEPS_OPAM = ["core_kernel"]
 
@@ -30,8 +27,7 @@ GENESIS_LEDGER_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "genesis_ledger",
-    main = "_Genesis_ledger",
+    name = "#genesis_ledger",
     submodules = [
         ":_Fake_accounts",
         ":_Fuzz_ledger",

@@ -1,17 +1,95 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_signature",
     "ocaml_module",
+    "ocaml_ns_library",
+    "ocaml_signature",
 )
+
+DEPS = [
+    "@mina//src/lib/mina_intf:#mina_intf",
+    "@mina//src/lib/consensus:#consensus",
+    "@mina//src/lib/fake_network:#fake_network",
+    "@mina//src/lib/merkle_address:#merkle_address",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_metrics:#mina_metrics",
+    "@mina//src/lib/mina_networking:#mina_networking",
+    "@mina//src/lib/non_empty_list:#non_empty_list",
+    "@mina//src/lib/pipe_lib:#pipe_lib",
+    "@mina//src/lib/syncable_ledger:#syncable_ledger",
+    "@mina//src/lib/transition_chain_verifier:#transition_chain_verifier",
+    "@mina//src/lib/transition_frontier:#transition_frontier",
+    "@mina//src/lib/transition_handler:#transition_handler",
+]
 
 DEPS_OPAM = [
     "async_kernel",
     "core_kernel",
+    "ocamlgraph",
 ]
+
+#################
+ocaml_ns_library(
+    name = "#ledger_catchup",
+    submodules = [
+        ":_Ledger_catchup",
+        ":_Normal_catchup",
+        ":_Super_catchup",
+        ":_Best_tip_lru",
+    ],
+    visibility = [
+        "//visibility:public",
+    ]
+)
 
 #############
 ocaml_module(
-    name = "ledger_catchup",
+    name = "_Catchup_jobs",
+    struct = "catchup_jobs.ml",
+    ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "ledger_catchup",
+    ],
+    deps = DEPS,
+    deps_opam = DEPS_OPAM,
+)
+
+#############
+ocaml_module(
+    name = "_Normal_catchup",
+    struct = "normal_catchup.ml",
+    ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "ledger_catchup",
+    ],
+    deps = DEPS + [
+        ":_Catchup_jobs"
+    ],
+    deps_opam = DEPS_OPAM,
+)
+
+#############
+ocaml_module(
+    name = "_Super_catchup",
+    struct = "super_catchup.ml",
+    ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "ledger_catchup",
+    ],
+    deps = DEPS + [
+        ":_Best_tip_lru"
+    ],
+    deps_opam = DEPS_OPAM,
+)
+
+#############
+ocaml_module(
+    name = "_Ledger_catchup",
     struct = "ledger_catchup.ml",
     sig = ":_Ledger_catchup.cmi",
     ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
@@ -20,25 +98,11 @@ ocaml_module(
         "-inline-test-lib",
         "ledger_catchup",
     ],
-    deps = [
-        "@mina//src/lib/coda_intf",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/fake_network",
-        "@mina//src/lib/merkle_address",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/mina_metrics",
-        "@mina//src/lib/mina_networking",
-        "@mina//src/lib/non_empty_list",
-        "@mina//src/lib/pipe_lib",
-        "@mina//src/lib/syncable_ledger",
-        "@mina//src/lib/transition_chain_verifier",
-        "@mina//src/lib/transition_frontier",
-        "@mina//src/lib/transition_handler",
+    deps = DEPS + [
+        ":_Normal_catchup",
+        ":_Super_catchup"
     ],
     deps_opam = DEPS_OPAM,
-    visibility = [
-        "//src/lib/transition_frontier_controller:__pkg__",
-    ],
 )
 
 ################
@@ -51,20 +115,38 @@ ocaml_signature(
         "-inline-test-lib",
         "ledger_catchup",
     ],
-    deps = [
-        "@mina//src/lib/coda_intf",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/fake_network",
-        "@mina//src/lib/merkle_address",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/mina_metrics",
-        "@mina//src/lib/mina_networking",
-        "@mina//src/lib/non_empty_list",
-        "@mina//src/lib/pipe_lib",
-        "@mina//src/lib/syncable_ledger",
-        "@mina//src/lib/transition_chain_verifier",
-        "@mina//src/lib/transition_frontier",
-        "@mina//src/lib/transition_handler",
+    deps = DEPS,
+    deps_opam = DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Best_tip_lru",
+    struct = "best_tip_lru.ml",
+    sig = ":_Best_tip_lru.cmi",
+    ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "best_tip_lru",
     ],
+    deps = DEPS,
+    deps_opam = DEPS_OPAM,
+    # visibility = [
+    #     "//src/lib/transition_frontier_controller:__pkg__",
+    # ],
+)
+
+################
+ocaml_signature(
+    name = "_Best_tip_lru.cmi",
+    src = "best_tip_lru.mli",
+    ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "best_tip_lru",
+    ],
+    deps = DEPS,
     deps_opam = DEPS_OPAM
 )

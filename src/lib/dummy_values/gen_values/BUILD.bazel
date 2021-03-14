@@ -13,8 +13,8 @@ GEN_VALUES_MODULE_OPTS = []
 
 GEN_VALUES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/crypto_params",
-    "@mina//src/lib/pickles",
+    "@mina//src/lib/crypto_params:#crypto_params",
+    "@mina//src/lib/pickles:#pickles",
 ]
 GEN_VALUES_DEPS_OPAM = [
     "async",
@@ -35,10 +35,11 @@ ocaml_executable(
     name = "gen_values.exe",
     opts = GEN_VALUES_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = GEN_VALUES_DEPS + [
+    deps = [
         # do not sort (buildifier)
+        "@ppx_version//src/runtime:#ppx_version_runtime",
         ":_Gen_values",
-    ],
+    ] + GEN_VALUES_DEPS,
     deps_opam = GEN_VALUES_DEPS_OPAM
 )
 

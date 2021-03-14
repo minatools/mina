@@ -11,8 +11,8 @@ PPX_PRINT = "@ppx//print:binary"
 ## STANZA 1: LIBRARY PICKLES_BASE
 ################################################################
 PICKLES_BASE_DEPS = [
-    "@mina//src/lib/random_oracle_input",
-    "@mina//src/lib/pickles_types",
+    # "@mina//src/lib/random_oracle_input",
+    # "@mina//src/lib/pickles_types",
 ]
 
 PICKLES_BASE_DEPS_OPAM = [
@@ -21,7 +21,7 @@ PICKLES_BASE_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "pickles_base",
+    name = "#pickles_base",
     submodules = [
         # do not sort (buildifier)
         ":_Domain",
@@ -68,6 +68,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Side_loaded_verification_key",
+    struct = "side_loaded_verification_key.ml",
     opts = [
         "-w", "-22",  # Error (warning 22): Cannot use versioned extension within a functor body
         "-w", "-9",  # Error (warning 9): the following labels are not bound in this record pattern:
@@ -79,9 +80,9 @@ ocaml_module(
         "pickles_base",
     ],
     ppx_print = PPX_PRINT,
-    struct = "side_loaded_verification_key.ml",
     deps = PICKLES_BASE_DEPS + [
-        # do not sort (buildifier)
+        "//src/lib/pickles_types:#pickles_types",
+        "//src/lib/random_oracle_input",
         ":_Domain",
         ":_Domains",
     ],
@@ -111,8 +112,8 @@ ppx_executable(
         "//src/lib/pickles_base:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

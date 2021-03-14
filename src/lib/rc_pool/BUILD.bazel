@@ -14,7 +14,7 @@ ocaml_module(
     ],
     struct = "rc_pool.ml",
     deps = [
-        "@mina//src/lib/snark_params",
+        "@mina//src/lib/snark_params:#snark_params",
     ],
     deps_opam = [
         "core_kernel",

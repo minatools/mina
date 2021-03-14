@@ -5,10 +5,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: EXECUTABLE GEN
@@ -19,12 +16,12 @@ GEN_MODULE_OPTS = []
 
 GEN_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/pickles",
-    "@mina//src/lib/crs",
-    "@snarky//fold_lib",
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//tuple_lib",
-    "@snarky//group_map",
+    "@mina//src/lib/pickles:#pickles",
+    "@mina//src/lib/crs:#crs",
+    "@snarky//fold_lib:#fold_lib",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//tuple_lib:#tuple_lib",
+    "@snarky//group_map:#group_map",
 ]
 
 GEN_DEPS_OPAM = [
@@ -51,7 +48,7 @@ ocaml_executable(
         # do not sort (buildifier)
         ":_Gen",
         # "@ocaml_jemalloc//src:jemalloc",
-        # "//src/lib/coda_version"
+        # "//src/lib/mina_version"
     ],
     deps_opam = GEN_DEPS_OPAM + ["angstrom"]
 )
@@ -83,7 +80,7 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

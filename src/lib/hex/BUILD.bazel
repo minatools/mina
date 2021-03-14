@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "hex",
-    main = ":_Hex",
+    name = "#hex",
     submodules = [
         ":_Hex",
     ],

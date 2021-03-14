@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "backend",
-    main = "_Backend",
+    name = "#backend",
     submodules = [
         "_Backend",
     ],
@@ -29,6 +28,6 @@ ocaml_module(
     ],
     struct = "backend.ml",
     deps = [
-        "@mina//src/lib/zexe_backend",
+        "@mina//src/lib/zexe_backend:#zexe_backend",
     ],
 )

@@ -16,8 +16,8 @@ PIPE_LIB_MODULE_OPTS = []
 
 PIPE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/o1trace",
-    "@mina//src/lib/logger",
+    "@mina//src/lib/o1trace:#o1trace",
+    "@mina//src/lib/logger:#logger",
 ]
 
 PIPE_LIB_DEPS_OPAM = [
@@ -27,7 +27,7 @@ PIPE_LIB_DEPS_OPAM = [
 
 #################
 ocaml_ns_library(
-    name = "pipe_lib",
+    name = "#pipe_lib",
     submodules = [
         ":_Broadcast_pipe",
         ":_Linear_pipe",
@@ -37,8 +37,9 @@ ocaml_ns_library(
         "//src/lib/block_producer:__pkg__",
         "//src/lib/bootstrap_controller:__pkg__",
         "//src/lib/child_processes:__pkg__",
-        "//src/lib/coda_incremental:__pkg__",
-        "//src/lib/coda_net2:__pkg__",
+        "//src/lib/downloader:__pkg__",
+        "//src/lib/mina_incremental:__pkg__",
+        "//src/lib/mina_net2:__pkg__",
         "//src/lib/distributed_dsl:__pkg__",
         "//src/lib/gossip_net:__pkg__",
         "//src/lib/integration_test_cloud_engine:__pkg__",
@@ -179,8 +180,8 @@ ppx_executable(
         "//src/lib/pipe_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.make",

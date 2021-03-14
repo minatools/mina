@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "direction",
-    main = ":_Direction",
+    name = "#direction",
     submodules = [
         ":_Direction",
     ],

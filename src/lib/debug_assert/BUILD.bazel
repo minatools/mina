@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "debug_assert",
-    main = ":_Debug_assert",
+    name = "#debug_assert",
     submodules = [
         ":_Debug_assert",
     ],

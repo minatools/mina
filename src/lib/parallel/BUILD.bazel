@@ -7,8 +7,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "parallel",
-    main = ":_Parallel",
+    name = "#parallel",
     submodules = [
         ":_Parallel",
     ],

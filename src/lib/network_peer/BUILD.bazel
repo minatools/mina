@@ -23,8 +23,7 @@ NETWORK_PEER_DEPS_OPAM = [
 
 #################
 ocaml_ns_library(
-    name = "network_peer",
-    main = ":_Network_peer",
+    name = "#network_peer",
     submodules = [
         ":_Envelope",
         ":_Network_peer",
@@ -32,7 +31,7 @@ ocaml_ns_library(
     ],
     visibility = [
         "//visibility:public",
-        # "//src/lib/coda_net2:__pkg__",
+        # "//src/lib/mina_net2:__pkg__",
         # "//src/lib/node_addrs_and_ports:__pkg__",
         # "//src/lib/trust_system:__pkg__"
     ]
@@ -132,8 +131,8 @@ ppx_executable(
         "//src/lib/network_peer:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

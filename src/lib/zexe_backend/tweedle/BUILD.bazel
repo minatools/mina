@@ -12,15 +12,15 @@ TWEEDLE_MODULE_OPTS = []
 
 TWEEDLE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/zexe_backend/zexe_backend_common",
-    "@mina//src/lib/hex",
-    "@mina//src/lib/pickles_types",
-    "@mina//src/lib/marlin_plonk_bindings",
-    "@mina//src/lib/key_cache",
-    "@mina//src/lib/sgn_type",
-    "@snarky//src/base:snarky_backendless",
-    "@snarky//sponge",
-    "@snarky//snarkette",
+    "@mina//src/lib/zexe_backend/zexe_backend_common:#zexe_backend_common",
+    "@mina//src/lib/hex:#hex",
+    "@mina//src/lib/pickles_types:#pickles_types",
+    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
+    "@mina//src/lib/key_cache:#key_cache",
+    "@mina//src/lib/sgn_type:#sgn_type",
+    "@snarky//src/base:#snarky_backendless",
+    "@snarky//sponge:#sponge",
+    "@snarky//snarkette:#snarkette",
 ]
 TWEEDLE_DEPS_OPAM = [
     "core"
@@ -36,14 +36,13 @@ TWEEDLE_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "tweedle",
-    main = "_Tweedle",
+    name = "#tweedle",
     submodules = [
         ":_Basic",
         ":_Dee_based_plonk",
         ":_Dum_based_plonk",
         ":_Precomputed",
-        ":_Tweedle",
+        ":_Tweedle"
     ],
     visibility = [
         "//src/lib/zexe_backend:__pkg__"

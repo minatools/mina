@@ -19,25 +19,24 @@ PICKLES_MODULE_OPTS = [
 
 PICKLES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/coda_version",
-    "@mina//src/lib/zexe_backend",
+    "@mina//src/lib/mina_version",
+    "@mina//src/lib/zexe_backend:#zexe_backend",
     "@mina//src/lib/random_oracle_input",
-    "@mina//src/lib/pickles_base",
-    # "@mina//src/lib/pickles_types",
-    "@mina//src/lib/pickles/composition_types",
-    "@mina//src/lib/pickles/limb_vector",
+    "@mina//src/lib/pickles_base:#pickles_base",
+    "@mina//src/lib/pickles/composition_types:#composition_types",
+    "@mina//src/lib/pickles/limb_vector:#limb_vector",
     "@mina//src/lib/pickles/plonk_checks",
     "@mina//src/lib/pickles/precomputed",
-    "@mina//src/lib/pickles/one_hot_vector",
+    "@mina//src/lib/pickles/one_hot_vector:#one_hot_vector",
     "@mina//src/lib/pickles/pseudo",
     "@mina//src/lib/snarky_log",
-    "@snarky//sponge",
-    "@snarky//group_map",
-    "@mina//src/lib/snarky_group_map",
+    "@snarky//sponge:#sponge",
+    "@snarky//group_map:#group_map",
+    "@mina//src/lib/snarky_group_map:#snarky_group_map",
     "@snarky//snarky_curve",
-    "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/key_cache",
-    "@mina//src/lib/snark_keys_header",
+    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/key_cache:#key_cache",
+    "@mina//src/lib/snark_keys_header:#snark_keys_header",
 ]
 
 PICKLES_DEPS_OPAM = [
@@ -56,8 +55,7 @@ PICKLES_PPX_ARGS = [
 
 #################
 ocaml_ns_library(
-    name = "pickles",
-    main = "_Pickles",
+    name = "#pickles",
     submodules = [
         ":_Cache",
         ":_Cache_handle",
@@ -524,6 +522,7 @@ ocaml_module(
         ":_Reduced_me_only",
         ":_Ro",
         ":_Scalar_challenge",
+        ":_Side_loaded_verification_key",
     ],
 )
 

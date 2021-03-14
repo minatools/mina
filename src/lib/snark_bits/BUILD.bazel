@@ -5,10 +5,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY SNARK_BITS
@@ -17,8 +14,8 @@ SNARK_BITS_MODULE_OPTS = []
 
 SNARK_BITS_DEPS = [
     # do not sort (buildifier)
-    "@snarky//fold_lib",
-    "@snarky//src/base:snarky_backendless",
+    "@snarky//fold_lib:#fold_lib",
+    "@snarky//src/base:#snarky_backendless",
 ]
 SNARK_BITS_DEPS_OPAM = [
     "core_kernel",
@@ -27,7 +24,7 @@ SNARK_BITS_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "snark_bits",
+    name = "#snark_bits",
     submodules = [
         ":_Bits",
         ":_Bits_intf",
@@ -35,7 +32,7 @@ ocaml_ns_library(
     visibility = [
         "//visibility:public",
         # "//src/lib/block_time:__pkg__",
-        # "//src/lib/coda_numbers:__pkg__",
+        # "//src/lib/mina_numbers:__pkg__",
         # "//src/lib/currency:__pkg__",
         # "//src/lib/snark_params:__pkg__",
     ]
@@ -90,7 +87,7 @@ ppx_executable(
     # ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

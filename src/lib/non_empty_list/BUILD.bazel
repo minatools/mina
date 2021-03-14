@@ -7,8 +7,7 @@ load(
 
 #########
 ocaml_ns_library(
-    name = "non_empty_list",
-    main = "_Non_empty_list",
+    name = "#non_empty_list",
     submodules = [
         ":_Non_empty_list",
     ],

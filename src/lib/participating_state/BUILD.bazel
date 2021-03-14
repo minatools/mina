@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "participating_state",
-    main = ":_Participating_state",
+    name = "#participating_state",
     submodules = [
         ":_Participating_state",
     ],

@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "hash_prefixes",
-    main = ":_Hash_prefixes",
+    name = "#hash_prefixes",
     submodules = [
         ":_Hash_prefixes",
     ],

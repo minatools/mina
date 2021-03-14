@@ -34,7 +34,7 @@ TOOL = "//src/lib/snark_keys/remove_snark_keys_trigger/clear_keys:clear_keys.exe
 ##############
 ocaml_genrule(
     name   = "_Remove_keys_trigger",
-    out    = "remove_keys_trigger.ml",
+    outs   = ["remove_keys_trigger.ml"],
     tools  = [TOOL],
     cmd = "\n".join([
             "$(location {tool})".format(tool = TOOL),

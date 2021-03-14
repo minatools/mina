@@ -1,39 +1,28 @@
 """ config/scan_state/tps_goal
 
-Configuration constants for medium scan_state tps goal.
+Configuration flag and constants for scan_state_tps_goal_x10
+
 """
 
-load("@bazel_skylib//rules:common_settings.bzl", "int_setting")
+## NB: only used by src/lib/genesis_constants/genesis_constants.ml:
+#        [%%if
+#        scan_state_with_tps_goal]
+#        [%%inject
+#        "tps_goal_x10", scan_state_tps_goal_x10]
 
-# int_setting( name = "standard", build_setting_default = ,
-#     visibility = ["//visibility:public"],
-# )
+## this condition only applies to three profiles (settings below).
+## otherwise, omitted from config.mlh.
+## We always include it with default of 10 (= 10/10).
 
-int_setting( name = "medium", build_setting_default = 2,
-    visibility = ["//visibility:public"],
-)
+# IMPORTANT: value expressed is tenths!  E.g. 2 => 0.2
 
-# int_setting( name = "small", build_setting_default = ,
-#     visibility = ["//visibility:public"],
-# )
+load("@bazel_skylib//rules:common_settings.bzl", "int_flag", "int_setting")
 
-# int_setting( name = "tiny", build_setting_default = ,
-#     visibility = ["//visibility:public"],
-# )
+package(default_visibility = ["//visibility:public"])
 
-int_setting( name = "1tps", build_setting_default = 10,
-    visibility = ["//visibility:public"],
-)
+int_flag( name = "x10", build_setting_default = 10)
 
-# int_setting( name = "point1tps", build_setting_default = ,
-#     visibility = ["//visibility:public"],
-# )
-
-int_setting( name = "point2tps", build_setting_default = 2,
-    visibility = ["//visibility:public"],
-)
-
-int_setting( name = "point5tps", build_setting_default = 5,
-    visibility = ["//visibility:public"],
-)
+int_setting( name = "1tps",      build_setting_default = 10) # = factor 1
+int_setting( name = "point2tps", build_setting_default = 2)  # = factor 0.2
+int_setting( name = "point5tps", build_setting_default = 5)  # = factor 0.5
 

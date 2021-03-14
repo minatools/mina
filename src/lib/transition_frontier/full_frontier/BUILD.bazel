@@ -16,12 +16,12 @@ ocaml_module(
     sig = ":_Full_frontier.cmi",
     struct = "full_frontier.ml",
     deps = [
-        "@mina//src/lib/coda_state",
-        "@mina//src/lib/coda_transition",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/staged_ledger",
-        "@mina//src/lib/transition_frontier/frontier_base",
+        "@mina//src/lib/mina_state:#mina_state",
+        "@mina//src/lib/mina_transition:#mina_transition",
+        "@mina//src/lib/consensus:#consensus",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/staged_ledger:#staged_ledger",
+        "@mina//src/lib/transition_frontier/frontier_base:#frontier_base",
     ],
     deps_opam = ["core_kernel"],
     visibility = [
@@ -40,12 +40,12 @@ ocaml_signature(
         "full_frontier",
     ],
     deps = [
-        "@mina//src/lib/coda_state",
-        "@mina//src/lib/coda_transition",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/staged_ledger",
-        "@mina//src/lib/transition_frontier/frontier_base",
+        "@mina//src/lib/mina_state:#mina_state",
+        "@mina//src/lib/mina_transition:#mina_transition",
+        "@mina//src/lib/consensus:#consensus",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/staged_ledger:#staged_ledger",
+        "@mina//src/lib/transition_frontier/frontier_base:#frontier_base",
     ],
     deps_opam = ["core_kernel"]
 )

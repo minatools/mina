@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "file_system",
-    main = ":_File_system",
+    name = "#file_system",
     submodules = [
         ":_File_system",
     ],

@@ -24,7 +24,7 @@ WEB_REQUEST_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "web_request",
+    name = "#web_request",
     submodules = [
         ":_Intf",
         ":_S3_put_request",

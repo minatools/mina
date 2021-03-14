@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "sync_handler",
-    main = ":_Sync_handler",
+    name = "#sync_handler",
     submodules = [
         ":_Sync_handler",
     ],
@@ -29,12 +28,12 @@ ocaml_module(
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/best_tip_prover",
-        "@mina//src/lib/coda_intf",
-        "@mina//src/lib/consensus",
-        "@mina//src/lib/merkle_address",
-        "@mina//src/lib/mina_base",
-        "@mina//src/lib/syncable_ledger",
-        "@mina//src/lib/transition_frontier",
+        "@mina//src/lib/mina_intf:#mina_intf",
+        "@mina//src/lib/consensus:#consensus",
+        "@mina//src/lib/merkle_address:#merkle_address",
+        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/syncable_ledger:#syncable_ledger",
+        "@mina//src/lib/transition_frontier:#transition_frontier",
     ],
     deps_opam = [
         "async_kernel",

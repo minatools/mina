@@ -1,4 +1,10 @@
 #!/bin/sh
+
+## Writes git data to 'bazel-out/stable-status.txt', which is used
+## by //src/lib/mina_version to generate mina_version.ml.
+
+## To activate, pass '--workspace_status_command=bzl/tools/stamp.sh'.
+
 set -e
 
 branch=$(git rev-parse --verify --abbrev-ref HEAD || echo "<none found>")
@@ -23,13 +29,6 @@ marlin_commit_id_short=$(git rev-parse --short=8 --verify HEAD)
 marlin_commit_date=$(git show HEAD -s --format="%cI")
 cd ../../..
 
-cd src/lib/zexe
-zexe_commit_id=$(git rev-parse --verify HEAD)
-if [ -n "$(git diff --stat)" ]; then zexe_commit_id="[DIRTY]$id"; fi
-zexe_commit_id_short=$(git rev-parse --short=8 --verify HEAD)
-zexe_commit_date=$(git show HEAD -s --format="%cI")
-cd ../../..
-
 echo "STABLE_MINA_COMMIT_ID $id"
 echo "STABLE_MINA_COMMIT_ID_SHORT $commit_id_short"
 echo "STABLE_MINA_BRANCH $branch"
@@ -38,7 +37,3 @@ echo "STABLE_MINA_COMMIT_DATE $commit_date"
 echo "STABLE_MARLIN_COMMIT_ID $marlin_commit_id"
 echo "STABLE_MARLIN_COMMIT_ID_SHORT $marlin_commit_id_short"
 echo "STABLE_MARLIN_COMMIT_DATE $marlin_commit_date"
-
-echo "STABLE_ZEXE_COMMIT_ID $zexe_commit_id"
-echo "STABLE_ZEXE_COMMIT_ID_SHORT $zexe_commit_id_short"
-echo "STABLE_ZEXE_COMMIT_DATE $zexe_commit_date"

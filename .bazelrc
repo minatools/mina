@@ -13,8 +13,13 @@ build:dbg --verbose_failures
 # to stamp the binary pass --config=beta or --config=release
 build:beta --stamp
 build:beta --workspace_status_command=bzl/tools/stamp.sh
+build:beta --embed_label=" (Bazel)"
 
 build:release --stamp
 build:release --workspace_status_command=bzl/tools/stamp.sh
+build:release --embed_label=" (Bazel)"
+
+################ build profiles ################
+#build:dev --//src/config/profile=dev
 
 try-import user.bazelrc

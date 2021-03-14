@@ -4,10 +4,8 @@ load(
     "ocaml_ns_library",
     "ppx_executable",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY SNARK_BITS_NONCONSENSUS

@@ -1,24 +1,57 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ppx_executable"
 )
 
 #############
 ocaml_module(
     name = "timeout_lib",
-    ppx = "//bzl/ppx/exe:ppx_jane__ppx_version",
+    struct = "timeout_lib.ml",
+    ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "timeout_lib",
     ],
-    struct = "timeout_lib.ml",
+    deps      = ["//src/lib/logger:#logger"],
     deps_opam = [
         "async_kernel",
         "core",
     ],
     visibility = [
         "//src/lib/block_time:__pkg__",
-        "//src/lib/coda_net2:__pkg__",
+        "//src/lib/mina_net2:__pkg__",
     ],
 )
+
+###############
+ppx_executable(
+    name = "ppx1.exe",
+    deps_adjunct_opam = [
+        "ppx_expect.collector",
+        "ppx_hash.runtime-lib",
+        "ppx_sexp_conv.runtime-lib",
+        "ppx_assert.runtime-lib",
+        "ppx_compare.runtime-lib",
+        "ppx_inline_test.runtime-lib",
+        "ppx_bench.runtime-lib",
+        "ppx_enumerate.runtime-lib",
+        "ppx_module_timer.runtime",
+    ],
+    main = "//bzl/ppx/exe:ppxlib_driver",
+    opts = [],
+    visibility = [
+        "//src/lib/timeout_lib:__pkg__",
+        "//src/lib/transition_frontier/tests:__pkg__",
+    ],
+    deps_opam = [
+        "ppx_jane",
+        "ppxlib"
+    ],
+    deps = [
+        "@ppx_version//src:#ppx_version",
+        "//src/lib/ppx_coda:#ppx_coda"
+    ]
+)
+

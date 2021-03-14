@@ -6,10 +6,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY LEDGER_PROOF
@@ -20,8 +17,8 @@ LEDGER_PROOF_MODULE_OPTS = []
 
 LEDGER_PROOF_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/transaction_snark",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/transaction_snark:#transaction_snark",
 ]
 LEDGER_PROOF_DEPS_OPAM = [
     "core_kernel",
@@ -29,8 +26,7 @@ LEDGER_PROOF_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "ledger_proof",
-    main = ":_Ledger_proof",
+    name = "#ledger_proof",
     submodules = [
         ":_Ledger_proof",
         ":_Ledger_proof_intf",
@@ -107,7 +103,7 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

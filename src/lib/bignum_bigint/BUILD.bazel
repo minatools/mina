@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "bignum_bigint",
-    main = ":_Bignum_bigint",
+    name = "#bignum_bigint",
     submodules = [
         ":_Bignum_bigint"
     ],
@@ -28,7 +27,7 @@ ocaml_module(
     struct = "bignum_bigint.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@snarky//fold_lib",
+        "@snarky//fold_lib:#fold_lib",
     ],
     deps_opam = [
         "async_kernel",

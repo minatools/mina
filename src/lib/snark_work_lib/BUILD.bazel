@@ -1,3 +1,4 @@
+
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
@@ -11,10 +12,10 @@ SNARK_WORK_LIB_MODULE_OPTS = []
 
 SNARK_WORK_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/currency",
-    "@mina//src/lib/one_or_two",
-    "@mina//src/lib/signature_lib",
-    "@mina//src/lib/transaction_snark",
+    "@mina//src/lib/currency:#currency",
+    "@mina//src/lib/one_or_two:#one_or_two",
+    "@mina//src/lib/signature_lib:#signature_lib",
+    "@mina//src/lib/transaction_snark:#transaction_snark",
 ]
 
 SNARK_WORK_LIB_DEPS_OPAM = [
@@ -31,7 +32,7 @@ SNARK_WORK_LIB_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "snark_work_lib",
+    name = "#snark_work_lib",
     submodules = [
         "_Work",
     ],

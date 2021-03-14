@@ -26,8 +26,7 @@ INTEGRATION_TEST_LIB_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "integration_test_lib",
-    main = "_Integration_test_lib",
+    name = "#integration_test_lib",
     submodules = [
         ":_Integration_test_lib",
         ":_Malleable_error",

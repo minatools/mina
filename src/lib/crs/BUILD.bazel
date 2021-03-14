@@ -6,8 +6,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "crs",
-    main = ":_Crs",
+    name = "#crs",
     submodules = [
         ":_Crs",
     ],

@@ -8,8 +8,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "merkle_address",
-    main = ":_Merkle_address",
+    name = "#merkle_address",
     submodules = [
         ":_Merkle_address",
     ],
@@ -31,8 +30,8 @@ ocaml_module(
     sig = ":_Merkle_address.cmi",
     struct = "merkle_address.ml",
     deps = [
-        "@mina//src/lib/direction",
-        "@ppx_version//src/runtime:ppx_version_runtime",
+        "@mina//src/lib/direction:#direction",
+        # "@ppx_version//src/runtime:#ppx_version_runtime",
     ],
     deps_opam = [
         "bitstring",
@@ -58,8 +57,8 @@ ocaml_signature(
         "merkle_address",
     ],
     deps = [
-        "@mina//src/lib/direction",
-        "@ppx_version//src/runtime:ppx_version_runtime",
+        "@mina//src/lib/direction:#direction",
+        "@ppx_version//src/runtime:#ppx_version_runtime",
     ],
     deps_opam = [
         "bitstring",
@@ -84,14 +83,15 @@ ppx_executable(
         "ppx_enumerate.runtime-lib",
         "ppx_module_timer.runtime",
     ],
+    deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/merkle_address:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
-        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "bitstring.ppx",

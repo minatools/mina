@@ -3,10 +3,8 @@ load(
     "ocaml_module",
     "ocaml_ns_library",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ################################################################
 ## STANZA 1: LIBRARY ROSETTA_LIB
@@ -15,10 +13,10 @@ ROSETTA_LIB_MODULE_OPTS = ["-linkall"]
 
 ROSETTA_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/rosetta_models",
-    "@mina//src/lib/snark_params",
-    "@mina//src/lib/signature_lib",
+    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/rosetta_models:#rosetta_models",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/signature_lib:#signature_lib",
 ]
 ROSETTA_LIB_DEPS_OPAM = [
     "core_kernel",
@@ -35,7 +33,7 @@ ROSETTA_LIB_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "rosetta_lib",
+    name = "#rosetta_lib",
     submodules = [
         ":_Amount_of",
         ":_Errors",
@@ -48,6 +46,7 @@ ocaml_ns_library(
     ],
     visibility = [
         "//src/app/rosetta/lib:__pkg__",
+        "//src/lib/cli_lib:__pkg__",
         "//src/lib/rosetta_lib/test:__pkg__"
     ]
 )

@@ -28,14 +28,11 @@ PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "logproc_lib",
-    main = ":_Logproc_lib",
+    name = "#logproc_lib",
     submodules = [
         ":_Filter",
         ":_Logproc_lib",
-    ],
-    sublibs = [
-        ":interpolator_lib"
+        ":#interpolator_lib"
     ],
     visibility = ["//visibility:public"]
 )
@@ -46,7 +43,7 @@ ocaml_module(
     struct = "logproc_lib.ml",
     deps      = [
         ":_Filter",
-        ":interpolator_lib"
+        ":#interpolator_lib"
     ],
     deps_opam = LOGPROC_LIB_DEPS_OPAM,
     ppx = PPX,
@@ -99,7 +96,7 @@ ocaml_signature(
 
 #################
 ocaml_ns_library(
-    name = "interpolator_lib",
+    name = "#interpolator_lib",
     submodules = [
         ":_Interpolator",
     ],

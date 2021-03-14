@@ -1,15 +1,14 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_module",
     "ocaml_test",
     "ppx_archive",
     "ppx_executable",
     "ppx_module",
     "ppx_ns_library",
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 ############################
 PPX_DHALL_TYPE_DEPS_OPAM = [
@@ -22,7 +21,12 @@ PPX_DHALL_TYPE_PPX = "//bzl/ppx/exe:ppx_version__ppxlib.metaquot"
 ###########
 ocaml_test(
     name = "test",
-    main = "test.ml",
+    main = "_Test",
+)
+
+ocaml_module(
+    name = "_Test",
+    struct = "test.ml",
     opts = [
         "-w", "-27",  ## Error (warning 27): unused variable test_ctxt.
         "-w", "-33"   ## unused open OUnit2
@@ -33,24 +37,22 @@ ocaml_test(
     deps_opam = ["core", "ounit2"]
 )
 
-###############
 ppx_executable(
     name = "runner",
     main = "//bzl/ppx/exe:ppxlib_driver",
     deps = [":ppx_dhall_type"]
 )
 
-
 ###############
 ppx_ns_library(
-    name = "ppx_dhall_type",
+    name = "#ppx_dhall_type",
     submodules = [
         ":_Dhall_type",
         ":_Deriving",
     ],
     visibility = [
         "//src/app/dhall_types:__pkg__",
-        "//src/lib/coda_numbers:__pkg__",
+        "//src/lib/mina_numbers:__pkg__",
         "//src/lib/currency:__pkg__",
         "//src/lib/runtime_config:__pkg__",
         "//src/lib/unsigned_extended:__pkg__"

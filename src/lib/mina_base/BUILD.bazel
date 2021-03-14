@@ -7,10 +7,7 @@ load(
     "ppx_executable",
 )
 
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+CONFIG_MLH = ["//src:config"]
 
 PPX_PRINT = "@ppx//print:binary"
 
@@ -23,44 +20,43 @@ MINA_BASE_MODULE_OPTS = []
 
 MINA_BASE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/allocation_functor",
-    "@mina//src/lib/base58_check",
-    "@mina//src/lib/bignum_bigint",
-    "@mina//src/lib/block_time",
-    "@mina//src/lib/coda_compile_config",
-    "@mina//src/lib/genesis_constants",
-    "@mina//src/lib/coda_numbers",
-    "@mina//src/lib/codable",
-    "@mina//src/lib/crypto_params",
-    "@mina//src/lib/currency",
-    "@mina//src/lib/debug_assert",
+    "@mina//src/lib/allocation_functor:#allocation_functor",
+    "@mina//src/lib/base58_check:#base58_check",
+    "@mina//src/lib/bignum_bigint:#bignum_bigint",
+    "@mina//src/lib/block_time:#block_time",
+    "@mina//src/lib/mina_compile_config:#mina_compile_config",
+    "@mina//src/lib/genesis_constants:#genesis_constants",
+    "@mina//src/lib/mina_numbers:#mina_numbers",
+    "@mina//src/lib/codable:#codable",
+    "@mina//src/lib/crypto_params:#crypto_params",
+    "@mina//src/lib/currency:#currency",
+    "@mina//src/lib/debug_assert:#debug_assert",
     "@mina//src/lib/dummy_values",
-    "@snarky//fold_lib",
-    "@mina//src/lib/hash_prefix_states",
-    "@mina//src/lib/hash_prefixes",
+    "@snarky//fold_lib:#fold_lib",
+    "@mina//src/lib/hash_prefix_states:#hash_prefix_states",
+    "@mina//src/lib/hash_prefixes:#hash_prefixes",
     "@mina//src/lib/linked_tree",
-    "@mina//src/lib/merkle_ledger",
-    "@mina//src/lib/merkle_mask",
-    "@mina//src/lib/one_or_two",
-    "@mina//src/lib/o1trace",
-    "@mina//src/lib/outside_hash_image",
-    "@ppx_version//src/runtime:ppx_version_runtime",
-    "@mina//src/lib/quickcheck_lib",
-    "@mina//src/lib/random_oracle",
-    "@mina//src/lib/rocksdb",
-    "@mina//src/lib/rosetta_coding",
-    "@mina//src/lib/signature_lib",
-    "@mina//src/lib/snark_bits",
-    "@mina//src/lib/snark_params",
-    "@snarky//src/base:snarky_backendless",
-    "@mina//src/lib/sparse_ledger_lib",
-    "@mina//src/lib/storage",
-    "@mina//src/lib/syncable_ledger",
+    "@mina//src/lib/merkle_ledger:#merkle_ledger",
+    "@mina//src/lib/merkle_mask:#merkle_mask",
+    "@mina//src/lib/one_or_two:#one_or_two",
+    "@mina//src/lib/o1trace:#o1trace",
+    "@mina//src/lib/outside_hash_image:#outside_hash_image",
+    "@mina//src/lib/quickcheck_lib:#quickcheck_lib",
+    "@mina//src/lib/random_oracle:#random_oracle",
+    "@mina//src/lib/rocksdb:#rocksdb",
+    "@mina//src/lib/rosetta_coding:#rosetta_coding",
+    "@mina//src/lib/signature_lib:#signature_lib",
+    "@mina//src/lib/snark_bits:#snark_bits",
+    "@mina//src/lib/snark_params:#snark_params",
+    "@mina//src/lib/sparse_ledger_lib:#sparse_ledger_lib",
+    "@mina//src/lib/storage:#storage",
+    "@mina//src/lib/syncable_ledger:#syncable_ledger",
     "@mina//src/lib/test_util",
-    "@mina//src/lib/trust_system",
-    "@mina//src/lib/unsigned_extended",
-    "@mina//src/lib/visualization",
-    "@mina//src/lib/with_hash",
+    "@mina//src/lib/trust_system:#trust_system",
+    "@mina//src/lib/unsigned_extended:#unsigned_extended",
+    "@mina//src/lib/visualization:#visualization",
+    "@mina//src/lib/with_hash:#with_hash",
+    "@snarky//src/base:#snarky_backendless",
 ]
 
 MINA_BASE_DEPS_OPAM = [
@@ -74,7 +70,7 @@ MINA_BASE_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "mina_base",
+    name = "#mina_base",
     submodules = [
         ":_Account",
         ":_Account_id",
@@ -140,12 +136,12 @@ ocaml_ns_library(
         ":_Transaction",
         ":_Transaction_hash",
         ":_Transaction_logic",
+        ":_Transaction_status",
         ":_Transaction_union",
         ":_Transaction_union_payload",
         ":_Transaction_union_tag",
         ":_Transaction_validator",
         ":_User_command",
-        ":_User_command_status",
         ":_Util",
         ":_With_status",
         ":_Sample_keypairs",
@@ -706,7 +702,6 @@ ocaml_signature(
         ":_Token_id",
         ":_Transaction",
         ":_Transaction_logic",
-        ":_User_command_status",
         ":_With_status",
     ],
 )
@@ -714,6 +709,7 @@ ocaml_signature(
 #############
 ocaml_module(
     name = "_Ledger_hash",
+    struct = "ledger_hash.ml",
     sig  = ":_Ledger_hash.cmi",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
@@ -723,10 +719,10 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    struct = "ledger_hash.ml",
     deps_opam = MINA_BASE_DEPS_OPAM,
-    deps = MINA_BASE_DEPS + [
+    deps = [ # MINA_BASE_DEPS + [
         # do not sort (buildifier)
+        # "@ppx_version//src/runtime:#ppx_version_runtime",
         ":_Account",
         ":_Account_id",
         ":_Hash_prefix",
@@ -748,8 +744,8 @@ ocaml_signature(
     ],
     ppx_data = CONFIG_MLH,
     deps_opam = MINA_BASE_DEPS_OPAM,
-    deps = MINA_BASE_DEPS + [
-        # do not sort (buildifier)
+    deps = [ # MINA_BASE_DEPS + [
+        # "@ppx_version//src/runtime:#ppx_version_runtime",
         ":_Ledger_hash0",
         ":_Ledger_hash_intf",
     ],
@@ -1816,6 +1812,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_Sync_ledger",
+    struct = "sync_ledger.ml",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1824,7 +1821,6 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    struct = "sync_ledger.ml",
     deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
@@ -1918,7 +1914,7 @@ ocaml_module(
         ":_Fee_transfer",
         ":_Signed_command",
         ":_Snapp_command",
-        ":_User_command",  # obazl:retain
+        ":_User_command"
     ],
 )
 
@@ -1968,6 +1964,7 @@ ocaml_signature(
 #############
 ocaml_module(
     name = "_Transaction_logic",
+    struct = "transaction_logic.ml",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -1976,7 +1973,6 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    struct = "transaction_logic.ml",
     deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
         # do not sort (buildifier)
@@ -1995,9 +1991,26 @@ ocaml_module(
         ":_Token_id",
         ":_Transaction",
         ":_User_command",
-        ":_User_command_status",
         ":_With_status",
     ],
+)
+
+#############
+ocaml_module(
+    name = "_Transaction_status",
+    struct = "transaction_status.ml",
+    opts = MINA_BASE_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "mina_base",
+    ],
+    ppx_data = CONFIG_MLH,
+    deps_opam = MINA_BASE_DEPS_OPAM,
+    deps = MINA_BASE_DEPS + [
+        ":_Token_id"
+    ]
 )
 
 #############
@@ -2135,7 +2148,6 @@ ocaml_signature(
         ":_Snapp_predicate",
         ":_Transaction",
         ":_Transaction_logic",
-        ":_User_command_status",
     ],
 )
 
@@ -2166,23 +2178,6 @@ ocaml_module(
 
 #############
 ocaml_module(
-    name = "_User_command_status",
-    opts = MINA_BASE_MODULE_OPTS,
-    ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-        "-inline-test-lib",
-        "mina_base",
-    ],
-    ppx_data = CONFIG_MLH,
-    ppx_print = PPX_PRINT,  # obazl:retain
-    struct = "user_command_status.ml",
-    deps_opam = MINA_BASE_DEPS_OPAM,
-    deps = MINA_BASE_DEPS + [":_Token_id"],  # obazl:retain
-)
-
-#############
-ocaml_module(
     name = "_Util",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
@@ -2200,6 +2195,7 @@ ocaml_module(
 #############
 ocaml_module(
     name = "_With_status",
+    struct = "with_status.ml",
     opts = MINA_BASE_MODULE_OPTS,
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -2208,10 +2204,9 @@ ocaml_module(
         "mina_base",
     ],
     ppx_data = CONFIG_MLH,
-    struct = "with_status.ml",
     deps_opam = MINA_BASE_DEPS_OPAM,
     deps = MINA_BASE_DEPS + [
-        ":_User_command_status",  # obazl:retain
+        ":_Transaction_status"
     ],
 )
 
@@ -2266,15 +2261,18 @@ ppx_executable(
         "fieldslib",
         "ppx_bench.runtime-lib",
     ],
+    # deps_adjunct = [
+    #     "@ppx_version//src/runtime:#ppx_version_runtime",
+    # ],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/mina_base:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:#ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],

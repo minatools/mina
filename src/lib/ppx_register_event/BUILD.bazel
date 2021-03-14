@@ -6,8 +6,7 @@ load(
 
 #########
 ppx_ns_library(
-    name = "ppx_register_event",
-    main = ":_Register_event",
+    name = "#ppx_register_event",
     submodules = [
         ":_Register_event",
     ],
@@ -19,14 +18,14 @@ ppx_module(
     name = "_Register_event",
     struct = "register_event.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppxlib.metaquot",
-    deps = ["//src/lib/logproc_lib"],
+    deps = ["//src/lib/logproc_lib:#logproc_lib"],
     deps_opam    = [
         "compiler-libs.common",
         "ppxlib",
         "core_kernel",
         "ppx_deriving_yojson",
     ],
-    deps_adjunct = ["@mina//src/lib/structured_log_events"],
+    deps_adjunct = ["@mina//src/lib/structured_log_events:#structured_log_events"],
     deps_adjunct_opam = [
         "yojson",
         "ppx_deriving_yojson",

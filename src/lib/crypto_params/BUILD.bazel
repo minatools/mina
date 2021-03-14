@@ -8,8 +8,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "crypto_params",
-    main = ":_Crypto_params",
+    name = "#crypto_params",
     submodules = [
         ":_Crypto_params",
     ],
@@ -30,15 +29,15 @@ ocaml_module(
     ],
     struct = "crypto_params.ml",
     deps = [
-        "@mina//src/lib/bignum_bigint",
-        "@mina//src/lib/bowe_gabizon_hash",
-        "@mina//src/lib/cache_dir",
-        "@mina//src/lib/hash_prefixes",
-        "@mina//src/lib/pickles",
-        "@mina//src/lib/random_oracle",
-        "@snarky//group_map",
-        "@snarky//src/base:snarky_backendless",
-        "@snarky//tuple_lib",
+        "@mina//src/lib/bignum_bigint:#bignum_bigint",
+        "@mina//src/lib/bowe_gabizon_hash:#bowe_gabizon_hash",
+        "@mina//src/lib/cache_dir:#cache_dir",
+        "@mina//src/lib/hash_prefixes:#hash_prefixes",
+        "@mina//src/lib/pickles:#pickles",
+        "@mina//src/lib/random_oracle:#random_oracle",
+        "@snarky//group_map:#group_map",
+        "@snarky//src/base:#snarky_backendless",
+        "@snarky//tuple_lib:#tuple_lib",
         ":_Group_map_params"
     ],
 )
@@ -54,8 +53,8 @@ ocaml_module(
         "crypto_params",
     ],
     deps = [
-        "@mina//src/lib/pickles",
-        "@snarky//group_map",
+        "@mina//src/lib/pickles:#pickles",
+        "@snarky//group_map:#group_map",
     ],
 )
 
@@ -65,7 +64,7 @@ TOOL = "//src/lib/crypto_params/gen:gen.exe"
 ##############
 ocaml_genrule(
     name = "gensrcs",
-    out = "group_map_params.ml",
+    outs = ["group_map_params.ml"],
     cmd = "\n".join([
         "$(location {tool});".format( tool = TOOL ),
         "cp group_map_params.ml $(location group_map_params.ml)",
@@ -94,7 +93,7 @@ ppx_executable(
         "//src/lib/crypto_params:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

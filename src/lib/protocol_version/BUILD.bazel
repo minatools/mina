@@ -8,8 +8,7 @@ load(
 
 #################
 ocaml_ns_library(
-    name = "protocol_version",
-    main = ":_Protocol_version",
+    name = "#protocol_version",
     submodules = [
         ":_Protocol_version",
     ],
@@ -58,7 +57,7 @@ ppx_executable(
         "//src/lib/protocol_version:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:ppx_version",
+        "@ppx_version//src:#ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

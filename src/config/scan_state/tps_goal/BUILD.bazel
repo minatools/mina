@@ -1,9 +1,16 @@
 """ config/scan_state/tps_goal
 
-Configuration constants for medium scan_state tps goal.
+Configuration flag and constants for scan_state_with_tps_goal.
 """
 
-load("@bazel_skylib//rules:common_settings.bzl", "bool_setting")
+load("@bazel_skylib//rules:common_settings.bzl",
+     "int_flag",
+     "bool_flag",
+     "bool_setting")
+
+bool_flag( name = "tps_goal", build_setting_default = False,
+    visibility = ["//visibility:public"],
+)
 
 bool_setting( name = "standard", build_setting_default = False,
     visibility = ["//visibility:public"],

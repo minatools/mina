@@ -1,21 +1,18 @@
 """ config/consensus/k
 
-Configuration constants for consensus k parameter.
+Configuration flag and constants for consensus k parameter.
 """
 
-load("@bazel_skylib//rules:common_settings.bzl", "int_setting", "string_setting")
+load("@bazel_skylib//rules:common_settings.bzl", "int_flag", "int_setting")
 
-int_setting( name = "short", build_setting_default = 24,
-             visibility = ["//visibility:public"])
+package(default_visibility = ["//visibility:public"])
 
-int_setting( name = "tiny", build_setting_default = 6,
-             visibility = ["//visibility:public"])
+int_flag( name = "k", build_setting_default = 24)
 
-int_setting( name = "nano", build_setting_default = 6,
-             visibility = ["//visibility:public"])
+int_setting( name = "full", build_setting_default = 290)
+int_setting( name = "medium", build_setting_default = 3)
+int_setting( name = "short", build_setting_default = 24)
+int_setting( name = "tiny", build_setting_default = 6)
+int_setting( name = "nano", build_setting_default = 6)
 
-int_setting( name = "medium", build_setting_default = 3,
-             visibility = ["//visibility:public"])
-
-int_setting( name = "full", build_setting_default = 290,
-             visibility = ["//visibility:public"])
+int_setting( name = "postake_medium_curve", build_setting_default = 3)

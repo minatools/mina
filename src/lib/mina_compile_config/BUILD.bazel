@@ -3,17 +3,14 @@ load(
     "ocaml_module",
     "ocaml_ns_library"
 )
-load(
-    "//:BUILD.bzl",
-    "CONFIG_MLH",
-)
+
+CONFIG_MLH = ["//src:config"]
 
 #################
 ocaml_ns_library(
-    name = "coda_compile_config",
-    main = ":_Coda_compile_config",
+    name = "#mina_compile_config",
     submodules = [
-        ":_Coda_compile_config",
+        ":_mina_compile_config",
     ],
     visibility = [
         "//visibility:public",
@@ -22,12 +19,12 @@ ocaml_ns_library(
 
 #############
 ocaml_module(
-    name = "_Coda_compile_config",
+    name = "_mina_compile_config",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_base__ppx_optcomp",
     ppx_data = CONFIG_MLH,
-    struct = "coda_compile_config.ml",
+    struct = "mina_compile_config.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/currency",
+        "@mina//src/lib/currency:#currency",
     ],
 )

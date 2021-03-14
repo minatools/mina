@@ -14,11 +14,11 @@ TRANSITION_FRONTIER_MODULE_OPTS = []
 
 TRANSITION_FRONTIER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/transition_frontier/frontier_base",
+    "@mina//src/lib/transition_frontier/frontier_base:#frontier_base",
     "@mina//src/lib/transition_frontier/persistent_root",
-    "@mina//src/lib/transition_frontier/persistent_frontier",
+    "@mina//src/lib/transition_frontier/persistent_frontier:#persistent_frontier",
     "@mina//src/lib/transition_frontier/full_frontier",
-    "@mina//src/lib/transition_frontier/extensions",
+    "@mina//src/lib/transition_frontier/extensions:#extensions",
 ]
 TRANSITION_FRONTIER_DEPS_OPAM = [
     "ppx_deriving_yojson.runtime",
@@ -34,10 +34,11 @@ TRANSITION_FRONTIER_PPX_ARGS = [
 
 #########
 ocaml_ns_library(
-    name = "transition_frontier",
-    main = "_Transition_frontier",
+    name = "#transition_frontier",
     submodules = [
         ":_Catchup_hash_tree",
+        ":_Catchup_tree",
+        ":_Full_catchup_tree",
         ":_Transition_frontier",
     ],
     visibility = [
@@ -48,10 +49,35 @@ ocaml_ns_library(
 #############
 ocaml_module(
     name = "_Catchup_hash_tree",
+    struct = "catchup_hash_tree.ml",
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
-    struct = "catchup_hash_tree.ml",
     deps = TRANSITION_FRONTIER_DEPS,
+    deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Catchup_tree",
+    struct = "catchup_tree.ml",
+    ppx = TRANSITION_FRONTIER_PPX,
+    ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
+    deps = TRANSITION_FRONTIER_DEPS + [
+        ":_Catchup_hash_tree",
+        ":_Full_catchup_tree"
+    ],
+    deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Full_catchup_tree",
+    struct = "full_catchup_tree.ml",
+    ppx = TRANSITION_FRONTIER_PPX,
+    ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
+    deps = TRANSITION_FRONTIER_DEPS + [
+        "//src/lib/downloader:#downloader"
+    ],
     deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
 )
 
@@ -64,6 +90,7 @@ ocaml_module(
     struct = "transition_frontier.ml",
     deps = TRANSITION_FRONTIER_DEPS + [
         # do not sort (buildifier)
+        ":_Catchup_tree",
         ":_Catchup_hash_tree",
     ],
     deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
@@ -77,6 +104,7 @@ ocaml_signature(
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
     deps = TRANSITION_FRONTIER_DEPS + [
         # do not sort (buildifier)
+        ":_Catchup_tree",
         ":_Catchup_hash_tree",
     ],
     deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
