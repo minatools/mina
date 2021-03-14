@@ -5,6 +5,8 @@
 
 Mina is the first cryptocurrency with a lightweight, constant-sized blockchain. This is the main source code repository for the Mina project. It contains code for the OCaml protocol implementation, [website](https://minaprotocol.com), and wallet. Enjoy!
 
+<b>This is an unofficial fork whose purpose is to add Bazel support.</b>
+
 ## Notes
 
 - Mina is still under active development, and APIs are still evolving. If you do build upon the APIs, be aware that breaking changes may occur.
