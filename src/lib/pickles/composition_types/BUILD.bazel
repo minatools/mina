@@ -2,7 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 PPX_PRINT = "@ppx//print:binary"
@@ -16,11 +16,11 @@ COMPOSITION_TYPES_MODULE_OPTS = []
 
 COMPOSITION_TYPES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/pickles/limb_vector:#limb_vector",
-    "@mina//src/lib/zexe_backend:#zexe_backend",
-    "@mina//src/lib/pickles_types:#pickles_types",
-    "@mina//src/lib/pickles_base:#pickles_base",
-    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/pickles/limb_vector:limb_vector",
+    "@mina//src/lib/zexe_backend",
+    "@mina//src/lib/pickles_types:pickles_types",
+    "@mina//src/lib/pickles_base:pickles_base",
+    "@snarky//src/base:snarky_backendless",
 ]
 COMPOSITION_TYPES_DEPS_OPAM = [
     "core_kernel"
@@ -35,8 +35,8 @@ COMPOSITION_TYPES_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#composition_types",
+ocaml_ns_archive(
+    name = "composition_types",
     submodules = [
         ":_Bulletproof_challenge",
         ":_Composition_types",

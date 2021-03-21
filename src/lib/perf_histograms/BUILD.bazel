@@ -3,7 +3,7 @@ load(
     "ocaml_archive",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -15,7 +15,7 @@ PERF_HISTOGRAMS_MODULE_OPTS = []
 
 PERF_HISTOGRAMS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_metrics:#mina_metrics",
+    "@mina//src/lib/mina_metrics",
 ]
 
 PERF_HISTOGRAMS_DEPS_OPAM = [
@@ -35,8 +35,8 @@ PERF_HISTOGRAMS_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#perf_histograms",
+ocaml_ns_archive(
+    name = "perf_histograms",
     submodules = [
         ":_Histogram",
         ":_Intf",

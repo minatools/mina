@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -11,10 +11,10 @@ SNARKY_PAIRING_MODULE_OPTS = []
 
 SNARKY_PAIRING_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/sgn_type:#sgn_type",
-    "@mina//src/lib/snarky_field_extensions:#snarky_field_extensions",
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//snarkette:#snarkette",
+    "@mina//src/lib/sgn_type:sgn_type",
+    "@mina//src/lib/snarky_field_extensions:snarky_field_extensions",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//snarkette:snarkette",
 ]
 SNARKY_PAIRING_DEPS_OPAM = ["core_kernel"]
 
@@ -27,8 +27,8 @@ SNARKY_PAIRING_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#snarky_pairing",
+ocaml_ns_archive(
+    name = "snarky_pairing",
     submodules = [
         ":_Final_exponentiation",
         ":_G1_precomputation",

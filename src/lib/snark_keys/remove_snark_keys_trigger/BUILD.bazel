@@ -2,6 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_genrule",
     "ocaml_module",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -19,13 +20,21 @@ REMOVE_SNARK_KEYS_TRIGGER_PPX_ARGS = [
     # do not sort (buildifier)
 ]
 
-#############
-ocaml_module(
-    name   = "remove_keys_trigger",
-    struct = "remove_keys_trigger.ml",
+#################
+ocaml_ns_archive(
+    name = "remove_snark_keys_trigger",
+    submodules = [
+        ":_Remove_keys_trigger"
+    ],
     visibility = [
         "//src/lib/snark_keys/gen_keys:__pkg__"
     ]
+)
+
+#############
+ocaml_module(
+    name   = "_Remove_keys_trigger",
+    struct = "remove_keys_trigger.ml",
 )
 
 #################################################################################
@@ -33,7 +42,7 @@ TOOL = "//src/lib/snark_keys/remove_snark_keys_trigger/clear_keys:clear_keys.exe
 
 ##############
 ocaml_genrule(
-    name   = "_Remove_keys_trigger",
+    name   = "gensrc",
     outs   = ["remove_keys_trigger.ml"],
     tools  = [TOOL],
     cmd = "\n".join([

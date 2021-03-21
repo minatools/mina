@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -11,8 +11,8 @@ SNARKY_FIELD_EXTENSIONS_MODULE_OPTS = []
 
 SNARKY_FIELD_EXTENSIONS_DEPS = [
     # do not sort (buildifier)
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//snarkette:#snarkette",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//snarkette:snarkette",
 ]
 SNARKY_FIELD_EXTENSIONS_DEPS_OPAM = [
     "core_kernel",
@@ -27,8 +27,8 @@ SNARKY_FIELD_EXTENSIONS_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#snarky_field_extensions",
+ocaml_ns_archive(
+    name = "snarky_field_extensions",
     submodules = [
         ":_Field_extensions",
         ":_Intf",

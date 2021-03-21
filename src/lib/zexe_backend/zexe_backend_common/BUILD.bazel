@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -11,16 +11,16 @@ load(
 ################################################################
 ZEXE_BACKEND_COMMON_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/hex:#hex",
-    "@mina//src/lib/pickles_types:#pickles_types",
-    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
-    "@mina//src/lib/key_cache:#key_cache",
-    "@mina//src/lib/sgn_type:#sgn_type",
-    "@snarky//src/intf:#snarky_intf",
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//sponge:#sponge",
-    "@snarky//snarkette:#snarkette",
-    "@mina//src/lib/allocation_functor:#allocation_functor",
+    "@mina//src/lib/hex:hex",
+    "@mina//src/lib/pickles_types:pickles_types",
+    "@mina//src/lib/marlin_plonk_bindings:marlin_plonk_bindings",
+    "@mina//src/lib/key_cache:key_cache",
+    "@mina//src/lib/sgn_type:sgn_type",
+    "@snarky//src/intf:snarky_intf",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//sponge:sponge",
+    "@snarky//snarkette:snarkette",
+    "@mina//src/lib/allocation_functor:allocation_functor",
 ]
 
 ZEXE_BACKEND_COMMON_DEPS_OPAM = [
@@ -31,8 +31,8 @@ ZEXE_BACKEND_COMMON_DEPS_OPAM = [
     ]
 
 #########
-ocaml_ns_library(
-    name = "#zexe_backend_common",
+ocaml_ns_archive(
+    name = "zexe_backend_common",
     submodules = [
         ":_Bigint",
         ":_Curve",
@@ -364,7 +364,7 @@ ppx_executable(
         "ppx_module_timer.runtime",
     ],
     # deps_adjunct = [
-    #     "@ppx_version//src/runtime:#ppx_version_runtime"
+    #     "@ppx_version//src/runtime:ppx_version_runtime"
     # ],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [
@@ -375,8 +375,8 @@ ppx_executable(
         "//src/lib/zexe_backend/zexe_backend_common:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

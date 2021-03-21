@@ -1,15 +1,15 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#test_genesis_ledger",
+ocaml_ns_archive(
+    name = "test_genesis_ledger",
     submodules = [
         ":_Test_genesis_ledger",
     ],
@@ -31,7 +31,7 @@ ocaml_module(
     struct = "test_genesis_ledger.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/genesis_ledger:#genesis_ledger",
+        "@mina//src/lib/genesis_ledger:genesis_ledger",
     ],
 )
 
@@ -46,6 +46,6 @@ ocaml_signature(
     ],
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/genesis_ledger:#genesis_ledger",
+        "@mina//src/lib/genesis_ledger:genesis_ledger",
     ],
 )

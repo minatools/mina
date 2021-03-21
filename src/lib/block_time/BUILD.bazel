@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -9,8 +9,8 @@ load(
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#block_time",
+ocaml_ns_archive(
+    name = "block_time",
     submodules = [
         ":_Block_time"
     ],
@@ -39,12 +39,12 @@ ocaml_module(
         "//visibility:public"
     ],
     deps = [
-        "@mina//src/lib/mina_numbers:#mina_numbers",
-        "@mina//src/lib/logger:#logger",
-        "@mina//src/lib/snark_bits:#snark_bits",
-        "@mina//src/lib/snark_params:#snark_params",
+        "@mina//src/lib/mina_numbers:mina_numbers",
+        "@mina//src/lib/logger:logger",
+        "@mina//src/lib/snark_bits:snark_bits",
+        "@mina//src/lib/snark_params:snark_params",
         "@mina//src/lib/timeout_lib",
-        "@mina//src/lib/unsigned_extended:#unsigned_extended",
+        "@mina//src/lib/unsigned_extended:unsigned_extended",
     ],
     deps_opam = [
         "core",
@@ -64,12 +64,12 @@ ocaml_signature(
     ],
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/mina_numbers:#mina_numbers",
-        "@mina//src/lib/logger:#logger",
-        "@mina//src/lib/snark_bits:#snark_bits",
-        "@mina//src/lib/snark_params:#snark_params",
+        "@mina//src/lib/mina_numbers:mina_numbers",
+        "@mina//src/lib/logger:logger",
+        "@mina//src/lib/snark_bits:snark_bits",
+        "@mina//src/lib/snark_params:snark_params",
         "@mina//src/lib/timeout_lib",
-        "@mina//src/lib/unsigned_extended:#unsigned_extended",
+        "@mina//src/lib/unsigned_extended:unsigned_extended",
     ],
     deps_opam = [
         "core",
@@ -98,9 +98,9 @@ ppx_executable(
         "//src/lib/block_time:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

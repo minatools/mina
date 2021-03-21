@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -14,16 +14,16 @@ ROSETTA_CODING_MODULE_OPTS = []
 
 ROSETTA_CODING_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/snark_params:#snark_params",
-    "@mina//src/lib/signature_lib:#signature_lib",
+    "@mina//src/lib/snark_params:snark_params",
+    "@mina//src/lib/signature_lib:signature_lib",
 ]
 ROSETTA_CODING_DEPS_OPAM = [
     "core_kernel",
 ]
 
 #################
-ocaml_ns_library(
-    name = "#rosetta_coding",
+ocaml_ns_archive(
+    name = "rosetta_coding",
     submodules = [
          ":_Coding",
     ],
@@ -62,7 +62,7 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_assert",

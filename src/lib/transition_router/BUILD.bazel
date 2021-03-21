@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -14,11 +14,11 @@ TRANSITION_ROUTER_MODULE_OPTS = []
 
 TRANSITION_ROUTER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/pipe_lib:#pipe_lib",
-    "@mina//src/lib/transition_frontier:#transition_frontier",
+    "@mina//src/lib/pipe_lib:pipe_lib",
+    "@mina//src/lib/transition_frontier:transition_frontier",
     "@mina//src/lib/transition_frontier_controller",
     "@mina//src/lib/bootstrap_controller:#bootstrap_controller",
-    "@mina//src/lib/mina_networking:#mina_networking",
+    "@mina//src/lib/mina_networking:mina_networking",
 ]
 TRANSITION_ROUTER_DEPS_OPAM = [
     "core",
@@ -34,8 +34,8 @@ TRANSITION_ROUTER_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#transition_router",
+ocaml_ns_archive(
+    name = "transition_router",
     submodules = [
         ":_Initial_validator",
         ":_Transition_router",

@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 #################
-ocaml_ns_library(
-    name = "#downloader",
+ocaml_ns_archive(
+    name = "downloader",
     submodules = [
         ":_Downloader",
     ],
@@ -25,10 +25,10 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps      = [
-        "//src/lib/trust_system:#trust_system",
-        "//src/lib/pipe_lib:#pipe_lib",
-        "//src/lib/mina_base:#mina_base",
-        "//src/lib/network_peer:#network_peer"
+        "//src/lib/trust_system:trust_system",
+        "//src/lib/pipe_lib:pipe_lib",
+        "//src/lib/mina_base:mina_base",
+        "//src/lib/network_peer:network_peer"
     ],
     deps_opam = [
         "core",

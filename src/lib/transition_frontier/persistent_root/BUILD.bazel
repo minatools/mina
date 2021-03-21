@@ -1,11 +1,21 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "persistent_root",
+    submodules = [
+        ":_Persistent_root"
+    ],
+    visibility = ["//visibility:public"],
 )
 
 #############
 ocaml_module(
-    name = "persistent_root",
+    name = "_Persistent_root",
     struct = "persistent_root.ml",
     ppx = "//bzl/ppx/exe:ppx_jane__ppx_coda__ppx_version",
     ppx_args = [
@@ -13,9 +23,8 @@ ocaml_module(
         "-inline-test-lib",
         "persistent_root",
     ],
-    visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/mina_base:mina_base",
         "@mina//src/lib/transition_frontier/full_frontier"
     ],
     deps_opam = [

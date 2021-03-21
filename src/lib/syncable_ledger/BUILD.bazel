@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#syncable_ledger",
+ocaml_ns_archive(
+    name = "syncable_ledger",
     submodules = [
         ":_Syncable_ledger",
     ],
@@ -29,12 +29,12 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        # "@ppx_version//src/runtime:#ppx_version_runtime",
-        "@mina//src/lib/pipe_lib:#pipe_lib",
-        "@mina//src/lib/merkle_ledger:#merkle_ledger",
-        "@mina//src/lib/logger:#logger",
-        "@mina//src/lib/trust_system:#trust_system",
-        "@mina//src/lib/interruptible:#interruptible",
+        # "@ppx_version//src/runtime:ppx_version_runtime",
+        "@mina//src/lib/pipe_lib:pipe_lib",
+        "@mina//src/lib/merkle_ledger:merkle_ledger",
+        "@mina//src/lib/logger:logger",
+        "@mina//src/lib/trust_system:trust_system",
+        "@mina//src/lib/interruptible:interruptible",
     ],
     deps_opam = [
         "core",
@@ -60,16 +60,16 @@ ppx_executable(
         "ppx_enumerate.runtime-lib",
         "ppx_module_timer.runtime",
     ],
-    # deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
+    # deps_adjunct = ["@ppx_version//src/runtime:ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/syncable_ledger:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@mina//src/lib/ppx_register_event:#ppx_register_event",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        # "@mina//src/lib/ppx_register_event:ppx_register_event",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_jane",

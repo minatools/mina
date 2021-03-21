@@ -15,11 +15,11 @@ GEN_KEYS_MODULE_OPTS = []
 
 GEN_KEYS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/cache_dir:#cache_dir",
-    "@mina//src/lib/snark_keys/remove_snark_keys_trigger:remove_keys_trigger",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/transaction_snark:#transaction_snark",
-    "@mina//src/lib/blockchain_snark:#blockchain_snark",
+    "@mina//src/lib/blockchain_snark:blockchain_snark",
+    "@mina//src/lib/snark_keys/remove_snark_keys_trigger",
+    # "@mina//src/lib/transaction_snark:transaction_snark",
+    # "@mina//src/lib/mina_base:mina_base",
+    # "@mina//src/lib/cache_dir:cache_dir",
 ]
 
 GEN_KEYS_DEPS_OPAM = [

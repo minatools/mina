@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 #################
-ocaml_ns_library(
-    name = "#global_signer_private_key",
+ocaml_ns_archive(
+    name = "global_signer_private_key",
     submodules = [
         ":_Global_signer_private_key",
     ],
@@ -27,7 +27,7 @@ ocaml_module(
     struct = "global_signer_private_key.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/signature_lib:#signature_lib",
+        "@mina//src/lib/signature_lib:signature_lib",
     ],
     deps_opam = [
         "core_kernel",

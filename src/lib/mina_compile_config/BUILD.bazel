@@ -1,14 +1,14 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#mina_compile_config",
+ocaml_ns_archive(
+    name = "mina_compile_config",
     submodules = [
         ":_mina_compile_config",
     ],
@@ -25,6 +25,6 @@ ocaml_module(
     struct = "mina_compile_config.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/currency:#currency",
+        "@mina//src/lib/currency:currency",
     ],
 )

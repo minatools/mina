@@ -1,16 +1,25 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "empty_hashes",
+    submodules = [
+        ":_Empty_hashes"
+    ],
+    visibility = [
+        "//src/lib/merkle_ledger:__pkg__"
+    ],
 )
 
 #############
 ocaml_module(
-    name = "empty_hashes",
-    ppx = "//bzl/ppx/exe:ppx_version",
+    name = "_Empty_hashes",
     struct = "empty_hashes.ml",
-    deps = ["@mina//src/lib/immutable_array:#immutable_array"],
+    ppx = "//bzl/ppx/exe:ppx_version",
+    deps = ["@mina//src/lib/immutable_array:immutable_array"],
     deps_opam = ["core"],
-    visibility = [
-        "//src/lib/merkle_ledger:__pkg__"
-    ],
 )

@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -14,11 +14,11 @@ TRANSITION_FRONTIER_MODULE_OPTS = []
 
 TRANSITION_FRONTIER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/transition_frontier/frontier_base:#frontier_base",
+    "@mina//src/lib/transition_frontier/frontier_base:frontier_base",
     "@mina//src/lib/transition_frontier/persistent_root",
-    "@mina//src/lib/transition_frontier/persistent_frontier:#persistent_frontier",
+    "@mina//src/lib/transition_frontier/persistent_frontier:persistent_frontier",
     "@mina//src/lib/transition_frontier/full_frontier",
-    "@mina//src/lib/transition_frontier/extensions:#extensions",
+    "@mina//src/lib/transition_frontier/extensions:extensions",
 ]
 TRANSITION_FRONTIER_DEPS_OPAM = [
     "ppx_deriving_yojson.runtime",
@@ -33,8 +33,8 @@ TRANSITION_FRONTIER_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#transition_frontier",
+ocaml_ns_archive(
+    name = "transition_frontier",
     submodules = [
         ":_Catchup_hash_tree",
         ":_Catchup_tree",
@@ -76,7 +76,7 @@ ocaml_module(
     ppx = TRANSITION_FRONTIER_PPX,
     ppx_args = TRANSITION_FRONTIER_PPX_ARGS,
     deps = TRANSITION_FRONTIER_DEPS + [
-        "//src/lib/downloader:#downloader"
+        "//src/lib/downloader:downloader"
     ],
     deps_opam = TRANSITION_FRONTIER_DEPS_OPAM
 )

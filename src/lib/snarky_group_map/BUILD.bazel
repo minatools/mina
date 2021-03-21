@@ -4,7 +4,7 @@ load(
     "ocaml_signature",
     "ocaml_library",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -16,8 +16,8 @@ SNARKY_GROUP_MAP_MODULE_OPTS = []
 
 SNARKY_GROUP_MAP_DEPS = [
     # do not sort (buildifier)
-    "@snarky//group_map:#group_map",
-    "@snarky//src/base:#snarky_backendless",
+    "@snarky//group_map",
+    "@snarky//src/base:snarky_backendless",
 ]
 
 SNARKY_GROUP_MAP_DEPS_OPAM = [
@@ -33,8 +33,8 @@ SNARKY_GROUP_MAP_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#snarky_group_map",
+ocaml_ns_archive(
+    name = "snarky_group_map",
     submodules = [
         ":_Checked_map",
         ":_Snarky_group_map",

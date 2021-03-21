@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -19,8 +19,8 @@ STATE_OR_ERROR_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#state_or_error",
+ocaml_ns_archive(
+    name = "state_or_error",
     submodules = [
         ":_State_or_error",
         ":_State_or_error_intf",
@@ -87,7 +87,7 @@ ppx_executable(
         "//src/lib/state_or_error:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

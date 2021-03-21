@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -14,18 +14,18 @@ MINA_TRANSITION_MODULE_OPTS = []
 
 MINA_TRANSITION_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/staged_ledger:#staged_ledger",
-    "@mina//src/lib/transition_chain_verifier:#transition_chain_verifier",
+    "@mina//src/lib/staged_ledger:staged_ledger",
+    "@mina//src/lib/transition_chain_verifier:transition_chain_verifier",
     "@mina//src/lib/truth",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_net2:#mina_net2",
-    "@mina//src/lib/mina_state:#mina_state",
-    "@mina//src/lib/precomputed_values:#precomputed_values",
-    "@mina//src/lib/consensus:#consensus",
-    "@mina//src/lib/protocol_version:#protocol_version",
-    "@mina//src/lib/staged_ledger_diff:#staged_ledger_diff",
-    "@mina//src/lib/verifier:#verifier",
-    "@mina//src/lib/allocation_functor:#allocation_functor",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_net2:mina_net2",
+    "@mina//src/lib/mina_state:mina_state",
+    "@mina//src/lib/precomputed_values:precomputed_values",
+    "@mina//src/lib/consensus:consensus",
+    "@mina//src/lib/protocol_version:protocol_version",
+    "@mina//src/lib/staged_ledger_diff:staged_ledger_diff",
+    "@mina//src/lib/verifier:verifier",
+    "@mina//src/lib/allocation_functor:allocation_functor",
 ]
 MINA_TRANSITION_DEPS_OPAM = [
     "core_kernel",
@@ -40,8 +40,8 @@ MINA_TRANSITION_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#mina_transition",
+ocaml_ns_archive(
+    name = "mina_transition",
     submodules = [
         ":_External_transition",
         ":_External_transition_intf",

@@ -16,8 +16,8 @@ ARCHIVE_MODULE_OPTS = []
 
 ARCHIVE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/app/archive/archive_lib:#archive_lib",
-    "@mina//src/lib/cli_lib:#cli_lib",
+    "@mina//src/app/archive/archive_lib:archive_lib",
+    "@mina//src/lib/cli_lib:cli_lib",
 ]
 ARCHIVE_DEPS_OPAM = [
     "core",
@@ -57,28 +57,12 @@ ocaml_module(
 ###############
 ppx_executable(
     name = "ppx1.exe",
-    deps_adjunct_opam = [
-        "ppx_expect.collector",
-        "ppx_hash.runtime-lib",
-        "ppx_sexp_conv.runtime-lib",
-        "ppx_assert.runtime-lib",
-        "ppx_compare.runtime-lib",
-        "ppx_inline_test.runtime-lib",
-        "ppx_bench.runtime-lib",
-        "ppx_enumerate.runtime-lib",
-        "ppx_module_timer.runtime",
-    ],
     main = "//bzl/ppx/exe:ppxlib_driver",
-    opts = [],
-    visibility = [
-        "//src/app/archive:__pkg__",
-    ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
     ],
     deps_opam = [
         "ppx_jane",
-        "ppxlib",
     ]
 )

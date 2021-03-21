@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -15,10 +15,10 @@ CHILD_PROCESSES_MODULE_OPTS = []
 
 CHILD_PROCESSES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/file_system:#file_system",
-    "@mina//src/lib/error_json:#error_json",
-    "@mina//src/lib/logger:#logger",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
+    "@mina//src/lib/file_system:file_system",
+    "@mina//src/lib/error_json:error_json",
+    "@mina//src/lib/logger:logger",
+    "@mina//src/lib/pipe_lib:pipe_lib",
 ]
 
 CHILD_PROCESSES_DEPS_OPAM = [
@@ -29,8 +29,8 @@ CHILD_PROCESSES_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#child_processes",
+ocaml_ns_archive(
+    name = "child_processes",
     submodules = [
         ":_Child_processes",
         ":_Syslimits",
@@ -139,8 +139,8 @@ ppx_executable(
         "//src/lib/child_processes:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_assert",

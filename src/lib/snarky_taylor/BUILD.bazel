@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -14,8 +14,8 @@ SNARKY_TAYLOR_MODULE_OPTS = []
 
 SNARKY_TAYLOR_DEPS = [
     # do not sort (buildifier)
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//snarky_integer:#snarky_integer",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//snarky_integer:snarky_integer",
 ]
 
 SNARKY_TAYLOR_DEPS_OPAM = [
@@ -31,8 +31,8 @@ SNARKY_TAYLOR_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#snarky_taylor",
+ocaml_ns_archive(
+    name = "snarky_taylor",
     submodules = [
         ":_Floating_point",
         ":_Snarky_taylor",

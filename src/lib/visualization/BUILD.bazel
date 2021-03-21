@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 #################
-ocaml_ns_library(
-    name = "#visualization",
+ocaml_ns_archive(
+    name = "visualization",
     submodules = [
         ":_Visualization"
     ],
@@ -29,7 +29,7 @@ ocaml_module(
     deps_opam = [
         "async",
         "core",
-        "ocamlgraph",
         "yojson",
+        "ocamlgraph",
     ],
 )

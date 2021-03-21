@@ -1,16 +1,25 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ppx_module",
+    "ppx_ns_archive",
+)
+
+#################
+ppx_ns_archive(
+    name = "ppx_to_enum",
+    submodules = [
+        ":_Ppx_to_enum"
+    ],
+    visibility = ["//src/lib/ppx_coda:__pkg__"]
 )
 
 ###########
 ppx_module(
-    name = "ppx_to_enum",
+    name = "_Ppx_to_enum",
     struct = "ppx_to_enum.ml",
     deps_opam = [
         "compiler-libs.common",
         "ppxlib",
     ],
     ppx = "@//bzl/ppx/exe:ppxlib.metaquot",
-    visibility = ["//src/lib/ppx_coda:__pkg__"]
 )

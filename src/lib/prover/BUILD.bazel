@@ -2,7 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 CONFIG_MLH = ["//src:config"]
@@ -16,13 +16,13 @@ PROVER_MODULE_OPTS = []
 
 PROVER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_state:#mina_state",
-    "@mina//src/lib/mina_transition:#mina_transition",
-    "@mina//src/lib/blockchain_snark:#blockchain_snark",
-    "@mina//src/lib/memory_stats:#memory_stats",
-    "@mina//src/lib/precomputed_values:#precomputed_values",
-    "@mina//src/lib/child_processes:#child_processes",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_state:mina_state",
+    "@mina//src/lib/mina_transition:mina_transition",
+    "@mina//src/lib/blockchain_snark:blockchain_snark",
+    "@mina//src/lib/memory_stats:memory_stats",
+    "@mina//src/lib/precomputed_values:precomputed_values",
+    "@mina//src/lib/child_processes:child_processes",
 ]
 PROVER_DEPS_OPAM = [
     "async",
@@ -39,8 +39,8 @@ PROVER_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#prover",
+ocaml_ns_archive(
+    name = "prover",
     submodules = [
         ":_Intf",
         ":_Prover",

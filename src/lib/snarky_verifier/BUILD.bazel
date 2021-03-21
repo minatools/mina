@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -12,10 +12,10 @@ SNARKY_VERIFIER_MODULE_OPTS = []
 
 SNARKY_VERIFIER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/sgn_type:#sgn_type",
-    "@mina//src/lib/snarky_curves:#snarky_curves",
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//snarkette:#snarkette",
+    "@mina//src/lib/sgn_type:sgn_type",
+    "@mina//src/lib/snarky_curves:snarky_curves",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//snarkette:snarkette",
 ]
 SNARKY_VERIFIER_DEPS_OPAM = [
     "core",  # obazl:retain
@@ -23,8 +23,8 @@ SNARKY_VERIFIER_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#snarky_verifier",
+ocaml_ns_archive(
+    name = "snarky_verifier",
     submodules = [
         ":_Bowe_gabizon",
         ":_Groth",
@@ -145,7 +145,7 @@ ppx_executable(
         "//src/lib/snarky_verifier:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

@@ -2,7 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -20,21 +20,21 @@ CONSENSUS_MODULE_OPTS = []
 
 CONSENSUS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/snarky_taylor:#snarky_taylor",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/block_time:#block_time",
-    "@mina//src/lib/with_hash:#with_hash",
-    "@mina//src/lib/test_genesis_ledger:#test_genesis_ledger",
-    "@mina//src/lib/snark_params:#snark_params",
-    "@mina//src/lib/perf_histograms:#perf_histograms",
+    "@mina//src/lib/snarky_taylor:snarky_taylor",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/block_time:block_time",
+    "@mina//src/lib/with_hash:with_hash",
+    "@mina//src/lib/test_genesis_ledger:test_genesis_ledger",
+    "@mina//src/lib/snark_params:snark_params",
+    "@mina//src/lib/perf_histograms:perf_histograms",
     "@mina//src/lib/rc_pool",
     "@mina//src/lib/test_util",
-    "@mina//src/lib/vrf_lib:#vrf_lib",
-    "@mina//src/lib/unix_timestamp:#unix_timestamp",
-    "@mina//src/lib/global_signer_private_key:#global_signer_private_key",
-    "@mina//src/lib/non_zero_curve_point:#non_zero_curve_point",
-    "@mina//src/lib/mina_metrics:#mina_metrics",
-    "@mina//src/lib/graphql_lib:#graphql_lib",
+    "@mina//src/lib/vrf_lib:vrf_lib",
+    "@mina//src/lib/unix_timestamp:unix_timestamp",
+    "@mina//src/lib/global_signer_private_key:global_signer_private_key",
+    "@mina//src/lib/non_zero_curve_point:non_zero_curve_point",
+    "@mina//src/lib/mina_metrics",
+    "@mina//src/lib/graphql_lib:graphql_lib",
     "@mina//src/lib/inline_test_quiet_logs",
 ]
 
@@ -44,8 +44,8 @@ CONSENSUS_DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#consensus",
+ocaml_ns_archive(
+    name = "consensus",
     submodules = [
         ":_Consensus",
         ":_Constants",
@@ -460,9 +460,9 @@ ppx_executable(
         "//src/lib/consensus:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],

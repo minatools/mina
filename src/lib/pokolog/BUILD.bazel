@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -24,8 +24,8 @@ POKOLOG_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#pokolog",
+ocaml_ns_archive(
+    name = "pokolog",
     submodules = [
         ":_Group_intf",
         ":_Hash_intf",

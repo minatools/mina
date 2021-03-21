@@ -1,15 +1,15 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#genesis_constants",
+ocaml_ns_archive(
+    name = "genesis_constants",
     submodules = [
         ":_Genesis_constants",
     ],
@@ -31,10 +31,10 @@ ocaml_module(
     ppx_print = "@ppx//print:binary",
     struct = "genesis_constants.ml",
     deps = [
-        "@mina//src/lib/blake2:#blake2",
-        "@mina//src/lib/mina_compile_config:#mina_compile_config",
-        "@mina//src/lib/currency:#currency",
-        "@mina//src/lib/data_hash_lib:#data_hash_lib",
+        "@mina//src/lib/blake2:blake2",
+        "@mina//src/lib/mina_compile_config:mina_compile_config",
+        "@mina//src/lib/currency:currency",
+        "@mina//src/lib/data_hash_lib:data_hash_lib",
     ],
     deps_opam = [
         "core",
@@ -56,16 +56,16 @@ ppx_executable(
         "bin_prot",
         "fieldslib",
     ],
-    # deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
+    # deps_adjunct = ["@ppx_version//src/runtime:ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/genesis_constants:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

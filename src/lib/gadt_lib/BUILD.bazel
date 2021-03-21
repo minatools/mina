@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -22,8 +22,8 @@ GADT_LIB_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#gadt_lib",
+ocaml_ns_archive(
+    name = "gadt_lib",
     submodules = [
         ":_Peano",
         "_Vect",

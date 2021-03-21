@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 CONFIG_MLH = ["//src:config"]
@@ -13,10 +13,10 @@ ROSETTA_LIB_MODULE_OPTS = ["-linkall"]
 
 ROSETTA_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/rosetta_models:#rosetta_models",
-    "@mina//src/lib/snark_params:#snark_params",
-    "@mina//src/lib/signature_lib:#signature_lib",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/rosetta_models:rosetta_models",
+    "@mina//src/lib/snark_params:snark_params",
+    "@mina//src/lib/signature_lib:signature_lib",
 ]
 ROSETTA_LIB_DEPS_OPAM = [
     "core_kernel",
@@ -32,8 +32,8 @@ ROSETTA_LIB_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#rosetta_lib",
+ocaml_ns_archive(
+    name = "rosetta_lib",
     submodules = [
         ":_Amount_of",
         ":_Errors",

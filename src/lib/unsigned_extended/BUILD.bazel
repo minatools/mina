@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -17,8 +17,8 @@ UNSIGNED_EXTENDED_MODULE_OPTS = []
 
 UNSIGNED_EXTENDED_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/snark_params:#snark_params",
-    # "@ppx_version//src/runtime:#ppx_version_runtime",
+    "@mina//src/lib/snark_params:snark_params",
+    # "@ppx_version//src/runtime:ppx_version_runtime",
 ]
 
 UNSIGNED_EXTENDED_DEPS_OPAM = [
@@ -27,8 +27,8 @@ UNSIGNED_EXTENDED_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#unsigned_extended",
+ocaml_ns_archive(
+    name = "unsigned_extended",
     submodules = [
         ":_Intf",
         ":_Unsigned_extended",
@@ -98,8 +98,8 @@ ocaml_signature(
     deps = UNSIGNED_EXTENDED_DEPS + [
         # do not sort (buildifier)
         ":_Intf",
-        "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
-        # "@ppx_version//src/runtime:#ppx_version_runtime",
+        "@mina//src/lib/ppx_dhall_type:ppx_dhall_type",
+        # "@ppx_version//src/runtime:ppx_version_runtime",
     ],
 )
 
@@ -116,16 +116,16 @@ ppx_executable(
         "ppx_inline_test.runtime-lib",
         "bin_prot",
     ],
-    # deps_adjunct = [# "@ppx_version//src/runtime:#ppx_version_runtime"],
+    # deps_adjunct = [# "@ppx_version//src/runtime:ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
         "//src/lib/unsigned_extended:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

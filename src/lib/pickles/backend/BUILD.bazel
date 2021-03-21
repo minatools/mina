@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 #################
-ocaml_ns_library(
-    name = "#backend",
+ocaml_ns_archive(
+    name = "backend",
     submodules = [
         "_Backend",
     ],
@@ -28,6 +28,6 @@ ocaml_module(
     ],
     struct = "backend.ml",
     deps = [
-        "@mina//src/lib/zexe_backend:#zexe_backend",
+        "@mina//src/lib/zexe_backend"
     ],
 )

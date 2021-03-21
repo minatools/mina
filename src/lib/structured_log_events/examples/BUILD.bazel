@@ -65,7 +65,7 @@ ppx_executable(
     ],
     deps = [
         "@mina//src/lib/ppx_coda",
-        "@mina//src/lib/ppx_register_event",
+        # "@mina//src/lib/ppx_register_event",
         "@ppx_version//src:ppx_version",
     ],
     deps_opam = [

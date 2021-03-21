@@ -1,12 +1,17 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
 
 CONFIG_MLH = ["//src:config"]
+
+DEPS = [
+    "@mina//src/lib/error_json:error_json",
+    "@mina//src/lib/logger:logger",
+]
 
 DEPS_OPAM = [
     "async",
@@ -14,8 +19,8 @@ DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#key_cache",
+ocaml_ns_archive(
+    name = "key_cache",
     submodules = [
         ":_Key_cache",
     ],
@@ -32,10 +37,7 @@ ocaml_module(
     name = "_Key_cache",
     struct = "key_cache.ml",
     sig = ":_Key_cache.cmi",
-    deps = [
-        "@mina//src/lib/error_json:#error_json",
-        "@mina//src/lib/logger:#logger",
-    ],
+    deps = DEPS,
     deps_opam = DEPS_OPAM,
     ppx = ":ppx1.exe",
     ppx_data = CONFIG_MLH,
@@ -46,10 +48,7 @@ ocaml_module(
 ocaml_signature(
     name = "_Key_cache.cmi",
     src = "key_cache.mli",
-    deps = [
-        "@mina//src/lib/error_json:#error_json",
-        "@mina//src/lib/logger:#logger",
-    ],
+    deps = DEPS,
     deps_opam = DEPS_OPAM,
     ppx = ":ppx1.exe",
     ppx_data = CONFIG_MLH,
@@ -64,15 +63,15 @@ ppx_executable(
     ],
     main = "//bzl/ppx/exe:ppxlib_driver",
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
         "@ppx_optcomp//src:ppx_optcomp",
+        "@mina//src/lib/ppx_coda",
+        # "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
+        "ppxlib",
         "ppx_base",
         "ppx_custom_printf",
         "ppx_let",
-        "ppxlib",
     ],
     visibility = ["//src/lib/key_cache:__pkg__"]
 )

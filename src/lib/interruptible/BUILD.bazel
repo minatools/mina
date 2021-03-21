@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 #################
-ocaml_ns_library(
-    name = "#interruptible",
+ocaml_ns_archive(
+    name = "interruptible",
     submodules = [
         ":_Interruptible",
     ],

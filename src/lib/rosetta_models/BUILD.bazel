@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -18,8 +18,8 @@ ROSETTA_MODELS_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#rosetta_models",
+ocaml_ns_archive(
+    name = "rosetta_models",
     submodules = [
         ":_Account_balance_request",
         ":_Account_balance_response",
@@ -1202,7 +1202,7 @@ ppx_executable(
         "//src/lib/rosetta_models:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

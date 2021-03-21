@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -15,15 +15,15 @@ BOOTSTRAP_CONTROLLER_MODULE_OPTS = []
 
 BOOTSTRAP_CONTROLLER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_transition:#mina_transition",
-    "@mina//src/lib/syncable_ledger:#syncable_ledger",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
-    "@mina//src/lib/consensus:#consensus",
-    "@mina//src/lib/transition_frontier:#transition_frontier",
-    "@mina//src/lib/mina_networking:#mina_networking",
-    "@mina//src/lib/sync_handler:#sync_handler",
-    "@mina//src/lib/fake_network:#fake_network",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_transition:mina_transition",
+    "@mina//src/lib/syncable_ledger:syncable_ledger",
+    "@mina//src/lib/pipe_lib:pipe_lib",
+    "@mina//src/lib/consensus:consensus",
+    "@mina//src/lib/transition_frontier:transition_frontier",
+    "@mina//src/lib/mina_networking:mina_networking",
+    "@mina//src/lib/sync_handler:sync_handler",
+    "@mina//src/lib/fake_network:fake_network",
 ]
 
 BOOTSTRAP_CONTROLLER_DEPS_OPAM = [
@@ -31,7 +31,7 @@ BOOTSTRAP_CONTROLLER_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#bootstrap_controller",
     submodules = [
         ":_Bootstrap_controller",
@@ -128,9 +128,9 @@ ppx_executable(
         "//src/lib/bootstrap_controller:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@mina//src/lib/ppx_register_event:#ppx_register_event",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        # "@mina//src/lib/ppx_register_event:ppx_register_event",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -19,9 +19,9 @@ PICKLES_BASE_DEPS_OPAM = [
     "core_kernel",
 ]
 
-#########
-ocaml_ns_library(
-    name = "#pickles_base",
+#################
+ocaml_ns_archive(
+    name = "pickles_base",
     submodules = [
         # do not sort (buildifier)
         ":_Domain",
@@ -81,7 +81,7 @@ ocaml_module(
     ],
     ppx_print = PPX_PRINT,
     deps = PICKLES_BASE_DEPS + [
-        "//src/lib/pickles_types:#pickles_types",
+        "//src/lib/pickles_types:pickles_types",
         "//src/lib/random_oracle_input",
         ":_Domain",
         ":_Domains",
@@ -107,18 +107,14 @@ ppx_executable(
         "ppx_module_timer.runtime",
     ],
     main = "//bzl/ppx/exe:ppxlib_driver",
-    opts = [],
-    visibility = [
-        "//src/lib/pickles_base:__pkg__",
-    ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        # "@mina//src/lib/logproc_lib:interpolator_lib",
         "@snarky//h_list/ppx:ppx_h_list",
+        "@ppx_version//src:ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
     ],
     deps_opam = [
         "ppx_jane",
-        "ppxlib",
         "ppx_deriving_yojson",
         "ppx_deriving.std",
     ]

@@ -1,18 +1,27 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-#############
-ocaml_module(
+#################
+ocaml_ns_archive(
     name = "mina_user_error",
-    ppx = "//bzl/ppx/exe:ppx_version",
-    struct = "mina_user_error.ml",
-    deps_opam = [
-        "base"
+    submodules = [
+        ":_Mina_user_error"
     ],
     visibility = [
         "//src/app/cli/src/init:__pkg__",
         "//src/lib/secrets:__pkg__",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Mina_user_error",
+    struct = "mina_user_error.ml",
+    ppx = "//bzl/ppx/exe:ppx_version",
+    deps_opam = [
+        "base"
     ],
 )

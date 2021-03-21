@@ -1,5 +1,3 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
@@ -16,9 +14,9 @@ BEST_TIP_MERGER_MODULE_OPTS = []
 
 BEST_TIP_MERGER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/logger",
-    "@mina//src/app/rosetta/lib",
-    "@mina//src/lib/cli_lib",
+    "@mina//src/lib/logger:logger",
+    "@mina//src/app/rosetta/lib:#lib",
+    "@mina//src/lib/cli_lib:cli_lib",
 ]
 BEST_TIP_MERGER_DEPS_OPAM = [
     "async",
@@ -72,7 +70,7 @@ ppx_executable(
         "//src/app/best_tip_merger:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_version//src:ppx_version",
     ],
     deps_opam = [

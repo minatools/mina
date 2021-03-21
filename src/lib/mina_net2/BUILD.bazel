@@ -2,13 +2,13 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#mina_net2",
+ocaml_ns_archive(
+    name = "mina_net2",
     submodules = [
         ":_mina_net2",
     ],
@@ -30,12 +30,12 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/child_processes:#child_processes",
-        "@mina//src/lib/error_json:#error_json",
-        "@mina//src/lib/file_system:#file_system",
-        "@mina//src/lib/logger:#logger",
-        "@mina//src/lib/network_peer:#network_peer",
-        "@mina//src/lib/pipe_lib:#pipe_lib",
+        "@mina//src/lib/child_processes:child_processes",
+        "@mina//src/lib/error_json:error_json",
+        "@mina//src/lib/file_system:file_system",
+        "@mina//src/lib/logger:logger",
+        "@mina//src/lib/network_peer:network_peer",
+        "@mina//src/lib/pipe_lib:pipe_lib",
         "@mina//src/lib/timeout_lib",
     ],
     deps_opam = [
@@ -60,12 +60,12 @@ ocaml_signature(
         "mina_net2",
     ],
     deps = [
-        "@mina//src/lib/child_processes:#child_processes",
-        "@mina//src/lib/error_json:#error_json",
-        "@mina//src/lib/file_system:#file_system",
-        "@mina//src/lib/logger:#logger",
-        "@mina//src/lib/network_peer:#network_peer",
-        "@mina//src/lib/pipe_lib:#pipe_lib",
+        "@mina//src/lib/child_processes:child_processes",
+        "@mina//src/lib/error_json:error_json",
+        "@mina//src/lib/file_system:file_system",
+        "@mina//src/lib/logger:logger",
+        "@mina//src/lib/network_peer:network_peer",
+        "@mina//src/lib/pipe_lib:pipe_lib",
         "@mina//src/lib/timeout_lib"
     ],
     deps_opam = [
@@ -101,8 +101,8 @@ ppx_executable(
         "//src/lib/mina_net2:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.std",

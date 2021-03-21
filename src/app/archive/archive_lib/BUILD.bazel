@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -12,10 +12,10 @@ ARCHIVE_LIB_MODULE_OPTS = []
 
 ARCHIVE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_transition:#mina_transition",
-    "@mina//src/lib/one_or_two:#one_or_two",
-    "@mina//src/lib/transition_frontier:#transition_frontier",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_transition:mina_transition",
+    "@mina//src/lib/one_or_two:one_or_two",
+    "@mina//src/lib/transition_frontier:transition_frontier",
 ]
 ARCHIVE_LIB_DEPS_OPAM = [
     "core",
@@ -26,8 +26,8 @@ ARCHIVE_LIB_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#archive_lib",
+ocaml_ns_archive(
+    name = "archive_lib",
     submodules = [
         ":_Ast",
         ":_Diff",
@@ -38,6 +38,7 @@ ocaml_ns_library(
     ],
     visibility = [
         "//src/app/archive:__pkg__",
+        "//src/app/archive_blocks:__pkg__",
         "//src/app/rosetta/lib:__pkg__",
         "//src/lib/mina_lib:__pkg__"
     ]
@@ -103,7 +104,7 @@ ocaml_module(
         # do not sort (buildifier)
         ":_Diff",
         ":_Rpc",
-        "@mina//src/lib/genesis_ledger_helper:#genesis_ledger_helper",
+        "@mina//src/lib/genesis_ledger_helper:genesis_ledger_helper",
     ],
     deps_opam = ARCHIVE_LIB_DEPS_OPAM
 )
@@ -162,8 +163,8 @@ ppx_executable(
         "//src/app/archive/archive_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

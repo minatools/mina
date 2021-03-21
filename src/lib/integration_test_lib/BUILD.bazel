@@ -1,7 +1,8 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
+    "ocaml_signature",
     "ppx_executable",
 )
 
@@ -16,17 +17,20 @@ INTEGRATION_TEST_LIB_DEPS = [
     "@mina//src/lib/runtime_config",
     "@mina//src/lib/genesis_constants",
     "@mina//src/lib/transition_frontier",
+    "@mina//src/lib/transition_router",
+    "@mina//src/lib/block_producer",
     "@mina//src/lib/user_command_input",
 ]
 INTEGRATION_TEST_LIB_DEPS_OPAM = [
     "core",
     "async",
     "cmdliner",
+    "lens"
 ]
 
 #########
-ocaml_ns_library(
-    name = "#integration_test_lib",
+ocaml_ns_archive(
+    name = "integration_test_lib",
     submodules = [
         ":_Integration_test_lib",
         ":_Malleable_error",
@@ -38,23 +42,23 @@ ocaml_ns_library(
 )
 
 #############
-ocaml_module(
-    name = "_Integration_test_lib",
-    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
-    ppx = ":ppx1.exe",
-    ppx_args = [
-        # do not sort (buildifier)
-        "-inline-test-lib",
-        "integration_test_lib",
-    ],
-    struct = "integration_test_lib.ml",
-    deps = INTEGRATION_TEST_LIB_DEPS + [
-        # do not sort (buildifier)
-        ":_Malleable_error",
-        ":_Test_error",
-    ],
-    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
-)
+# ocaml_module(
+#     name = "_Integration_test_lib",
+#     opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+#     ppx = ":ppx1.exe",
+#     ppx_args = [
+#         # do not sort (buildifier)
+#         "-inline-test-lib",
+#         "integration_test_lib",
+#     ],
+#     struct = "integration_test_lib.ml",
+#     deps = INTEGRATION_TEST_LIB_DEPS + [
+#         # do not sort (buildifier)
+#         ":_Malleable_error",
+#         ":_Test_error",
+#     ],
+#     deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+# )
 
 #############
 ocaml_module(
@@ -76,6 +80,176 @@ ocaml_module(
 
 #############
 ocaml_module(
+    name = "_Dsl",
+    struct = "dsl.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Event_router",
+    struct = "event_router.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Event_type",
+    struct = "event_type.ml",
+    sig    = "_Event_type.cmi",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+ocaml_signature(
+    name = "_Event_type.cmi",
+    src  = "event_type.mli",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Intf",
+    struct = "intf.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Json_parsing",
+    struct = "json_parsing.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Malleable_Error",
+    struct = "malleable_error.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Network_state",
+    struct = "network_state.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Network_time_span",
+    struct = "network_time_span.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Test_config",
+    struct = "test_config.ml",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
     name = "_Test_error",
     opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
@@ -86,6 +260,40 @@ ocaml_module(
     ],
     struct = "test_error.ml",
     deps = INTEGRATION_TEST_LIB_DEPS,
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
+    name = "_Wait_condition",
+    struct = "wait_condition.ml",
+    sig    = "_Wait_condition.cmi",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
+    deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
+)
+
+ocaml_signature(
+    name = "_Wait_condition.cmi",
+    src  = "wait_condition.mli",
+    opts = INTEGRATION_TEST_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "integration_test_lib",
+    ],
+    deps = INTEGRATION_TEST_LIB_DEPS + [
+        # do not sort (buildifier)
+    ],
     deps_opam = INTEGRATION_TEST_LIB_DEPS_OPAM
 )
 
@@ -110,6 +318,7 @@ ppx_executable(
         "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
+        "ppxlib",
         "ppx_assert",
         "ppx_compare",
         "ppx_custom_printf",
@@ -117,6 +326,7 @@ ppx_executable(
         "ppx_inline_test",
         "ppx_let",
         "ppx_sexp_conv",
-        "ppxlib",
+        "lens.ppx_deriving",
+        "ppx_pipebang"
     ]
 )

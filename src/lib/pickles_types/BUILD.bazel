@@ -2,15 +2,15 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 PPX_PRINT = "@ppx//print:binary"  # FIXME: modules needing this break if ppx_print == text
 
 PICKLES_TYPES_DEPS = [
-    "@snarky//src/base:#snarky_backendless",
-    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
+    "@snarky//src/base:snarky_backendless",
+    "@mina//src/lib/marlin_plonk_bindings"
 ]
 
 PICKLES_TYPES_DEPS_OPAM = [
@@ -18,8 +18,8 @@ PICKLES_TYPES_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#pickles_types",
+ocaml_ns_archive(
+    name = "pickles_types",
     submodules = [
         ":_Abc",
         ":_At_most",
@@ -38,6 +38,7 @@ ocaml_ns_library(
         ":_Vector",
     ],
     visibility = [
+        "//src/lib/dummy_values/gen_values:__pkg__",
         "//src/lib/pickles_base:__pkg__",
         "//src/lib/pickles:__subpackages__",
         "//src/lib/zexe_backend:__subpackages__"
@@ -50,7 +51,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -66,7 +66,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -85,7 +84,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -106,7 +104,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -126,7 +123,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -147,7 +143,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -165,7 +160,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -181,7 +175,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -196,7 +189,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -212,7 +204,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -233,7 +224,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -254,7 +244,6 @@ ocaml_signature(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -273,7 +262,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -289,7 +277,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -305,7 +292,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -321,7 +307,6 @@ ocaml_module(
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
-        "-lint-version-syntax-warnings",
         "-inline-test-lib",
         "pickles_types",
     ],
@@ -356,13 +341,12 @@ ppx_executable(
         "//src/lib/pickles_types:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [
         "ppx_jane",
-        "ppxlib",
         "ppx_deriving.std",
         "ppx_deriving_yojson",
     ]

@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -25,8 +25,8 @@ DISTRIBUTED_DSL_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#distributed_dsl",
+ocaml_ns_archive(
+    name = "distributed_dsl",
     submodules = [
         ":_Distributed_dsl",
         ":_Node",

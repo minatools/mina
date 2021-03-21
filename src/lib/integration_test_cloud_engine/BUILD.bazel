@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -34,8 +34,8 @@ INTEGRATION_TEST_CLOUD_ENGINE_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#integration_test_cloud_engine",
+ocaml_ns_archive(
+    name = "integration_test_cloud_engine",
     submodules = [
         ":_Cli_inputs",
         ":_Cmd_util",

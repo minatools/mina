@@ -3,7 +3,7 @@ load(
     "ocaml_archive",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -27,8 +27,8 @@ BLAKE2_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#blake2",
+ocaml_ns_archive(
+    name = "blake2",
     submodules = [
         ":_Blake2",
         ":_Intf",
@@ -51,7 +51,7 @@ ocaml_module(
     struct = "blake2.ml",
     deps_opam = BLAKE2_DEPS_OPAM,
     deps = [
-        "@ppx_version//src/runtime:#ppx_version_runtime",
+        "@ppx_version//src/runtime:ppx_version_runtime",
     ],
 )
 
@@ -64,7 +64,7 @@ ocaml_signature(
     ppx_args = BLAKE2_PPX_ARGS,
     deps = [
         ":_Intf",
-        "@ppx_version//src/runtime:#ppx_version_runtime",
+        "@ppx_version//src/runtime:ppx_version_runtime",
     ],
     deps_opam = BLAKE2_DEPS_OPAM
 )
@@ -78,6 +78,6 @@ ocaml_module(
     struct = "intf.ml",
     deps_opam = BLAKE2_DEPS_OPAM,
     deps = [
-        "@ppx_version//src/runtime:#ppx_version_runtime",
+        "@ppx_version//src/runtime:ppx_version_runtime",
     ],
 )

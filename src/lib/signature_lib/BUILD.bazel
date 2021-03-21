@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -17,12 +17,12 @@ SIGNATURE_LIB_MODULE_OPTS = []
 
 SIGNATURE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/blake2:#blake2",
-    "@mina//src/lib/hash_prefix_states:#hash_prefix_states",
-    "@mina//src/lib/non_zero_curve_point:#non_zero_curve_point",
-    "@mina//src/lib/random_oracle:#random_oracle",
-    "@mina//src/lib/snark_params:#snark_params",
-    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/blake2:blake2",
+    "@mina//src/lib/hash_prefix_states:hash_prefix_states",
+    "@mina//src/lib/non_zero_curve_point:non_zero_curve_point",
+    "@mina//src/lib/random_oracle:random_oracle",
+    "@mina//src/lib/snark_params:snark_params",
+    "@snarky//src/base:snarky_backendless",
 ]
 
 SIGNATURE_LIB_DEPS_OPAM = [
@@ -31,8 +31,8 @@ SIGNATURE_LIB_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#signature_lib",
+ocaml_ns_archive(
+    name = "signature_lib",
     submodules = [
         ":_Keypair",
         ":_Private_key",
@@ -172,7 +172,7 @@ ppx_executable(
         "ppx_inline_test.runtime-lib",
         "bin_prot",
     ],
-    # deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
+    # deps_adjunct = ["@ppx_version//src/runtime:ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     opts = [],
     visibility = [
@@ -180,8 +180,8 @@ ppx_executable(
     ],
     deps = [
         "@snarky//ppx:ppx_snarky",
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
         "@ppx_optcomp//src:ppx_optcomp",
     ],
     deps_opam = [

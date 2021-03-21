@@ -1,22 +1,31 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive"
+)
+
+#################
+ocaml_ns_archive(
+    name = "merkle_list_prover",
+    submodules = [
+        ":_Merkle_list_prover"
+    ],
+    visibility = [
+        "//src/lib/transition_chain_prover:__pkg__",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "merkle_list_prover",
+    name = "_Merkle_list_prover",
+    struct = "merkle_list_prover.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "merkle_list_prover",
     ],
-    struct = "merkle_list_prover.ml",
     deps_opam = [
         "core_kernel",
-    ],
-    visibility = [
-        "//src/lib/transition_chain_prover:__pkg__",
     ],
 )

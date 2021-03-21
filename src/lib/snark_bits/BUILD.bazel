@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -14,8 +14,8 @@ SNARK_BITS_MODULE_OPTS = []
 
 SNARK_BITS_DEPS = [
     # do not sort (buildifier)
-    "@snarky//fold_lib:#fold_lib",
-    "@snarky//src/base:#snarky_backendless",
+    "@snarky//fold_lib:fold_lib",
+    "@snarky//src/base:snarky_backendless",
 ]
 SNARK_BITS_DEPS_OPAM = [
     "core_kernel",
@@ -23,8 +23,8 @@ SNARK_BITS_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#snark_bits",
+ocaml_ns_archive(
+    name = "snark_bits",
     submodules = [
         ":_Bits",
         ":_Bits_intf",
@@ -87,7 +87,7 @@ ppx_executable(
     # ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

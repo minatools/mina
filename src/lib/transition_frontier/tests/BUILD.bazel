@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -23,8 +23,8 @@ TRANSITION_FRONTIER_TESTS_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#transition_frontier_tests",
+ocaml_ns_archive(
+    name = "transition_frontier_tests",
     submodules = [
         ":_Full_frontier_tests",
         ":_Transition_frontier_tests",

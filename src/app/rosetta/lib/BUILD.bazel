@@ -20,14 +20,15 @@ LIB_MODULE_OPTS = []
 
 LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/logger",
-    "@mina//src/lib/rosetta_lib",
-    "@mina//src/lib/rosetta_models",
-    "@mina//src/lib/rosetta_coding",
-    "@mina//src/app/archive/archive_lib",
-    "@mina//src/lib/signature_lib",
-    "@mina//src/lib/secrets",
-    "@mina//src/lib/unsigned_extended",
+    "@mina//src/lib/logger:logger",
+    "@mina//src/lib/mina_compile_config:mina_compile_config",
+    "@mina//src/lib/rosetta_lib:rosetta_lib",
+    "@mina//src/lib/rosetta_models:rosetta_models",
+    "@mina//src/lib/rosetta_coding:rosetta_coding",
+    "@mina//src/app/archive/archive_lib:archive_lib",
+    "@mina//src/lib/signature_lib:signature_lib",
+    "@mina//src/lib/secrets:secrets",
+    "@mina//src/lib/unsigned_extended:unsigned_extended",
 ]
 
 LIB_DEPS_OPAM = [
@@ -46,7 +47,7 @@ LIB_DEPS_OPAM = [
 
 #########
 ocaml_ns_library(
-    name = "lib",
+    name = "#lib",
     submodules = [
         # do not sort (buildifier)
         ":_Account",
@@ -74,6 +75,7 @@ ocaml_module(
     struct = "account.ml",
     opts = LIB_MODULE_OPTS,
     ppx = ":ppx1.exe",
+    ppx_print = "@ppx//print:text",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
@@ -84,6 +86,7 @@ ocaml_module(
     ppx_data = [GRAPHQL_SCHEMA_JSON],
     deps = LIB_DEPS + [
         # do not sort (buildifier)
+        ":_Block",
         ":_Decoders",  # obazl:retain
         ":_Graphql",
         ":_Network",
@@ -314,16 +317,16 @@ ppx_executable(
     opts = [],
     deps = [
         "@graphql_ppx//src/native:graphql_ppx",
-        "@mina//src/lib/ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_version//src:ppx_version",
+        "@snarky//h_list/ppx:ppx_h_list"
     ],
     deps_opam = [
+        "ppx_jane",
         "ppx_assert",
         "ppx_deriving.eq",
         "ppx_deriving.show",
         "ppx_deriving_yojson",
         "ppx_inline_test",
-        "ppx_jane",
-        "ppxlib",
     ]
 )

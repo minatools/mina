@@ -5,7 +5,7 @@ load(
     "ppx_archive",
     "ppx_executable",
     "ppx_module",
-    "ppx_ns_library",
+    "ppx_ns_archive",
 )
 
 CONFIG_MLH = ["//src:config"]
@@ -44,8 +44,8 @@ ppx_executable(
 )
 
 ###############
-ppx_ns_library(
-    name = "#ppx_dhall_type",
+ppx_ns_archive(
+    name = "ppx_dhall_type",
     submodules = [
         ":_Dhall_type",
         ":_Deriving",

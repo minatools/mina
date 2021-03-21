@@ -1,14 +1,14 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#transaction_protocol_state",
+ocaml_ns_archive(
+    name = "transaction_protocol_state",
     submodules = [
         ":_Transaction_protocol_state",
     ],
@@ -30,10 +30,10 @@ ocaml_module(
     struct = "transaction_protocol_state.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_state:#mina_state",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/sgn:#sgn",
-        "@snarky//src/base:#snarky_backendless",
+        "@mina//src/lib/mina_state:mina_state",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/sgn:sgn",
+        "@snarky//src/base:snarky_backendless",
     ],
     deps_opam = ["core"]
 
@@ -51,10 +51,10 @@ ocaml_signature(
         "transaction_protocol_state",
     ],
     deps = [
-        "@mina//src/lib/mina_state:#mina_state",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/sgn:#sgn",
-        "@snarky//src/base:#snarky_backendless",
+        "@mina//src/lib/mina_state:mina_state",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/sgn:sgn",
+        "@snarky//src/base:snarky_backendless",
     ],
     deps_opam = ["core"]
 )
@@ -82,7 +82,7 @@ ppx_executable(
         "//src/lib/transaction_protocol_state:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

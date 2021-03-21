@@ -13,9 +13,9 @@ CLEAR_KEYS_MODULE_OPTS = []
 
 CLEAR_KEYS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/file_system:#file_system",
-    "@mina//src/lib/cache_dir:#cache_dir",
-    "@snarky//src/base:#snarky_backendless",
+    "@mina//src/lib/file_system:file_system",
+    "@mina//src/lib/cache_dir:cache_dir",
+    "@snarky//src/base:snarky_backendless",
 ]
 CLEAR_KEYS_DEPS_OPAM = [
     "angstrom",

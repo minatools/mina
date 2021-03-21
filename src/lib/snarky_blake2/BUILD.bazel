@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -14,8 +14,8 @@ SNARKY_BLAKE2_MODULE_OPTS = []
 
 SNARKY_BLAKE2_DEPS = [
     # do not sort (buildifier)
-    "@snarky//src/base:#snarky_backendless",
-    "@mina//src/lib/blake2:#blake2",
+    "@snarky//src/base:snarky_backendless",
+    "@mina//src/lib/blake2:blake2",
 ]
 SNARKY_BLAKE2_DEPS_OPAM = [
     "digestif.c",
@@ -32,8 +32,8 @@ SNARKY_BLAKE2_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#snarky_blake2",
+ocaml_ns_archive(
+    name = "snarky_blake2",
     submodules = [
         ":_Snarky_blake2",
         ":_Uint32",

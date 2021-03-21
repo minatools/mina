@@ -1,12 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ppx_module",
-    "ppx_ns_library",
+    "ppx_ns_archive",
 )
 
-#########
-ppx_ns_library(
-    name = "#ppx_register_event",
+###############
+ppx_ns_archive(
+    name = "ppx_register_event",
+    opts = ["-linkall"],
     submodules = [
         ":_Register_event",
     ],
@@ -18,14 +19,16 @@ ppx_module(
     name = "_Register_event",
     struct = "register_event.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppxlib.metaquot",
-    deps = ["//src/lib/logproc_lib:#logproc_lib"],
+    deps = [
+        "//src/lib/logproc_lib:logproc_lib"
+    ],
     deps_opam    = [
         "compiler-libs.common",
         "ppxlib",
         "core_kernel",
         "ppx_deriving_yojson",
     ],
-    deps_adjunct = ["@mina//src/lib/structured_log_events:#structured_log_events"],
+    # deps_adjunct = ["@mina//src/lib/structured_log_events:structured_log_events"],
     deps_adjunct_opam = [
         "yojson",
         "ppx_deriving_yojson",

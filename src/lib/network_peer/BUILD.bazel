@@ -3,7 +3,7 @@ load(
     "ocaml_archive",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -22,8 +22,8 @@ NETWORK_PEER_DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#network_peer",
+ocaml_ns_archive(
+    name = "network_peer",
     submodules = [
         ":_Envelope",
         ":_Network_peer",
@@ -131,8 +131,8 @@ ppx_executable(
         "//src/lib/network_peer:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

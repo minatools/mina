@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#exit_handlers",
+ocaml_ns_archive(
+    name = "exit_handlers",
     submodules = [
         ":_Exit_handlers",
     ],
@@ -23,7 +23,7 @@ ocaml_module(
     ppx = ":ppx1.exe",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/logger:#logger",
+        "@mina//src/lib/logger:logger",
     ],
     deps_opam = [
         "async_kernel",
@@ -40,8 +40,8 @@ ppx_executable(
         "//src/lib/exit_handlers:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_let",

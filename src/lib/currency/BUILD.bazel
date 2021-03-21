@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -18,17 +18,17 @@ CURRENCY_MODULE_OPTS = []
 
 CURRENCY_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
-    "@mina//src/lib/mina_numbers:#mina_numbers",
-    "@snarky//fold_lib:#fold_lib",
-    "@snarky//tuple_lib:#tuple_lib",
-    "@mina//src/lib/snark_bits:#snark_bits",
-    "@mina//src/lib/sgn:#sgn",
-    "@mina//src/lib/snark_params:#snark_params",
-    "@mina//src/lib/random_oracle:#random_oracle",
-    "@mina//src/lib/unsigned_extended:#unsigned_extended",
+    "@mina//src/lib/ppx_dhall_type:ppx_dhall_type",
+    "@mina//src/lib/mina_numbers:mina_numbers",
+    "@snarky//fold_lib:fold_lib",
+    "@snarky//tuple_lib:tuple_lib",
+    "@mina//src/lib/snark_bits:snark_bits",
+    "@mina//src/lib/sgn:sgn",
+    "@mina//src/lib/snark_params:snark_params",
+    "@mina//src/lib/random_oracle:random_oracle",
+    "@mina//src/lib/unsigned_extended:unsigned_extended",
     "@mina//src/lib/test_util",
-    "@mina//src/lib/codable:#codable",
+    "@mina//src/lib/codable:codable",
 ]
 
 CURRENCY_DEPS_OPAM = [
@@ -44,8 +44,8 @@ CURRENCY_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#currency",
+ocaml_ns_archive(
+    name = "currency",
     submodules = [
         ":_Currency",
         ":_Intf",

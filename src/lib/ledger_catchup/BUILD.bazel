@@ -1,24 +1,24 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
 DEPS = [
-    "@mina//src/lib/mina_intf:#mina_intf",
-    "@mina//src/lib/consensus:#consensus",
-    "@mina//src/lib/fake_network:#fake_network",
-    "@mina//src/lib/merkle_address:#merkle_address",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_metrics:#mina_metrics",
-    "@mina//src/lib/mina_networking:#mina_networking",
-    "@mina//src/lib/non_empty_list:#non_empty_list",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
-    "@mina//src/lib/syncable_ledger:#syncable_ledger",
-    "@mina//src/lib/transition_chain_verifier:#transition_chain_verifier",
-    "@mina//src/lib/transition_frontier:#transition_frontier",
-    "@mina//src/lib/transition_handler:#transition_handler",
+    "@mina//src/lib/mina_intf:mina_intf",
+    "@mina//src/lib/consensus:consensus",
+    "@mina//src/lib/fake_network:fake_network",
+    "@mina//src/lib/merkle_address:merkle_address",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_metrics",
+    "@mina//src/lib/mina_networking:mina_networking",
+    "@mina//src/lib/non_empty_list:non_empty_list",
+    "@mina//src/lib/pipe_lib:pipe_lib",
+    "@mina//src/lib/syncable_ledger:syncable_ledger",
+    "@mina//src/lib/transition_chain_verifier:transition_chain_verifier",
+    "@mina//src/lib/transition_frontier:transition_frontier",
+    "@mina//src/lib/transition_handler:transition_handler",
 ]
 
 DEPS_OPAM = [
@@ -28,13 +28,14 @@ DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#ledger_catchup",
+ocaml_ns_archive(
+    name = "ledger_catchup",
     submodules = [
+        ":_Best_tip_lru",
+        ":_Catchup_jobs",
         ":_Ledger_catchup",
         ":_Normal_catchup",
         ":_Super_catchup",
-        ":_Best_tip_lru",
     ],
     visibility = [
         "//visibility:public",

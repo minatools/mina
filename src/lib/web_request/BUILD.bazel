@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -23,8 +23,8 @@ WEB_REQUEST_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#web_request",
+ocaml_ns_archive(
+    name = "web_request",
     submodules = [
         ":_Intf",
         ":_S3_put_request",

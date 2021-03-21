@@ -1,15 +1,15 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#quickcheck_lib",
+ocaml_ns_archive(
+    name = "quickcheck_lib",
     submodules = [
         ":_Quickcheck_lib",
     ],
@@ -32,8 +32,8 @@ ocaml_module(
     struct = "quickcheck_lib.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/currency:#currency",
-        "@mina//src/lib/rose_tree:#rose_tree",
+        "@mina//src/lib/currency:currency",
+        "@mina//src/lib/rose_tree:rose_tree",
     ],
     deps_opam = [
         "core_kernel",
@@ -53,8 +53,8 @@ ocaml_signature(
     ],
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/currency:#currency",
-        "@mina//src/lib/rose_tree:#rose_tree",
+        "@mina//src/lib/currency:currency",
+        "@mina//src/lib/rose_tree:rose_tree",
     ],
     deps_opam = [
         "core_kernel",

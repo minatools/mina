@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -15,18 +15,18 @@ PERSISTENT_FRONTIER_MODULE_OPTS = []
 
 PERSISTENT_FRONTIER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/transition_frontier/frontier_base:#frontier_base",
-    "@mina//src/lib/block_time:#block_time",
+    "@mina//src/lib/transition_frontier/frontier_base:frontier_base",
+    "@mina//src/lib/block_time:block_time",
     "@mina//src/lib/transition_frontier/full_frontier",
-    "@mina//src/lib/transition_frontier/extensions:#extensions",
-    "@mina//src/lib/file_system:#file_system",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/rocksdb:#rocksdb",
-    "@mina//src/lib/mina_intf:#mina_intf",
-    "@mina//src/lib/signature_lib:#signature_lib",
-    "@mina//src/lib/consensus:#consensus",
-    "@mina//src/lib/storage:#storage",
-    "@mina//src/lib/otp_lib:#otp_lib",
+    "@mina//src/lib/transition_frontier/extensions:extensions",
+    "@mina//src/lib/file_system:file_system",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/rocksdb:rocksdb",
+    "@mina//src/lib/mina_intf:mina_intf",
+    "@mina//src/lib/signature_lib:signature_lib",
+    "@mina//src/lib/consensus:consensus",
+    "@mina//src/lib/storage:storage",
+    "@mina//src/lib/otp_lib:otp_lib",
 ]
 PERSISTENT_FRONTIER_DEPS_OPAM = [
     "core",
@@ -36,8 +36,8 @@ PERSISTENT_FRONTIER_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#persistent_frontier",
+ocaml_ns_archive(
+    name = "persistent_frontier",
     submodules = [
         ":_Database",
         ":_Diff_buffer",
@@ -208,8 +208,8 @@ ppx_executable(
         "//src/lib/transition_frontier/persistent_frontier:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

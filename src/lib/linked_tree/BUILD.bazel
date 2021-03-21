@@ -1,11 +1,23 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "linked_tree",
+    submodules = [
+        ":_Linked_tree"
+    ],
+    visibility = [
+        "//src/lib/mina_base:__pkg__"
+    ],
 )
 
 #############
 ocaml_module(
-    name = "linked_tree",
+    name = "_Linked_tree",
     struct = "linked_tree.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppx_deriving.eq",
     ppx_args = [
@@ -14,12 +26,9 @@ ocaml_module(
         "linked_tree",
     ],
     deps = [
-        "@mina//src/lib/mina_numbers:#mina_numbers",
+        "@mina//src/lib/mina_numbers:mina_numbers",
     ],
     deps_opam = [
         "core",
-    ],
-    visibility = [
-        "//src/lib/mina_base:__pkg__"
     ],
 )

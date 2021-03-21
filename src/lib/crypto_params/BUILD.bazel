@@ -2,15 +2,16 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_genrule",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#crypto_params",
+ocaml_ns_archive(
+    name = "crypto_params",
     submodules = [
         ":_Crypto_params",
+        ":_Group_map_params"
     ],
     visibility = [
         "//visibility:public",
@@ -20,7 +21,7 @@ ocaml_ns_library(
 #############
 ocaml_module(
     name = "_Crypto_params",
-    opts = [],
+    opts = ["-linkall"],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -29,23 +30,23 @@ ocaml_module(
     ],
     struct = "crypto_params.ml",
     deps = [
-        "@mina//src/lib/bignum_bigint:#bignum_bigint",
-        "@mina//src/lib/bowe_gabizon_hash:#bowe_gabizon_hash",
-        "@mina//src/lib/cache_dir:#cache_dir",
-        "@mina//src/lib/hash_prefixes:#hash_prefixes",
-        "@mina//src/lib/pickles:#pickles",
-        "@mina//src/lib/random_oracle:#random_oracle",
-        "@snarky//group_map:#group_map",
-        "@snarky//src/base:#snarky_backendless",
-        "@snarky//tuple_lib:#tuple_lib",
-        ":_Group_map_params"
+        ":_Group_map_params",
+        "@mina//src/lib/cache_dir",
+        "@mina//src/lib/hash_prefixes",
+        "@snarky//group_map",
+        "@snarky//src/base:snarky_backendless",
+        "@mina//src/lib/pickles",
+        "@mina//src/lib/bignum_bigint",
+        "@mina//src/lib/bowe_gabizon_hash",
+        "@mina//src/lib/random_oracle",
+        "@snarky//tuple_lib",
     ],
 )
 
 ocaml_module(
     name = "_Group_map_params",
-    struct = ":gensrcs", # group_map_params.ml",
-    opts = [],
+    struct = "group_map_params.ml", # ":gensrcs", #
+    opts = ["-linkall"],
     ppx = ":ppx1.exe",
     ppx_args = [
         # do not sort (buildifier)
@@ -53,8 +54,8 @@ ocaml_module(
         "crypto_params",
     ],
     deps = [
-        "@mina//src/lib/pickles:#pickles",
-        "@snarky//group_map:#group_map",
+        "@mina//src/lib/pickles",
+        "@snarky//group_map:group_map",
     ],
 )
 
@@ -93,7 +94,7 @@ ppx_executable(
         "//src/lib/crypto_params:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
     ],
     deps_opam = [

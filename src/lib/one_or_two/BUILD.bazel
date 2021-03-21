@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -21,8 +21,8 @@ ONE_OR_TWO_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#one_or_two",
+ocaml_ns_archive(
+    name = "one_or_two",
     submodules = [
         ":_Intfs",
         ":_One_or_two",
@@ -93,7 +93,7 @@ ppx_executable(
         "//src/lib/one_or_two:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_base",

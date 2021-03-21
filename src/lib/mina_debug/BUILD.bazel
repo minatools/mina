@@ -2,7 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -26,8 +26,8 @@ MINA_DEBUG_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#mina_debug",
+ocaml_ns_archive(
+    name = "mina_debug",
     submodules = [
         ":_Call_logger"
     ],

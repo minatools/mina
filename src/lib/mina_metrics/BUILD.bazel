@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -14,8 +14,8 @@ MINA_METRICS_MODULE_OPTS = []
 
 MINA_METRICS_DEPS = [
     # do not sort (buildifier)
-    "@ocaml_jemalloc//src:jemalloc",
-    "@mina//src/lib/logger:#logger",
+    # "@ocaml_jemalloc//src:jemalloc",
+    "@mina//src/lib/logger:logger",
 ]
 
 MINA_METRICS_DEPS_OPAM = [
@@ -27,8 +27,8 @@ MINA_METRICS_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#mina_metrics",
+ocaml_ns_archive(
+    name = "mina_metrics",
     submodules = [
         ":_Mina_metrics",
         ":_Metric_generators",
@@ -47,6 +47,7 @@ ocaml_module(
     struct = "mina_metrics.ml",
     deps = MINA_METRICS_DEPS + [
         # do not sort (buildifier)
+        "@ocaml_jemalloc//src:jemalloc",
         ":_Namespace",
         ":_Metric_generators",
     ],
@@ -97,8 +98,8 @@ ppx_executable(
         "//src/lib/mina_metrics:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
         "@ppx_optcomp//src:ppx_optcomp",
     ],
     deps_opam = [

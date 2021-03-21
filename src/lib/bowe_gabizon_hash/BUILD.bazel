@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -25,8 +25,8 @@ BOWE_GABIZON_HASH_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#bowe_gabizon_hash",
+ocaml_ns_archive(
+    name = "bowe_gabizon_hash",
     submodules = [
         ":_Bowe_gabizon_hash",
         ":_Inputs_intf"

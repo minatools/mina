@@ -1,14 +1,14 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#transaction_snark",
+ocaml_ns_archive(
+    name = "transaction_snark",
     submodules = [
         ":_Transaction_snark",
     ],
@@ -32,13 +32,13 @@ ocaml_module(
     ppx_print = "@ppx//print:binary",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/cache_dir:#cache_dir",
-        "@mina//src/lib/mina_state:#mina_state",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/sgn:#sgn",
-        "@mina//src/lib/transaction_protocol_state:#transaction_protocol_state",
-        # "@ppx_version//src/runtime:#ppx_version_runtime",
-        "@snarky//src/base:#snarky_backendless",
+        "@mina//src/lib/cache_dir:cache_dir",
+        "@mina//src/lib/mina_state:mina_state",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/sgn:sgn",
+        "@mina//src/lib/transaction_protocol_state:transaction_protocol_state",
+        # "@ppx_version//src/runtime:ppx_version_runtime",
+        "@snarky//src/base:snarky_backendless",
     ],
     deps_opam = [
         "bignum",
@@ -57,13 +57,13 @@ ocaml_signature(
         "transaction_snark",
     ],
     deps = [
-        "@mina//src/lib/cache_dir:#cache_dir",
-        "@mina//src/lib/mina_state:#mina_state",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/sgn:#sgn",
-        "@mina//src/lib/transaction_protocol_state:#transaction_protocol_state",
-        "@ppx_version//src/runtime:#ppx_version_runtime",
-        "@snarky//src/base:#snarky_backendless",
+        "@mina//src/lib/cache_dir:cache_dir",
+        "@mina//src/lib/mina_state:mina_state",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/sgn:sgn",
+        "@mina//src/lib/transaction_protocol_state:transaction_protocol_state",
+        "@ppx_version//src/runtime:ppx_version_runtime",
+        "@snarky//src/base:snarky_backendless",
     ],
     deps_opam = [
         "bignum",
@@ -94,7 +94,7 @@ ppx_executable(
         "//src/lib/transaction_snark:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],

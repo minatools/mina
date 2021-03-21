@@ -1,15 +1,15 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#sgn",
+ocaml_ns_archive(
+    name = "sgn",
     submodules = [
         ":_Sgn",
     ],
@@ -31,8 +31,8 @@ ocaml_module(
     struct = "sgn.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/sgn_type:#sgn_type",
-        "@mina//src/lib/snark_params:#snark_params",
+        "@mina//src/lib/sgn_type:sgn_type",
+        "@mina//src/lib/snark_params:snark_params",
     ],
     deps_opam = [
         "core_kernel",
@@ -52,8 +52,8 @@ ocaml_signature(
     ],
     ppx_data = CONFIG_MLH,
     deps = [
-        "@mina//src/lib/sgn_type:#sgn_type",
-        "@mina//src/lib/snark_params:#snark_params",
+        "@mina//src/lib/sgn_type:sgn_type",
+        "@mina//src/lib/snark_params:snark_params",
     ],
     deps_opam = [
         "core_kernel",

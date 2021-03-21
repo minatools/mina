@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -19,8 +19,8 @@ BASE58_CHECK_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#base58_check",
+ocaml_ns_archive(
+    name = "base58_check",
     submodules = [
         ":_Base58_check",
         ":_Version_bytes"
@@ -109,5 +109,5 @@ ppx_executable(
         "ppx_sexp_conv",
         "ppxlib"
     ],
-    deps = ["@ppx_version//src:#ppx_version"]
+    deps = ["@ppx_version//src:ppx_version"]
 )

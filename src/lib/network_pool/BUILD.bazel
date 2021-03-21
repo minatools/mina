@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -17,16 +17,16 @@ NETWORK_POOL_MODULE_OPTS = []
 
 NETWORK_POOL_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/one_or_two:#one_or_two",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
-    "@mina//src/lib/quickcheck_lib:#quickcheck_lib",
-    "@mina//src/lib/verifier:#verifier",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/ledger_proof:#ledger_proof",
-    "@mina//src/lib/transaction_snark:#transaction_snark",
-    "@mina//src/lib/transition_frontier:#transition_frontier",
-    "@mina//src/lib/consensus:#consensus",
-    "@mina//src/lib/mina_numbers:#mina_numbers",
+    "@mina//src/lib/one_or_two:one_or_two",
+    "@mina//src/lib/pipe_lib:pipe_lib",
+    "@mina//src/lib/quickcheck_lib:quickcheck_lib",
+    "@mina//src/lib/verifier:verifier",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/ledger_proof:ledger_proof",
+    "@mina//src/lib/transaction_snark:transaction_snark",
+    "@mina//src/lib/transition_frontier:transition_frontier",
+    "@mina//src/lib/consensus:consensus",
+    "@mina//src/lib/mina_numbers:mina_numbers",
 ]
 
 NETWORK_POOL_DEPS_OPAM = [
@@ -35,8 +35,8 @@ NETWORK_POOL_DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#network_pool",
+ocaml_ns_archive(
+    name = "network_pool",
     submodules = [
         ":_Batcher",
         ":_F_sequence",
@@ -410,10 +410,10 @@ ppx_executable(
         "//src/lib/network_pool:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@mina//src/lib/ppx_register_event:#ppx_register_event",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        # "@mina//src/lib/ppx_register_event:ppx_register_event",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

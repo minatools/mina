@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -12,14 +12,14 @@ SPARSE_LEDGER_LIB_MODULE_OPTS = []
 
 SPARSE_LEDGER_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/logger:logger",
 ]
 SPARSE_LEDGER_LIB_DEPS_OPAM = ["core_kernel"]
 
 
 #########
-ocaml_ns_library(
-    name = "#sparse_ledger_lib",
+ocaml_ns_archive(
+    name = "sparse_ledger_lib",
     submodules = [
         ":_Inputs",
         ":_Sparse_ledger",
@@ -82,7 +82,7 @@ ppx_executable(
         "//src/lib/sparse_ledger_lib:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

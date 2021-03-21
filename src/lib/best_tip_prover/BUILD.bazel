@@ -1,11 +1,21 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "best_tip_prover",
+    submodules = [
+        ":_Best_tip_prover"
+    ],
+    visibility = ["//visibility:public"],
 )
 
 #############
 ocaml_module(
-    name = "best_tip_prover",
+    name = "_Best_tip_prover",
     ppx = "//bzl/ppx/exe:ppx_coda__ppx_version__ppx_jane__ppx_deriving.eq",
     ppx_args = [
         # do not sort (buildifier)
@@ -13,13 +23,12 @@ ocaml_module(
         "best_tip_prover",
     ],
     struct = "best_tip_prover.ml",
-    visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_intf:#mina_intf",
-        "@mina//src/lib/consensus:#consensus",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/transition_chain_prover:#transition_chain_prover",
-        "@mina//src/lib/transition_frontier:#transition_frontier",
+        "@mina//src/lib/mina_intf:mina_intf",
+        "@mina//src/lib/consensus:consensus",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/transition_chain_prover:transition_chain_prover",
+        "@mina//src/lib/transition_frontier:transition_frontier",
     ],
     deps_opam = [
         "core_kernel",

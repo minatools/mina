@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#snarky_curves",
+ocaml_ns_archive(
+    name = "snarky_curves",
     submodules = [
         ":_Snarky_curves",
     ],
@@ -28,9 +28,9 @@ ocaml_module(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/snarky_field_extensions:#snarky_field_extensions",
-        "@snarky//snarkette:#snarkette",
-        "@snarky//src/base:#snarky_backendless",
+        "@mina//src/lib/snarky_field_extensions:snarky_field_extensions",
+        "@snarky//snarkette:snarkette",
+        "@snarky//src/base:snarky_backendless",
     ],
     deps_opam = [
         "core_kernel",
@@ -58,7 +58,7 @@ ppx_executable(
         "//src/lib/snarky_curves:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

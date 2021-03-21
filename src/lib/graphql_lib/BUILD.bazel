@@ -2,7 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -14,7 +14,7 @@ GRAPHQL_LIB_MODULE_OPTS = []
 
 GRAPHQL_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
+    "@mina//src/lib/mina_base:mina_base",
 ]
 GRAPHQL_LIB_DEPS_OPAM = [
     "async",
@@ -34,8 +34,8 @@ GRAPHQL_LIB_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#graphql_lib",
+ocaml_ns_archive(
+    name = "graphql_lib",
     submodules = [
         ":_Base_types",
         ":_Client",

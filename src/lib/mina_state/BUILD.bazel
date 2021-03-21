@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -19,14 +19,14 @@ MINA_STATE_MODULE_OPTS = []
 
 MINA_STATE_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/snark_params:#snark_params",
-    "@mina//src/lib/consensus:#consensus",
-    "@mina//src/lib/test_genesis_ledger:#test_genesis_ledger",
-    "@snarky//bitstring_lib:#bitstring_lib",
-    "@snarky//fold_lib:#fold_lib",
-    "@snarky//tuple_lib:#tuple_lib",
-    "@mina//src/lib/with_hash:#with_hash",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/snark_params:snark_params",
+    "@mina//src/lib/consensus:consensus",
+    "@mina//src/lib/test_genesis_ledger:test_genesis_ledger",
+    "@snarky//bitstring_lib:bitstring_lib",
+    "@snarky//fold_lib:fold_lib",
+    "@snarky//tuple_lib:tuple_lib",
+    "@mina//src/lib/with_hash:with_hash",
 ]
 
 MINA_STATE_DEPS_OPAM = [
@@ -34,8 +34,8 @@ MINA_STATE_DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#mina_state",
+ocaml_ns_archive(
+    name = "mina_state",
     submodules = [
         ":_Ancestor",
         ":_Blockchain_state",
@@ -285,9 +285,9 @@ ppx_executable(
         "//src/lib/mina_state:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//h_list/ppx:ppx_h_list",
         "@snarky//ppx:ppx_snarky",
     ],

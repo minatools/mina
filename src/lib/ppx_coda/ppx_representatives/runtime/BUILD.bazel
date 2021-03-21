@@ -1,15 +1,22 @@
-## OBAZL GENERATED FILE ## To retain edits (prevent overwrite), delete this line.
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "ppx_representatives_runtime",
+    submodules = [
+        ":_Ppx_representatives_runtime"
+    ],
+    visibility = [
+        "//visibility:public"
+    ]
 )
 
 #############
 ocaml_module(
-    name = "ppx_representatives_runtime",
+    name = "_Ppx_representatives_runtime",
     struct = "ppx_representatives_runtime.ml",
-    visibility = [
-        "//visibility:public"
-    ]
 )

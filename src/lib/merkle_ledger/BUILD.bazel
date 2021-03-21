@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -12,15 +12,15 @@ MERKLE_LEDGER_MODULE_OPTS = []
 
 MERKLE_LEDGER_DEPS = [
     "@ocaml_rocksdb//:rocks",
-    "@mina//src/lib/cache_dir:#cache_dir",
-    "@mina//src/lib/direction:#direction",
+    "@mina//src/lib/cache_dir",
+    "@mina//src/lib/direction:direction",
     "@mina//src/lib/empty_hashes",
-    "@mina//src/lib/immutable_array:#immutable_array",
-    "@mina//src/lib/key_value_database:#key_value_database",
-    "@mina//src/lib/merkle_address:#merkle_address",
-    "@mina//src/lib/non_empty_list:#non_empty_list",
-    "@mina//src/lib/signature_lib:#signature_lib",
-    "@mina//src/lib/visualization:#visualization",
+    "@mina//src/lib/immutable_array:immutable_array",
+    "@mina//src/lib/key_value_database:key_value_database",
+    "@mina//src/lib/merkle_address",
+    "@mina//src/lib/non_empty_list:non_empty_list",
+    "@mina//src/lib/signature_lib:signature_lib",
+    "@mina//src/lib/visualization:visualization",
 ]
 MERKLE_LEDGER_DEPS_OPAM = [
     "core",
@@ -30,8 +30,8 @@ MERKLE_LEDGER_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#merkle_ledger",
+ocaml_ns_archive(
+    name = "merkle_ledger",
     submodules = [
         ":_Any_ledger",
         ":_Base_inputs_intf",
@@ -371,8 +371,8 @@ ppx_executable(
         "//src/lib/merkle_ledger:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.eq",

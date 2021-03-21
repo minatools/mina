@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 #################
-ocaml_ns_library(
-    name = "#bignum_bigint",
+ocaml_ns_archive(
+    name = "bignum_bigint",
     submodules = [
         ":_Bignum_bigint"
     ],
@@ -27,7 +27,7 @@ ocaml_module(
     struct = "bignum_bigint.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@snarky//fold_lib:#fold_lib",
+        "@snarky//fold_lib:fold_lib",
     ],
     deps_opam = [
         "async_kernel",

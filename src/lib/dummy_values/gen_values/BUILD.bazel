@@ -7,19 +7,20 @@ load(
 ################################################################
 ## STANZA 1: EXECUTABLE GEN_VALUES
 ################################################################
-GEN_VALUES_EXECUTABLE_OPTS = []
+GEN_VALUES_EXECUTABLE_OPTS = ["-linkall"]
 
 GEN_VALUES_MODULE_OPTS = []
 
 GEN_VALUES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/crypto_params:#crypto_params",
-    "@mina//src/lib/pickles:#pickles",
+    "@mina//src/lib/crypto_params",
+    ## pickles is already a dep of crypto_params
+    # "@mina//src/lib/pickles",
 ]
 GEN_VALUES_DEPS_OPAM = [
+    "ppxlib",
     "async",
     "core",
-    "ppxlib",
 ]
 
 GEN_VALUES_PPX = "@//bzl/ppx/exe:ppx_version__ppx_jane__ppxlib.metaquot"
@@ -35,21 +36,21 @@ ocaml_executable(
     name = "gen_values.exe",
     opts = GEN_VALUES_EXECUTABLE_OPTS,
     visibility = ["//visibility:public"],
-    deps = [
+    main = ":_Gen_values",
+    deps = [ # GEN_VALUES_DEPS + [
         # do not sort (buildifier)
-        "@ppx_version//src/runtime:#ppx_version_runtime",
-        ":_Gen_values",
-    ] + GEN_VALUES_DEPS,
+        # "@ppx_version//src/runtime:ppx_version_runtime",
+    ],
     deps_opam = GEN_VALUES_DEPS_OPAM
 )
 
 #############
 ocaml_module(
     name = "_Gen_values",
+    struct = "gen_values.ml",
     opts = GEN_VALUES_MODULE_OPTS,
     ppx = GEN_VALUES_PPX,
     ppx_args = GEN_VALUES_PPX_ARGS,
-    struct = "gen_values.ml",
     deps = GEN_VALUES_DEPS,
     deps_opam = GEN_VALUES_DEPS_OPAM
 )

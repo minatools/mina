@@ -15,13 +15,13 @@ GEN_VALUES_MODULE_OPTS = []
 
 GEN_VALUES_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/blockchain_snark:#blockchain_snark",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/genesis_proof:#genesis_proof",
-    "@mina//src/lib/global_signer_private_key:#global_signer_private_key",
+    "@mina//src/lib/genesis_proof",
+    # "@mina//src/lib/snark_keys",
+    # "@mina//src/lib/snark_params"
+    # "@mina//src/lib/global_signer_private_key",
+    # "@mina//src/lib/blockchain_snark:blockchain_snark",
+    # "@mina//src/lib/mina_base:mina_base",
     # "@mina//src/lib/ppx_util",
-    "@mina//src/lib/snark_keys:#snark_keys",
-    "@mina//src/lib/snark_params:#snark_params",
     # "@snarky//src/base:snarky_backendless",
 ]
 GEN_VALUES_DEPS_OPAM = [

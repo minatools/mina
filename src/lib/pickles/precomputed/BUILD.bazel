@@ -1,25 +1,34 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "precomputed",
+    submodules = [
+         ":_Precomputed"
+    ],
+    visibility = [
+        "//src/lib/pickles:__subpackages__",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "precomputed",
+    name = "_Precomputed",
+    struct = "precomputed.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppxlib.metaquot",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "precomputed",
     ],
-    struct = "precomputed.ml",
     deps = [
-        "@mina//src/lib/zexe_backend:#zexe_backend",
+        "@mina//src/lib/zexe_backend"
     ],
     deps_opam = [
         "core_kernel",
-    ],
-    visibility = [
-        "//src/lib/pickles:__subpackages__",
     ],
 )

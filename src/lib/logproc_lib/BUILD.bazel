@@ -1,11 +1,9 @@
-## WARNING: use ocaml_ns_library, not ocaml_ns_archive
-
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_archive",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 ################################################################
@@ -27,12 +25,13 @@ PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#logproc_lib",
+ocaml_ns_archive(
+    name = "logproc_lib",
+    # opts = ["-linkall"],
     submodules = [
         ":_Filter",
         ":_Logproc_lib",
-        ":#interpolator_lib"
+        # ":interpolator_lib"
     ],
     visibility = ["//visibility:public"]
 )
@@ -43,7 +42,7 @@ ocaml_module(
     struct = "logproc_lib.ml",
     deps      = [
         ":_Filter",
-        ":#interpolator_lib"
+        ":interpolator_lib"
     ],
     deps_opam = LOGPROC_LIB_DEPS_OPAM,
     ppx = PPX,
@@ -70,38 +69,26 @@ ocaml_signature(
     deps_opam = LOGPROC_LIB_DEPS_OPAM
 )
 
-#############
-# ocaml_module(
-#     name = "_Logproc_lib",
-#     # ppx = PPX,
-#     # ppx_args = PPX_ARGS,
-#     struct = "logproc_lib.ml",
-#     deps = [
-#         ":_Filter",
-#         ":interpolator_lib"
-#     ]
-
-#     # deps = [":_Filter"]
-# )
-
 ################################################################
-## STANZA 2: LIBRARY INTERPOLATOR_LIB
+## INTERPOLATOR_LIB
 ################################################################
 
-# Dune builds this as a separate library:
+# Dune builds this as a separate library (archive):
 # ;; interpolator is made separately available because
 # ;; filter depends on re2, which binds to C++ code,
 # ;; making it unusable from js_of_ocaml
-# With Bazel we don't really need to do that, but the code is set up to expect it.
 
 #################
-ocaml_ns_library(
-    name = "#interpolator_lib",
+ocaml_ns_archive(
+    name = "interpolator_lib",
+    # opts = ["-linkall"],
     submodules = [
         ":_Interpolator",
     ],
     visibility = [
-        "//src/lib/structured_log_events:__pkg__"
+        "//src/lib/structured_log_events:__pkg__",
+        "//src/lib/ppx_coda:__pkg__",
+        "//src/lib/pickles_base:__pkg__"
     ]
 )
 

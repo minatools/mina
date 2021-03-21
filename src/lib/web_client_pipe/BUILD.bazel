@@ -15,10 +15,10 @@ ocaml_module(
     struct = "web_client_pipe.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/error_json:#error_json",
-        "@mina//src/lib/logger:#logger",
-        "@mina//src/lib/pipe_lib:#pipe_lib",
-        "@mina//src/lib/web_request:#web_request",
+        "@mina//src/lib/error_json:error_json",
+        "@mina//src/lib/logger:logger",
+        "@mina//src/lib/pipe_lib:pipe_lib",
+        "@mina//src/lib/web_request:web_request",
     ],
     deps_opam = [
         "async",

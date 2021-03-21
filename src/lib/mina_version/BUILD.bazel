@@ -1,5 +1,6 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
      "ocaml_module",
+     "ocaml_ns_archive",
      "ocaml_signature")
 
 ## Only stamp if --stamp flag and '--workspace_status_command=bzl/tools/stamp.sh'
@@ -16,9 +17,18 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
 
 # To test: $ bazel build src/lib/mina_version --config=beta --config=dbg --embed_label="Testing stamp"
 
+#################
+ocaml_ns_archive(
+    name = "mina_version",
+    submodules = [
+         ":_Mina_version"
+    ],
+    visibility = ["//visibility:public"]
+)
+
 #############
 ocaml_module(
-    name = "mina_version",
+    name = "_Mina_version",
     # struct = "default/mina_version.ml",
     struct = select({
         "//:stampit": "mina_version.ml",
@@ -30,7 +40,6 @@ ocaml_module(
         "-w", "-32",  # Error (warning 32): unused value marlin_branch.
     ],
     ppx = "//bzl/ppx/exe:ppx_version",
-    visibility = ["//visibility:public"],
 )
 
 ################

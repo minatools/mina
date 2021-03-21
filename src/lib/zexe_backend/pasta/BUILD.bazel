@@ -2,7 +2,6 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
     "ocaml_ns_archive",
-    "ocaml_ns_library",
 )
 
 ################################################################
@@ -12,15 +11,15 @@ PASTA_MODULE_OPTS = ["-w", "-27"]
 
 PASTA_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/zexe_backend/zexe_backend_common:#zexe_backend_common",
-    "@mina//src/lib/hex:#hex",
-    "@mina//src/lib/pickles_types:#pickles_types",
-    "@mina//src/lib/marlin_plonk_bindings:#marlin_plonk_bindings",
-    "@mina//src/lib/key_cache:#key_cache",
-    "@mina//src/lib/sgn_type:#sgn_type",
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//sponge:#sponge",
-    "@snarky//snarkette:#snarkette",
+    "@mina//src/lib/zexe_backend/zexe_backend_common",
+    "@mina//src/lib/hex",
+    "@mina//src/lib/pickles_types",
+    "@mina//src/lib/marlin_plonk_bindings",
+    "@mina//src/lib/key_cache",
+    "@mina//src/lib/sgn_type",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//sponge",
+    "@snarky//snarkette"
 ]
 PASTA_DEPS_OPAM = [
     "core"
@@ -35,8 +34,8 @@ PASTA_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#pasta",
+ocaml_ns_archive(
+    name = "pasta",
     submodules = [
         ":_Basic",
         ":_Pallas_based_plonk",

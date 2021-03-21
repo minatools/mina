@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#runtime_config",
+ocaml_ns_archive(
+    name = "runtime_config",
     submodules = [
         ":_Runtime_config",
     ],
@@ -25,9 +25,9 @@ ocaml_module(
     ],
     struct = "runtime_config.ml",
     deps = [
-        "@mina//src/lib/mina_numbers:#mina_numbers",
-        "@mina//src/lib/currency:#currency",
-        "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
+        "@mina//src/lib/mina_numbers:mina_numbers",
+        "@mina//src/lib/currency:currency",
+        "@mina//src/lib/ppx_dhall_type:ppx_dhall_type",
     ],
     deps_opam = [
         "core_kernel",
@@ -50,8 +50,8 @@ ppx_executable(
         "//src/lib/runtime_config:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_dhall_type:ppx_dhall_type",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_custom_printf",

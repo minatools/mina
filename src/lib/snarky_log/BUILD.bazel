@@ -1,23 +1,32 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive"
 )
 
-#############
-ocaml_module(
+#################
+ocaml_ns_archive(
     name = "snarky_log",
-    struct = "snarky_log.ml",
-    ppx = "//bzl/ppx/exe:ppx_version",
-    deps = [
-        "@mina//src/lib/webkit_trace_event:#webkit_trace_event",
-        "@snarky//src/base:#snarky_backendless",
-    ],
-    deps_opam = [
-        "yojson",
+    submodules = [
+         ":_Snarky_log"
     ],
     visibility = [
         # "//src/app/cli/src:__pkg__",
         "//src/app/cli/src/init:__pkg__",
         "//src/lib/pickles:__pkg__",
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Snarky_log",
+    struct = "snarky_log.ml",
+    ppx = "//bzl/ppx/exe:ppx_version",
+    deps = [
+        "@mina//src/lib/webkit_trace_event",
+        "@snarky//src/base:snarky_backendless",
+    ],
+    deps_opam = [
+        "yojson",
     ],
 )

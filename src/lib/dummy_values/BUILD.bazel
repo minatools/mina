@@ -2,23 +2,35 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_genrule",
     "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+#################
+ocaml_ns_archive(
+    name = "dummy_values",
+    submodules = [
+        ":_Dummy_values"
+    ],
+    visibility = ["//visibility:public"],
 )
 
 #############
 ocaml_module(
-    name = "dummy_values",
-    struct = "_Dummy_values",
+    name = "_Dummy_values",
+    struct = "dummy_values.ml",
     ppx = "//bzl/ppx/exe:ppx_version__ppx_jane__ppxlib.metaquot",
     ppx_args = [
         # do not sort (buildifier)
         "-inline-test-lib",
         "dummy_values",
     ],
-    visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/crypto_params:#crypto_params",
-        "@snarky//src/base:#snarky_backendless",
+        "@mina//src/lib/crypto_params:crypto_params",
+        "@snarky//src/base:snarky_backendless",
     ],
+    deps_opam = [
+        "base"
+    ]
 )
 
 #########################################################
@@ -26,7 +38,7 @@ TOOL = "//src/lib/dummy_values/gen_values:gen_values.exe"
 
 ##############
 ocaml_genrule(
-    name   = "_Dummy_values",
+    name   = "gensrc",
     outs   = ["dummy_values.ml"],
     tools  = [TOOL],
     cmd = "\n".join([

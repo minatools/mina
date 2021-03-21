@@ -41,30 +41,30 @@ def ocaml_fetch_remote_libs():
     maybe(
         http_archive,
         name   = "ppx_optcomp",
-        sha256 = "1fe5d2830200938e17b6adfa388d38a1f4eb2a9d3860a9dcc8dbed9e41e2478d",
-        strip_prefix = "ppx_optcomp-0a51daef09aee7b10d997c112d6e97fe4a2e9ccc",
+        sha256 = "58d948dc83485786f3b314f48e2e76a121edbd286e33441f8bbbeda19c798e38",
+        strip_prefix = "ppx_optcomp-fc23edf814f39ce91e6c474634f055dec37c1dde",
         urls = [
-            "https://github.com/minatools/ppx_optcomp/archive/0a51daef09aee7b10d997c112d6e97fe4a2e9ccc.tar.gz"
+            "https://github.com/minatools/ppx_optcomp/archive/fc23edf814f39ce91e6c474634f055dec37c1dde.tar.gz"
         ],
     )
 
     maybe(
         http_archive,
         name   = "ppx_version",
-        sha256 = "e71db52fac94e97e2766f47c78be7cdb1efbcf69088a4be75aac329422ee10e7",
-        strip_prefix = "ppx_version-e6112930056a873b8b3b965b64fd47a27a1bc20f",
+        sha256 = "d3743227218257faf831c6a594345a24aa70550e6efb8a3369197ccd155c9b9e",
+        strip_prefix = "ppx_version-dc0d05d92a783644b5e136acb6960dcbd0cee104",
         urls = [
-            "https://github.com/minatools/ppx_version/archive/e6112930056a873b8b3b965b64fd47a27a1bc20f.tar.gz"
+            "https://github.com/minatools/ppx_version/archive/dc0d05d92a783644b5e136acb6960dcbd0cee104.tar.gz"
         ],
     )
 
     maybe(
         http_archive,
         name   = "snarky",
-        # sha256 = "59d497049abef12597150a0e480e81983c9a8d7fe029cae5398f11ab0ed4d527",
-        strip_prefix = "snarky-91f90da5bad15f9c4084770fd3ac0dafa7675e5f",
+        sha256 = "304c38e50bd5f793e2092843a50b1e88587c5246f0ce3a23bf087c3d503d489a",
+        strip_prefix = "snarky-af96fa4d4b3c2c86ea2b9b1c9c2e9858c610e683",
         urls = [
-            "https://github.com/minatools/snarky/archive/91f90da5bad15f9c4084770fd3ac0dafa7675e5f.tar.gz"
+            "https://github.com/minatools/snarky/archive/af96fa4d4b3c2c86ea2b9b1c9c2e9858c610e683.tar.gz"
         ],
     )
 
@@ -101,30 +101,33 @@ def ocaml_fetch_ffi_libs():
     maybe(
         http_archive,
         name   = "ocaml_jemalloc",
-        sha256 = "06d2790befdf678eb0b0211b97dd6aa01cf64514c839e4ab1318680b50940d27",
-        strip_prefix = "ocaml-jemalloc-459423d165c8a48b42f1ad372c8fe81eb9a98da9",
+        sha256 = "92d8406c47b6d1758bba6a364f6916f7ed2a2579a4839225e3f9888cb39ae2f4",
+        strip_prefix = "ocaml-jemalloc-67d68baf7dca48e46eaf151fccb2403133ba04b2",
         urls = [
-            "https://github.com/obazl/ocaml-jemalloc/archive/459423d165c8a48b42f1ad372c8fe81eb9a98da9.tar.gz"
+            # branch: bazel
+            "https://github.com/obazl/ocaml-jemalloc/archive/67d68baf7dca48e46eaf151fccb2403133ba04b2.tar.gz"
         ],
     )
 
     maybe(
         http_archive,
         name   = "ocaml_rocksdb",
-        sha256 = "8cb32f16613bd8821c97f0a31a4e584a932647fcf35d2203121c7ec1a9489d45",
-        strip_prefix = "orocksdb-503f9fdd0de2e7b0acb8297951d797633be05ae4",
+        sha256 = "50d50d9399af62b1c39b9195f566f4b786973da092a295306cd4dcf0f50e2654",
+        strip_prefix = "orocksdb-1af6ff6675fc42a11da6f96736a6fe2de3fb94d0",
         urls = [
-            "https://github.com/minatools/orocksdb/archive/503f9fdd0de2e7b0acb8297951d797633be05ae4.tar.gz"
+            # branch: mina
+            "https://github.com/minatools/orocksdb/archive/1af6ff6675fc42a11da6f96736a6fe2de3fb94d0.tar.gz"
         ],
     )
 
     maybe(
         http_archive,
         name   = "ocaml_sodium",
-        sha256 = "14f7ac299e5f9d0d483ebcbde316cebb240d355a575b39c70322f39f6005f512",
-        strip_prefix = "ocaml-sodium-8f57006e673c19f512600c1bdda6fe048f887cfa",
+        sha256 = "3748684e3aee5539755e2d297e2e08f6c51bd422487826cb9ad62dfb3168ec2d",
+        strip_prefix = "ocaml-sodium-dc296f289d19284ed1e6586cd23b6c094f7a28c1",
         urls = [
-            "https://github.com/minatools/ocaml-sodium/archive/8f57006e673c19f512600c1bdda6fe048f887cfa.tar.gz"
+            # branch: mina
+            "https://github.com/minatools/ocaml-sodium/archive/dc296f289d19284ed1e6586cd23b6c094f7a28c1.tar.gz"
         ],
     )
 

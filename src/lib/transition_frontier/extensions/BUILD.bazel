@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -14,10 +14,10 @@ EXTENSIONS_MODULE_OPTS = []
 
 EXTENSIONS_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/transition_frontier/frontier_base:#frontier_base",
+    "@mina//src/lib/transition_frontier/frontier_base:frontier_base",
     "@mina//src/lib/transition_frontier/full_frontier",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/pipe_lib:pipe_lib",
 ]
 EXTENSIONS_DEPS_OPAM = [
     "async_kernel",
@@ -33,8 +33,8 @@ EXTENSIONS_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#extensions",
+ocaml_ns_archive(
+    name = "extensions",
     submodules = [
         ":_Best_tip_diff",
         ":_Extensions",

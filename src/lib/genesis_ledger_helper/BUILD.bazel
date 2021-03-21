@@ -1,15 +1,15 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 CONFIG_MLH = ["//src:config"]
 
 #################
-ocaml_ns_library(
-    name = "#genesis_ledger_helper",
+ocaml_ns_archive(
+    name = "genesis_ledger_helper",
     submodules = [
         ":_Genesis_ledger_helper",
     ],
@@ -31,15 +31,15 @@ ocaml_module(
     ppx_data = CONFIG_MLH,
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/cache_dir:#cache_dir",
-        "@mina//src/lib/genesis_constants:#genesis_constants",
-        "@mina//src/lib/genesis_ledger:#genesis_ledger",
-        "@mina//src/lib/genesis_proof:#genesis_proof",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/precomputed_values:#precomputed_values",
-        "@mina//src/lib/runtime_config:#runtime_config",
-        "@mina//src/lib/signature_lib:#signature_lib",
-        "@mina//src/lib/snark_keys:#snark_keys",
+        "@mina//src/lib/cache_dir:cache_dir",
+        "@mina//src/lib/genesis_constants:genesis_constants",
+        "@mina//src/lib/genesis_ledger:genesis_ledger",
+        "@mina//src/lib/genesis_proof:genesis_proof",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/precomputed_values:precomputed_values",
+        "@mina//src/lib/runtime_config:runtime_config",
+        "@mina//src/lib/signature_lib:signature_lib",
+        "@mina//src/lib/snark_keys:snark_keys",
     ],
     deps_opam = [
         "core_kernel",
@@ -68,8 +68,8 @@ ppx_executable(
         "//src/lib/genesis_ledger_helper:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_jane",

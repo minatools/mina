@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ppx_module",
-    "ppx_ns_library"
+    "ppx_ns_archive"
 )
 
 #################
-ppx_ns_library(
-    name = "#ppx_representatives",
+ppx_ns_archive(
+    name = "ppx_representatives",
     submodules = [
         ":_Ppx_representatives",
     ],

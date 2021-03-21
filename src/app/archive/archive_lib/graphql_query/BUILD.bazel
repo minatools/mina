@@ -22,16 +22,15 @@ GRAPHQL_QUERY_MODULE_OPTS = []
 
 GRAPHQL_QUERY_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base",
-    "@mina//src/lib/mina_transition",
-    "@mina//src/lib/graphql_lib",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_transition:mina_transition",
+    "@mina//src/lib/graphql_lib:graphql_lib",
 ]
 GRAPHQL_QUERY_DEPS_OPAM = ["core"]
 
 #########
 ocaml_ns_library(
-    name = "graphql_query",
-    main = "_Graphql_query",
+    name = "#graphql_query",
     submodules = [
         ":_Base_types",
         ":_Blocks",

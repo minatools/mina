@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 #################
-ocaml_ns_library(
-    name = "#genesis_proof",
+ocaml_ns_archive(
+    name = "genesis_proof",
     submodules = [
         ":_Genesis_proof",
     ],
@@ -22,11 +22,11 @@ ocaml_module(
     ppx = "//bzl/ppx/exe:ppx_version__ppx_let",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/blockchain_snark:#blockchain_snark",
-        "@mina//src/lib/mina_state:#mina_state",
-        "@mina//src/lib/genesis_constants:#genesis_constants",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/runtime_config:#runtime_config",
-        "@mina//src/lib/with_hash:#with_hash",
+        "@mina//src/lib/blockchain_snark:blockchain_snark",
+        "@mina//src/lib/mina_state:mina_state",
+        "@mina//src/lib/genesis_constants:genesis_constants",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/runtime_config:runtime_config",
+        "@mina//src/lib/with_hash:with_hash",
     ],
 )

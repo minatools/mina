@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
 )
 
@@ -23,8 +23,8 @@ SGN_TYPE_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#sgn_type",
+ocaml_ns_archive(
+    name = "sgn_type",
     opts = [
         "-w", "-31"   ## two files both define a module
     ],

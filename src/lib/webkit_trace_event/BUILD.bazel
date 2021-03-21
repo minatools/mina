@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 #################
-ocaml_ns_library(
-    name = "#webkit_trace_event",
+ocaml_ns_archive(
+    name = "webkit_trace_event",
     submodules = [
         ":_Webkit_trace_event"
     ],
@@ -18,13 +18,11 @@ ocaml_ns_library(
 #############
 ocaml_module(
     name = "_Webkit_trace_event",
-    opts = [],
+    struct = "webkit_trace_event.ml",
     ppx = "//bzl/ppx/exe:ppx_version",
     ppx_args = [
         # do not sort (buildifier)
     ],
-    struct = "webkit_trace_event.ml",
-    visibility = ["//visibility:public"],
     deps_opam = [
         "async",
         "core",

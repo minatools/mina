@@ -1,18 +1,27 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-#############
-ocaml_module(
+#################
+ocaml_ns_archive(
     name = "inline_test_quiet_logs",
-    ppx = "//bzl/ppx/exe:ppx_version",
-    struct = "inline_test_quiet_logs.ml",
-    deps_opam = [
-        "ppx_inline_test.runtime-lib",
+    submodules = [
+        ":_Inline_test_quiet_logs"
     ],
     visibility = [
         "//src/lib/consensus:__pkg__",
         "//src/lib/staged_ledger:__pkg__"
+    ],
+)
+
+#############
+ocaml_module(
+    name = "_Inline_test_quiet_logs",
+    struct = "inline_test_quiet_logs.ml",
+    ppx = "//bzl/ppx/exe:ppx_version",
+    deps_opam = [
+        "ppx_inline_test.runtime-lib",
     ],
 )

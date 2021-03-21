@@ -6,7 +6,7 @@ src/lib/marlin
 src/lib/marlin/zexe
 
 ## not yet:
-src/lib/merkle_ledger_tests
+# src/lib/merkle_ledger_tests
 
 # avoid "Code is expired" test:
 src/lib/ppx_coda/tests
@@ -35,6 +35,7 @@ src/lib/snarky_blake2/test
 src/lib/snarky_log/examples
 src/lib/snarky_taylor/tests
 src/lib/vrf_lib/tests
+
 # depends on src/lib/vrf_lib/tests:
 src/app/benchmarks
 

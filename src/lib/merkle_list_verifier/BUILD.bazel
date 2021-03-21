@@ -1,17 +1,17 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 #################
-ocaml_ns_library(
-    name = "#merkle_list_verifier",
+ocaml_ns_archive(
+    name = "merkle_list_verifier",
     submodules = [
         ":_Merkle_list_verifier",
     ],
     visibility = [
-        "//visibility:public",
+        "//src/lib/transition_chain_verifier:__pkg__"
     ],
 )
 
@@ -26,12 +26,9 @@ ocaml_module(
     ],
     struct = "merkle_list_verifier.ml",
     deps = [
-        "@mina//src/lib/non_empty_list:#non_empty_list",
+        "@mina//src/lib/non_empty_list:non_empty_list",
     ],
     deps_opam = [
         "core_kernel",
-    ],
-    visibility = [
-        "//src/lib/transition_chain_verifier:__pkg__"
     ],
 )

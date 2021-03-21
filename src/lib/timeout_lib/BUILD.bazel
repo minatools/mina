@@ -1,12 +1,25 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
+    "ocaml_ns_archive",
     "ppx_executable"
+)
+
+#################
+ocaml_ns_archive(
+    name = "timeout_lib",
+    submodules = [
+        ":_Timeout_lib"
+    ],
+    visibility = [
+        "//src/lib/block_time:__pkg__",
+        "//src/lib/mina_net2:__pkg__",
+    ],
 )
 
 #############
 ocaml_module(
-    name = "timeout_lib",
+    name = "_Timeout_lib",
     struct = "timeout_lib.ml",
     ppx = ":ppx1.exe",
     ppx_args = [
@@ -14,14 +27,10 @@ ocaml_module(
         "-inline-test-lib",
         "timeout_lib",
     ],
-    deps      = ["//src/lib/logger:#logger"],
+    deps      = ["//src/lib/logger:logger"],
     deps_opam = [
         "async_kernel",
         "core",
-    ],
-    visibility = [
-        "//src/lib/block_time:__pkg__",
-        "//src/lib/mina_net2:__pkg__",
     ],
 )
 
@@ -50,8 +59,8 @@ ppx_executable(
         "ppxlib"
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
-        "//src/lib/ppx_coda:#ppx_coda"
+        "@ppx_version//src:ppx_version",
+        "//src/lib/ppx_coda:ppx_coda"
     ]
 )
 

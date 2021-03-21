@@ -2,7 +2,7 @@ load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 CONFIG_MLH = ["//src:config"]
@@ -13,10 +13,10 @@ CONFIG_MLH = ["//src:config"]
 RANDOM_ORACLE_DEPS = [
     # do not sort (buildifier)
     "@mina//src/lib/random_oracle_input",
-    "@mina//src/lib/o1trace:#o1trace",
-    "@mina//src/lib/pickles:#pickles",
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//sponge:#sponge",
+    "@mina//src/lib/o1trace:o1trace",
+    "@mina//src/lib/pickles",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//sponge:sponge",
 ]
 RANDOM_ORACLE_DEPS_OPAM = [
     "core_kernel",
@@ -31,8 +31,8 @@ RANDOM_ORACLE_PPX_ARGS = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#random_oracle",
+ocaml_ns_archive(
+    name = "random_oracle",
     submodules = [
         ":_Intf",
         ":_Random_oracle",

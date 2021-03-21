@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -15,12 +15,12 @@ TRUST_SYSTEM_MODULE_OPTS = []
 
 TRUST_SYSTEM_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/network_peer:#network_peer",
-    "@mina//src/lib/key_value_database:#key_value_database",
-    "@mina//src/lib/logger:#logger",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
-    "@mina//src/lib/rocksdb:#rocksdb",
-    "@mina//src/lib/mina_metrics:#mina_metrics",
+    "@mina//src/lib/network_peer:network_peer",
+    "@mina//src/lib/key_value_database:key_value_database",
+    "@mina//src/lib/logger:logger",
+    "@mina//src/lib/pipe_lib:pipe_lib",
+    "@mina//src/lib/rocksdb:rocksdb",
+    "@mina//src/lib/mina_metrics",
 ]
 TRUST_SYSTEM_DEPS_OPAM = [
     "core",
@@ -28,8 +28,8 @@ TRUST_SYSTEM_DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#trust_system",
+ocaml_ns_archive(
+    name = "trust_system",
     submodules = [
         ":_Banned_status",
         ":_Peer_status",
@@ -55,7 +55,7 @@ ocaml_module(
         "trust_system",
     ],
     deps = TRUST_SYSTEM_DEPS + [
-        "@ppx_version//src/runtime:#ppx_version_runtime"
+        "@ppx_version//src/runtime:ppx_version_runtime"
     ],
     deps_opam = TRUST_SYSTEM_DEPS_OPAM,
 )
@@ -186,16 +186,16 @@ ppx_executable(
         "bin_prot",
         "fieldslib",
     ],
-    # deps_adjunct = ["@ppx_version//src/runtime:#ppx_version_runtime"],
+    # deps_adjunct = ["@ppx_version//src/runtime:ppx_version_runtime"],
     main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
         "//src/lib/trust_system:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@mina//src/lib/ppx_register_event:#ppx_register_event",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        # "@mina//src/lib/ppx_register_event:ppx_register_event",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

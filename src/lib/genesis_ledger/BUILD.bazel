@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 CONFIG_MLH = ["//src:config"]
@@ -13,9 +13,9 @@ GENESIS_LEDGER_MODULE_OPTS = []
 
 GENESIS_LEDGER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/signature_lib:#signature_lib",
-    "@mina//src/lib/runtime_config:#runtime_config",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/signature_lib:signature_lib",
+    "@mina//src/lib/runtime_config:runtime_config",
 ]
 GENESIS_LEDGER_DEPS_OPAM = ["core_kernel"]
 
@@ -26,8 +26,8 @@ GENESIS_LEDGER_PPX_ARGS = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#genesis_ledger",
+ocaml_ns_archive(
+    name = "genesis_ledger",
     submodules = [
         ":_Fake_accounts",
         ":_Fuzz_ledger",

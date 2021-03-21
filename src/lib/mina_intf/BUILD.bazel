@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -12,19 +12,19 @@ MINA_INTF_MODULE_OPTS = []
 
 MINA_INTF_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/currency:#currency",
+    "@mina//src/lib/currency:currency",
     "@mina//src/lib/truth",
-    "@mina//src/lib/gadt_lib:#gadt_lib",
-    "@mina//src/lib/signature_lib:#signature_lib",
-    "@mina//src/lib/cache_lib:#cache_lib",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_state:#mina_state",
-    "@mina//src/lib/snark_work_lib:#snark_work_lib",
-    "@mina//src/lib/proof_carrying_data:#proof_carrying_data",
-    "@mina//src/lib/mina_incremental:#mina_incremental",
-    "@mina//src/lib/blockchain_snark:#blockchain_snark",
-    "@mina//src/lib/transaction_snark:#transaction_snark",
-    "@mina//src/lib/mina_transition:#mina_transition",
+    "@mina//src/lib/gadt_lib:gadt_lib",
+    "@mina//src/lib/signature_lib:signature_lib",
+    "@mina//src/lib/cache_lib:cache_lib",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_state:mina_state",
+    "@mina//src/lib/snark_work_lib:snark_work_lib",
+    "@mina//src/lib/proof_carrying_data:proof_carrying_data",
+    "@mina//src/lib/mina_incremental:mina_incremental",
+    "@mina//src/lib/blockchain_snark:blockchain_snark",
+    "@mina//src/lib/transaction_snark:transaction_snark",
+    "@mina//src/lib/mina_transition:mina_transition",
 ]
 
 MINA_INTF_DEPS_OPAM = [
@@ -33,8 +33,8 @@ MINA_INTF_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#mina_intf",
+ocaml_ns_archive(
+    name = "mina_intf",
     submodules = [
         ":_mina_intf",
         ":_Core_intf",
@@ -117,7 +117,7 @@ ppx_executable(
         "//src/lib/mina_intf:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.std",

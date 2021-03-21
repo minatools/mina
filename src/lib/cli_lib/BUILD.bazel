@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -30,8 +30,8 @@ CLI_LIB_DEPS_OPAM = [
     "yojson",
 ]
 #########
-ocaml_ns_library(
-    name = "#cli_lib",
+ocaml_ns_archive(
+    name = "cli_lib",
     submodules = [
         ":_Arg_type",
         ":_Background_daemon",
@@ -66,7 +66,7 @@ ocaml_module(
     ],
     struct = "arg_type.ml",
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/work_selector:#work_selector",
+        "@mina//src/lib/work_selector:work_selector",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -120,9 +120,9 @@ ocaml_module(
         "cli_lib",
     ],
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/rosetta_coding:#rosetta_coding",
-        "@mina//src/lib/secrets:#secrets",
-        "@mina//src/lib/rosetta_lib:#rosetta_lib",
+        "@mina//src/lib/rosetta_coding:rosetta_coding",
+        "@mina//src/lib/secrets:secrets",
+        "@mina//src/lib/rosetta_lib:rosetta_lib",
         ":_Exceptions",  # obazl:retain
         ":_Flag",  # obazl:retain
     ],
@@ -192,7 +192,7 @@ ocaml_signature(
         "cli_lib",
     ],
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/graphql_lib:#graphql_lib",
+        "@mina//src/lib/graphql_lib:graphql_lib",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -209,9 +209,9 @@ ocaml_module(
     ],
     struct = "graphql_types.ml",
     deps = CLI_LIB_DEPS + [
-        "//src/lib/currency:#currency",
-        "//src/lib/mina_base:#mina_base",
-        "//src/lib/signature_lib:#signature_lib",
+        "//src/lib/currency:currency",
+        "//src/lib/mina_base:mina_base",
+        "//src/lib/signature_lib:signature_lib",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -228,7 +228,7 @@ ocaml_module(
     ],
     struct = "render.ml",
     deps = CLI_LIB_DEPS + [
-        "@mina//src/lib/mina_base:#mina_base",
+        "@mina//src/lib/mina_base:mina_base",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -245,7 +245,7 @@ ocaml_module(
     ],
     struct = "stdout_log.ml",
     deps = CLI_LIB_DEPS + [
-        "//src/lib/logger:#logger",
+        "//src/lib/logger:logger",
     ],
     deps_opam = CLI_LIB_DEPS_OPAM
 )
@@ -273,7 +273,7 @@ ppx_executable(
         "//src/lib/cli_lib:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.make",

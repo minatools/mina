@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#with_hash",
+ocaml_ns_archive(
+    name = "with_hash",
     submodules = [
         ":_With_hash",
     ],
@@ -56,7 +56,7 @@ ppx_executable(
         "//src/lib/with_hash:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.std",

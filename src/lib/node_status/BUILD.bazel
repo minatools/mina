@@ -1,15 +1,15 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#telemetry",
+ocaml_ns_archive(
+    name = "node_status",
     submodules = [
-        ":_Telemetry",
+        ":_Node_status",
     ],
     visibility = [
         "//visibility:public",
@@ -18,12 +18,12 @@ ocaml_ns_library(
 
 #############
 ocaml_module(
-    name = "_Telemetry",
-    struct = "telemetry.ml",
+    name = "_Node_status",
+    struct = "node_status.ml",
     ppx = ":ppx1.exe",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_networking:#mina_networking",
+        "@mina//src/lib/mina_networking:mina_networking",
     ],
     deps_opam = [
         "core_kernel",
@@ -42,10 +42,10 @@ ppx_executable(
     ],
     main = "//bzl/ppx/exe:ppxlib_driver",
     visibility = [
-        "//src/lib/telemetry:__pkg__",
+        "//src/lib/node_status:__pkg__",
     ],
     deps = [
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_base",

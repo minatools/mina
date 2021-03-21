@@ -1,7 +1,8 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 THIS_PPX = "//bzl/ppx/exe:ppx_version__ppx_inline_test"
@@ -11,16 +12,63 @@ THIS_PPX_ARGS = [
     "marlin_plonk_bindings",
 ]
 
-#########
-ocaml_ns_library(
-    name = "#marlin_plonk_bindings",
-    submodules = [
+DEPS = [
+    ":marlin_plonk_bindings_bigint_256",
+    ":marlin_plonk_bindings_bigint_384",
+    ":marlin_plonk_bindings_bn_382_fp",
+    ":marlin_plonk_bindings_bn_382_fp_vector",
+    ":marlin_plonk_bindings_bn_382_fq",
+    ":marlin_plonk_bindings_bn_382_fq_vector",
+
+    ":marlin_plonk_bindings_pasta_fp",
+    ":marlin_plonk_bindings_pasta_fp_index",
+    ":marlin_plonk_bindings_pasta_fp_oracles",
+    ":marlin_plonk_bindings_pasta_fp_proof",
+    ":marlin_plonk_bindings_pasta_fp_urs",
+    ":marlin_plonk_bindings_pasta_fp_vector",
+    ":marlin_plonk_bindings_pasta_fp_verifier_index",
+
+    ":marlin_plonk_bindings_pasta_fq",
+    ":marlin_plonk_bindings_pasta_fq_index",
+    ":marlin_plonk_bindings_pasta_fq_oracles",
+    ":marlin_plonk_bindings_pasta_fq_proof",
+    ":marlin_plonk_bindings_pasta_fq_urs",
+    ":marlin_plonk_bindings_pasta_fq_vector",
+    ":marlin_plonk_bindings_pasta_fq_verifier_index",
+    ":marlin_plonk_bindings_pasta_pallas",
+    ":marlin_plonk_bindings_pasta_vesta",
+
+    ":marlin_plonk_bindings_tweedle_dee",
+    ":marlin_plonk_bindings_tweedle_dum",
+
+    ":marlin_plonk_bindings_tweedle_fp",
+    ":marlin_plonk_bindings_tweedle_fp_index",
+    ":marlin_plonk_bindings_tweedle_fp_oracles",
+    ":marlin_plonk_bindings_tweedle_fp_proof",
+    ":marlin_plonk_bindings_tweedle_fp_urs",
+    ":marlin_plonk_bindings_tweedle_fp_vector",
+    ":marlin_plonk_bindings_tweedle_fp_verifier_index",
+
+    ":marlin_plonk_bindings_tweedle_fq",
+    ":marlin_plonk_bindings_tweedle_fq_index",
+    ":marlin_plonk_bindings_tweedle_fq_oracles",
+    ":marlin_plonk_bindings_tweedle_fq_proof",
+    ":marlin_plonk_bindings_tweedle_fq_urs",
+    ":marlin_plonk_bindings_tweedle_fq_vector",
+    ":marlin_plonk_bindings_tweedle_fq_verifier_index",
+    ":marlin_plonk_bindings_types",
+]
+
+#################
+ocaml_ns_archive(
+    name = "marlin_plonk_bindings",
+    opts = ["-linkall"],
+    submodules = [ ## DEPS + [
         ":_Marlin_plonk_bindings",
     ],
     visibility = [
         "//src/lib/pickles_types:__pkg__",
         "//src/lib/zexe_backend:__subpackages__"
-        # "//visibility:public"
     ],
 )
 
@@ -33,47 +81,15 @@ ocaml_module(
     },
     ppx = THIS_PPX,
     ppx_args = THIS_PPX_ARGS,
-    deps = [
-        ":marlin_plonk_bindings_bigint_256",
-        ":marlin_plonk_bindings_bigint_384",
-        ":marlin_plonk_bindings_bn_382_fp",
-        ":marlin_plonk_bindings_bn_382_fp_vector",
-        ":marlin_plonk_bindings_bn_382_fq",
-        ":marlin_plonk_bindings_bn_382_fq_vector",
+    # deps = DEPS
+    deps = [":marlin_plonk_archive"]
+)
 
-        ":marlin_plonk_bindings_pasta_fp",
-        ":marlin_plonk_bindings_pasta_fp_index",
-        ":marlin_plonk_bindings_pasta_fp_oracles",
-        ":marlin_plonk_bindings_pasta_fp_verifier_index",
-        ":marlin_plonk_bindings_pasta_fp_proof",
-        ":marlin_plonk_bindings_pasta_fp_urs",
-        ":marlin_plonk_bindings_pasta_fq",
-        ":marlin_plonk_bindings_pasta_fq_index",
-        ":marlin_plonk_bindings_pasta_fq_oracles",
-        ":marlin_plonk_bindings_pasta_fq_verifier_index",
-        ":marlin_plonk_bindings_pasta_fq_proof",
-        ":marlin_plonk_bindings_pasta_fq_urs",
-        ":marlin_plonk_bindings_pasta_pallas",
-        ":marlin_plonk_bindings_pasta_vesta",
-
-        ":marlin_plonk_bindings_tweedle_dee",
-        ":marlin_plonk_bindings_tweedle_dum",
-        ":marlin_plonk_bindings_tweedle_fp",
-        ":marlin_plonk_bindings_tweedle_fp_index",
-        ":marlin_plonk_bindings_tweedle_fp_oracles",
-        ":marlin_plonk_bindings_tweedle_fp_proof",
-        ":marlin_plonk_bindings_tweedle_fp_urs",
-        ":marlin_plonk_bindings_tweedle_fp_vector",
-        ":marlin_plonk_bindings_tweedle_fp_verifier_index",
-        ":marlin_plonk_bindings_tweedle_fq",
-        ":marlin_plonk_bindings_tweedle_fq_index",
-        ":marlin_plonk_bindings_tweedle_fq_oracles",
-        ":marlin_plonk_bindings_tweedle_fq_proof",
-        ":marlin_plonk_bindings_tweedle_fq_urs",
-        ":marlin_plonk_bindings_tweedle_fq_vector",
-        ":marlin_plonk_bindings_tweedle_fq_verifier_index",
-        ":marlin_plonk_bindings_types",
-    ],
+##############
+ocaml_archive(
+    name = "marlin_plonk_archive",
+    opts = ["-linkall"],
+    modules = DEPS,
 )
 
 #############
@@ -338,6 +354,9 @@ ocaml_module(
     ],
 )
 
+#####################
+## TWEEDLE FP
+
 #############
 ocaml_module(
     name = "marlin_plonk_bindings_tweedle_fp",
@@ -409,6 +428,9 @@ ocaml_module(
         ":marlin_plonk_bindings_types",
     ],
 )
+
+#####################
+## TWEEDLE FQ
 
 #############
 ocaml_module(

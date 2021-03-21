@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -9,8 +9,8 @@ load(
 PPX_PRINT = "@ppx//print:binary"
 
 #################
-ocaml_ns_library(
-    name = "#parallel_scan",
+ocaml_ns_archive(
+    name = "parallel_scan",
     submodules = [
         ":_Parallel_scan",
     ],
@@ -33,11 +33,11 @@ ocaml_module(
     struct = "parallel_scan.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_metrics:#mina_metrics",
-        "@mina//src/lib/non_empty_list:#non_empty_list",
-        "@mina//src/lib/pipe_lib:#pipe_lib",
-        "@mina//src/lib/sgn:#sgn",
-        "@mina//src/lib/state_or_error:#state_or_error",
+        "@mina//src/lib/mina_metrics",
+        "@mina//src/lib/non_empty_list:non_empty_list",
+        "@mina//src/lib/pipe_lib:pipe_lib",
+        "@mina//src/lib/sgn:sgn",
+        "@mina//src/lib/state_or_error:state_or_error",
     ],
     deps_opam = [
         "async",
@@ -60,11 +60,11 @@ ocaml_signature(
         "parallel_scan",
     ],
     deps = [
-        "@mina//src/lib/mina_metrics:#mina_metrics",
-        "@mina//src/lib/non_empty_list:#non_empty_list",
-        "@mina//src/lib/pipe_lib:#pipe_lib",
-        "@mina//src/lib/sgn:#sgn",
-        "@mina//src/lib/state_or_error:#state_or_error",
+        "@mina//src/lib/mina_metrics",
+        "@mina//src/lib/non_empty_list:non_empty_list",
+        "@mina//src/lib/pipe_lib:pipe_lib",
+        "@mina//src/lib/sgn:sgn",
+        "@mina//src/lib/state_or_error:state_or_error",
     ],
     deps_opam = [
         "async",
@@ -97,8 +97,8 @@ ppx_executable(
         "//src/lib/parallel_scan:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "lens.ppx_deriving",

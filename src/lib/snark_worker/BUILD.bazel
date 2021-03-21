@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -17,16 +17,16 @@ SNARK_WORKER_MODULE_OPTS = []
 
 SNARK_WORKER_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/cli_lib:#cli_lib",
-    "@mina//src/lib/currency:#currency",
-    "@mina//src/lib/snark_work_lib:#snark_work_lib",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/blockchain_snark:#blockchain_snark",
-    "@mina//src/lib/transaction_snark:#transaction_snark",
-    "@mina//src/lib/perf_histograms:#perf_histograms",
-    "@mina//src/lib/sparse_ledger_lib:#sparse_ledger_lib",
-    "@mina//src/lib/ledger_proof:#ledger_proof",
-    "@mina//src/lib/transaction_witness:#transaction_witness",
+    "@mina//src/lib/cli_lib:cli_lib",
+    "@mina//src/lib/currency:currency",
+    "@mina//src/lib/snark_work_lib:snark_work_lib",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/blockchain_snark:blockchain_snark",
+    "@mina//src/lib/transaction_snark:transaction_snark",
+    "@mina//src/lib/perf_histograms:perf_histograms",
+    "@mina//src/lib/sparse_ledger_lib:sparse_ledger_lib",
+    "@mina//src/lib/ledger_proof:ledger_proof",
+    "@mina//src/lib/transaction_witness:transaction_witness",
 ]
 SNARK_WORKER_DEPS_OPAM = [
     "core_kernel",
@@ -35,8 +35,8 @@ SNARK_WORKER_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#snark_worker",
+ocaml_ns_archive(
+    name = "snark_worker",
     submodules = [
         ":_Debug",
         ":_Functor",
@@ -194,10 +194,10 @@ ppx_executable(
         "//src/lib/snark_worker:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@mina//src/lib/ppx_register_event:#ppx_register_event",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        # "@mina//src/lib/ppx_register_event:ppx_register_event",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

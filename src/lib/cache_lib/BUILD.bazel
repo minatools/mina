@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -17,7 +17,7 @@ CACHE_LIB_MODULE_OPTS = []
 
 CACHE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/logger:logger",
 ]
 
 CACHE_LIB_DEPS_OPAM = [
@@ -26,8 +26,8 @@ CACHE_LIB_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#cache_lib",
+ocaml_ns_archive(
+    name = "cache_lib",
     submodules = [
         ":_Cache_lib",
         ":_Impl",
@@ -127,9 +127,9 @@ ppx_executable(
         "//src/lib/cache_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_base",

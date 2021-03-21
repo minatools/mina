@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
@@ -17,23 +17,23 @@ MINA_NUMBERS_MODULE_OPTS = []
 
 MINA_NUMBERS_DEPS = [
     # do not sort (buildifier)
-    "@snarky//fold_lib:#fold_lib",
-    "@snarky//tuple_lib:#tuple_lib",
-    "@mina//src/lib/snark_bits:#snark_bits",
-    "@mina//src/lib/snark_params:#snark_params",
-    "@mina//src/lib/unsigned_extended:#unsigned_extended",
-    "@snarky//src/base:#snarky_backendless",
-    "@snarky//snarky_integer:#snarky_integer",
-    "@mina//src/lib/ppx_dhall_type:#ppx_dhall_type",
-    "@mina//src/lib/codable:#codable",
+    "@snarky//fold_lib:fold_lib",
+    "@snarky//tuple_lib:tuple_lib",
+    "@mina//src/lib/snark_bits:snark_bits",
+    "@mina//src/lib/snark_params:snark_params",
+    "@mina//src/lib/unsigned_extended:unsigned_extended",
+    "@snarky//src/base:snarky_backendless",
+    "@snarky//snarky_integer:snarky_integer",
+    "@mina//src/lib/ppx_dhall_type:ppx_dhall_type",
+    "@mina//src/lib/codable:codable",
 ]
 MINA_NUMBERS_DEPS_OPAM = [
     "core"
 ]
 
 #########
-ocaml_ns_library(
-    name = "#mina_numbers",
+ocaml_ns_archive(
+    name = "mina_numbers",
     submodules = [
         ":_Account_nonce",
         ":_Mina_numbers",
@@ -309,7 +309,7 @@ ppx_executable(
     ],
     deps = [
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

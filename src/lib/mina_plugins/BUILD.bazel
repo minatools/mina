@@ -1,14 +1,14 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ocaml_signature",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#mina_plugins",
+ocaml_ns_archive(
+    name = "mina_plugins",
     submodules = [
         ":_Mina_plugins",
     ],
@@ -25,7 +25,7 @@ ocaml_module(
     ppx = ":ppx1.exe",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_lib:#mina_lib",
+        "@mina//src/lib/mina_lib:mina_lib",
     ],
     deps_opam = [
         "core_kernel",
@@ -39,7 +39,7 @@ ocaml_signature(
     src = "mina_plugins.mli",
     ppx = ":ppx1.exe",
     deps = [
-        "@mina//src/lib/mina_lib:#mina_lib",
+        "@mina//src/lib/mina_lib:mina_lib",
     ],
     deps_opam = [
         "core_kernel",
@@ -55,8 +55,8 @@ ppx_executable(
         "//src/lib/mina_plugins:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppxlib",

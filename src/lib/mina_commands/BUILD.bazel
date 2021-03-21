@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library"
+    "ocaml_ns_archive"
 )
 
 #################
-ocaml_ns_library(
-    name = "#mina_commands",
+ocaml_ns_archive(
+    name = "mina_commands",
     submodules = [
         ":_Mina_commands",
     ],
@@ -28,10 +28,10 @@ ocaml_module(
     visibility = ["//visibility:public"],
     deps = [
         "@mina//src/lib/mina_version",
-        "@mina//src/lib/daemon_rpcs:#daemon_rpcs",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/mina_lib:#mina_lib",
-        "@mina//src/lib/node_addrs_and_ports:#node_addrs_and_ports",
+        "@mina//src/lib/daemon_rpcs:daemon_rpcs",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/mina_lib:mina_lib",
+        "@mina//src/lib/node_addrs_and_ports:node_addrs_and_ports",
         "@mina//src/lib/user_command_input",
     ],
     deps_opam = [

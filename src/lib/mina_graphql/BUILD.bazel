@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#mina_graphql",
+ocaml_ns_archive(
+    name = "mina_graphql",
     submodules = [
         ":_Mina_graphql",
     ],
@@ -28,14 +28,14 @@ ocaml_module(
     struct = "mina_graphql.ml",
     visibility = ["//visibility:public"],
     deps = [
-        "@mina//src/lib/mina_commands:#mina_commands",
-        "@mina//src/lib/mina_state:#mina_state",
-        "@mina//src/lib/mina_transition:#mina_transition",
-        "@mina//src/lib/filtered_external_transition:#filtered_external_transition",
-        "@mina//src/lib/mina_base:#mina_base",
-        "@mina//src/lib/mina_lib:#mina_lib",
-        "@mina//src/lib/network_peer:#network_peer",
-        "@mina//src/lib/node_addrs_and_ports:#node_addrs_and_ports",
+        "@mina//src/lib/mina_commands:mina_commands",
+        "@mina//src/lib/mina_state:mina_state",
+        "@mina//src/lib/mina_transition:mina_transition",
+        "@mina//src/lib/filtered_external_transition:filtered_external_transition",
+        "@mina//src/lib/mina_base:mina_base",
+        "@mina//src/lib/mina_lib:mina_lib",
+        "@mina//src/lib/network_peer:network_peer",
+        "@mina//src/lib/node_addrs_and_ports:node_addrs_and_ports",
         "@mina//src/lib/user_command_input",
     ],
     deps_opam = [
@@ -70,8 +70,8 @@ ppx_executable(
         "//src/lib/mina_graphql:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving_yojson",

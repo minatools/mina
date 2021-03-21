@@ -1,7 +1,7 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -14,17 +14,17 @@ GOSSIP_NET_MODULE_OPTS = []
 
 GOSSIP_NET_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/perf_histograms:#perf_histograms",
-    "@mina//src/lib/mina_base:#mina_base",
-    "@mina//src/lib/mina_transition:#mina_transition",
-    "@mina//src/lib/mina_net2:#mina_net2",
-    "@mina//src/lib/network_pool:#network_pool",
-    "@mina//src/lib/trust_system:#trust_system",
-    "@mina//src/lib/pipe_lib:#pipe_lib",
-    "@mina//src/lib/logger:#logger",
-    "@mina//src/lib/o1trace:#o1trace",
-    "@mina//src/lib/node_addrs_and_ports:#node_addrs_and_ports",
-    "@mina//src/lib/mina_metrics:#mina_metrics",
+    "@mina//src/lib/perf_histograms:perf_histograms",
+    "@mina//src/lib/mina_base:mina_base",
+    "@mina//src/lib/mina_transition:mina_transition",
+    "@mina//src/lib/mina_net2:mina_net2",
+    "@mina//src/lib/network_pool:network_pool",
+    "@mina//src/lib/trust_system:trust_system",
+    "@mina//src/lib/pipe_lib:pipe_lib",
+    "@mina//src/lib/logger:logger",
+    "@mina//src/lib/o1trace:o1trace",
+    "@mina//src/lib/node_addrs_and_ports:node_addrs_and_ports",
+    "@mina//src/lib/mina_metrics"
 ]
 GOSSIP_NET_DEPS_OPAM = [
     "core",
@@ -33,8 +33,8 @@ GOSSIP_NET_DEPS_OPAM = [
 ]
 
 #########
-ocaml_ns_library(
-    name = "#gossip_net",
+ocaml_ns_archive(
+    name = "gossip_net",
     submodules = [
         ":_Any",
         ":_Fake",
@@ -184,9 +184,9 @@ ppx_executable(
         "//src/lib/gossip_net:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
+        "@mina//src/lib/ppx_coda:ppx_coda",
         "@ppx_optcomp//src:ppx_optcomp",
-        "@ppx_version//src:#ppx_version",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_bin_prot",

@@ -1,12 +1,12 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
 )
 
 #################
-ocaml_ns_library(
-    name = "#proof_carrying_data",
+ocaml_ns_archive(
+    name = "proof_carrying_data",
     submodules = [
         ":_Proof_carrying_data",
     ],

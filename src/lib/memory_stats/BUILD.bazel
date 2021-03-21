@@ -1,13 +1,13 @@
 load(
     "@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
 #################
-ocaml_ns_library(
-    name = "#memory_stats",
+ocaml_ns_archive(
+    name = "memory_stats",
     submodules = [
         ":_Memory_stats",
     ],
@@ -22,7 +22,7 @@ ocaml_module(
     struct = "memory_stats.ml",
     ppx = ":ppx1.exe",
     deps = [
-        "@mina//src/lib/logger:#logger",
+        "@mina//src/lib/logger:logger",
         "@ocaml_jemalloc//src:jemalloc",
     ],
     deps_opam = [
@@ -45,8 +45,8 @@ ppx_executable(
         "//src/lib/memory_stats:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
         "@snarky//ppx:ppx_snarky",
     ],
     deps_opam = [

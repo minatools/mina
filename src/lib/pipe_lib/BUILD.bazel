@@ -3,7 +3,7 @@ load(
     "ocaml_archive",
     "ocaml_signature",
     "ocaml_module",
-    "ocaml_ns_library",
+    "ocaml_ns_archive",
     "ppx_executable",
 )
 
@@ -16,8 +16,8 @@ PIPE_LIB_MODULE_OPTS = []
 
 PIPE_LIB_DEPS = [
     # do not sort (buildifier)
-    "@mina//src/lib/o1trace:#o1trace",
-    "@mina//src/lib/logger:#logger",
+    "@mina//src/lib/o1trace:o1trace",
+    "@mina//src/lib/logger:logger",
 ]
 
 PIPE_LIB_DEPS_OPAM = [
@@ -26,8 +26,8 @@ PIPE_LIB_DEPS_OPAM = [
 ]
 
 #################
-ocaml_ns_library(
-    name = "#pipe_lib",
+ocaml_ns_archive(
+    name = "pipe_lib",
     submodules = [
         ":_Broadcast_pipe",
         ":_Linear_pipe",
@@ -180,8 +180,8 @@ ppx_executable(
         "//src/lib/pipe_lib:__pkg__",
     ],
     deps = [
-        "@mina//src/lib/ppx_coda:#ppx_coda",
-        "@ppx_version//src:#ppx_version",
+        "@mina//src/lib/ppx_coda:ppx_coda",
+        "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
         "ppx_deriving.make",
