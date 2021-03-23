@@ -22,4 +22,4 @@ build:release --embed_label=" (Bazel)"
 ################ build profiles ################
 #build:dev --//src/config/profile=dev
 
-try-import user.bazelrc
+try-import dev/user.bazelrc
