@@ -6,5 +6,8 @@ string_flag( name = "state_timestamp",
              build_setting_default = "2019-01-30 12:00:00-08:00")
 
 string_setting( name = "testnet_public",
-             build_setting_default = "2019-01-30 12:00:00-08:00")
+                build_setting_default = "2019-01-30 12:00:00-08:00")
+
+string_setting( name = "devnet",
+                build_setting_default = "2020-09-16 03:15:00-07:00" )
 

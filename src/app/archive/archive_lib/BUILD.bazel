@@ -32,6 +32,7 @@ ocaml_ns_archive(
         ":_Ast",
         ":_Diff",
         ":_Extensional",
+        ":_Metrics",
         ":_Processor",
         ":_Rpc",
         # ":_Test",
@@ -91,6 +92,21 @@ ocaml_module(
 
 #############
 ocaml_module(
+    name = "_Metrics",
+    struct = "metrics.ml",
+    opts = ARCHIVE_LIB_MODULE_OPTS,
+    ppx = ":ppx1.exe",
+    ppx_args = [
+        # do not sort (buildifier)
+        "-inline-test-lib",
+        "archive_lib",
+    ],
+    deps = ARCHIVE_LIB_DEPS,
+    deps_opam = ARCHIVE_LIB_DEPS_OPAM
+)
+
+#############
+ocaml_module(
     name = "_Processor",
     struct = "processor.ml",
     opts = ARCHIVE_LIB_MODULE_OPTS,
@@ -103,6 +119,7 @@ ocaml_module(
     deps = ARCHIVE_LIB_DEPS + [
         # do not sort (buildifier)
         ":_Diff",
+        ":_Metrics",
         ":_Rpc",
         "@mina//src/lib/genesis_ledger_helper:genesis_ledger_helper",
     ],

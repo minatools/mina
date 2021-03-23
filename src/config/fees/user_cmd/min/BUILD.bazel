@@ -11,5 +11,5 @@ package(default_visibility = ["//visibility:public"])
 
 string_flag( name = "min", build_setting_default = "2")
 
-string_setting( name = "standard", build_setting_default = "2")
 string_setting( name = "realistic", build_setting_default = "0.001")
+string_setting( name = "standard", build_setting_default = "2")

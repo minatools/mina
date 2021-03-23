@@ -12,5 +12,6 @@ int_flag( name = "duration", build_setting_default = 2000)
 int_setting( name = "600",    build_setting_default = 600)
 int_setting( name = "20000",  build_setting_default = 20000)
 int_setting( name = "30000",  build_setting_default = 30000)
+int_setting( name = "180000",  build_setting_default = 180000)
 int_setting( name = "360000", build_setting_default = 360000)
 

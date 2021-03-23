@@ -218,20 +218,22 @@ ppx_executable(
     deps = [
         "@mina//src/lib/ppx_coda:ppx_coda",
         # "@mina//src/lib/ppx_register_event",
-        "@ppx_optcomp//src:ppx_optcomp",
+        # "@ppx_optcomp//src:ppx_optcomp",
         "@ppx_version//src:ppx_version",
     ],
     deps_opam = [
-        "ppx_bin_prot",
-        "ppx_compare",
-        "ppx_custom_printf",
-        "ppx_deriving.eq",
-        "ppx_deriving.make",
-        "ppx_fields_conv",
-        "ppx_hash",
+        "ppx_jane",
+        # "ppx_bin_prot",
+        # "ppx_compare",
+        # "ppx_custom_printf",
+        # "ppx_deriving.eq",
+        # "ppx_deriving.make",
+        # "ppx_fields_conv",
+        # "ppx_hash",
         "ppx_inline_test",
-        "ppx_let",
-        "ppx_sexp_conv",
-        "ppxlib",
+        "ppx_deriving.std",
+        # "ppx_let",
+        # "ppx_sexp_conv",
+
     ]
 )

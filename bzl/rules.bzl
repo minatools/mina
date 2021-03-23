@@ -295,16 +295,17 @@ mina_profile = rule(
         ),
 
         # [%%import "/src/config/fork.mlh"], fork_at_3757.mlh
-        "fork":  attr.label(default="//src/config/fork"),
-        "fork_previous_length": attr.label(default="//src/config/fork/prev/length"),
-        "fork_previous_state_hash": attr.label(default="//src/config/fork/prev/state_hash"),
-        "fork_previous_global_slot": attr.label(default="//src/config/fork/prev/global_slot"),
+        "fork":  attr.label(default="//src/config/fork:disable"),
+        ## the following 3 are only enabled if fork:enable ( = fork True)
+        "fork_previous_length": attr.label(default="//src/config/fork/prev/length"), # ""
+        "fork_previous_state_hash": attr.label(default="//src/config/fork/prev/state_hash"), # 0
+        "fork_previous_global_slot": attr.label(default="//src/config/fork/prev/global_slot"), # 0
 
         # [%%import "/src/config/features/dev.mlh"]
         "feature_tokens": attr.label(default="//src/config/features/tokens"),   # True
         "feature_snapps": attr.label(default="//src/config/features/snapps"),   # True
 
-        "mainnet": attr.label(default="//src/config/mainnet"), # False
+        "mainnet": attr.label(default="//src/config/mainnet:disable"), # False
 
         ## src/config/dev.mlh:
         "time_offsets": attr.label(default = "//src/config/time_offsets"), # True

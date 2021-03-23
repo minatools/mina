@@ -12,7 +12,9 @@ string_flag( name = "account_creation", build_setting_default = "0.001",
 
 string_setting( name = "high", build_setting_default = "2",
                 visibility = ["//visibility:public"])
-string_setting( name = "realistic", build_setting_default = "0.001",
+string_setting( name = "realistic", build_setting_default = "1.0",
                 visibility = ["//visibility:public"])
 string_setting( name = "standard", build_setting_default = "1",
+                visibility = ["//visibility:public"])
+string_setting( name = "low", build_setting_default = "0.001",
                 visibility = ["//visibility:public"])

@@ -11,4 +11,4 @@ int_flag( name = "interval", build_setting_default = 3600)
 
 int_setting( name = "3600", build_setting_default = 3600)
 
-
+int_setting( name = "360000", build_setting_default = 360000)

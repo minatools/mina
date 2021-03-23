@@ -6,6 +6,8 @@ mina_config(
     profile = select({
         "//:profile_debug"                      : "//src/config/profile/debug",
         "//:profile_dev"                        : "//src/config/profile/dev",
+        "//:profile_devnet"                     : "//src/config/profile/net:devnet",
+        "//:profile_mainnet"                     : "//src/config/profile/net:mainnet",
         "//:profile_testnet_public"             : "//src/config/profile/testnet_public",
         "//:profile_test_postake_medium_curves" : "//src/config/profile/test_postake_medium_curves",
         # "//:profile_release"                  : "//src:release",

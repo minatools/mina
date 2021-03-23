@@ -3,5 +3,6 @@ load("//bzl:rules.bzl", "mina_profile")
 mina_profile(
     name = "dev",
     visibility = ["//visibility:public"],
+    ## dev is the default profile, not attribs needed.
 )
 

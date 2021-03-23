@@ -6,4 +6,8 @@ package(default_visibility = ["//visibility:public"])
 bool_flag( name = "tokens", build_setting_default = True)
 
 bool_setting( name = "enable", build_setting_default = True)
+bool_setting( name = "dev", build_setting_default = True)
+
 bool_setting( name = "disable", build_setting_default = False)
+bool_setting( name = "mainnet", build_setting_default = False)
+bool_setting( name = "testnet", build_setting_default = False)

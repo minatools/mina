@@ -11,6 +11,8 @@ load("@bazel_skylib//rules:common_settings.bzl",
 bool_flag( name = "tps_goal", build_setting_default = False,
     visibility = ["//visibility:public"],
 )
+bool_flag( name = "enable", build_setting_default = True)
+bool_flag( name = "disable", build_setting_default = False)
 
 bool_setting( name = "standard", build_setting_default = False,
     visibility = ["//visibility:public"],

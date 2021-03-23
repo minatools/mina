@@ -10,3 +10,6 @@ int_setting( name = "small", build_setting_default = 10,
 int_setting( name = "full", build_setting_default = 30,
              visibility = ["//visibility:public"])
 
+int_setting( name = "devnet", build_setting_default = 20,
+             visibility = ["//visibility:public"])
+

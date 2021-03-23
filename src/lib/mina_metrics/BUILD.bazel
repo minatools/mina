@@ -108,8 +108,8 @@ ppx_executable(
         # "ppx_deriving_yojson",
         # "re2",
         # "yojson",
+        "ppx_let",
         "ppx_custom_printf",
         "ppx_pipebang",
-        "ppxlib",
     ]
 )
